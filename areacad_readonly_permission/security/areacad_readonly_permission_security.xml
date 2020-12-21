@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="areacad_readonly_permission.group_not_readonly" model="res.groups">
+        <field name="name">Edición de campos de solo lectura</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+</odoo>

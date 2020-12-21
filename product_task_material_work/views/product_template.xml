@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="product_task_material_work_form_view">
+        <field name="name">product.task.material.work.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='description']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="description_sale" nolabel="1" style="width: 1200px;"/>
+            </xpath>
+            <xpath expr="//page[@name='notes']" position="before">
+                <page string ="Partida" name="partida" attrs="{'invisible':[('auto_create_task','!=',True)]}">
+                        <group string="Trabajos">
+                            <group>
+                                <field name="auto_create_task" invisible="1"/>
+                                <field name="workforce_id" invisible="1" ref="product_task_material_work.mano_obra_00" domain="[('categ_id', '=', %(product_task_material_work.product_category_mo)d )]"/>
+                            </group>
+                            <field name="task_works_ids" nolabel="1" context="{'default_product_id': active_id}">
+                                <tree string="Trabajos" editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <!-- Solo los productos de tipo servicio -->
+                                    <field name="work_id" domain="[('type', '=', 'service')]"/>
+                                    <field name="name"/>
+                                    <field name="hours" sum="Horas totales" widget="float_time"/>
+                                    <field name="sale_price_unit" />
+                                    <field name="cost_price_unit" />
+                                    <field name="sale_price" sum="Total P.V."/>
+                                    <field name="cost_price" sum="Total P.C."/>
+                                </tree>
+                            </field>
+                            <group class="pull-right">
+                                    <field name="total_sp_work" invisible="1"/>
+                                    <field name="total_cp_work" invisible="1"/>
+                                    <field name="total_hours" invisible="1"/>
+                                    <field name="benefit_work" widget="Percent"/>
+                            </group>
+                        </group>
+                        <group string="Materiales">
+                            <field name="task_materials_ids" nolabel="1" context="{'default_product_id':active_id}">
+                                <tree string="Materiales" editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <!-- Se eliminan los productos de tipo servicio -->
+                                    <field name="material_id" domain="[('type', '!=', 'service')]"/>
+                                    <field name="name"/>
+                                    <field name="quantity"/>
+                                    <field name="sale_price_unit"/>
+                                    <field name="cost_price_unit"/>
+                                    <field name="sale_price" sum="Total P.V."/>
+                                    <field name="cost_price" sum="Total P.C."/>
+                                </tree>
+                            </field>
+                            <group class="pull-right">
+                                <field name="total_sp_material" invisible="1"/>
+                                <field name="total_cp_material" invisible="1"/>
+                                <field name="benefit_material" widget="Percent"/>
+                            </group>
+                        </group>
+                        <group>
+                            <!-- Recacula el precio de venta y coste del producto con los materiales y trabajos, si el usuario requiere hacerlo sino se podria modificar manualmente -->
+                            <button string="Recalcular" name="product_action_recalculate" type="object" class="oe_highlight"/>
+                        </group>
+                </page>
+                
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

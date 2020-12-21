@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="parent_analytic_account_form_view2">
+        <field name="name">parent.analytic.account.form2</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='analytic_account_id']" position="replace">
+                
+            </xpath>
+
+            <field name="partner_id" position="after">
+
+                <field name="parent_analytic_account_id" domain="[('type_analytic_account','=','activity')]" attrs="{'readonly': [('analytic_account_id','!=',False)]}" required="1" />
+
+                <field name="analytic_account_id" context="{'default_parent_id':parent_analytic_account_id,  'default_partner_id':partner_invoice_id, 'default_name':name}" attrs="{'readonly': ['|',('analytic_account_id','!=',False),('invoice_count','!=',0),('state','=','sale')]}" groups="analytic.group_analytic_accounting" force_save="1"/>
+            </field>
+
+            <field name="validity_date" position="before">
+
+                <field name="opportunity_id" help="Log in the chatter from which opportunity the order originates" string="Aviso" domain="[('partner_id','=',partner_id)]" attrs="{'invisible': [('team_id','!=',%(lyb_avisos.crm_canal_aviso)d)]}"/>
+
+                <field name="opportunity_id" help="Log in the chatter from which opportunity the order originates" domain="[('partner_id','=',partner_id)]" attrs="{'invisible': [('team_id','=',%(lyb_avisos.crm_canal_aviso)d)]}"/>
+
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="opportunity_id_form_view2">
+        <field name="name">opportunity.id.form2</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale_crm.sale_view_inherit123"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='opportunity_id']" position="replace">
+
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="project_task_pt_form_view">
+        <field name="name">project.task.pt.form</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+
+            <!-- IMPRIMIR -->
+            <field name="stage_id" position="before">
+                <button name="print_pt" string="Imprimir" type="object" class="btn-primary"/>
+            </field>
+
+            <!-- EMPRESA -->
+            <field name="partner_id" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+    
+            <field name="project_id" position="before">
+                <field name="partner_id"/>
+            </field>
+
+            <!-- OPERARIO -->
+            <field name="user_id" position="attributes">
+                <attribute name="string">Operario</attribute>
+            </field>
+            
+            <!-- FECHA CREACION Y PREVISTA -->
+            <!--<field name="date_start" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="date_end" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>-->
+
+            <field name="date_deadline" position="before">
+                <field name="date_start" string="Fecha de creación"/>
+                <field name="date_end" string="Fecha prevista"/>
+            </field>
+            
+            <!-- FECHA PREVISTA MAX -->
+            <field name="date_deadline" position="attributes">
+                <attribute name="string">Fecha prevista máx.</attribute>
+            </field>
+            
+            <!-- PESTAÑA PARTE DE HORAS -->
+            <field name="timesheet_ids" position="before">
+                <separator string="Trabajo a realizar"/>
+                <label for="visible_work_to_do" string="Ver campos?"/>
+                <field name="visible_work_to_do"/>
+                <div attrs="{'invisible' : [('visible_work_to_do', '=', False),('work_to_do', '=', False)]}"> 
+                    <field name="work_to_do" class="oe_clear"/>
+                </div>
+                <div>
+                    <label for="ask_by" string="Solicitado por"/>
+                    <field name="ask_by"/>
+                </div>
+                <separator string="Trabajo realizado"/>
+                <label for="visible_work_done" string="Ver campos?"/>
+                <field name="visible_work_done"/>
+                <div attrs="{'invisible' : [('visible_work_done', '=', False),('work_done', '=', False)]}">
+                    <field name="work_done" class="oe_clear"/>
+                    <!--<label for="move" string="Desplazamiento?"/>
+                    <field name="move"/>-->
+                </div>
+                <!--<group>
+                    <group>
+                        <field name="brand"/>
+                        <field name="model_unit_int"/>
+                        <field name="serial_number_int"/>
+                    </group>
+
+                    <group>
+                        <field name="model_unit_ext"/>
+                        <field name="serial_number_ext"/>
+                    </group>
+      
+                </group>-->
+            </field>
+
+            <!-- DESCRIPCION -->
+            <xpath expr="//page[@name='description_page']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!--<record model="ir.ui.view" id="">
+        <field name="name"></field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_tree2"/>
+        <field name="arch" type="xml">
+            <field name="user_id" position="before">
+                
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="">
+        <field name="name"></field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_kanban"/>
+        <field name="arch" type="xml">
+            <field name="name" position="before">
+                <field name="oppor_id"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="">
+        <field name="name"></field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_search_form"/>
+        <field name="arch" type="xml">
+            <field name="name" position="before">
+                <field name="oppor_id"/>
+            </field>
+        </field>
+    </record>-->
+</odoo>

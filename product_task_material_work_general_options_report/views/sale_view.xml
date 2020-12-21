@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    
+    <record model="ir.ui.view" id="view_sale_order_print_options_form">
+        <field name="name">sale.order.print.options.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button name="print_detailed_time" type="object" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-clock-o">
+                    <field name="detailed_time" widget="boolean_button" 
+                    options='{"terminology": {
+                        "string_true": "Imp. horas",
+                        "hover_true": "Desactivar",
+                        "string_false": "Imp. horas",
+                        "hover_false": "Activar"
+                    }}'/>
+                </button>
+
+                <button name="print_detailed_price_time" type="object" attrs="{'invisible': [('detailed_time', '=', False)]}" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-clock-o">
+                    <field name="detailed_price_time" widget="boolean_button" 
+                    options='{"terminology": {
+                        "string_true": "Imp. precio Hr.",
+                        "hover_true": "Desactivar",
+                        "string_false": "Imp. precio Hr.",
+                        "hover_false": "Activar"
+                    }}'/>
+                </button>
+
+                <button name="print_detailed_materials" type="object" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-building-o">
+                    <field name="detailed_materials" widget="boolean_button" 
+                    options='{"terminology": {
+                        "string_true": "Imp. materiales",
+                        "hover_true": "Desactivar",
+                        "string_false": "Imp. materiales",
+                        "hover_false": "Activar"
+                    }}'/>
+                </button>
+
+                <button name="print_detailed_price_materials" type="object" attrs="{'invisible': [('detailed_materials', '=', False)]}" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-building-o">
+                    <field name="detailed_price_materials" widget="boolean_button" 
+                    options='{"terminology": {
+                        "string_true": "Imp. precio Mat.",
+                        "hover_true": "Desactivar",
+                        "string_false": "Imp. precio Mat.",
+                        "hover_false": "Activar"
+                    }}'/>
+                </button>
+            </div>
+        </field>
+    </record>
+
+</odoo>

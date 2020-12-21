@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <record model="ir.ui.view" id="crm_lead_oppor_sequence_code_form_view">
+            <field name="name">crm.lead.oppor.sequence.code.form</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_form_view_oppor" />
+            <field name="arch" type="xml">
+                <xpath expr="//label[@for='name']" position="replace">
+                    <label for="name" string="Aviso" class="oe_edit_only" attrs="{'invisible': [('sub_type','=','opportunity')]}"/>
+                    <label for="name" string="Oportunidad" class="oe_edit_only" attrs="{'invisible': [('sub_type','=','notice')]}"/>
+                </xpath>
+
+                <field name="name" position="before">
+                    <field name="sequence_code" class="oe_inline" />
+                    <label string="  " class="oe_inline" />
+                </field>
+
+            </field>
+        </record>
+
+         <!--AVISO-->
+        <record model="ir.ui.view" id="crm_lead_oppor_sequence_code_tree_view">
+            <field name="name">crm.lead.oppor.sequence.code.tree</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="lyb_avisos.lyb_avisos_tree_view_avisos" />
+            <field name="arch" type="xml">
+                <field name="date_begin" position="before">
+                    <field name="sequence_code" />
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="crm_lead_sequence_code_kanban_view">
+            <field name="name">crm.lead.sequence.code.kanban</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="lyb_avisos.lyb_avisos_kanban_view_avisos" />
+            <field name="arch" type="xml">
+                <field name="name" position="before">
+                    <field name="sequence_code" />
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="crm_lead_oppor_sequence_code_search_view">
+            <field name="name">crm.lead.oppor.sequence.code.search</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="lyb_avisos.view_lyb_avisos_filter_avisos" />
+            <field name="arch" type="xml">
+                <field name="name" position="attributes">
+                    <attribute name="filter_domain">['|', ('name', 'ilike', self), ('sequence_code', 'ilike', self)]</attribute>
+                </field>
+            </field>
+        </record>
+
+        <!--OPORTUNIDAD-->
+        <record model="ir.ui.view" id="crm_lead_code_tree_view">
+            <field name="name">crm.lead.code.tree</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_tree_view_oppor" />
+            <field name="arch" type="xml">
+                <field name="name" position="before">
+                    <field name="sequence_code" />
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="crm_lead_code_search_view">
+            <field name="name">crm.lead.code.search</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.view_crm_case_opportunities_filter" />
+            <field name="arch" type="xml">
+                <field name="name" position="attributes">
+                    <attribute name="filter_domain">['|', ('name', 'ilike', self), ('sequence_code', 'ilike', self)]</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="crm_lead_code_kanban_view">
+            <field name="name">crm.lead.code.kanban</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_kanban_view_leads" />
+            <field name="arch" type="xml">
+                <field name="name" position="before">
+                    <field name="sequence_code" />
+                </field>
+            </field>
+        </record>
+</odoo>

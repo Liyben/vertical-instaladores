@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- CAMBIAMOS LO REAL POR LO IDEAL EN LA VISTA A PETICION DEL CLIENTE -->
+    <record model="ir.ui.view" id="view_sale_order_comparations_form">
+        <field name="name">sale.order.comparations.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="before">
+                <field name="ref"/>
+            </xpath>
+
+            <xpath expr="//field[@name='client_order_ref']" position="replace">
+                
+            </xpath>
+
+            <xpath expr="//field[@name='partner_invoice_id']" position="before">
+                <field name="client_order_ref"/>
+            </xpath>
+
+            <xpath expr="//field[@name='opportunity_id']" position="replace">
+
+            </xpath>
+
+            <xpath expr="//field[@name='validity_date']" position="before">
+                <field name="opportunity_id" help="Log in the chatter from which opportunity the order originates" string="Oportunidad / Aviso"/>
+            </xpath>
+
+            <xpath expr="//notebook[last()]" position="inside">
+                <page string="Comparaciones" invisible="0">
+                    <group>
+                        <group>
+                            <group string="Según Presupuesto">
+                                <field name="total_hours" widget="float_time"/>
+                                <field name="cost_price_work_hour" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="sale_price_work_hour" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="total_cp_work" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="total_sp_work" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="benefit_work" widget="Percent"/>
+                            </group>
+                            <group string="Presupuesto Ideal">
+                                <field name="total_ideal_hours" widget="float_time"/>
+                                <field name="cost_price_ideal_work_hour" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="sale_price_ideal_work_hour" readonly="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="total_cp_ideal_work" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="total_sp_ideal_work" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="benefit_ideal_work" widget="Percent"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Materiales">
+                                <field name="total_cp_material" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="total_sp_material" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="benefit_material" widget="Percent"/>
+                            </group>
+                            <group string="Margen General">
+                                <label for="margin_real_monetary" string="Margen Ideal"/>
+                                <div>
+                                    <field name="margin_real_monetary" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <span> | </span>
+                                    <field name="margin_real_percent" widget="Percent"/>
+                                </div>
+                                <label for="margin_ideal_monetary" string="Margen Real"/>
+                                <div>
+                                    <field name="margin_ideal_monetary" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <span> | </span>
+                                    <field name="margin_ideal_percent" widget="Percent"/>
+                                </div>
+                                <field name="discount_ideal" widget="Percent"/>
+                            </group>
+                        </group>
+                    </group>
+                    <group string="Materiales (Compuestos)">
+                        <field name="materials_ids" nolabel="1">
+                                <tree string="Materiales" create="false" delete="false" >
+                                    <field name="material_id"/>
+                                    <field name="quantity"/>
+                                    <field name="sale_price_unit"/>
+                                    <field name="cost_price_unit"/>
+                                    <field name="discount" groups="sale.group_discount_per_so_line"/>
+                                    <field name="sale_price" sum="Total P.V."/>
+                                    <field name="cost_price" sum="Total P.C."/>
+                                </tree>
+                            </field>
+                    </group>
+                    <group string="Mano de obra (Compuestos)">
+                        <field name="works_ids" nolabel="1">
+                                <tree string="Mano de obra" create="false" delete="false" >
+                                    <field name="work_id"/>
+                                    <field name="hours"/>
+                                    <field name="sale_price_unit"/>
+                                    <field name="cost_price_unit"/>
+                                    <field name="discount" groups="sale.group_discount_per_so_line"/>
+                                    <field name="sale_price" sum="Total P.V."/>
+                                    <field name="cost_price" sum="Total P.C."/>
+                                </tree>
+                            </field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_sale_order_line_form">
+        <field name="name">sale.order.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']/tree" position="attributes">
+                <attribute name="editable"/>
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']/tree/field[@name='invoice_status']" position="attributes">
+                <attribute name="invisible" eval="False"/>
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']/tree/field[@name='qty_to_invoice']" position="attributes">
+                <attribute name="invisible" eval="False"/>
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']/tree/field[@name='analytic_tag_ids']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']/tree/field[@name='qty_to_invoice']" position="after">
+                <field name="task_id"/>
+                <field name="picking_ids"/>
+            </xpath>
+
+            <xpath expr="//field[@name='tax_id']" position="before">
+                <field name="detailed_time"/>
+                <field name="detailed_price_time" attrs="{'invisible': [('detailed_time','=', False)]}"/>
+                <field name="detailed_materials"/>
+                <field name="detailed_price_materials" attrs="{'invisible': [('detailed_materials','=', False)]}"/>
+            </xpath>
+
+            <xpath expr="//field[@name='tax_id']" position="after">
+                <field name="task_id"/>
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']/form//field[@name='name']" position="after">
+                <div name="picking" attrs="{'invisible':[('picking_ids','=',False)]}">
+                    <group string="Albaranes">
+                        <field name="picking_ids" nolabel="1"/>
+                    </group>
+                </div>
+                <field name="auto_create_task" invisible="1"/>
+                <!--<field name="task_id" invisible="1"/>-->
+                <div name="partida" attrs="{'invisible':[('auto_create_task','!=',True)]}">
+                        <group string="Trabajos">
+                            <group>
+                                <field name="workforce_id" invisible="1" ref="product_task_material_work.mano_obra_00" domain="[('categ_id', '=', %(product_task_material_work.product_category_mo)d )]"/>
+                            </group>
+                            <field name="task_works_ids" nolabel="1" context="{'default_product_id': active_id}">
+                                <tree string="Trabajos" editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <!-- Solo los productos de tipo servicio -->
+                                    <field name="work_id" domain="[('type', '=', 'service')]"/>
+                                    <field name="name"/>
+                                    <field name="hours" sum="Horas totales" widget="float_time"/>
+                                    <field name="sale_price_unit"/>
+                                    <field name="cost_price_unit"/>
+                                    <field name="discount" groups="sale.group_discount_per_so_line"/>
+                                    <field name="sale_price" sum="Total P.V."/>
+                                    <field name="cost_price" sum="Total P.C."/>
+                                </tree>
+                            </field>
+                            <group class="pull-right">
+                                <field name="total_sp_work" invisible="1"/>
+                                <field name="total_cp_work" invisible="1"/>
+                                <field name="total_hours" invisible="1"/>
+                                <field name="benefit_work" widget="Percent"/>
+                            </group>
+                        </group>
+                        <group string="Materiales">
+                            <field name="task_materials_ids" nolabel="1" context="{'default_product_id':active_id}">
+                                <tree string="Materiales" editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <!-- Se eliminan los productos de tipo servicio -->
+                                    <field name="material_id" domain="[('type', '!=', 'service')]"/>
+                                    <field name="name"/>
+                                    <field name="quantity"/>
+                                    <field name="sale_price_unit"/>
+                                    <field name="cost_price_unit"/>
+                                    <field name="discount" groups="sale.group_discount_per_so_line"/>
+                                    <field name="sale_price" sum="Total P.V."/>
+                                    <field name="cost_price" sum="Total P.C."/>
+                                </tree>
+                            </field>
+                            <group class="pull-right">
+                                <field name="total_sp_material" invisible="1"/>
+                                <field name="total_cp_material" invisible="1"/>
+                                <field name="benefit_material" widget="Percent"/>
+                            </group>
+                        </group>
+                </div>
+                
+            </xpath>
+
+            <!--<xpath expr="//field[@name='order_line']/form/group" position="before">
+                <div class="oe_button_box" name="button_box">
+                        <button type="object"
+                           name="action_view_task"
+                           icon="fa-tasks"
+                           attrs="{'invisible': [('task_id', '=', False)]}"
+                           groups="project.group_project_user"
+                           string="Tarea">
+
+                       </button>
+                </div>
+            </xpath>-->
+        </field>
+    </record>
+
+</odoo>
