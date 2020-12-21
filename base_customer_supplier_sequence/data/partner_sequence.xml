@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<odoo noupdate="1">
+
+	#
+	# Sequences for customers and suppliers
+	#
+
+    <record model="ir.sequence" id="seq_res_partner_customer">
+        <field name="name">Customer code</field>
+        <field name="code">res.partner.customer</field>
+        <field name="prefix">CU/</field>
+        <field name="padding">5</field>
+    </record>
+
+    <record model="ir.sequence" id="seq_res_partner_supplier">
+        <field name="name">Supplier code</field>
+        <field name="code">res.partner.supplier</field>
+        <field name="prefix">SU/</field>
+        <field name="padding">5</field>
+    </record>
+</odoo>

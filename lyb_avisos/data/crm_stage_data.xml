@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record model="crm.stage" id="stage_aviso1">
+        <field name="name">NUEVO</field>
+        <field name="probability">10</field>
+        <field name="on_change">1</field>
+        <field name="sequence">1</field>
+        <field name="crm_sub_type">notice</field>
+        <field name="requirements">
+            Avisos Pendientes de Organizar. Acciones a Realizar: 
+                1. Datos de cliente:  Establecer todos los datos de contacto para su correcta localización, comunicación y posterior facturación. 
+                Para ello completar el campo CLIENTE con el nombre y luego hipervincular con la flecha a la ficha del cliente y desde allí completar la ficha del cliente.
+                2. Asignar Responsable que realizará el trabajo. Para ello elegir de entre los empleados en el campo "Oficial de Primera". 
+                Al momento de guardar el Aviso recibirá (dicho responsable) un email automático que le dará acceso al aviso.
+        </field>
+    </record>
+    <record model="crm.stage" id="stage_aviso2">
+        <field name="name">PTE. CITA</field>
+        <field name="probability">10</field>
+        <field name="on_change">1</field>
+        <field name="sequence">2</field>
+        <field name="crm_sub_type">notice</field>
+        <field name="requirements">
+            ○ Estarán anotados todos los trabajos los cuales estan ok para su realización, es decir:
+                • Asignado: Oficial que realizará el trabajo.
+                • Materiales: En Stock los materiales a realizar.
+            ○ Se cierra Cita con cliente:
+                • La fecha se anotará en el Campo: VISITAR EL. 
+                • Luego Enviar la etapa al estado CITA CONCERTADA. 
+            ○ Se podrá concertar una cita también a través del botón REUNIÓN el cual nos llevará al calendario general donde estarán todas las reuniones y se podrá tramitar igual que google calendar, donde tanto Oficial como cliente recibirán un email y el mismo cliente lo podrá aceptar. Dicha aceptación se recibirá automáticamente y el sistema lo comunicará en el mismo calendario. (Ver manual citas calendar)
+        </field>
+    </record>
+    <record model="crm.stage" id="stage_aviso3">
+        <field name="name">CITA CONCERTADA</field>
+        <field name="probability">10</field>
+        <field name="on_change">1</field>
+        <field name="sequence">3</field>
+        <field name="crm_sub_type">notice</field>
+        <field name="requirements">
+            Se ha llamado al Cliente y se ha concertado cita.
+        </field>
+    </record>
+    <record model="crm.stage" id="stage_aviso4">
+        <field name="name">PARA PRESUPUESTO</field>
+        <field name="fold" eval="False"/>
+        <field name="probability">10</field>
+        <field name="on_change">1</field>
+        <field name="sequence">4</field>
+        <field name="crm_sub_type">notice</field>
+        <field name="requirements">
+            Es necesario la confección de un presupuesto para el cliente o valorar de inicio el aviso. Desde el formulario podemos ver el estado del presupuesto para reclamar a clientes la no contratación del servicio.
+        </field>
+    </record>
+    <record model="crm.stage" id="stage_aviso">
+        <field name="name">PENDIENTE MATERIAL</field>
+        <field name="fold" eval="False"/>
+        <field name="probability">10</field>
+        <field name="on_change">1</field>
+        <field name="sequence">5</field>
+        <field name="crm_sub_type">notice</field>
+        <field name="requirements">
+            Falta material para poder realizar el Aviso, la persona responsable deberá avisar.
+        </field>
+    </record>
+</odoo>

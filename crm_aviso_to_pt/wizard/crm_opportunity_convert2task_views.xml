@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!-- view of the Wizard Form --> 
+    <record id="crm_oppor_convert2task_view_form" model="ir.ui.view">
+        <field name="name">crm.oppor.convert2task.form</field>
+        <field name="model">crm.oppor.convert2task</field>
+        <field name="arch" type="xml">
+            <form string="Convertir a PT">
+                <group>
+                    <field name="project_only_read" invisible="1"/>
+                	<field name="project_id" attrs="{'readonly':[('project_only_read','!=',False)]}"/>
+                </group>
+                <footer>
+                    <button type="object" name="action_opportunity_to_project_task" string="Crear PT" class="btn-primary"/>
+                    <button string="Cancelar" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- action of converting, via wizard -->
+    <record id="crm_opportunity_convert2task_action" model="ir.actions.act_window">
+        <field name="name">Convertir a PT</field>
+        <field name="res_model">crm.oppor.convert2task</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

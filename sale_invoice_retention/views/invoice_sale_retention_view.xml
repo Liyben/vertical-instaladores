@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+    <record model="ir.ui.view" id="view_invoice_retention_form">
+        <field name="name">Retenciones en Facturas</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@class='oe_subtotal_footer oe_right']" position="replace">
+                    <group class="oe_subtotal_footer oe_right">
+                        <field name="amount_untaxed"/>
+                        <field name="amount_tax"/>
+                        <field name="amount_total" class="oe_subtotal_footer_separator"/>
+                        <field name="amount_retention" attrs="{'invisible':[('percent_retention', '=', 0)]}"/>
+                        <field name="amount_to_pay" class="oe_subtotal_footer_separator" attrs="{'invisible':[('percent_retention', '=', 0)]}"/>
+                        <field name="payments_widget" colspan="2" nolabel="1" widget="payment"/>
+                        <field name="residual" class="oe_subtotal_footer_separator" attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                        <field name="reconciled" invisible="1"/>
+                        <field name="outstanding_credits_debits_widget" colspan="2" nolabel="1" widget="payment" attrs="{'invisible': [('state', 'not in', 'open')]}"/>    
+                    </group>
+            </xpath>
+
+            <field name="partner_id" position="after">
+                <field name="percent_retention"/>
+            </field>
+        </field>
+    </record>
+    </data>
+</openerp>
+

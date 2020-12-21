@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Requests Links -->
+        <record id="req_link_bpo_service" model="res.request.link">
+            <field name="name">Servicio BPO</field>
+            <field name="object">project.project</field>
+        </record>
+
+        <record id="req_link_bpo_service_task" model="res.request.link">
+            <field name="name">BPO task</field>
+            <field name="object">bpo.service.task</field>
+        </record>
+
+        <record id="bpo_service_stage_data_0" model="bpo.service.task.type">
+            <field name="sequence">1</field>
+            <field name="name">New</field>
+        </record>
+
+        <record id="bpo_service_stage_data_1" model="bpo.service.task.type">
+            <field name="sequence">2</field>
+            <field name="name">Basic</field>
+        </record>
+
+        <record id="bpo_service_stage_data_2" model="bpo.service.task.type">
+            <field name="sequence">3</field>
+            <field name="name">Advanced</field>
+        </record>
+
+    </data>
+
+
+        <!-- BPO Task-related subtypes for messaging / Chatter -->
+        <record id="mt_task_new" model="mail.message.subtype">
+            <field name="name">Task Opened</field>
+            <field name="res_model">bpo.service.task</field>
+            <field name="default" eval="False"/>
+            <field name="hidden" eval="False"/>
+            <field name="description">Task opened</field>
+        </record>
+        <record id="mt_task_blocked" model="mail.message.subtype">
+            <field name="name">Task Blocked</field>
+            <field name="res_model">bpo.service.task</field>
+            <field name="default" eval="False"/>
+            <field name="description">Task blocked</field>
+        </record>
+        <record id="mt_task_ready" model="mail.message.subtype">
+            <field name="name">Task Ready</field>
+            <field name="res_model">bpo.service.task</field>
+            <field name="default" eval="False"/>
+            <field name="description">Task ready for Next Stage</field>
+        </record>
+        <record id="mt_task_stage" model="mail.message.subtype">
+            <field name="name">Stage Changed</field>
+            <field name="res_model">bpo.service.task</field>
+            <field name="default" eval="False"/>
+            <field name="description">Stage changed</field>
+        </record>
+
+        <!-- Project-related subtypes for messaging / Chatter -->
+        <record id="mt_project_task_new" model="mail.message.subtype">
+            <field name="name">Task Opened</field>
+            <field name="sequence">10</field>
+            <field name="res_model">project.project</field>
+            <field name="default" eval="True"/>
+            <field name="parent_id" eval="ref('mt_task_new')"/>
+            <field name="relation_field">project_id</field>
+        </record>
+        <record id="mt_project_task_blocked" model="mail.message.subtype">
+            <field name="name">Task Blocked</field>
+            <field name="sequence">11</field>
+            <field name="res_model">project.project</field>
+            <field name="default" eval="False"/>
+            <field name="parent_id" eval="ref('mt_task_blocked')"/>
+            <field name="relation_field">project_id</field>
+        </record>
+        <record id="mt_project_task_ready" model="mail.message.subtype">
+            <field name="name">Task Ready</field>
+            <field name="sequence">12</field>
+            <field name="res_model">project.project</field>
+            <field name="default" eval="False"/>
+            <field name="parent_id" eval="ref('mt_task_ready')"/>
+            <field name="relation_field">project_id</field>
+        </record>
+        <record id="mt_project_task_stage" model="mail.message.subtype">
+            <field name="name">Task Stage Changed</field>
+            <field name="sequence">13</field>
+            <field name="res_model">project.project</field>
+            <field name="default" eval="False"/>
+            <field name="parent_id" eval="ref('mt_task_stage')"/>
+            <field name="relation_field">project_id</field>
+        </record>
+
+</odoo>

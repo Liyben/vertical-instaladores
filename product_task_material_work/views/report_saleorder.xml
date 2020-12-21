@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <!-- Plantilla Sale Service -->
+    
+    <template id="report_saleorder_document" inherit_id="sale.report_saleorder_document">
+
+        <xpath expr="//div[@class='page']" position="inside">
+            <link rel="stylesheet" href="/product_task_material_work/static/src/css/report.css"/>
+        </xpath>
+
+        <xpath expr="//div[@id='informations']" position="replace">
+            <div t-if="doc.confirmation_date and doc.state not in ['draft','sent']" class="col-xs-3">
+                <strong>Date Ordered:</strong>
+                <p t-field="doc.confirmation_date"/>
+            </div>
+            <div t-if="doc.date_order and doc.state in ['draft','sent']" class="col-xs-3">
+                <strong>Fecha del presupuesto:</strong>
+                <p t-field="doc.date_order"/>
+            </div>
+            <div t-if="doc.user_id.name" class="col-xs-3">
+                <strong>Comercial:</strong>
+                <p t-field="doc.user_id"/>
+            </div>
+            <div t-if="doc.ref" class="col-xs-3">
+                <strong>Nº cliente:</strong>
+                <p t-field="doc.ref"/>
+            </div>
+            <div t-if="doc.client_order_ref" class="col-xs-3">
+                <strong>Ref. del cliente:</strong>
+                <p t-field="doc.client_order_ref"/>
+            </div>
+            <div name="payment_term" t-if="doc.payment_term_id" class="col-xs-3">
+                <strong>Payment Terms:</strong>
+                <p t-field="doc.payment_term_id"/>
+            </div>
+            <div t-if="doc.validity_date and doc.state in ['draft', 'sent']" class="col-xs-3">
+                <strong>Fecha de caducidad:</strong>
+                <p t-field="doc.validity_date"/>
+            </div>
+        </xpath>
+
+        <xpath expr="//table[@class='table table-condensed']" position="before">
+          <t t-if="not display_discount">
+            <t t-foreach="page" t-as="layout_category">
+              <t t-foreach="layout_category['lines']" t-as="l">
+                <t t-set="display_discount" t-value="any([work.discount for work in l.task_works_ids])"/>
+                <t t-if="not display_discount">
+                  <t t-set="display_discount" t-value="any([material.discount for material in l.task_materials_ids])"/>
+                </t>
+              </t>
+            </t>
+          </t>
+        </xpath>
+        
+        <xpath expr="//table[@class='table table-condensed']" position="replace">
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <!--<th>Item</th>-->
+                            <th>Descripción</th>
+                            <th class="text-right">Cantidad</th>
+                            <th class="text-right">P. Und</th>
+                            <th t-if="display_discount" class="text-right" groups="sale.group_discount_per_so_line">%</th>
+                            <th class="text-right" groups="sale.group_show_price_subtotal">Importe</th>
+                            <th class="text-right price_tax_included" groups="sale.group_show_price_total">Total</th>
+                        </tr>
+                   </thead>
+                   <tbody class="sale_tbody">
+                        <t t-foreach="page" t-as="layout_category">
+
+                            <t t-if="layout_category_size > 1 or page_size > 1" groups="sale.group_sale_layout">
+                                <tr class="active">
+                                    <td colspan="7" style="font-weight: bold; border-bottom: 1px solid black;">&amp;bull;
+                                        <t t-esc="layout_category['name']"/>
+                                    </td>
+                                </tr>
+                            </t>
+
+                            <!-- Lines associated -->
+                            <!--<t t-set="newList" t-value="layout_category.sorted(reverse=True)"/>-->
+                            <t t-foreach="layout_category['lines']" t-as="l" >
+                              <!-- NO IMPRESION DE LA LINEA SI LA SECCION ES UNA *-->
+                              <t t-if="l.layout_category_id.name != '*'">
+                                <tr>
+                                    <!--<td class="text-right"><span t-field="l.sequence"/></td>-->
+                                    <td><span t-field="l.name"/></td>
+                                    <!-- IMPRESION DE SOLO TEXTO CUANDO LA CANTIDAD ES 0 -->
+                                    <td class="text-right">
+                                        <t t-if="not l.product_uom_qty == 0">
+                                            <span t-field="l.product_uom_qty"/>
+                                            <span t-field="l.product_uom" groups="product.group_uom"/>
+                                        </t>
+                                    </td>
+                                    <td class="text-right">
+                                        <t t-if="not l.product_uom_qty == 0">
+                                            <span t-field="l.price_unit"/>
+                                        </t>
+                                    </td>
+                                    <td t-if="display_discount" class="text-right" groups="sale.group_discount_per_so_line">
+                                        <t t-if="not l.product_uom_qty == 0">
+                                            <span t-field="l.discount"/>
+                                        </t>
+                                    </td>
+                                    <td class="text-right" groups="sale.group_show_price_subtotal">
+                                        <t t-if="not l.product_uom_qty == 0">
+                                            <span t-field="l.price_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
+                                        </t>
+                                    </td>
+                                    <td class="text-right" groups="sale.group_show_price_total">
+                                        <t t-if="not l.product_uom_qty == 0">
+                                            <span t-field="l.price_total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                              </t>
+                            </t>
+
+                            <t t-if="(layout_category_size &gt; 1 or page_size &gt; 1) and layout_category['subtotal']" groups="sale.group_sale_layout">
+                              <!-- NO IMPRESION DE LA LINEA SI LA SECCION ES UNA *-->
+                              <t t-if="layout_category['name'] != '*'">
+                                <tr class="text-right">
+                                    <td colspan="6">
+                                        <strong>Subtotal: </strong>
+                                        <t t-set="subtotal" t-value="sum(line.price_subtotal for line in layout_category['lines'])"/>
+                                        <span t-esc="subtotal" t-options="{'widget': 'monetary', 'display_currency': doc.pricelist_id.currency_id}"/>
+                                    </td>
+                                </tr>
+                              </t>
+                            </t>
+
+                        </t>
+                    </tbody>
+                </table>
+
+        </xpath>
+
+        <xpath expr="//span[@t-field='l.name']/../.." position="inside">
+
+                <t t-if="l.task_works_ids and l.detailed_time">
+                    <t t-set="uom_hour" t-value="l.env.ref('product.product_uom_hour')"/>
+                    <t t-raw="'&lt;/tr&gt;&lt;tr class=\'works_title\'&gt;'"/>
+                        <!--<td class="works_total_hours"></td>-->
+                        <td class="works_lbl">Total Trabajos Und.</td>
+                        <td class="works_total_hours">
+                            <t t-if="l.detailed_time">
+                                <!--<span t-field="l.total_hours"/>
+                                <span t-esc="'{0:,.2f}'.format(l.total_hours * l.product_uom_qty).replace('.', ',')"/>
+                                <span groups="product.group_uom" t-field="uom_hour.name"/>-->
+                            </t>
+                        </td>
+                        <td class="works_hours_price">
+                            <!--<t t-if="l.workforce_id and l.detailed_time">
+                                <span t-field="l.workforce_id.lst_price" t-field-options='{"widget": "monetary", "display_currency": "doc.pricelist_id.currency_id"}'/>
+                            </t>-->
+                        </td>
+                        <td t-if="display_discount" class="text-right" groups="sale.group_discount_per_so_line"></td>
+                        <td class="works_total_amount">
+                            <t t-if="l.detailed_price_time">
+                                <span t-esc="'{0:,.2f}'.format(l.total_sp_work).replace('.', ',')"/> <span t-field="doc.pricelist_id.currency_id.symbol"/>
+                                <!--<span t-field="l.total_sp_work" t-field-options='{"widget": "monetary", "display_currency": "doc.pricelist_id.currency_id"}'/>-->
+                            </t>
+                        </td>
+                    <t t-foreach="l.task_works_ids" t-as="work">
+                        <t t-raw="'&lt;/tr&gt;&lt;tr class=\'works_line\'&gt;'"/>
+                        <!--<td class="works_line_name"></td>-->
+                        <td class="works_line_name">
+                            <t t-if="l.detailed_time">
+                                <span t-field="work.name"/>
+                            </t>
+                        </td>
+                        <td class="works_line_hours">
+                            <t t-if="l.detailed_price_time">
+                                <!--<span t-field="work.hours"/>-->
+                                <span t-esc="'{0:,.2f}'.format(work.hours).replace('.', ',')"/>
+                                <span groups="product.group_uom" t-field="uom_hour.name"/>
+                            </t>
+                        </td>
+                        <!-- REPORT DESGLOSE HORAS -->
+                        <td class="materials_line_price">
+                            <t t-if="l.detailed_price_time">
+                                <span t-field="work.sale_price_unit" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;doc.pricelist_id.currency_id&quot;}"/>
+                            </t>
+                        </td>
+                        <td class="materials_line_price" t-if="display_discount" groups="sale.group_discount_per_so_line">
+                            <t t-if="l.detailed_price_time">
+                                <span t-esc="'{0:,.2f}'.format(work.discount).replace('.', ',')"/>
+                            </t>
+                        </td>
+                        <td class="materials_line_price">
+                            <t t-if="l.detailed_price_time">
+                                <span t-esc="'{0:,.2f}'.format(work.sale_price_unit * work.hours * (1 - (work.discount/100))).replace('.', ',')"/> <span t-field="doc.pricelist_id.currency_id.symbol"/>
+                              <!--<span t-field="work.sale_price" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;doc.pricelist_id.currency_id&quot;}"/>-->  
+                            </t>
+                        </td>
+                    </t>
+                </t>
+                <t t-if="l.task_materials_ids and l.detailed_materials">
+                    <t t-raw="'&lt;/tr&gt;&lt;tr class=\'materials_title\'&gt;'"/>
+                        <!--<td class="materials_lbl"></td>-->
+                        <td class="materials_lbl">Total Materiales Und.</td>
+                        <td></td>
+                        <td></td>
+                        <td t-if="display_discount" class="text-right" groups="sale.group_discount_per_so_line"></td>
+                        <td class="materials_total_amount">
+                            <t t-if="l.detailed_price_materials">
+                                <span t-esc="'{0:,.2f}'.format(l.total_sp_material).replace('.', ',')"/> <span t-field="doc.pricelist_id.currency_id.symbol"/>
+                                <!--<span t-field="l.total_sp_material" t-field-options='{"widget": "monetary", "display_currency": "doc.pricelist_id.currency_id"}'/>-->
+                            </t>
+                        </td>
+                    <t t-foreach="l.task_materials_ids" t-as="material">
+                        <t t-raw="'&lt;/tr&gt;&lt;tr class=\'materials_line\'&gt;'"/>
+                        <!--<td class="materials_line_name"></td>-->
+                        <td class="materials_line_name">
+                            <!--<span t-field="material.material_id.display_name"/>-->
+                            <t t-if="material.name"><span t-field="material.name"/></t>
+                            <t t-if="not material.name"><span t-field="material.material_id.name"/></t>
+                        </td>
+                        <td class="materials_line_qty">
+                            <!--<span t-field="material.quantity"/>-->
+                            <span t-esc="'{0:,.2f}'.format(material.quantity).replace('.', ',')"/>
+                            <span groups="product.group_uom" t-field="material.material_id.uom_id.name"/>
+                        </td>
+                        <td class="materials_line_price">
+                            <t t-if="l.detailed_price_materials">
+                                <span t-field="material.sale_price_unit" t-field-options='{"widget": "monetary", "display_currency": "doc.pricelist_id.currency_id"}'/>
+                            </t>
+                        </td>
+                        <td class="materials_line_qty" t-if="display_discount" groups="sale.group_discount_per_so_line">
+                            <t t-if="l.detailed_price_materials">
+                                <span t-esc="'{0:,.2f}'.format(material.discount).replace('.', ',')"/>
+                            </t>
+                        </td>
+                        <td class="materials_line_price">
+                            <t t-if="l.detailed_price_materials">
+                                <span t-esc="'{0:,.2f}'.format(material.sale_price_unit * material.quantity * (1 - (material.discount/100))).replace('.', ',')"/> <span t-field="doc.pricelist_id.currency_id.symbol"/>
+                                <!--<span t-field="material.sale_price" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;doc.pricelist_id.currency_id&quot;}"/>-->  
+                            </t>
+                        </td>
+                    </t>
+                </t>
+
+        </xpath>
+    </template>
+
+</odoo>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        
+        <record id="group_sale_order_line_copy" model="res.groups">
+            <field name="name">Copiar linea de presupuesto</field>
+            <field name="comment">Muestra el botón duplicar en la linea de presupuesto.</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+        </record>
+
+    </data>
+</openerp>

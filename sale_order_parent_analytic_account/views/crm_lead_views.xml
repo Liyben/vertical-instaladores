@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="parent_analytic_account_form_view">
+        <field name="name">parent.analytic.account.form</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_form_view_oppor" />
+        <field name="arch" type="xml">
+            
+            <field name="tag_ids" position="after">
+                <field name="parent_analytic_account_id" />
+                <field name="analytic_account_id" invisible="1"/>
+            </field>
+
+        </field>
+    </record>
+
+    <record id="view_crm_oppor_inherit_form" model="ir.ui.view">
+        <field name="name">crm.oppor.inherit.form</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm_aviso_to_pt.crm_oppor_view_form"/>
+        <field name="arch" type="xml">
+            <field name="project_id" position="replace">
+                <field name="project_id" attrs="{'invisible': [('parent_analytic_account_id', '=', False)]}" context="{'default_parent_analytic_account_id': parent_analytic_account_id, 'default_partner_id': partner_id}"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="parent_analytic_account_form_view3">
+        <field name="name">parent.analytic.account.form3</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="sale_crm.crm_case_form_view_oppor" />
+        <field name="arch" type="xml">
+            
+            <xpath expr="//button[@name='%(sale_crm.sale_action_quotations_new)d']" position="attributes">
+                <attribute name="context">{'default_analytic_account_id': analytic_account_id, 'default_parent_analytic_account_id': parent_analytic_account_id, 'search_default_partner_id': partner_id, 'default_partner_id': partner_id, 'default_team_id': team_id, 'default_campaign_id': campaign_id, 'default_medium_id': medium_id, 'default_source_id': source_id}
+                </attribute>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

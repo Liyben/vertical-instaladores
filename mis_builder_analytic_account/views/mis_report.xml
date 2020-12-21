@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record model="ir.ui.view" id="inherit_mis_report_view_form">
+        <field name="name">inherit.mis.report.view.form</field>
+        <field name="model">mis.report</field>
+        <field name="inherit_id" ref="mis_builder.mis_report_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='style_id']" position="after">
+                <field name="analytic_account_id" groups="analytic.group_analytic_accounting"/>
+            </xpath>
+            <xpath expr="//field[@name='query_ids']/tree/field[@name='domain']" position="after">
+                <field name="base_domain" groups="base.group_system"/>
+                <field name="name_analytic_account" groups="base.group_system"/>
+            </xpath>
+            <xpath expr="//field[@name='query_ids']" position="after">
+                <button name="btn_reset_domain" type="object" string="Reset dominio" groups="analytic.group_analytic_accounting"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

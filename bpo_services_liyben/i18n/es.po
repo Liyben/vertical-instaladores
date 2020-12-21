@@ -1,0 +1,1074 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* bpo_services_liyben
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-01-31 13:48+0000\n"
+"PO-Revision-Date: 2020-01-31 20:21+0100\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.2.4\n"
+"Last-Translator: \n"
+"Language: es\n"
+
+#. module: bpo_services_liyben
+#: code:addons/bpo_services_liyben/models/project_bpo_service.py:142
+#: code:addons/bpo_services_liyben/models/project_bpo_service.py:373
+#, python-format
+msgid "%s (copy)"
+msgstr "%s (copia)"
+
+#. module: bpo_services_liyben
+#: code:addons/bpo_services_liyben/models/project_bpo_service.py:109
+#, python-format
+msgid ""
+"<p class=\"oe_view_nocontent_create\">\n"
+"                        Documents are attached to the tasks and issues of "
+"your project.</p><p>\n"
+"                        Send messages or log internal notes with attachments "
+"to link\n"
+"                        documents to your project.\n"
+"                    </p>"
+msgstr ""
+"<p class=\"oe_view_nocontent_create\">\n"
+"                        Los documentos se adjuntan a las tareas y las "
+"incidencias de su proyecto.</p><p>\n"
+"                        Envíe mensajes o registre notas internas con "
+"archivos adjuntos para vincular\n"
+"                        documentos a su proyecto.\n"
+"                    </p>"
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_contratados_kanban
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_to_contratar_kanban
+msgid "<span class=\"o_label\">A Contratar</span>"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_contratados_kanban
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_to_contratar_kanban
+msgid "<span class=\"o_label\">Contratado</span>"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_contratados_kanban
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_to_contratar_kanban
+msgid "<span class=\"o_label\">Documentos</span>"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,help:bpo_services_liyben.field_bpo_service_task_kanban_state
+msgid ""
+"A task's kanban state indicates special situations affecting it:\n"
+" * Grey is the default situation\n"
+" * Red indicates something is preventing the progress of this task\n"
+" * Green indicates the task is ready to be pulled to the next stage"
+msgstr ""
+"El estado kanban de una tarea indica situaciones especiales que la afectan:\n"
+" * Gris es la situación predeterminada\n"
+" * El rojo indica que algo está impidiendo el progreso de esta tarea\n"
+" * El verde indica que la tarea está lista para ser tirada a la siguiente "
+"etapa"
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_search_form
+msgid "Acticvidades futuras"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_active
+msgid "Active"
+msgstr "Activo"
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_search_form
+msgid "Actividades de hoy"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_search_form
+msgid "Actividades tardías"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.actions.act_window,name:bpo_services_liyben.mail_activity_type_action_config_bpo_service_types
+#: model:ir.ui.menu,name:bpo_services_liyben.project_menu_config_activity_type
+msgid "Activity Types"
+msgstr "Tipos de actividades"
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.bpo_service_task_type_edit
+msgid "Add a description..."
+msgstr "Añadir una descripción..."
+
+#. module: bpo_services_liyben
+#: model:bpo.service.task.type,name:bpo_services_liyben.bpo_service_stage_data_2
+msgid "Advanced"
+msgstr "Avanzado"
+
+#. module: bpo_services_liyben
+#: model:ir.model,name:bpo_services_liyben.model_account_analytic_account
+msgid "Analytic Account"
+msgstr "Cuenta analítica"
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_search_form
+msgid "Archivado"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_search_form
+msgid "Asignada a"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_form2
+msgid "Asignármelo a mí"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_user_id
+msgid "Assigned to"
+msgstr "Asignada a"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_date_assign
+msgid "Assigning Date"
+msgstr "Fecha de asignación"
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.bpo_service_task_type_edit
+msgid ""
+"At each stage employees can block or make task/issue ready for next stage.\n"
+"                                You can define here labels that will be "
+"displayed for the state instead\n"
+"                                of the default labels."
+msgstr ""
+"En cada etapa el trabajador puede bloquear o dejar la tarea/incidencia lista "
+"para la siguiente etapa.\n"
+"Puedes definir aquí las etiquetas que se mostrarán por el estado en lugar de "
+"las etiquetas predeterminadas."
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,help:bpo_services_liyben.field_bpo_service_task_attachment_ids
+msgid "Attachment that don't come from message."
+msgstr "Adjunto que no procede de un mensaje."
+
+#. module: bpo_services_liyben
+#: code:addons/bpo_services_liyben/models/project_bpo_service.py:102
+#, python-format
+msgid "Attachments"
+msgstr "Adjuntos"
+
+#. module: bpo_services_liyben
+#: model:ir.actions.act_window,name:bpo_services_liyben.project_task_action_bpo_service_sub_task
+msgid "BPO Sub-tasks"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.actions.act_window,name:bpo_services_liyben.act_project_project_2_bpo_service_task_all
+msgid "BPO Task"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:res.request.link,name:bpo_services_liyben.req_link_bpo_service_task
+msgid "BPO task"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:bpo.service.task.type,name:bpo_services_liyben.bpo_service_stage_data_1
+msgid "Basic"
+msgstr "Básico"
+
+#. module: bpo_services_liyben
+#: code:addons/bpo_services_liyben/models/project_bpo_service.py:25
+#, python-format
+msgid "Blocked"
+msgstr "Bloqueada"
+
+#. module: bpo_services_liyben
+#: model:bpo.service.task.type,legend_blocked:bpo_services_liyben.bpo_service_stage_data_0
+#: model:bpo.service.task.type,legend_blocked:bpo_services_liyben.bpo_service_stage_data_1
+#: model:bpo.service.task.type,legend_blocked:bpo_services_liyben.bpo_service_stage_data_2
+msgid "Bloqueada"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.ui.menu,name:bpo_services_liyben.menu_bpo_search
+msgid "Búsqueda"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,help:bpo_services_liyben.field_bpo_service_task_subtask_project_id
+msgid ""
+"Choosing a sub-tasks project will both enable sub-tasks and set their "
+"default project (possibly the project itself)"
+msgstr ""
+"Para elegir una sub-tarea del proyecto debe estar activado sub-tareas y "
+"haber establecido un proyecto (normalmente a sí mismo)"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_tags_color
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_color
+msgid "Color Index"
+msgstr "Índice de color"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_company_id
+msgid "Company"
+msgstr "Compañía"
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_search_form
+msgid "Compañia"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.ui.menu,name:bpo_services_liyben.menu_bpo_config
+msgid "Configuracion"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_contratados_kanban
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_to_contratar_kanban
+msgid "Configuración"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_displayed_image_id
+msgid "Cover Image"
+msgstr "Imagen de portada"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_create_date
+msgid "Create Date"
+msgstr "Fecha de creación"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_tags_create_uid
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_create_uid
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_type_create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_tags_create_date
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_type_create_date
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: bpo_services_liyben
+#: code:addons/bpo_services_liyben/models/project_bpo_service.py:667
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_partner_id
+#, python-format
+msgid "Customer"
+msgstr "Cliente"
+
+#. module: bpo_services_liyben
+#: code:addons/bpo_services_liyben/models/project_bpo_service.py:667
+#: code:addons/bpo_services_liyben/models/project_bpo_service.py:670
+#, python-format
+msgid "Customer Email"
+msgstr "Correo electrónico del cliente"
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_form2
+msgid "Days"
+msgstr "Días"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_date_deadline
+msgid "Deadline"
+msgstr "Fecha límite"
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_kanban
+msgid "Delete"
+msgstr "Suprimir"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_description
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_type_description
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_form2
+msgid "Description"
+msgstr "Descripción"
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_search_form
+msgid "Destacado"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_tags_display_name
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_display_name
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_type_display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_kanban
+msgid "Edit Task"
+msgstr "Editar tarea"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_email_from
+msgid "Email"
+msgstr "Correo electrónico"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_type_mail_template_id
+msgid "Email Template"
+msgstr "Plantilla de correo electrónico"
+
+#. module: bpo_services_liyben
+#: model:bpo.service.task.type,legend_normal:bpo_services_liyben.bpo_service_stage_data_0
+#: model:bpo.service.task.type,legend_normal:bpo_services_liyben.bpo_service_stage_data_1
+#: model:bpo.service.task.type,legend_normal:bpo_services_liyben.bpo_service_stage_data_2
+msgid "En Proceso"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_date_end
+msgid "Ending Date"
+msgstr "Fecha de finalización"
+
+#. module: bpo_services_liyben
+#: code:addons/bpo_services_liyben/models/project_bpo_service.py:387
+#, python-format
+msgid "Error! You cannot create recursive hierarchy of task(s)."
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,help:bpo_services_liyben.field_bpo_service_task_planned_hours
+msgid ""
+"Estimated time to do the task, usually set by the project manager when the "
+"task is in draft state."
+msgstr ""
+"Tiempo estimado para realizar la tarea, normalmente fijado por el "
+"responsable del proyecto cuando la tarea está en estado borrador."
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_search_form
+msgid "Etapa"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.model,name:bpo_services_liyben.model_bpo_service_task_type
+msgid "Etapa de la Tarea BPO"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.actions.act_window,name:bpo_services_liyben.open_view_bpo_task_type
+#: model:ir.ui.menu,name:bpo_services_liyben.menu_bpo_task_type
+msgid "Etapas"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.actions.act_window,name:bpo_services_liyben.open_view_bpo_tags
+#: model:ir.ui.menu,name:bpo_services_liyben.menu_bpo_tags
+msgid "Etiquetas"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,help:bpo_services_liyben.field_bpo_service_task_type_legend_priority
+msgid ""
+"Explanation text to help users using the star on tasks or issues in this "
+"stage."
+msgstr ""
+"Texto explicativo para ayudar a los usuarios a utilizar la estrella en las "
+"tareas o incidencias de esta etapa."
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_form2
+msgid "Extra Info"
+msgstr "Información extra"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_type_fold
+msgid "Folded in Kanban"
+msgstr "Doblado en Kanban"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,help:bpo_services_liyben.field_bpo_service_task_sequence
+msgid "Gives the sequence order when displaying a list of tasks."
+msgstr "Indica el orden de las tareas al mostrarlas en la lista."
+
+#. module: bpo_services_liyben
+#: selection:bpo.service.task,kanban_state:0
+msgid "Green"
+msgstr "Verde"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_type_legend_done
+msgid "Green Kanban Label"
+msgstr "Etiqueta Kanban verde"
+
+#. module: bpo_services_liyben
+#: selection:bpo.service.task,kanban_state:0
+msgid "Grey"
+msgstr "Gris"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_type_legend_normal
+msgid "Grey Kanban Label"
+msgstr "Etiqueta Kanban gris"
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_search_form
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_form2
+msgid "Hours"
+msgstr "Horas"
+
+#. module: bpo_services_liyben
+#: code:addons/bpo_services_liyben/models/project_bpo_service.py:576
+#, python-format
+msgid "I take it"
+msgstr "Lo tomo"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_tags_id
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_id
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_type_id
+msgid "ID"
+msgstr "ID"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,help:bpo_services_liyben.field_bpo_service_task_type_mail_template_id
+msgid ""
+"If set an email will be sent to the customer when the task or issue reaches "
+"this step."
+msgstr ""
+"Si se establece un correo electrónico se enviará al cliente cuando la tarea "
+"o problema llegue a este paso."
+
+#. module: bpo_services_liyben
+#: code:addons/bpo_services_liyben/models/project_bpo_service.py:30
+#, python-format
+msgid "In Progress"
+msgstr "En progreso"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_planned_hours
+msgid "Initially Planned Hours"
+msgstr "Horas iniciales planificadas"
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.bpo_service_tags_search_view
+msgid "Issue Version"
+msgstr "Versión de incidencia"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_legend_blocked
+msgid "Kanban Blocked Explanation"
+msgstr "Explicación del kanban bloqueado"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_legend_normal
+msgid "Kanban Ongoing Explanation"
+msgstr "Explicación del kanban en proceso"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_kanban_state
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_kanban_state_label
+msgid "Kanban State"
+msgstr "Estado de kanban"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_legend_done
+msgid "Kanban Valid Explanation"
+msgstr "Explicación del kanban válido"
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_search_form
+msgid "Las tareas que sigo"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_search_form
+msgid "Last Message"
+msgstr "Ultimo mensaje"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_tags___last_update
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task___last_update
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_type___last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_date_last_stage_update
+msgid "Last Stage Update"
+msgstr "Última actualización de la etapa"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_tags_write_uid
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_type_write_uid
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_write_uid
+msgid "Last Updated by"
+msgstr "Última actualización de"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_tags_write_date
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_type_write_date
+msgid "Last Updated on"
+msgstr "Última actualización en"
+
+#. module: bpo_services_liyben
+#: model:bpo.service.task.type,legend_done:bpo_services_liyben.bpo_service_stage_data_0
+#: model:bpo.service.task.type,legend_done:bpo_services_liyben.bpo_service_stage_data_1
+#: model:bpo.service.task.type,legend_done:bpo_services_liyben.bpo_service_stage_data_2
+msgid "Listo para la siguiente etapa"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: selection:bpo.service.task,priority:0
+msgid "Low"
+msgstr "Baja"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_attachment_ids
+msgid "Main Attachments"
+msgstr "Adjuntos principales"
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_search_form
+msgid "Mensajes sin leer"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.ui.menu,name:bpo_services_liyben.menu_main_bpo
+msgid "Mi Gestor"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_search_form
+msgid "Mis actividades"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_search_form
+msgid "Mis tareas"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.actions.act_window,name:bpo_services_liyben.bpo_service_task_action_activity
+msgid "My Next Activities"
+msgstr "Mis actividades siguientes"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_tags_name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: bpo_services_liyben
+#: model:bpo.service.task.type,name:bpo_services_liyben.bpo_service_stage_data_0
+msgid "New"
+msgstr "Nuevo"
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.bpo_service_task_view_tree_activity
+msgid "Next Activities"
+msgstr "Siguientes actividades"
+
+#. module: bpo_services_liyben
+#: code:addons/bpo_services_liyben/models/project_bpo_service.py:623
+#, python-format
+msgid "No Subject"
+msgstr "Sin asunto"
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_search_form
+msgid "No asignado"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: selection:bpo.service.task,priority:0
+msgid "Normal"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_notes
+msgid "Notes"
+msgstr "Notas"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,help:bpo_services_liyben.field_bpo_service_task_legend_blocked
+#: model:ir.model.fields,help:bpo_services_liyben.field_bpo_service_task_type_legend_blocked
+msgid ""
+"Override the default value displayed for the blocked state for kanban "
+"selection, when the task or issue is in that stage."
+msgstr ""
+"Anula el valor predeterminado mostrado por el estado bloqueado por la "
+"selección kanban, cuando la tarea o incidencia está en el estado."
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,help:bpo_services_liyben.field_bpo_service_task_legend_done
+#: model:ir.model.fields,help:bpo_services_liyben.field_bpo_service_task_type_legend_done
+msgid ""
+"Override the default value displayed for the done state for kanban "
+"selection, when the task or issue is in that stage."
+msgstr ""
+"Anular el valor predeterminado mostrado para el estado hecho para la "
+"selección kanban, cuando la tarea o incidencia está en el estado."
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,help:bpo_services_liyben.field_bpo_service_task_legend_normal
+#: model:ir.model.fields,help:bpo_services_liyben.field_bpo_service_task_type_legend_normal
+msgid ""
+"Override the default value displayed for the normal state for kanban "
+"selection, when the task or issue is in that stage."
+msgstr ""
+"Anular el valor predeterminado mostrado para el estado normal de la "
+"selección kanban, cuando la tarea o incidencia esta en el estado."
+
+#. module: bpo_services_liyben
+#: code:addons/bpo_services_liyben/models/project_bpo_service.py:709
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_parent_id
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_form2
+#, python-format
+msgid "Parent Task"
+msgstr "Tarea padre"
+
+#. module: bpo_services_liyben
+#: code:addons/bpo_services_liyben/models/project_bpo_service.py:743
+#, python-format
+msgid ""
+"Please remove existing BPO tasks in the project linked to the accounts you "
+"want to delete."
+msgstr ""
+"Por favor, elimine las tareas BPO al proyecto vinculadas a las cuentas que "
+"quiere eliminar."
+
+#. module: bpo_services_liyben
+#: code:addons/bpo_services_liyben/models/project_bpo_service.py:741
+#, python-format
+msgid ""
+"Please remove existing tasks in the project linked to the accounts you want "
+"to delete."
+msgstr ""
+"Por favor, elimine las tareas al proyecto vinculadas a las cuentas que "
+"quiere eliminar."
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_priority
+msgid "Priority"
+msgstr "Prioridad"
+
+#. module: bpo_services_liyben
+#: model:ir.model,name:bpo_services_liyben.model_project_project
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_project_id
+msgid "Project"
+msgstr "Proyecto"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_manager_id
+msgid "Project Manager"
+msgstr "Responsable de proyecto"
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_graph
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_pivot
+msgid "Project Tasks"
+msgstr "Tareas del proyecto"
+
+#. module: bpo_services_liyben
+#: model:ir.actions.act_window,name:bpo_services_liyben.dblc_bpo_service
+msgid "Project's tasks"
+msgstr "Tareas del proyecto"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_type_project_ids
+msgid "Projects"
+msgstr "Proyectos"
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_search_form
+msgid "Proyecto"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: code:addons/bpo_services_liyben/models/project_bpo_service.py:27
+#, python-format
+msgid "Ready for Next Stage"
+msgstr "Listo para la siguiente etapa"
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_kanban
+msgid "Record's Colour"
+msgstr "Color del registro"
+
+#. module: bpo_services_liyben
+#: selection:bpo.service.task,kanban_state:0
+msgid "Red"
+msgstr "Rojo"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_type_legend_blocked
+msgid "Red Kanban Label"
+msgstr "Etiqueta Kanban rojo"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_remaining_hours
+msgid "Remaining Hours"
+msgstr "Horas restantes"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_sequence
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_type_sequence
+msgid "Sequence"
+msgstr "Secuencia"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_project_project_is_bpo_service
+#: model:res.request.link,name:bpo_services_liyben.req_link_bpo_service
+msgid "Servicio BPO"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.ui.menu,name:bpo_services_liyben.menu_bpo_no_active
+msgid "Servicios A Contratar"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.actions.act_window,name:bpo_services_liyben.open_view_bpo_active_all
+#: model:ir.actions.act_window,name:bpo_services_liyben.open_view_bpo_all_config
+#: model:ir.actions.act_window,name:bpo_services_liyben.open_view_bpo_no_active_all
+#: model:ir.ui.menu,name:bpo_services_liyben.menu_bpo_all_config
+msgid "Servicios BPO"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.ui.menu,name:bpo_services_liyben.menu_bpo_active
+msgid "Servicios Contratados"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_kanban
+msgid "Set Cover Image"
+msgstr "Establecer imagen de portada"
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_search_form
+msgid "Show all records which has next action date is before today"
+msgstr ""
+"Mostrar todos los registros que tienen la próxima fecha de acción antes de "
+"hoy"
+
+#. module: bpo_services_liyben
+#: model:ir.ui.menu,name:bpo_services_liyben.bpo_service_task_menu_activity
+msgid "Siguiente actividades"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_stage_id
+msgid "Stage"
+msgstr "Etapa"
+
+#. module: bpo_services_liyben
+#: model:mail.message.subtype,name:bpo_services_liyben.mt_task_stage
+msgid "Stage Changed"
+msgstr "Etapa cambiada"
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.bpo_service_task_type_edit
+msgid "Stage Description and Tooltips"
+msgstr "Descripción de la tarea e información sobre herramientas"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_type_name
+msgid "Stage Name"
+msgstr "Nombre de la etapa"
+
+#. module: bpo_services_liyben
+#: model:mail.message.subtype,description:bpo_services_liyben.mt_task_stage
+msgid "Stage changed"
+msgstr "Etapa cambiada"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_type_legend_priority
+msgid "Starred Explanation"
+msgstr "Explicación de la estrella"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_date_start
+msgid "Starting Date"
+msgstr "Fecha inicial"
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_form2
+msgid "Sub-task"
+msgstr "Sub-tarea"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_subtask_project_id
+msgid "Sub-task Project"
+msgstr "Sub-tarea del proyecto"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_subtask_count
+msgid "Sub-task count"
+msgstr "Recuento de subtareas"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_child_ids
+msgid "Sub-tasks"
+msgstr "Sub-tareas"
+
+#. module: bpo_services_liyben
+#: sql_constraint:bpo.service.tags:0
+msgid "Tag name already exists !"
+msgstr "¡El nombre de etiqueta ya existe!"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_tag_ids
+#: model:ir.ui.view,arch_db:bpo_services_liyben.bpo_service_tags_form_view
+msgid "Tags"
+msgstr "Etiquetas"
+
+#. module: bpo_services_liyben
+#: model:ir.model,name:bpo_services_liyben.model_bpo_service_tags
+msgid "Tags of project's BPO Service tasks"
+msgstr "Etiquetas de las tareas del servicio BPO"
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_search_form
+msgid "Tarea"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.model,name:bpo_services_liyben.model_bpo_service_task
+msgid "Tarea BPO"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.ui.menu,name:bpo_services_liyben.menu_bpo_search_task
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_search_form
+msgid "Tareas"
+msgstr ""
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_form2
+msgid "Task"
+msgstr "Tareas"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_project_project_bpo_service_tasks
+msgid "Task Activities"
+msgstr "Actividades de las tareas"
+
+#. module: bpo_services_liyben
+#: model:mail.message.subtype,name:bpo_services_liyben.mt_project_task_blocked
+#: model:mail.message.subtype,name:bpo_services_liyben.mt_task_blocked
+msgid "Task Blocked"
+msgstr "Tarea bloqueada"
+
+#. module: bpo_services_liyben
+#: model:mail.message.subtype,name:bpo_services_liyben.mt_project_task_new
+#: model:mail.message.subtype,name:bpo_services_liyben.mt_task_new
+msgid "Task Opened"
+msgstr "Tarea abierta"
+
+#. module: bpo_services_liyben
+#: model:mail.message.subtype,name:bpo_services_liyben.mt_project_task_ready
+#: model:mail.message.subtype,name:bpo_services_liyben.mt_task_ready
+msgid "Task Ready"
+msgstr "Tarea lista"
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.bpo_service_task_type_edit
+#: model:ir.ui.view,arch_db:bpo_services_liyben.bpo_service_task_type_tree
+msgid "Task Stage"
+msgstr "Etapa de la tarea"
+
+#. module: bpo_services_liyben
+#: model:mail.message.subtype,name:bpo_services_liyben.mt_project_task_stage
+msgid "Task Stage Changed"
+msgstr "Etapa de tarea cambiada"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_name
+msgid "Task Title"
+msgstr "Titulo de la tarea"
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_form2
+msgid "Task Title..."
+msgstr "Titulo de la tarea…"
+
+#. module: bpo_services_liyben
+#: model:mail.message.subtype,description:bpo_services_liyben.mt_task_blocked
+msgid "Task blocked"
+msgstr "Tarea bloqueada"
+
+#. module: bpo_services_liyben
+#: model:mail.message.subtype,description:bpo_services_liyben.mt_task_new
+msgid "Task opened"
+msgstr "Tarea abierta"
+
+#. module: bpo_services_liyben
+#: model:mail.message.subtype,description:bpo_services_liyben.mt_task_ready
+msgid "Task ready for Next Stage"
+msgstr "Tarea lista para la siguiente etapa"
+
+#. module: bpo_services_liyben
+#: model:ir.actions.act_window,name:bpo_services_liyben.action_view_bpo_service_task
+#: model:ir.actions.act_window,name:bpo_services_liyben.bpo_service_task_action_from_partner
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_project_project_bpo_service_task_count
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_project_project_bpo_service_task_ids
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_project_project_bpo_service_task_needaction_count
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_calendar
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_form2
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_tree2
+msgid "Tasks"
+msgstr "Tareas"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_project_project_bpo_service_type_ids
+#: model:ir.ui.view,arch_db:bpo_services_liyben.bpo_service_task_type_search
+msgid "Tasks Stages"
+msgstr "Etapas de las tareas"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,help:bpo_services_liyben.field_bpo_service_task_email_cc
+msgid ""
+"These email addresses will be added to the CC field of all inbound\n"
+"        and outbound emails for this record before being sent. Separate "
+"multiple email addresses with a comma"
+msgstr ""
+"Estas direcciones de correo serán añadidas al campo CC para todos los "
+"correos entrantes y salientes de este registro antes de ser enviados. Separe "
+"las diferentes direcciones de correo con una coma"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,help:bpo_services_liyben.field_bpo_service_task_email_from
+msgid "These people will receive email."
+msgstr "Estas personas recibirán correo electrónico."
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,help:bpo_services_liyben.field_bpo_service_task_type_fold
+msgid ""
+"This stage is folded in the kanban view when there are no records in that "
+"stage to display."
+msgstr ""
+"Esta etapa se repliega en la vista kanban cuando no hay registros para "
+"mostrar en la misma."
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,help:bpo_services_liyben.field_bpo_service_task_remaining_hours
+msgid ""
+"Total remaining time, can be re-estimated periodically by the assignee of "
+"the task."
+msgstr ""
+"Total de tiempo restante, puede ser reestimado periódicamente por quien se "
+"le haya asignado la tarea."
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_kanban
+msgid "Unread Messages"
+msgstr "Mensajes sin leer"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_user_email
+msgid "User Email"
+msgstr "Email del usuario"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_email_cc
+msgid "Watchers Emails"
+msgstr "Email de los observadores"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_website_message_ids
+msgid "Website Messages"
+msgstr "Mensajes del sitio web"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,help:bpo_services_liyben.field_bpo_service_task_website_message_ids
+msgid "Website communication history"
+msgstr "Historial de comunicaciones del sitio web"
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_form2
+msgid "Working Time to Assign"
+msgstr "Tiempo de trabajo para asignar"
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_form2
+msgid "Working Time to Close"
+msgstr "Tiempo de trabajo que cerrar"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_working_days_open
+msgid "Working days to assign"
+msgstr "Tiempo de trabajo para asignar"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_working_days_close
+msgid "Working days to close"
+msgstr "Tiempo de trabajo que cerrar"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_working_hours_open
+msgid "Working hours to assign"
+msgstr "Horas de trabajo que asignar"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_working_hours_close
+msgid "Working hours to close"
+msgstr "Horas de trabajo que cerrar"
+
+#. module: bpo_services_liyben
+#: model:ir.model.fields,field_description:bpo_services_liyben.field_bpo_service_task_write_date
+msgid "Write Date"
+msgstr "Escriba la fecha"
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.bpo_service_task_type_edit
+msgid ""
+"You can also add a description to help your coworkers understand the meaning "
+"and purpose of the stage."
+msgstr ""
+"Puede incluso añadir una descripción para ayudar a sus compañeros de trabajo "
+"a entender el significado y el propósito de esta etapa."
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.bpo_service_task_type_edit
+msgid ""
+"You can also give a tooltip about the use of the stars available in the "
+"kanban and form views."
+msgstr ""
+"Puede incluso dar una ayuda sobre el uso de las estrellas utilizadas al "
+"kanban y a las vistas de formulario."
+
+#. module: bpo_services_liyben
+#: code:addons/bpo_services_liyben/models/project_bpo_service.py:393
+#, python-format
+msgid ""
+"You can't define a parent task if its project is not correctly configured. "
+"The sub-task's project of the parent task's project should be this task's "
+"project"
+msgstr ""
+"No puede definir una tarea padre si el proyecto no está correctamente "
+"configurado. El proyecto de subtareas que pertenece al proyecto de la tarea "
+"padre debería ser el proyecto de esta tarea"
+
+#. module: bpo_services_liyben
+#: model:ir.ui.view,arch_db:bpo_services_liyben.view_bpo_service_task_kanban
+msgid "oe_kanban_text_red"
+msgstr "oe_kanban_text_red"
+
+#. module: bpo_services_liyben
+#: code:addons/bpo_services_liyben/models/project_bpo_service.py:441
+#, python-format
+msgid "tasks"
+msgstr "tareas"

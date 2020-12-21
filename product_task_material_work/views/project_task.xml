@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<record model="ir.ui.view" id="view_project_task_by_administration_form">
+        <field name="name">project.task.by.administration.form.inherit</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+        	<div name="button_box" position="inside">
+        		<button name="sale_order_action_recalculate" type="object" 
+        			attrs="{'invisible': [('invoiceable', '=', False)]}" 
+        			confirm="¿Estas seguro que quiere pasarlo a 'Por Administración'?">
+        			<field name="by_administration" widget="boolean_button" 
+        			options='{"terminology": {
+						"string_true": "Por Administración",
+						"hover_true": "No Por Administración",
+						"string_false": "No Por Administración",
+						"hover_false": "Por Administración"
+        			}}'/>
+        		</button>
+        	</div>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_project_task_work_form">
+        <field name="name">project.task.work.form.inherit</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='timesheet_ids']" position='before'>
+                <separator string="Tareas a realizar"/>
+                <field name="task_works_ids" nolabel="1" context="{'default_product_id': active_id}">
+                    <tree string="Trabajos" editable="bottom">
+                        <field name="sequence" widget="handle"/>
+                        <!-- Solo los productos de tipo servicio -->
+                        <field name="work_id" domain="[('type', '=', 'service')]"/>
+                        <field name="name"/>
+                        <field name="hours" sum="Horas totales" widget="float_time"/>
+                        <field name="to_done"/>
+                        <field name="validated"/>
+                    </tree>
+                </field>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

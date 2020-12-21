@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_delivery_document_inherit_product_task_material_work" inherit_id="stock.report_delivery_document">
+        <xpath expr="//span[@t-field='o.name']/.." position="replace">
+            <h2>
+              <span t-field="o.picking_type_id.name"/><span> # </span><span t-field="o.name"/>
+            </h2>
+        </xpath>
+        <xpath expr="//table[@class='table table-condensed']/thead/tr" position="inside">
+            <th t-if="o.sale_id.client_order_ref"><strong>Ref. del cliente:</strong></th>
+        </xpath>
+        <xpath expr="//span[@t-field='o.scheduled_date']/../.." position="after">
+            <td t-if="o.sale_id.client_order_ref">
+                <span t-field="o.sale_id.client_order_ref"/>
+            </td>
+        </xpath>
+    </template>
+
+    <template id="report_picking_inherit_product_task_material_work" inherit_id="stock.report_picking">
+        <xpath expr="//h1[@t-field='o.name']" position="replace">
+            <h1>
+              <span t-field="o.picking_type_id.name"/><span> # </span><span t-field="o.name"/>
+            </h1>
+        </xpath>
+        <xpath expr="//table[@class='table table-condensed']/thead/tr" position="inside">
+            <th t-if="o.sale_id.client_order_ref"><strong>Ref. del cliente:</strong></th>
+        </xpath>
+        <xpath expr="//span[@t-field='o.scheduled_date']/.." position="after">
+            <td t-if="o.sale_id.client_order_ref">
+                <span t-field="o.sale_id.client_order_ref"/>
+            </td>
+        </xpath>
+    </template>
+</odoo>

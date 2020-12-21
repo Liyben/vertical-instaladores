@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="0">
+        
+    <!-- Canal Aviso -->
+    <record model="crm.team" id="crm_canal_aviso">
+        <field name="name">Aviso</field>
+        <field name="company_id" eval="False"/>
+        <field name="use_quotations" eval="True"/>
+        <field name="use_opportunities" eval="True"/>
+        <field name="use_invoices" eval="True"/>
+        <field name="active" eval="False"/>
+        <field name="dashboard_graph_group">week</field>
+        <field name="dashboard_graph_model">sale.report</field>
+    </record>
+
+</odoo>
