@@ -633,7 +633,7 @@ class SaleOrderLine(models.Model):
 			work_list.append((0,0, {
 				'work_id' : work.work_id.id,
 				'name' : work.name,
-				'hours' : work.hours,
+				'hours' : work.hours * self.product_uom_qty,
 				}))
 
 		material_list = []
