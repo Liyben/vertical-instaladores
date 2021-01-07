@@ -60,7 +60,7 @@ class SaleOrder(models.Model):
 									'name' : material.name,
 									'sale_price_unit' : material.sale_price_unit,
 									'cost_price_unit' : material.cost_price_unit,
-									'quantity' : material.quantity,
+									'quantity' : material.quantity * line.product_uom_qty,
 									'discount' : material.discount,
 								}))
 						else: 
@@ -68,7 +68,7 @@ class SaleOrder(models.Model):
 							for item in material_list:
 								material_id = item[2]["material_id"]
 								if material_id == material.material_id.id:
-									item[2]["quantity"] = item[2]["quantity"] + material.quantity
+									item[2]["quantity"] = item[2]["quantity"] + (material.quantity * line.product_uom_qty)
 									encontrado = True
 							if not encontrado:	
 								material_list.append((0,0, {
@@ -77,7 +77,7 @@ class SaleOrder(models.Model):
 									'name' : material.name,
 									'sale_price_unit' : material.sale_price_unit,
 									'cost_price_unit' : material.cost_price_unit,
-									'quantity' : material.quantity,
+									'quantity' : material.quantity * line.product_uom_qty,
 									'discount' : material.discount,
 								}))
 
@@ -89,7 +89,7 @@ class SaleOrder(models.Model):
 									'name' : work.name,
 									'sale_price_unit' : work.sale_price_unit,
 									'cost_price_unit' : work.cost_price_unit,
-									'hours' : work.hours,
+									'hours' : work.hours * line.product_uom_qty,
 									'discount' : work.discount,
 								}))
 						else: 
@@ -97,7 +97,7 @@ class SaleOrder(models.Model):
 							for item in work_list:
 								work_id = item[2]["work_id"]
 								if work_id == work.work_id.id:
-									item[2]["hours"] = item[2]["hours"] + work.hours
+									item[2]["hours"] = item[2]["hours"] + (work.hours * line.product_uom_qty)
 									encontrado = True
 							if not encontrado:	
 								work_list.append((0,0, {
@@ -106,7 +106,7 @@ class SaleOrder(models.Model):
 									'name' : work.name,
 									'sale_price_unit' : work.sale_price_unit,
 									'cost_price_unit' : work.cost_price_unit,
-									'hours' : work.hours,
+									'hours' : work.hours * line.product_uom_qty,
 									'discount' : work.discount,
 								}))
 
