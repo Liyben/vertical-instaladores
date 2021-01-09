@@ -11,8 +11,9 @@
     MIS Builder con cuenta analitica en plantillas.
     """,
     'author': 'Liyben',
-    'depends': ["mis_builder", "account"],
-    'data': ["views/mis_report.xml",],
+    'depends': ["mis_builder", "account", "sale", "sale_crm", "analytic", "product_task_material_work"],
+    'data': ["views/mis_report.xml",
+            "data/mis_report_balance_liyben.xml",],
     'qweb': [],
     'images': [
     ],
