@@ -181,10 +181,10 @@
             <p t-if="doc.payment_term_id.note">
                 <span t-field="doc.payment_term_id.note"/>
             </p>
-            <p t-if="doc.payment_mode_id.note" id="payment_mode_note">
+            <!--<p t-if="doc.payment_mode_id.note" id="payment_mode_note">
                 <strong>Payment Mode:</strong>
                 <span t-field="doc.payment_mode_id.note"/>
-            </p>
+            </p>-->
             <p id="fiscal_position_remark" t-if="doc.fiscal_position_id and doc.fiscal_position_id.note">
                 <strong>Fiscal Position Remark:</strong>
                 <span t-field="doc.fiscal_position_id.note"/>
@@ -197,7 +197,7 @@
 <template id="report_saleorder">
     <t t-call="web.html_container">
         <t t-foreach="docs" t-as="doc">
-            <t t-call="report_sale_order_areacad.report_saleorder_document" t-lang="doc.partner_id.lang"/>
+            <t t-call="report_sale_order_without_price.report_saleorder_document" t-lang="doc.partner_id.lang"/>
         </t>
     </t>
 </template>
@@ -206,8 +206,8 @@
 <report
     id="action_report_saleorder_areacad"
     model="sale.order"
-    name="report_sale_order_areacad.report_saleorder"
-    file="report_sale_order_areacad.report_saleorder"
+    name="report_sale_order_without_price.report_saleorder"
+    file="report_sale_order_without_price.report_saleorder"
     string="Presupuesto sin precios"
     report_type="qweb-pdf"
     print_report_name="(object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name)) or 'Order - %s' % (object.name)"
