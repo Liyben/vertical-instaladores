@@ -13,6 +13,7 @@
         "stock_picking_invoice_link",
         "sale",
         "purchase",
+        "eq_stock_move_cancel",
     ],
     "data": [
         "wizards/stock_invoice_onshipping_view.xml",

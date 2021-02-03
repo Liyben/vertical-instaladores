@@ -12,6 +12,13 @@ class StockPicking(models.Model):
 	]
 
 	@api.multi
+	def action_cancel(self):
+		self.mapped('move_lines')._action_cancel_no_unlink()
+		self.write({'is_locked': True})
+		self.write({'invoice_state': 'none'})
+		return True
+		
+	@api.multi
 	def set_to_be_invoiced(self):
 		"""
 		Update invoice_state of current pickings to "2binvoiced".
