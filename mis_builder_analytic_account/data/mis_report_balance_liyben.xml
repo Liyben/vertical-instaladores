@@ -23,8 +23,8 @@
             <field name="type">num</field>
             <field name="compare_method">pct</field>
             <field name="accumulation_method">sum</field>
-            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l1"/>
-            <field name="expression"> +trabajos_so +materiales_so</field>
+            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l1i"/>
+            <field name="expression"> (1 -(-(coste_mat_so +coste_tra_so) /(venta_mat_so +venta_tra_so))) *100</field>
             <field name="sequence">1</field>
         </record>
         <record id="mis_report_es_balance_liyben_0002" model="mis.report.kpi">
@@ -34,7 +34,7 @@
             <field name="type">num</field>
             <field name="compare_method">pct</field>
             <field name="accumulation_method">sum</field>
-            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l1"/>
+            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l2"/>
             <field name="expression"> +venta_mat_so +coste_mat_so</field>
             <field name="sequence">2</field>
         </record>
@@ -45,7 +45,7 @@
             <field name="type">num</field>
             <field name="compare_method">pct</field>
             <field name="accumulation_method">sum</field>
-            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l1"/>
+            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l2i"/>
             <field name="expression"> (1 -(-coste_mat_so /venta_mat_so)) *100</field>
             <field name="sequence">3</field>
         </record>
@@ -56,7 +56,7 @@
             <field name="type">num</field>
             <field name="compare_method">pct</field>
             <field name="accumulation_method">sum</field>
-            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l1"/>
+            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l4i"/>
             <field name="expression"> salemat.total_sp_material</field>
             <field name="sequence">4</field>
         </record>
@@ -67,7 +67,7 @@
             <field name="type">num</field>
             <field name="compare_method">pct</field>
             <field name="accumulation_method">sum</field>
-            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l1"/>
+            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l4i"/>
             <field name="expression"> -costmat.total_cp_material</field>
             <field name="sequence">5</field>
         </record>
@@ -78,7 +78,7 @@
             <field name="type">num</field>
             <field name="compare_method">pct</field>
             <field name="accumulation_method">sum</field>
-            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l1"/>
+            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l2"/>
             <field name="expression"> +venta_tra_so +coste_tra_so</field>
             <field name="sequence">6</field>
         </record>
@@ -89,7 +89,7 @@
             <field name="type">num</field>
             <field name="compare_method">pct</field>
             <field name="accumulation_method">sum</field>
-            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l1"/>
+            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l2i"/>
             <field name="expression"> (1 -(-coste_tra_so /venta_tra_so)) *100</field>
             <field name="sequence">7</field>
         </record>
@@ -100,7 +100,7 @@
             <field name="type">num</field>
             <field name="compare_method">pct</field>
             <field name="accumulation_method">sum</field>
-            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l1"/>
+            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l4i"/>
             <field name="expression"> salehoras.total_sp_work</field>
             <field name="sequence">8</field>
         </record>
@@ -111,7 +111,7 @@
             <field name="type">num</field>
             <field name="compare_method">pct</field>
             <field name="accumulation_method">sum</field>
-            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l1"/>
+            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l4i"/>
             <field name="expression"> -costhoras.total_cp_work</field>
             <field name="sequence">9</field>
         </record>
@@ -133,7 +133,7 @@
             <field name="type">num</field>
             <field name="compare_method">pct</field>
             <field name="accumulation_method">sum</field>
-            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l1"/>
+            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l1i"/>
             <field name="expression"> (1 -(-(coste_mat_obra +coste_tra_obra) /(venta_mat_obra +venta_tra_obra))) *100</field>
             <field name="sequence">11</field>
         </record>
@@ -144,7 +144,7 @@
             <field name="type">num</field>
             <field name="compare_method">pct</field>
             <field name="accumulation_method">sum</field>
-            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l1"/>
+            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l2"/>
             <field name="expression"> +venta_mat_obra +coste_mat_obra</field>
             <field name="sequence">12</field>
         </record>
@@ -155,7 +155,7 @@
             <field name="type">num</field>
             <field name="compare_method">pct</field>
             <field name="accumulation_method">sum</field>
-            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l1"/>
+            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l2i"/>
             <field name="expression"> (1 -(-coste_mat_obra /venta_mat_obra)) *100</field>
             <field name="sequence">13</field>
         </record>
@@ -166,7 +166,7 @@
             <field name="type">num</field>
             <field name="compare_method">pct</field>
             <field name="accumulation_method">sum</field>
-            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l1"/>
+            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l4i"/>
             <field name="expression"> venta_mat_so</field>
             <field name="sequence">14</field>
         </record>
@@ -177,7 +177,7 @@
             <field name="type">num</field>
             <field name="compare_method">pct</field>
             <field name="accumulation_method">sum</field>
-            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l1"/>
+            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l4i"/>
             <field name="expression"> -bale[300%]</field>
             <field name="sequence">15</field>
         </record>
@@ -188,7 +188,7 @@
             <field name="type">num</field>
             <field name="compare_method">pct</field>
             <field name="accumulation_method">sum</field>
-            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l1"/>
+            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l2"/>
             <field name="expression"> +venta_tra_obra +coste_tra_obra</field>
             <field name="sequence">16</field>
         </record>
@@ -199,7 +199,7 @@
             <field name="type">num</field>
             <field name="compare_method">pct</field>
             <field name="accumulation_method">sum</field>
-            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l1"/>
+            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l2i"/>
             <field name="expression"> (1 -(-coste_tra_obra /venta_tra_obra)) *100</field>
             <field name="sequence">17</field>
         </record>
@@ -210,7 +210,7 @@
             <field name="type">num</field>
             <field name="compare_method">pct</field>
             <field name="accumulation_method">sum</field>
-            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l1"/>
+            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l4i"/>
             <field name="expression"> venta_tra_so</field>
             <field name="sequence">18</field>
         </record>
@@ -221,7 +221,7 @@
             <field name="type">num</field>
             <field name="compare_method">pct</field>
             <field name="accumulation_method">sum</field>
-            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l1"/>
+            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l4i"/>
             <field name="expression"> accanltline.amount</field>
             <field name="sequence">19</field>
         </record>
