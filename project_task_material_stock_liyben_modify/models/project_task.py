@@ -87,7 +87,7 @@ class ProjectTaskMaterial(models.Model):
 			'state': 'confirmed',
 			'product_uom': self.product_uom_id.id or product.uom_id.id,
 			'product_uom_qty': self.quantity,
-			'origin': self.task_id.code,
+			'origin': self.task_id.sale_line_id.order_id.name +' ('+ self.task_id.code + ')',
 			'location_id':
 				self.task_id.location_source_id.id or
 				self.task_id.project_id.location_source_id.id or
@@ -111,7 +111,7 @@ class ProjectTaskMaterial(models.Model):
 		group_id = task.procurement_group_id
 		if not group_id:
 			group_id = self.env['procurement.group'].create({
-					'name': task.code, 'move_type': task.sale_line_id.order_id.picking_policy or 'direct',
+					'name': task.sale_line_id.order_id.name +' ('+ task.code + ')', 'move_type': task.sale_line_id.order_id.picking_policy or 'direct',
 					'task_id': task.id,
 					'sale_id': task.sale_line_id.order_id.id or False,
 					'partner_id': task.partner_id.id,
@@ -119,7 +119,7 @@ class ProjectTaskMaterial(models.Model):
 			task.procurement_group_id = group_id.id
 
 		picking_id = task.picking_id or self.env['stock.picking'].create({
-			'origin': "{}/{}".format(task.project_id.name, task.code),
+			'origin': "{} ({})".format(task.sale_line_id.order_id.name, task.code),
 			'partner_id': task.partner_id.id,
 			'picking_type_id': pick_type.id,
 			'location_id': pick_type.default_location_src_id.id,

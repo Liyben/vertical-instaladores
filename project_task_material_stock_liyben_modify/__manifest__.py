@@ -14,8 +14,17 @@
     'description': """
 
         """,
-    'depends': ['project', 'stock_account','project_task_code','project_task_material','project_task_material_stock','product_task_material_work','stock_analytic'],
+    'depends': ['project',
+        'stock_account',
+        'project_task_code',
+        'project_task_material',
+        'project_task_material_stock',
+        'product_task_material_work',
+        'stock_analytic',
+        'stock',
+        'stock_picking_invoicing'],
     'data': [
         'views/project_task_views.xml',
+        'views/stock_picking_views.xml',
     ],
 }

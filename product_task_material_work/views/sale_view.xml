@@ -139,7 +139,7 @@
             </xpath>
 
             <xpath expr="//field[@name='order_line']/form//field[@name='name']" position="after">
-                <div name="picking" attrs="{'invisible':[('picking_ids','=',False)]}">
+                <div name="picking" attrs="{'invisible':True}">
                     <group string="Albaranes">
                         <field name="picking_ids" nolabel="1"/>
                     </group>

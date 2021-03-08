@@ -18,8 +18,8 @@
     'depends': ['sale', 'base', 'account'],
     'data': [
         'views/sale_invoice_retention_view.xml',
-        'views/invoice_sale_retention_view.xml'
-
+        'views/invoice_sale_retention_view.xml',
+        'views/report_invoice.xml'
     ],
     'demo': [
     ],

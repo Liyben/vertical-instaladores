@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sot_sale_order_type_form_inherit_view" model="ir.ui.view">
+        <field name="name">sale.order.type.form.inherit.view</field>
+        <field name="model">sale.order.type</field>
+        <field name="inherit_id" ref="sale_order_type.sot_sale_order_type_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='warehouse_id']" position="attributes">
+                <attribute name="required">1</attribute>
+            </xpath>
+
+            <field name="sequence_id" position="after">
+                <field name="default_debit_account_id" />
+                <field name="account_id" />
+                <field name="tax_id" widget="many2many_tags" options="{'no_create': True}" domain="[('type_tax_use','=','sale'),('company_id','=',company_id)]"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="sot_sale_order_type_tree_inherit_view" model="ir.ui.view">
+        <field name="name">sale.order.type.tree.inherit.view</field>
+        <field name="model">sale.order.type</field>
+        <field name="inherit_id" ref="sale_order_type.sot_sale_order_type_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="journal_id" position="after">
+                <field name="default_debit_account_id" />
+                <field name="account_id" />
+                <field name="company_id" invisible="1" />
+                <field name="tax_id" widget="many2many_tags" options="{'no_create': True}" domain="[('type_tax_use','=','sale'),('company_id','=',company_id)]"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="sot_sale_order_type_search_inherit_view" model="ir.ui.view">
+        <field name="name">sale.order.type.search.inherit.view</field>
+        <field name="model">sale.order.type</field>
+        <field name="inherit_id" ref="sale_order_type.sot_sale_order_type_search_view"/>
+        <field name="arch" type="xml">
+            <field name="journal_id" position="after">
+                <field name="default_debit_account_id" />
+                <field name="account_id" />
+                <field name="tax_id" />
+            </field>
+            <xpath expr="//group" position="inside">
+                <filter string="Cuenta deudora" domain="[]"
+                    context="{'group_by':'default_debit_account_id'}" />
+                <filter string="Cuenta a cobrar" domain="[]"
+                    context="{'group_by':'account_id'}" />
+                <filter string="Impuestos" domain="[]"
+                    context="{'group_by':'tax_id'}" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

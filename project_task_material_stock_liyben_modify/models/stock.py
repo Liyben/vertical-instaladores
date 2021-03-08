@@ -68,3 +68,19 @@ class StockPicking(models.Model):
 	_inherit = 'stock.picking'
 
 	task_id = fields.Many2one(related="group_id.task_id", string="Partes de trabajo", store=True)
+
+	analytic_account_id = fields.Many2one(
+		string='Analytic Account', 
+		comodel_name='account.analytic.account',
+		compute='_compute_analytic_account_id',
+		store=True,
+		)
+
+	@api.depends('move_lines')
+	def _compute_analytic_account_id(self):
+		for picking in self:
+			aa = False
+			for move in picking.move_lines:
+				if not aa and move.analytic_account_id:
+					aa = move.analytic_account_id.id
+			picking.analytic_account_id = aa

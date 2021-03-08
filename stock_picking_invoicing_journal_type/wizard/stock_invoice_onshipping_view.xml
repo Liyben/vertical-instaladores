@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_stock_invoice_onshipping_inherit_form" model="ir.ui.view">
+        <field name="name">Stock Invoice Onshipping Inherit Form</field>
+        <field name="model">stock.invoice.onshipping</field>
+        <field name="inherit_id" ref="stock_picking_invoicing.view_stock_invoice_onshipping"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='invoice_date']" position="after">
+                <field name="type_id" invisible="1" />
+                <field name="default_debit_account_id" invisible="1" />
+                <field name="account_id" invisible="1" />
+                <field name="tax_id" invisible="1" />
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

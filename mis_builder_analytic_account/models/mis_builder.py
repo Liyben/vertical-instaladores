@@ -15,6 +15,7 @@ class MisReport(models.Model):
 	_inherit = 'mis.report'
 
 	analytic_account_id = fields.Many2one(comodel_name="account.analytic.account", string="Cuenta analítica",)
+	active = fields.Boolean(default=True)
 
 	@api.onchange("analytic_account_id")
 	def _onchange_analytic_account_id(self):
