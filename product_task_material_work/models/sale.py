@@ -243,9 +243,9 @@ class SaleOrder(models.Model):
 
 
 	#Redefinimos la acción cancelar como la original
-	@api.multi
+	"""@api.multi
 	def action_cancel(self):
-		return self.write({'state': 'cancel'})
+		return self.write({'state': 'cancel'})"""
 		
 class SaleOrderTaskMaterial(models.Model):
 	"""Modelo para almacenar los materiales de los productos partida en el pedido"""
