@@ -53,11 +53,14 @@ class CrmOpporConvert2Task(models.TransientModel):
             "oppor_id": oppor.id
         }
         task = self.env['project.task'].create(vals)
+        # Comentamos el traspaso del hilo y de los ajuntos
+        """
         #  Movemos el hilo del mail
         oppor.message_change_thread(task)
         # Movemos los adjuntos
         attachments = self.env['ir.attachment'].search([('res_model', '=', 'crm.lead'), ('res_id', '=', oppor.id)])
         attachments.write({'res_model': 'project.task', 'res_id': task.id})
+        """
         # devolvemos la acción para ir a la vista formulario de la nueva tarea
         view = self.env.ref('project.view_task_form2')
         return {
