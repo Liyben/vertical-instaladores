@@ -5,4 +5,4 @@ from . import product
 from . import sale
 from . import account_invoice
 from . import project_task
-from . import hr
+#from . import hr

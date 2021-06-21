@@ -4,22 +4,22 @@
 from odoo import api, fields, models, exceptions, _
 from odoo.addons import decimal_precision as dp
 
-class AccountInvoice(models.Model):
+class AccountMove(models.Model):
 
-	_inherit='account.invoice'
+	_inherit='account.move'
 
 	#Numero de cliente
 	ref = fields.Char(related='partner_id.ref', readonly=True, string='Nº. Cliente')
 
 
-class AccountInvoiceLine(models.Model):
+class AccountMoveLine(models.Model):
 
-	_inherit='account.invoice.line'
+	_inherit='account.move.line'
 
 	
 	#Campos relacionales para trabajos y materiales
-	task_works_ids = fields.One2many(comodel_name='account.invoice.line.task.work', inverse_name='account_invoice_line_id', string='Trabajos', copy=True)
-	task_materials_ids = fields.One2many(comodel_name='account.invoice.line.task.material', inverse_name='account_invoice_line_id', string='Materiales', copy=True)
+	task_works_ids = fields.One2many(comodel_name='account.move.line.task.work', inverse_name='account_move_line_id', string='Trabajos', copy=True)
+	task_materials_ids = fields.One2many(comodel_name='account.move.line.task.material', inverse_name='account_move_line_id', string='Materiales', copy=True)
 	#Producto mano de obra
 	workforce_id = fields.Many2one(comodel_name='product.product', string='Mano de obra', copy=True)
 	#Precio totales, unitarios y beneficio de Trabajos
@@ -43,7 +43,7 @@ class AccountInvoiceLine(models.Model):
 	#Carga de los datos del producto en la linea de factura al seleccionar dicho producto
 	@api.onchange('product_id')
 	def _onchange_product_id(self):
-		res = super(AccountInvoiceLine, self)._onchange_product_id()
+		res = super(AccountMoveLine, self)._onchange_product_id()
 		product = self.product_id
 		if product:
 			self.auto_create_task = (product.service_tracking == 'task_global_project') or (product.service_tracking == 'task_new_project')
@@ -154,14 +154,14 @@ class AccountInvoiceLine(models.Model):
 
 
 
-class AccountInvoiceLineTaskWork(models.Model):
+class AccountMoveLineTaskWork(models.Model):
 	"""Modelo para almacenar los trabajos del producto partida en la linea de factura"""
 
-	_name = 'account.invoice.line.task.work'
-	_order = 'account_invoice_line_id, sequence, id'
+	_name = 'account.move.line.task.work'
+	_order = 'account_move_line_id, sequence, id'
 
 	#Campo relación con la linea de factura
-	account_invoice_line_id = fields.Many2one(comodel_name='account.invoice.line', string='Linea de pedido')
+	account_move_line_id = fields.Many2one(comodel_name='account.move.line', string='Linea de pedido')
 	#Mano de obra
 	work_id = fields.Many2one(comodel_name='product.product', string='Mano de obra', required=True)
 	#Descripcion del trabajo
@@ -196,16 +196,16 @@ class AccountInvoiceLineTaskWork(models.Model):
 			record.sale_price = record.hours * (record.sale_price_unit * (1 - (record.discount / 100)))
 			record.cost_price = (record.hours * record.cost_price_unit)
 
-class AccountInvoiceLineTaskMaterial(models.Model):
+class AccountMoveLineTaskMaterial(models.Model):
 	"""Modelo para almacenar los materiales del producto partida en la linea de factura"""
 	
-	_name = 'account.invoice.line.task.material'
-	_order = 'account_invoice_line_id, sequence, id'
+	_name = 'account.move.line.task.material'
+	_order = 'account_move_line_id, sequence, id'
 
 	#Descripcion del material
 	name = fields.Char(string='Descripción', required=True)
 	#Campo relación con la linea de factura
-	account_invoice_line_id = fields.Many2one(comodel_name='account.invoice.line', string='Linea de pedido')
+	account_move_line_id = fields.Many2one(comodel_name='account.move.line', string='Linea de pedido')
 	#Material
 	material_id = fields.Many2one(comodel_name='product.product', string='Material', required=True)
 	#Precios Totales de para cada material

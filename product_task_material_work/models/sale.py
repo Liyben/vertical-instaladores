@@ -318,8 +318,6 @@ class SaleOrderLine(models.Model):
 	#Campos relacionales para trabajos y materiales
 	task_works_ids = fields.One2many(comodel_name='sale.order.line.task.work', inverse_name='order_line_id', string='Trabajos', copy=True)
 	task_materials_ids = fields.One2many(comodel_name='sale.order.line.task.material', inverse_name='order_line_id', string='Materiales', copy=True)
-	#Producto mano de obra
-	workforce_id = fields.Many2one(comodel_name='product.product', string='Mano de obra', copy=True)
 	#Precio totales, unitarios y beneficio de Trabajos
 	total_sp_work = fields.Float(string='Total P.V.', digits=dp.get_precision('Product Price'), compute='_compute_total_sp_work')
 	total_cp_work = fields.Float(string='Total P.C.', digits=dp.get_precision('Product Price'), compute='_compute_total_cp_work')
@@ -403,26 +401,34 @@ class SaleOrderLine(models.Model):
 			if (record.total_cp_material != 0) and (record.total_sp_material != 0):
 				record.benefit_material = (1-(record.total_cp_material/record.total_sp_material)) * 100
 
-	#Cambio de los precios unitarios de los trabajos al seleccionar la mano de obra
-	#@api.onchange('workforce_id')
-	#def _onchange_workforce_id(self):
-	#	if self.task_works_ids:
-	#		for record in self.task_works_ids:
-	#			record.sale_price_unit = record.order_line_id.workforce_id.list_price
-	#			record.cost_price_unit = record.order_line_id.workforce_id.standard_price
-
 	#Obtiene el precio del material o mano de obra segun tarifa
 	@api.multi
 	def _get_display_price_line(self, product, product_id, quantity):
+		
+		no_variant_attributes_price_extra = [
+			ptav.price_extra for ptav in self.product_no_variant_attribute_value_ids.filtered(
+				lambda ptav:
+					ptav.price_extra and
+					ptav not in product.product_template_attribute_value_ids
+			)
+		]
+		if no_variant_attributes_price_extra:
+			product = product.with_context(
+				no_variant_attributes_price_extra=tuple(no_variant_attributes_price_extra)
+			)
+
+
 		if self.order_id.pricelist_id.discount_policy == 'with_discount':
 			return product.with_context(pricelist=self.order_id.pricelist_id.id).price
 
 		product_context = dict(self.env.context, partner_id=self.order_id.partner_id.id, date=self.order_id.date_order, uom=product_id.uom_id.id)
 		final_price, rule_id = self.order_id.pricelist_id.with_context(product_context).get_product_price_rule(product_id, quantity or 1.0, self.order_id.partner_id)
-		base_price, currency_id = self.with_context(product_context)._get_real_price_currency(product, rule_id, quantity, product_id.uom_id, self.order_id.pricelist_id.id)
+		base_price, currency = self.with_context(product_context)._get_real_price_currency(product, rule_id, quantity, product_id.uom_id, self.order_id.pricelist_id.id)
 
-		if currency_id != self.order_id.pricelist_id.currency_id.id:
-			base_price = self.env['res.currency'].browse(currency_id).with_context(product_context).compute(base_price, self.order_id.pricelist_id.currency_id)
+		if currency != self.order_id.pricelist_id.currency_id:
+			base_price = currency._convert(
+				base_price, self.order_id.pricelist_id.currency_id,
+				self.order_id.company_id or self.env.company, self.order_id.date_order or fields.Date.today())
 
 		return max(base_price, final_price)
 
@@ -457,8 +463,8 @@ class SaleOrderLine(models.Model):
 				new_list_price = self.env['res.currency'].browse(currency_id).with_context(product_context).compute(new_list_price, self.order_id.pricelist_id.currency_id)
 			
 			discount = (new_list_price - price) / new_list_price * 100
-			if discount > 0:
-				return discount
+			if (discount > 0):
+				self.discount = discount
 
 	#Carga de los datos del producto en la linea de pedido al seleccionar dicho producto
 	@api.multi
@@ -510,7 +516,6 @@ class SaleOrderLine(models.Model):
 
 			self.update({'task_works_ids' : work_list,
 					'task_materials_ids' : material_list,
-					#'workforce_id' : product.workforce_id.id,
 					'auto_create_task' : True})
 
 			#for line in self:
@@ -519,7 +524,6 @@ class SaleOrderLine(models.Model):
 		else:
 			self.update({'task_works_ids' : False,
 					'task_materials_ids' : False,
-					#'workforce_id' : False,
 					'auto_create_task' : False})
 		return result
 
@@ -586,15 +590,16 @@ class SaleOrderLine(models.Model):
 		return result
 
 	#Calculo de las horas estimadas al crear el parte de trabajo correspondiente a la linea de pedido
-	def _convert_qty_company_hours(self):
-		company_time_uom_id = self.env.user.company_id.project_time_mode_id
+	def _convert_qty_company_hours(self,dest_company):
+		company_time_uom_id = dest_company.project_time_mode_id
 		if self.product_uom.id != company_time_uom_id.id and self.product_uom.category_id.id == company_time_uom_id.category_id.id:
 			planned_hours = self.product_uom._compute_quantity(self.product_uom_qty, company_time_uom_id)
 		else:
 			planned_hours = sum(self.task_works_ids.mapped('hours')) * self.product_uom_qty
-			return planned_hours
+		return planned_hours
 	
 	#Creación del proyecto
+	"""
 	def _timesheet_find_project(self):
 		self.ensure_one()
 		Project = self.env['project.project']
@@ -621,13 +626,14 @@ class SaleOrderLine(models.Model):
 				if not project.sale_line_id and self.product_id.service_tracking in ['task_new_project', 'project_only']:
 					project.write({'sale_line_id': self.id})
 		return project
+	"""
 
 	#Calculo de los valores necesarios para crear el parte de trabajo correspondiente a la linea de pedido
-	def _timesheet_create_task_prepare_values(self):
+	def _timesheet_create_task_prepare_values(self, project):
 		self.ensure_one()
-		project = self._timesheet_find_project()
-		planned_hours = self._convert_qty_company_hours()
-
+		planned_hours = self._convert_qty_company_hours(self.company_id)
+		sale_line_name_parts = self.name.split('\n')
+		title = sale_line_name_parts[0] or self.product_id.name
 		work_list = []
 		for work in self.task_works_ids:
 			work_list.append((0,0, {
@@ -644,7 +650,7 @@ class SaleOrderLine(models.Model):
 				}))
 
 		return {
-			'name': '%s:%s' % (self.order_id.name or '', self.name.split(' ')[0] or self.product_id.name),
+			'name': title if project.sale_line_id else '%s: %s' % (self.order_id.name or '', title),
 			'planned_hours': planned_hours,
 			'remaining_hours': planned_hours,
 			'partner_id': self.order_id.partner_id.id,
@@ -652,7 +658,7 @@ class SaleOrderLine(models.Model):
 			'work_to_do' : self.name + '<br/>',
 			'project_id': project.id,
 			'sale_line_id': self.id,
-			'company_id': self.company_id.id,
+			'company_id': project.company_id.id,
 			'email_from': self.order_id.partner_id.email,
 			'user_id': False, # force non assigned task, as created as sudo()
 			'material_ids': material_list,
@@ -662,15 +668,15 @@ class SaleOrderLine(models.Model):
 
 	#Calculo de los valores necesarios de la linea factura asociada a la linea de pedido, al crear la factura del pedido
 	@api.multi
-	def _prepare_invoice_line(self, qty):
-		res = super(SaleOrderLine, self)._prepare_invoice_line(qty)
+	def _prepare_invoice_line(self, **optional_values):
+		res = super(SaleOrderLine, self)._prepare_invoice_line(optional_values)
 
-		origin = self.order_id.name
+		"""origin = self.order_id.name
 		if self.task_ids:
 			for line in self.task_ids:
 				origin = origin + ", " + line.code
 
-		res.update({'origin': origin})
+		res.update({'origin': origin})"""
 
 		work_list = []
 		material_list = []
@@ -722,7 +728,6 @@ class SaleOrderLine(models.Model):
 			res.update({'task_works_ids' : work_list,
 					'task_materials_ids' : material_list})
 
-			#res['workforce_id'] = self.workforce_id.id or False
 			res['auto_create_task'] = self.auto_create_task
 			res['detailed_time'] = self.detailed_time
 			res['detailed_price_time'] = self.detailed_price_time

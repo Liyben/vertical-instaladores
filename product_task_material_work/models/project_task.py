@@ -22,7 +22,7 @@ class ProjectTask(models.Model):
 	def sale_order_action_recalculate(self):
 		self._check_sale_line_exist() #Comprobamos si existe linea de pedido asociada
 		self._check_sale_line_state() #Comprobamos en que estado se encuentra
-		if self.invoiceable:
+		if self.task_to_invoice:
 			#Calculamos la nueva lista de materiales que le pasaremos a la linea de pedido asociada
 			material_list = []
 			if self.material_ids:
