@@ -69,7 +69,7 @@
                                 <field name="total_sp_work" invisible="1"/>
                                 <field name="total_cp_work" invisible="1"/>
                                 <field name="total_hours" invisible="1"/>
-                                <field name="benefit_work" widget="Percent"/>
+                                <field name="benefit_work" widget="percentage"/>
                             </group>
                         </group>
                         <group string="Materiales">
@@ -90,7 +90,7 @@
                             <group class="pull-right">
                                 <field name="total_sp_material" invisible="1"/>
                                 <field name="total_cp_material" invisible="1"/>
-                                <field name="benefit_material" widget="Percent"/>
+                                <field name="benefit_material" widget="percentage"/>
                             </group>
                         </group>
                 </div>
