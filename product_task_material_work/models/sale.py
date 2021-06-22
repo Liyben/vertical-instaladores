@@ -119,6 +119,7 @@ class SaleOrder(models.Model):
 	def _compute_real(self):
 		sale = 0.0
 		cost = 0.0
+		self.margin_real_percent = 0.0
 		for line in self.order_line:
 			if line.product_id.type == 'service':
 				if line.auto_create_task:
@@ -139,6 +140,7 @@ class SaleOrder(models.Model):
 	def _compute_ideal(self):
 		sale = 0.0
 		cost = 0.0
+		self.margin_ideal_percent = 0.0
 		for line in self.order_line:
 			if line.product_id.type == 'service':
 				if line.auto_create_task:
