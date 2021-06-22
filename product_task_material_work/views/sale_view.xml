@@ -127,11 +127,17 @@
                 <field name="picking_ids"/>
             </xpath>-->
 
-            <xpath expr="//field[@name='customer_lead']" position="before">
-                <field name="detailed_time"/>
-                <field name="detailed_price_time" attrs="{'invisible': [('detailed_time','=', False)]}"/>
-                <field name="detailed_materials"/>
-                <field name="detailed_price_materials" attrs="{'invisible': [('detailed_materials','=', False)]}"/>
+            <xpath expr="//field[@name='order_line']/form/group" position="before">
+                <group>
+                    <group>
+                        <field name="detailed_time"/>
+                        <field name="detailed_price_time" attrs="{'invisible': [('detailed_time','=', False)]}"/>
+                    </group>
+                    <group>
+                        <field name="detailed_materials"/>
+                        <field name="detailed_price_materials" attrs="{'invisible': [('detailed_materials','=', False)]}"/>
+                    </group>
+                </group>
             </xpath>
 
             <!--<xpath expr="//field[@name='tax_id']" position="after">
