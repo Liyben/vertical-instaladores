@@ -31,7 +31,7 @@
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
 
-            <xpath expr="//field[@name='invoice_line_ids']/form/sheet" position="after">
+            <xpath expr="//field[@name='invoice_line_ids']/form/sheet/group" position="before">
                  <group>
                     <group>
                         <field name="detailed_time"/>
@@ -44,7 +44,7 @@
                 </group>
             </xpath>
 
-            <xpath expr="//field[@name='invoice_line_ids']/form" position="inside">
+            <xpath expr="//field[@name='invoice_line_ids']/form/sheet" position="inside">
                 <field name="auto_create_task" invisible="1"/>
                 <div name="partida" attrs="{'invisible':[('auto_create_task','!=',True)]}">
                         <group string="Trabajos">

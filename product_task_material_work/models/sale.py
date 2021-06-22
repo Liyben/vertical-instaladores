@@ -185,6 +185,8 @@ class SaleOrder(models.Model):
 		sale = 0.0
 		cost = 0.0
 		hours = 0.0
+		self.sale_price_work_hour = 0.0
+		self.cost_price_work_hour = 0.0
 		for order in self:
 			for line in order.order_line:
 				if line.product_id.type == 'service':
