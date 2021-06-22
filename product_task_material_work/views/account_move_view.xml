@@ -82,7 +82,7 @@
                                     <field name="quantity"/>
                                     <field name="sale_price_unit"/>
                                     <field name="cost_price_unit"/>
-                                    <field name="discount" groups="sale.group_discount_per_so_line"/>
+                                    <field name="discount" groups="product.group_discount_per_so_line"/>
                                     <field name="sale_price" sum="Total P.V."/>
                                     <field name="cost_price" sum="Total P.C."/>
                                 </tree>
