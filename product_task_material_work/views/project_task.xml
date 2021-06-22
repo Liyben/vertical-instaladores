@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
         	<div name="button_box" position="inside">
         		<button name="sale_order_action_recalculate" type="object" 
-        			attrs="{'invisible': [('invoiceable', '=', False)]}" 
+        			attrs="{'invisible': [('allow_billable', '=', False)]}" 
         			confirm="¿Estas seguro que quiere pasarlo a 'Por Administración'?">
         			<field name="by_administration" widget="boolean_button" 
         			options='{"terminology": {
