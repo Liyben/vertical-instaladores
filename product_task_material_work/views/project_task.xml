@@ -43,7 +43,7 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="edit_project_task_track_translation">
+    <!--<record model="ir.ui.view" id="edit_project_task_track_translation">
         <field name="name">edit.project.task.track.translation</field>
         <field name="model">project.task</field>
         <field name="inherit_id" ref="sale_order_invoicing_finished_task.edit_project_task_track"/>
@@ -62,6 +62,6 @@
                 </button>
             </xpath>
         </field>
-    </record>
+    </record>-->
 
 </odoo>

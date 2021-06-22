@@ -3,6 +3,5 @@
 
 from . import product
 from . import sale
-from . import account_invoice
+from . import account_move
 from . import project_task
-#from . import hr
