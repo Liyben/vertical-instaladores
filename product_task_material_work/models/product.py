@@ -138,7 +138,7 @@ class ProdcutTaskWork(models.Model):
 	sequence = fields.Integer()
 
 	#Calcula el valor para todos los precios de cada linea de trabajo
-	@api.one
+	
 	@api.depends('hours','work_id')
 	def _compute_price(self):
 		for record in self:
@@ -176,7 +176,7 @@ class ProductTaskMaterial(models.Model):
 	sequence = fields.Integer()
 
 	#Calcula el valor de todos los precios de cada linea del material
-	@api.one
+	
 	@api.depends('quantity','material_id')
 	def _compute_price(self):
 		for record in self:

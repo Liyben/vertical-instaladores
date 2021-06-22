@@ -189,7 +189,7 @@ class AccountMoveLineTaskWork(models.Model):
 			record.name = record.work_id.name
 
 	#Calculo de los precios de venta y coste totales por linea de los trabajos
-	@api.one
+	
 	@api.depends('hours','sale_price_unit', 'cost_price_unit', 'discount')
 	def _compute_price(self):
 		for record in self:
@@ -230,7 +230,7 @@ class AccountMoveLineTaskMaterial(models.Model):
 			record.name = record.material_id.name
 
 	#Calculo de los precios de venta y coste totales por linea de los materiales
-	@api.one
+	
 	@api.depends('quantity','sale_price_unit','cost_price_unit', 'discount')
 	def _compute_price(self):
 		for record in self:
