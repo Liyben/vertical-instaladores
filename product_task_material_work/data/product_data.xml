@@ -12,8 +12,8 @@
             <field name="standard_price">40</field>
             <field name="list_price">90</field>
             <field name="type">service</field>
-            <field name="uom_id" ref="product.product_uom_unit"/>
-            <field name="uom_po_id" ref="product.product_uom_unit"/>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
             <field name="description">Producto Mano de Obra.</field>
             <field name="default_code">[M.O.]</field>
         </record>
