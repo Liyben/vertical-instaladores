@@ -23,14 +23,14 @@ class AccountMoveLine(models.Model):
 	#Producto mano de obra
 	workforce_id = fields.Many2one(comodel_name='product.product', string='Mano de obra', copy=True)
 	#Precio totales, unitarios y beneficio de Trabajos
-	total_sp_work = fields.Float(string='Total P.V.', digits=dp.get_precision('Product Price'), compute='_compute_total_sp_work')
-	total_cp_work = fields.Float(string='Total P.C.', digits=dp.get_precision('Product Price'), compute='_compute_total_cp_work')
-	benefit_work = fields.Float(string='Beneficio', digits=dp.get_precision('Product Price'), compute='_compute_benefit_work')
+	total_sp_work = fields.Float(string='Total P.V.', digits=dp.get_precision('Product Price'), compute='_compute_total_sp_work', default=0.0)
+	total_cp_work = fields.Float(string='Total P.C.', digits=dp.get_precision('Product Price'), compute='_compute_total_cp_work', default=0.0)
+	benefit_work = fields.Float(string='Beneficio', digits=dp.get_precision('Product Price'), compute='_compute_benefit_work', default=0.0)
 	total_hours = fields.Float(string='Total horas', compute='_compute_total_hours')
 	#Precios totales, unitarios  y beneficio de Materiales
-	total_sp_material = fields.Float(string='Total P.V.', digits=dp.get_precision('Product Price'), compute='_compute_total_sp_material')
-	total_cp_material = fields.Float(string='Total P.C.', digits=dp.get_precision('Product Price'), compute='_compute_total_cp_material')
-	benefit_material = fields.Float(string='Beneficio', digits=dp.get_precision('Product Price'), compute='_compute_benefit_material')
+	total_sp_material = fields.Float(string='Total P.V.', digits=dp.get_precision('Product Price'), compute='_compute_total_sp_material', default=0.0)
+	total_cp_material = fields.Float(string='Total P.C.', digits=dp.get_precision('Product Price'), compute='_compute_total_cp_material', default=0.0)
+	benefit_material = fields.Float(string='Beneficio', digits=dp.get_precision('Product Price'), compute='_compute_benefit_material', default=0.0)
 	#Campo boolean para saber si crear o no una tarea de forma automatica
 	auto_create_task = fields.Boolean(string='Tarea automática', copy=True)
 	#Opciones de impresión por linea de factura
@@ -149,8 +149,7 @@ class AccountMoveLine(models.Model):
 	@api.onchange('task_materials_ids', 'task_works_ids')
 	def _onchange_task_materials_works_workforce(self):
 		for line in self:
-			if (line.total_sp_material and line.total_sp_work):
-				line.price_unit = (line.total_sp_material + line.total_sp_work)
+			line.price_unit = (line.total_sp_material + line.total_sp_work)
 			#line.purchase_price = (line.total_cp_material + line.total_cp_work)
 
 
