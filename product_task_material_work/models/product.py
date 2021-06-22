@@ -40,7 +40,7 @@ class ProductTemplate(models.Model):
 	def _compute_auto_create_task(self):
 		self.auto_create_task = False
 		for record in self:
-			record.auto_create_task = (record.service_tracking == 'task_global_project') or (record.service_tracking == 'task_new_project')
+			record.auto_create_task = (record.service_tracking == 'task_global_project') or (record.service_tracking == 'task_in_project')
 
 	#Calcula el precio de venta total del campo Trabajos
 	
