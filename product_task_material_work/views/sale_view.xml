@@ -148,9 +148,7 @@
                 <!--<field name="task_id" invisible="1"/>-->
                 <div name="partida" attrs="{'invisible':[('auto_create_task','!=',True)]}">
                         <group string="Trabajos">
-                            <group>
-                                <field name="workforce_id" invisible="1" ref="product_task_material_work.mano_obra_00" domain="[('categ_id', '=', %(product_task_material_work.product_category_mo)d )]"/>
-                            </group>
+                            
                             <field name="task_works_ids" nolabel="1" context="{'default_product_id': active_id}">
                                 <tree string="Trabajos" editable="bottom">
                                     <field name="sequence" widget="handle"/>
