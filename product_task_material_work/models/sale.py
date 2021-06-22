@@ -336,15 +336,15 @@ class SaleOrderLine(models.Model):
 	detailed_price_materials = fields.Boolean(string='Imp. precio Mat.')
 
 	#Albaranes relacionados
-	picking_ids = fields.One2many('stock.picking', string='Albaranes', compute='_compute_picking_ids')
+	#picking_ids = fields.One2many('stock.picking', string='Albaranes', compute='_compute_picking_ids')
 
 	#Albaranes relacionados con la linea de pedido
-	
+	"""
 	@api.depends('move_ids')
 	def _compute_picking_ids(self):
 		for line in self:
 			line.picking_ids = line.mapped('move_ids.picking_id')
-
+	"""
 	#Calculo del precio total de venta de los trabajos
 	
 	@api.depends('task_works_ids', 'task_works_ids.sale_price')
