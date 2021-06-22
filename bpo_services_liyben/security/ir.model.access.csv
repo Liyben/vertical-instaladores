@@ -1,8 +1,0 @@
-"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
-"access_bpo_service_task_type_user","bpo.service.task.type.user","model_bpo_service_task_type","base.group_user","1","0","0","0"
-"access_bpo_service_task_type_project_user","bpo.service.task.type.project.user","model_bpo_service_task_type","project.group_project_user","1","0","0","0"
-"access_bpo_service_task_type_manager","bpo.service.task.type manager","model_bpo_service_task_type","project.group_project_manager","1","1","1","1"
-"access_project_task","bpo.service.task","model_bpo_service_task","project.group_project_user","1","1","1","1"
-"access_bpo_service_task_on_partner","bpo.service.task on partners","model_bpo_service_task","base.group_user","1","0","0","0"
-"access_bpo_service_tags_all","bpo.service.tags.all","model_bpo_service_tags","","1","0","0","0"
-"access_bpo_service_tags_manager","bpo.service.tags.manager","model_bpo_service_tags","project.group_project_manager","1","1","1","1"
