@@ -164,6 +164,7 @@ class SaleOrder(models.Model):
 	def _compute_price_material(self):
 		sale = 0.0
 		cost = 0.0
+		self.benefit_material = 0.0
 		for order in self:
 			for line in order.order_line:
 				if line.product_id.type == 'service':
