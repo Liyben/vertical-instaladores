@@ -218,6 +218,10 @@ class SaleOrder(models.Model):
 	
 	@api.depends('sale_price_ideal_work_hour','cost_price_ideal_work_hour','total_ideal_hours')
 	def _compute_price_work_ideal(self):
+		self.sale_price_ideal_work_hour = 0.0
+		self.total_sp_ideal_work = 0.0
+		self.total_cp_ideal_work = 0.0
+		self.benefit_ideal_work = 0.0
 		for record in self:
 			record.sale_price_ideal_work_hour = record.sale_price_work_hour
 			#record.total_sp_ideal_work = record.total_ideal_hours * record.sale_price_ideal_work_hour
@@ -275,6 +279,8 @@ class SaleOrderTaskMaterial(models.Model):
 	
 	@api.depends('quantity','sale_price_unit','cost_price_unit','discount')
 	def _compute_price(self):
+		self.sale_price = 0.0
+		self.cost_price = 0.0
 		for record in self:
 				record.sale_price = record.quantity * (record.sale_price_unit * (1 - (record.discount / 100)))
 				record.cost_price = (record.quantity * record.cost_price_unit)
@@ -307,6 +313,8 @@ class SaleOrderTaskWork(models.Model):
 	
 	@api.depends('hours','sale_price_unit', 'cost_price_unit', 'discount')
 	def _compute_price(self):
+		self.sale_price = 0.0
+		self.cost_price = 0.0
 		for record in self:
 			record.sale_price = record.hours * (record.sale_price_unit * (1 - (record.discount / 100)))
 			record.cost_price = (record.hours * record.cost_price_unit)
@@ -349,6 +357,7 @@ class SaleOrderLine(models.Model):
 	
 	@api.depends('task_works_ids', 'task_works_ids.sale_price')
 	def _compute_total_sp_work(self):
+		self.total_sp_work = 0.0
 		for record in self:
 			if record.task_works_ids:
 				record.total_sp_work = sum(record.task_works_ids.mapped('sale_price'))
@@ -357,6 +366,7 @@ class SaleOrderLine(models.Model):
 	
 	@api.depends('task_works_ids', 'task_works_ids.cost_price')
 	def _compute_total_cp_work(self):
+		self.total_cp_work = 0.0
 		for record in self:
 			if record.task_works_ids:
 				record.total_cp_work = sum(record.task_works_ids.mapped('cost_price'))
@@ -365,6 +375,7 @@ class SaleOrderLine(models.Model):
 	
 	@api.depends('task_works_ids', 'task_works_ids.hours')
 	def _compute_total_hours(self):
+		self.total_hours = 0.0
 		for record in self:
 			if record.task_works_ids:
 				record.total_hours = sum(record.task_works_ids.mapped('hours'))
@@ -373,6 +384,7 @@ class SaleOrderLine(models.Model):
 	
 	@api.depends('total_sp_work', 'total_cp_work')
 	def _compute_benefit_work(self):
+		self.benefit_work = 0.0
 		for record in self:
 			if (record.total_sp_work != 0) and (record.total_cp_work != 0):
 				record.benefit_work = (1-(record.total_cp_work/record.total_sp_work)) * 100
@@ -381,6 +393,7 @@ class SaleOrderLine(models.Model):
 	
 	@api.depends('task_materials_ids', 'task_materials_ids.sale_price')
 	def _compute_total_sp_material(self):
+		self.total_sp_material = 0.0
 		for record in self:
 			if record.task_materials_ids:
 				record.total_sp_material = sum(record.task_materials_ids.mapped('sale_price'))
@@ -389,6 +402,7 @@ class SaleOrderLine(models.Model):
 	
 	@api.depends('task_materials_ids', 'task_materials_ids.cost_price')
 	def _compute_total_cp_material(self):
+		self.total_cp_material = 0.0
 		for record in self:
 			if record.task_materials_ids:
 				record.total_cp_material = sum(record.task_materials_ids.mapped('cost_price'))
@@ -397,6 +411,7 @@ class SaleOrderLine(models.Model):
 	
 	@api.depends('total_sp_material', 'total_cp_material')
 	def _compute_benefit_material(self):
+		self.benefit_material = 0.0
 		for record in self:
 			if (record.total_cp_material != 0) and (record.total_sp_material != 0):
 				record.benefit_material = (1-(record.total_cp_material/record.total_sp_material)) * 100
@@ -473,7 +488,7 @@ class SaleOrderLine(models.Model):
 		result = super(SaleOrderLine, self).product_id_change()
 		product = self.product_id
 		if product:
-			self.auto_create_task = (product.service_tracking == 'task_global_project') or (product.service_tracking == 'task_new_project')
+			self.auto_create_task = (product.service_tracking == 'task_global_project') or (product.service_tracking == 'task_in_project')
 
 		if self.auto_create_task:
 			work_list = []
@@ -564,7 +579,7 @@ class SaleOrderLine(models.Model):
 		result = super(SaleOrderLine, self).product_uom_change()
 		product = self.product_id
 		if product:
-			self.auto_create_task = (product.service_tracking == 'task_global_project') or (product.service_tracking == 'task_new_project')
+			self.auto_create_task = (product.service_tracking == 'task_global_project') or (product.service_tracking == 'task_in_project')
 
 		if self.auto_create_task:
 			for line in self:
@@ -623,7 +638,7 @@ class SaleOrderLine(models.Model):
 					'analytic_account_id': account.id,
 				})
 				# set the SO line origin if product should create project
-				if not project.sale_line_id and self.product_id.service_tracking in ['task_new_project', 'project_only']:
+				if not project.sale_line_id and self.product_id.service_tracking in ['task_in_project', 'project_only']:
 					project.write({'sale_line_id': self.id})
 		return project
 	"""
@@ -874,6 +889,8 @@ class SaleOrderLineTaskWork(models.Model):
 	#
 	@api.depends('hours','sale_price_unit', 'cost_price_unit', 'discount')
 	def _compute_price(self):
+		self.sale_price = 0.0
+		self.cost_price = 0.0
 		for record in self:
 			record.sale_price = record.hours * (record.sale_price_unit * (1 - (record.discount / 100)))
 			record.cost_price = (record.hours * record.cost_price_unit)
@@ -992,6 +1009,8 @@ class SaleOrderLineTaskMaterial(models.Model):
 	#
 	@api.depends('quantity','sale_price_unit','cost_price_unit','discount')
 	def _compute_price(self):
+		self.sale_price = 0.0
+		self.cost_price = 0.0
 		for record in self:
 				record.sale_price = record.quantity * (record.sale_price_unit * (1 - (record.discount / 100)))
 				record.cost_price = (record.quantity * record.cost_price_unit)
