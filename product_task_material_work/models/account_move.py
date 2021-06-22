@@ -149,7 +149,8 @@ class AccountMoveLine(models.Model):
 	@api.onchange('task_materials_ids', 'task_works_ids')
 	def _onchange_task_materials_works_workforce(self):
 		for line in self:
-			line.price_unit = (line.total_sp_material + line.total_sp_work)
+			if (line.total_sp_material and line.total_sp_work):
+				line.price_unit = (line.total_sp_material + line.total_sp_work)
 			#line.purchase_price = (line.total_cp_material + line.total_cp_work)
 
 
