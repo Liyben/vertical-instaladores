@@ -29,6 +29,7 @@ class ProductTemplate(models.Model):
 	
 	@api.depends('task_works_ids', 'task_works_ids.hours')
 	def _compute_total_hours(self):
+		self.total_hours = 0.0
 		for record in self:
 			if record.task_works_ids:
 				record.total_hours = sum(record.task_works_ids.mapped('hours'))
@@ -37,6 +38,7 @@ class ProductTemplate(models.Model):
 	
 	@api.depends('service_tracking')
 	def _compute_auto_create_task(self):
+		self.auto_create_task = False
 		for record in self:
 			record.auto_create_task = (record.service_tracking == 'task_global_project') or (record.service_tracking == 'task_new_project')
 
@@ -44,6 +46,7 @@ class ProductTemplate(models.Model):
 	
 	@api.depends('task_works_ids', 'task_works_ids.sale_price')
 	def _compute_total_sp_work(self):
+		self.total_sp_work = 0.0
 		for record in self:
 			if record.task_works_ids:
 				record.total_sp_work = sum(record.task_works_ids.mapped('sale_price'))
@@ -52,6 +55,7 @@ class ProductTemplate(models.Model):
 	
 	@api.depends('task_works_ids', 'task_works_ids.cost_price')
 	def _compute_total_cp_work(self):
+		self.total_cp_work = 0.0
 		for record in self:
 			if record.task_works_ids:
 				record.total_cp_work = sum(record.task_works_ids.mapped('cost_price'))
@@ -60,6 +64,7 @@ class ProductTemplate(models.Model):
 	
 	@api.depends('total_sp_work', 'total_cp_work')
 	def _compute_benefit_work(self):
+		self.benefit_work = 0.0
 		for record in self:
 			if (record.total_sp_work != 0) and (record.total_cp_work != 0):
 				record.benefit_work = (1-(record.total_cp_work/record.total_sp_work)) * 100
@@ -68,6 +73,7 @@ class ProductTemplate(models.Model):
 	
 	@api.depends('task_materials_ids', 'task_materials_ids.sale_price')
 	def _compute_total_sp_material(self):
+		self.total_sp_material = 0.0
 		for record in self:
 			if record.task_materials_ids:
 				record.total_sp_material = sum(record.task_materials_ids.mapped('sale_price'))
@@ -76,6 +82,7 @@ class ProductTemplate(models.Model):
 	
 	@api.depends('task_materials_ids', 'task_materials_ids.cost_price')
 	def _compute_total_cp_material(self):
+		self.total_cp_material = 0.0
 		for record in self:
 			if record.task_materials_ids:
 				record.total_cp_material = sum(record.task_materials_ids.mapped('cost_price'))
@@ -84,6 +91,7 @@ class ProductTemplate(models.Model):
 	
 	@api.depends('total_sp_material', 'total_cp_material')
 	def _compute_benefit_material(self):
+		self.benefit_material = 0.0
 		for record in self:
 			if (record.total_cp_material != 0) and (record.total_sp_material != 0):
 				record.benefit_material = (1-(record.total_cp_material/record.total_sp_material)) * 100
@@ -91,6 +99,8 @@ class ProductTemplate(models.Model):
 	#Función que recalcula el precio de venta y coste del articulo partida a partir de los totales de venta y coste
 	
 	def product_action_recalculate(self):
+		self.list_price = 0.0
+		self.standard_price = 0.0
 		for record in self:
 			record.list_price = record.total_sp_work + record.total_sp_material
 			record.standard_price = record.total_cp_work + record.total_cp_material
@@ -110,6 +120,8 @@ class ProductProduct(models.Model):
 	#Función que recalcula el precio de venta y coste del articulo partida a partir de los totales de venta y coste
 	
 	def product_action_recalculate(self):
+		self.list_price = 0.0
+		self.standard_price = 0.0
 		for record in self:
 			record.list_price = record.total_sp_work + record.total_sp_material
 			record.standard_price = record.total_cp_work + record.total_cp_material
@@ -141,6 +153,10 @@ class ProdcutTaskWork(models.Model):
 	
 	@api.depends('hours','work_id')
 	def _compute_price(self):
+		self.sale_price_unit = 0.0
+		self.cost_price_unit = 0.0
+		self.sale_price = 0.0
+		self.cost_price = 0.0
 		for record in self:
 			record.sale_price_unit = record.work_id.list_price
 			record.cost_price_unit = record.work_id.standard_price
@@ -179,6 +195,10 @@ class ProductTaskMaterial(models.Model):
 	
 	@api.depends('quantity','material_id')
 	def _compute_price(self):
+		self.sale_price_unit = 0.0
+		self.cost_price_unit = 0.0
+		self.sale_price = 0.0
+		self.cost_price = 0.0
 		for record in self:
 				record.sale_price_unit = record.material_id.list_price
 				record.cost_price_unit = record.material_id.standard_price
