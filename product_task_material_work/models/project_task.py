@@ -18,7 +18,7 @@ class ProjectTask(models.Model):
 
 	#Al pasar un PT a por administracion recalculamos su linea de pedido asociada
 	#con los cambios introducidos en el PT
-	@api.multi
+	
 	def sale_order_action_recalculate(self):
 		self._check_sale_line_exist() #Comprobamos si existe linea de pedido asociada
 		self._check_sale_line_state() #Comprobamos en que estado se encuentra

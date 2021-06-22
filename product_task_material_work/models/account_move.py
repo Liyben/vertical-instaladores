@@ -80,7 +80,7 @@ class AccountMoveLine(models.Model):
 
 
 	#Calculo del precio total de venta de los trabajos
-	@api.multi
+	
 	@api.depends('task_works_ids', 'task_works_ids.sale_price')
 	def _compute_total_sp_work(self):
 		for record in self:
@@ -88,7 +88,7 @@ class AccountMoveLine(models.Model):
 				record.total_sp_work = sum(record.task_works_ids.mapped('sale_price'))
 
 	#Calculo del precio total de coste de los trabajos
-	@api.multi
+	
 	@api.depends('task_works_ids', 'task_works_ids.cost_price')
 	def _compute_total_cp_work(self):
 		for record in self:
@@ -96,7 +96,7 @@ class AccountMoveLine(models.Model):
 				record.total_cp_work = sum(record.task_works_ids.mapped('cost_price'))
 
 	#Calculo del total de horas de los trabajos
-	@api.multi
+	
 	@api.depends('task_works_ids', 'task_works_ids.hours')
 	def _compute_total_hours(self):
 		for record in self:
@@ -104,7 +104,7 @@ class AccountMoveLine(models.Model):
 				record.total_hours = sum(record.task_works_ids.mapped('hours'))
 
 	#Calculo del beneficio de los trabajos
-	@api.multi
+	
 	@api.depends('total_sp_work', 'total_cp_work')
 	def _compute_benefit_work(self):
 		for record in self:
@@ -112,7 +112,7 @@ class AccountMoveLine(models.Model):
 				record.benefit_work = (1-(record.total_cp_work/record.total_sp_work)) * 100
 
 	#Calculo del precio total de venta de los materiales
-	@api.multi
+	
 	@api.depends('task_materials_ids', 'task_materials_ids.sale_price')
 	def _compute_total_sp_material(self):
 		for record in self:
@@ -120,7 +120,7 @@ class AccountMoveLine(models.Model):
 				record.total_sp_material = sum(record.task_materials_ids.mapped('sale_price'))
 
 	#Calculo del precio total de coste de los materiales
-	@api.multi
+	
 	@api.depends('task_materials_ids', 'task_materials_ids.cost_price')
 	def _compute_total_cp_material(self):
 		for record in self:
@@ -128,7 +128,7 @@ class AccountMoveLine(models.Model):
 				record.total_cp_material = sum(record.task_materials_ids.mapped('cost_price'))
 
 	#Calculo del beneficio de los materiales
-	@api.multi
+	
 	@api.depends('total_sp_material', 'total_cp_material')
 	def _compute_benefit_material(self):
 		for record in self:
@@ -145,7 +145,7 @@ class AccountMoveLine(models.Model):
 
 	#Calculo del precio de venta del prodcuto tipo partida en la linea de pedido
 	#al producirse algun cambio en los materiales, trabajos o mano de obra
-	@api.multi
+	
 	@api.onchange('task_materials_ids', 'task_works_ids')
 	def _onchange_task_materials_works_workforce(self):
 		for line in self:
@@ -180,7 +180,7 @@ class AccountMoveLineTaskWork(models.Model):
 	sequence = fields.Integer()
 
 	#Carga de los valores en la linea de la mano de obra seleccionada
-	@api.multi
+	
 	@api.onchange('work_id')
 	def _onchange_work_id(self):
 		for record in self:

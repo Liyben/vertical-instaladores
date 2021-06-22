@@ -44,7 +44,7 @@ class SaleOrder(models.Model):
 	works_ids = fields.One2many(comodel_name='sale.order.task.work',  inverse_name='order_id', string='Trabajos')
 
 	#Calculo de la lista de materiales
-	@api.multi
+	
 	@api.onchange('order_line', 'materials_ids','works_ids')
 	def _onchange_material_ids(self):
 		material_list = []
@@ -114,7 +114,7 @@ class SaleOrder(models.Model):
 						'works_ids' : work_list})
 
 	#Calculo de los margenes reales
-	@api.multi
+	
 	@api.depends('order_line')
 	def _compute_real(self):
 		sale = 0.0
@@ -134,7 +134,7 @@ class SaleOrder(models.Model):
 			self.margin_real_percent = (1-(cost/sale)) * 100
 
 	#Calculo de los margenes ideales
-	@api.multi
+	
 	@api.depends('sale_price_ideal_work_hour','cost_price_ideal_work_hour','total_ideal_hours','order_line','discount_ideal')
 	def _compute_ideal(self):
 		sale = 0.0
@@ -159,7 +159,7 @@ class SaleOrder(models.Model):
 			self.margin_ideal_percent = (1-(cost/sale)) * 100
 
 	#Calculo del precio de venta y coste total de los materiales y su beneficio
-	@api.multi
+	
 	@api.depends('order_line')
 	def _compute_price_material(self):
 		sale = 0.0
@@ -179,7 +179,7 @@ class SaleOrder(models.Model):
 				order.benefit_material = (1-(cost/sale)) * 100
 
 	#Calculo del precio de venta y coste de los trabajos y su beneficio
-	@api.multi
+	
 	@api.depends('order_line')
 	def _compute_price_work(self):
 		sale = 0.0
@@ -206,7 +206,7 @@ class SaleOrder(models.Model):
 				order.benefit_work = (1-(cost/sale)) * 100
 
 	#Recalcula los totales ideales al cambiar las horas
-	@api.multi
+	
 	@api.onchange('total_hours')
 	def _onchange_total_ideal(self):
 		for record in self:
@@ -215,7 +215,7 @@ class SaleOrder(models.Model):
 			record.cost_price_ideal_work_hour = record.cost_price_work_hour
 
 	#Calculo del precio de venta y coste ideal de los trabajos y su beneficio
-	@api.multi
+	
 	@api.depends('sale_price_ideal_work_hour','cost_price_ideal_work_hour','total_ideal_hours')
 	def _compute_price_work_ideal(self):
 		for record in self:
@@ -228,7 +228,7 @@ class SaleOrder(models.Model):
 
 
 	#Añadimos al origen las tareas asociadas al presupuesto
-	@api.multi
+	
 	def _prepare_invoice(self):
 		invoice_vals = super(SaleOrder, self)._prepare_invoice()
 
@@ -243,7 +243,7 @@ class SaleOrder(models.Model):
 
 
 	#Redefinimos la acción cancelar como la original
-	"""@api.multi
+	"""
 	def action_cancel(self):
 		return self.write({'state': 'cancel'})"""
 		
@@ -339,14 +339,14 @@ class SaleOrderLine(models.Model):
 	picking_ids = fields.One2many('stock.picking', string='Albaranes', compute='_compute_picking_ids')
 
 	#Albaranes relacionados con la linea de pedido
-	@api.multi
+	
 	@api.depends('move_ids')
 	def _compute_picking_ids(self):
 		for line in self:
 			line.picking_ids = line.mapped('move_ids.picking_id')
 
 	#Calculo del precio total de venta de los trabajos
-	@api.multi
+	
 	@api.depends('task_works_ids', 'task_works_ids.sale_price')
 	def _compute_total_sp_work(self):
 		for record in self:
@@ -354,7 +354,7 @@ class SaleOrderLine(models.Model):
 				record.total_sp_work = sum(record.task_works_ids.mapped('sale_price'))
 
 	#Calculo del precio total de coste de los trabajos
-	@api.multi
+	
 	@api.depends('task_works_ids', 'task_works_ids.cost_price')
 	def _compute_total_cp_work(self):
 		for record in self:
@@ -362,7 +362,7 @@ class SaleOrderLine(models.Model):
 				record.total_cp_work = sum(record.task_works_ids.mapped('cost_price'))
 
 	#Calculo del total de horas de los trabajos
-	@api.multi
+	
 	@api.depends('task_works_ids', 'task_works_ids.hours')
 	def _compute_total_hours(self):
 		for record in self:
@@ -370,7 +370,7 @@ class SaleOrderLine(models.Model):
 				record.total_hours = sum(record.task_works_ids.mapped('hours'))
 
 	#Calculo del beneficio de los trabajos
-	@api.multi
+	
 	@api.depends('total_sp_work', 'total_cp_work')
 	def _compute_benefit_work(self):
 		for record in self:
@@ -378,7 +378,7 @@ class SaleOrderLine(models.Model):
 				record.benefit_work = (1-(record.total_cp_work/record.total_sp_work)) * 100
 
 	#Calculo del precio total de venta de los materiales
-	@api.multi
+	
 	@api.depends('task_materials_ids', 'task_materials_ids.sale_price')
 	def _compute_total_sp_material(self):
 		for record in self:
@@ -386,7 +386,7 @@ class SaleOrderLine(models.Model):
 				record.total_sp_material = sum(record.task_materials_ids.mapped('sale_price'))
 
 	#Calculo del precio total de coste de los materiales
-	@api.multi
+	
 	@api.depends('task_materials_ids', 'task_materials_ids.cost_price')
 	def _compute_total_cp_material(self):
 		for record in self:
@@ -394,7 +394,7 @@ class SaleOrderLine(models.Model):
 				record.total_cp_material = sum(record.task_materials_ids.mapped('cost_price'))
 
 	#Calculo del beneficio de los materiales
-	@api.multi
+	
 	@api.depends('total_sp_material', 'total_cp_material')
 	def _compute_benefit_material(self):
 		for record in self:
@@ -402,7 +402,7 @@ class SaleOrderLine(models.Model):
 				record.benefit_material = (1-(record.total_cp_material/record.total_sp_material)) * 100
 
 	#Obtiene el precio del material o mano de obra segun tarifa
-	@api.multi
+	
 	def _get_display_price_line(self, product, product_id, quantity):
 		
 		no_variant_attributes_price_extra = [
@@ -433,7 +433,7 @@ class SaleOrderLine(models.Model):
 		return max(base_price, final_price)
 
 	#Calculo del descuento según la tarifa
-	@api.multi
+	
 	def _get_discount_line(self, product_id, quantity):
 		if not (product_id and product_id.uom_id and 
 				self.order_id.partner_id and 
@@ -467,7 +467,7 @@ class SaleOrderLine(models.Model):
 				self.discount = discount
 
 	#Carga de los datos del producto en la linea de pedido al seleccionar dicho producto
-	@api.multi
+	
 	@api.onchange('product_id')
 	def product_id_change(self):
 		result = super(SaleOrderLine, self).product_id_change()
@@ -529,7 +529,7 @@ class SaleOrderLine(models.Model):
 
 	#Calculo del precio de venta y coste del prodcuto tipo partida en la linea de pedido
 	#al producirse algun cambio en los materiales, trabajos o mano de obra
-	@api.multi
+	
 	@api.onchange('task_materials_ids', 'task_works_ids')
 	def _onchange_task_materials_works_workforce(self):
 		if not self.product_id:
@@ -667,7 +667,7 @@ class SaleOrderLine(models.Model):
 			}
 
 	#Calculo de los valores necesarios de la linea factura asociada a la linea de pedido, al crear la factura del pedido
-	@api.multi
+	
 	def _prepare_invoice_line(self, **optional_values):
 		res = super(SaleOrderLine, self)._prepare_invoice_line(optional_values)
 
@@ -736,7 +736,7 @@ class SaleOrderLine(models.Model):
 
 		return res
 
-	"""@api.multi
+	"""
 	def action_view_task(self):
 		self.ensure_one()
 		action = self.env.ref('project.action_view_task')
@@ -785,7 +785,7 @@ class SaleOrderLineTaskWork(models.Model):
 	sequence = fields.Integer()
 
 	#Obtiene el precio de la mano de obra segun tarifa
-	@api.multi
+	
 	def _get_display_price_workforce(self, workforce):
 		if self.order_line_id.order_id.pricelist_id.discount_policy == 'with_discount':
 			return workforce.with_context(pricelist=self.order_line_id.order_id.pricelist_id.id).price
@@ -800,7 +800,7 @@ class SaleOrderLineTaskWork(models.Model):
 		return max(base_price, final_price)
 
 	#Calculo del precio de venta y coste unitario segun tarifa al cambiar las horas
-	@api.multi
+	
 	@api.onchange('hours')
 	def _onchange_hours(self):
 		for record in self:
@@ -818,7 +818,7 @@ class SaleOrderLineTaskWork(models.Model):
 				record.name = record.work_id.name
 	
 	#Carga de los valores en la linea de la mano de obra seleccionada
-	@api.multi
+	
 	@api.onchange('work_id')
 	def _onchange_work_id(self):
 		for record in self:
@@ -903,7 +903,7 @@ class SaleOrderLineTaskMaterial(models.Model):
 	sequence = fields.Integer()
 
 	#Obtiene el precio del material segun tarifa
-	@api.multi
+	
 	def _get_display_price_material(self, material):
 		if self.order_line_id.order_id.pricelist_id.discount_policy == 'with_discount':
 			return material.with_context(pricelist=self.order_line_id.order_id.pricelist_id.id).price
@@ -918,7 +918,7 @@ class SaleOrderLineTaskMaterial(models.Model):
 		return max(base_price, final_price)
 
 	#Carga de los valores en la linea del material seleccionado
-	@api.multi
+	
 	@api.onchange('material_id')
 	def _onchange_material_id(self):
 		for record in self:
@@ -937,7 +937,7 @@ class SaleOrderLineTaskMaterial(models.Model):
 				record.name = record.material_id.name
 
 	#Calculo del precio de venta y coste unitario segun tarifa al cambiar la cantidad
-	@api.multi
+	
 	@api.onchange('quantity')
 	def _onchange_quantity(self):
 		for record in self:

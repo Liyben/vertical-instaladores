@@ -26,7 +26,7 @@ class ProductTemplate(models.Model):
 	auto_create_task = fields.Boolean(string='Tarea automática', compute='_compute_auto_create_task')
 
 	#Calcula el total de horas del campo Trabajos
-	@api.multi
+	
 	@api.depends('task_works_ids', 'task_works_ids.hours')
 	def _compute_total_hours(self):
 		for record in self:
@@ -34,14 +34,14 @@ class ProductTemplate(models.Model):
 				record.total_hours = sum(record.task_works_ids.mapped('hours'))
 
 	#Define el valor para crear o no una tarea de forma automática
-	@api.multi
+	
 	@api.depends('service_tracking')
 	def _compute_auto_create_task(self):
 		for record in self:
 			record.auto_create_task = (record.service_tracking == 'task_global_project') or (record.service_tracking == 'task_new_project')
 
 	#Calcula el precio de venta total del campo Trabajos
-	@api.multi
+	
 	@api.depends('task_works_ids', 'task_works_ids.sale_price')
 	def _compute_total_sp_work(self):
 		for record in self:
@@ -49,7 +49,7 @@ class ProductTemplate(models.Model):
 				record.total_sp_work = sum(record.task_works_ids.mapped('sale_price'))
 
 	#Calcula el precio de coste total del campo Trabajos
-	@api.multi
+	
 	@api.depends('task_works_ids', 'task_works_ids.cost_price')
 	def _compute_total_cp_work(self):
 		for record in self:
@@ -57,7 +57,7 @@ class ProductTemplate(models.Model):
 				record.total_cp_work = sum(record.task_works_ids.mapped('cost_price'))
 
 	#Calcula el beneficio de los Trabajos a partir del precio total de venta y coste 
-	@api.multi
+	
 	@api.depends('total_sp_work', 'total_cp_work')
 	def _compute_benefit_work(self):
 		for record in self:
@@ -65,7 +65,7 @@ class ProductTemplate(models.Model):
 				record.benefit_work = (1-(record.total_cp_work/record.total_sp_work)) * 100
 
 	#Calcula el precio de venta total del campo Materiales
-	@api.multi
+	
 	@api.depends('task_materials_ids', 'task_materials_ids.sale_price')
 	def _compute_total_sp_material(self):
 		for record in self:
@@ -73,7 +73,7 @@ class ProductTemplate(models.Model):
 				record.total_sp_material = sum(record.task_materials_ids.mapped('sale_price'))
 
 	#Calcula el precio de coste total del campo Materiales
-	@api.multi
+	
 	@api.depends('task_materials_ids', 'task_materials_ids.cost_price')
 	def _compute_total_cp_material(self):
 		for record in self:
@@ -81,7 +81,7 @@ class ProductTemplate(models.Model):
 				record.total_cp_material = sum(record.task_materials_ids.mapped('cost_price'))
 
 	#Calcula el beneficio de los Materiales a partir del precio total de venta y coste
-	@api.multi
+	
 	@api.depends('total_sp_material', 'total_cp_material')
 	def _compute_benefit_material(self):
 		for record in self:
@@ -89,7 +89,7 @@ class ProductTemplate(models.Model):
 				record.benefit_material = (1-(record.total_cp_material/record.total_sp_material)) * 100
 
 	#Función que recalcula el precio de venta y coste del articulo partida a partir de los totales de venta y coste
-	@api.multi
+	
 	def product_action_recalculate(self):
 		for record in self:
 			record.list_price = record.total_sp_work + record.total_sp_material
@@ -108,7 +108,7 @@ class ProductProduct(models.Model):
 	_inherit='product.product'
 
 	#Función que recalcula el precio de venta y coste del articulo partida a partir de los totales de venta y coste
-	@api.multi
+	
 	def product_action_recalculate(self):
 		for record in self:
 			record.list_price = record.total_sp_work + record.total_sp_material
