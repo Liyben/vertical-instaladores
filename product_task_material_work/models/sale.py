@@ -697,7 +697,7 @@ class SaleOrderLine(models.Model):
 			for line in self.task_ids:
 				origin = origin + ", " + line.code
 
-		res.update({'origin': origin})"""
+		res.update({'invoice_origin': origin})"""
 
 		work_list = []
 		material_list = []
