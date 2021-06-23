@@ -10,33 +10,35 @@
         </xpath>
 
         <xpath expr="//div[@id='informations']" position="replace">
-            <div t-if="doc.confirmation_date and doc.state not in ['draft','sent']" class="col-xs-3">
-                <strong>Date Ordered:</strong>
-                <p t-field="doc.confirmation_date"/>
-            </div>
-            <div t-if="doc.date_order and doc.state in ['draft','sent']" class="col-xs-3">
-                <strong>Fecha del presupuesto:</strong>
-                <p t-field="doc.date_order"/>
-            </div>
-            <div t-if="doc.user_id.name" class="col-xs-3">
-                <strong>Comercial:</strong>
-                <p t-field="doc.user_id"/>
-            </div>
-            <div t-if="doc.ref" class="col-xs-3">
-                <strong>Nº cliente:</strong>
-                <p t-field="doc.ref"/>
-            </div>
-            <div t-if="doc.client_order_ref" class="col-xs-3">
-                <strong>Ref. del cliente:</strong>
-                <p t-field="doc.client_order_ref"/>
-            </div>
-            <div name="payment_term" t-if="doc.payment_term_id" class="col-xs-3">
-                <strong>Payment Terms:</strong>
-                <p t-field="doc.payment_term_id"/>
-            </div>
-            <div t-if="doc.validity_date and doc.state in ['draft', 'sent']" class="col-xs-3">
-                <strong>Fecha de caducidad:</strong>
-                <p t-field="doc.validity_date"/>
+            <div class="row mt32 mb32" id="informations">
+                <!--<div t-if="doc.confirmation_date and doc.state not in ['draft','sent']" class="col-xs-3">
+                    <strong>Date Ordered:</strong>
+                    <p t-field="doc.confirmation_date"/>
+                </div>-->
+                <div t-if="doc.date_order and doc.state in ['draft','sent']" class="col-auto col-3 mw-100 mb-2">
+                    <strong>Fecha del presupuesto:</strong>
+                    <p t-field="doc.date_order"/>
+                </div>
+                <div t-if="doc.user_id.name" class="col-auto col-3 mw-100 mb-2">
+                    <strong>Comercial:</strong>
+                    <p t-field="doc.user_id"/>
+                </div>
+                <div t-if="doc.ref" class="col-auto col-3 mw-100 mb-2">
+                    <strong>Nº cliente:</strong>
+                    <p t-field="doc.ref"/>
+                </div>
+                <div t-if="doc.client_order_ref" class="col-auto col-3 mw-100 mb-2">
+                    <strong>Ref. del cliente:</strong>
+                    <p t-field="doc.client_order_ref"/>
+                </div>
+                <div name="payment_term" t-if="doc.payment_term_id" class="col-auto col-3 mw-100 mb-2">
+                    <strong>Payment Terms:</strong>
+                    <p t-field="doc.payment_term_id"/>
+                </div>
+                <div t-if="doc.validity_date and doc.state in ['draft', 'sent']" class="col-auto col-3 mw-100 mb-2">
+                    <strong>Fecha de caducidad:</strong>
+                    <p t-field="doc.validity_date"/>
+                </div>
             </div>
         </xpath>
 
@@ -61,9 +63,9 @@
                             <th>Descripción</th>
                             <th class="text-right">Cantidad</th>
                             <th class="text-right">P. Und</th>
-                            <th t-if="display_discount" class="text-right" groups="sale.group_discount_per_so_line">%</th>
-                            <th class="text-right" groups="sale.group_show_price_subtotal">Importe</th>
-                            <th class="text-right price_tax_included" groups="sale.group_show_price_total">Total</th>
+                            <th t-if="display_discount" class="text-right" groups="product.group_discount_per_so_line">%</th>
+                            <th class="text-right" groups="account.group_show_line_subtotals_tax_excluded">Importe</th>
+                            <th class="text-right price_tax_included" groups="account.account.group_show_line_subtotals_tax_included">Total</th>
                         </tr>
                    </thead>
                    <tbody class="sale_tbody">
@@ -97,17 +99,17 @@
                                             <span t-field="l.price_unit"/>
                                         </t>
                                     </td>
-                                    <td t-if="display_discount" class="text-right" groups="sale.group_discount_per_so_line">
+                                    <td t-if="display_discount" class="text-right" groups="product.group_discount_per_so_line">
                                         <t t-if="not l.product_uom_qty == 0">
                                             <span t-field="l.discount"/>
                                         </t>
                                     </td>
-                                    <td class="text-right" groups="sale.group_show_price_subtotal">
+                                    <td class="text-right" groups="account.group_show_line_subtotals_tax_excluded">
                                         <t t-if="not l.product_uom_qty == 0">
                                             <span t-field="l.price_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
                                         </t>
                                     </td>
-                                    <td class="text-right" groups="sale.group_show_price_total">
+                                    <td class="text-right" groups="account.account.group_show_line_subtotals_tax_included">
                                         <t t-if="not l.product_uom_qty == 0">
                                             <span t-field="l.price_total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
                                         </t>
@@ -154,7 +156,7 @@
                                 <span t-field="l.workforce_id.lst_price" t-field-options='{"widget": "monetary", "display_currency": "doc.pricelist_id.currency_id"}'/>
                             </t>-->
                         </td>
-                        <td t-if="display_discount" class="text-right" groups="sale.group_discount_per_so_line"></td>
+                        <td t-if="display_discount" class="text-right" groups="product.group_discount_per_so_line"></td>
                         <td class="works_total_amount">
                             <t t-if="l.detailed_price_time">
                                 <span t-esc="'{0:,.2f}'.format(l.total_sp_work).replace('.', ',')"/> <span t-field="doc.pricelist_id.currency_id.symbol"/>
@@ -182,7 +184,7 @@
                                 <span t-field="work.sale_price_unit" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;doc.pricelist_id.currency_id&quot;}"/>
                             </t>
                         </td>
-                        <td class="materials_line_price" t-if="display_discount" groups="sale.group_discount_per_so_line">
+                        <td class="materials_line_price" t-if="display_discount" groups="product.group_discount_per_so_line">
                             <t t-if="l.detailed_price_time">
                                 <span t-esc="'{0:,.2f}'.format(work.discount).replace('.', ',')"/>
                             </t>
@@ -201,7 +203,7 @@
                         <td class="materials_lbl">Total Materiales Und.</td>
                         <td></td>
                         <td></td>
-                        <td t-if="display_discount" class="text-right" groups="sale.group_discount_per_so_line"></td>
+                        <td t-if="display_discount" class="text-right" groups="product.group_discount_per_so_line"></td>
                         <td class="materials_total_amount">
                             <t t-if="l.detailed_price_materials">
                                 <span t-esc="'{0:,.2f}'.format(l.total_sp_material).replace('.', ',')"/> <span t-field="doc.pricelist_id.currency_id.symbol"/>
@@ -226,7 +228,7 @@
                                 <span t-field="material.sale_price_unit" t-field-options='{"widget": "monetary", "display_currency": "doc.pricelist_id.currency_id"}'/>
                             </t>
                         </td>
-                        <td class="materials_line_qty" t-if="display_discount" groups="sale.group_discount_per_so_line">
+                        <td class="materials_line_qty" t-if="display_discount" groups="product.group_discount_per_so_line">
                             <t t-if="l.detailed_price_materials">
                                 <span t-esc="'{0:,.2f}'.format(material.discount).replace('.', ',')"/>
                             </t>
