@@ -40,7 +40,7 @@
             </div>
         </xpath>
 
-        <xpath expr="//table[@class='table table-condensed']" position="before">
+        <xpath expr="//table[@class='table table-sm o_main_table']" position="before">
           <t t-if="not display_discount">
             <t t-foreach="page" t-as="layout_category">
               <t t-foreach="layout_category['lines']" t-as="l">
@@ -53,9 +53,9 @@
           </t>
         </xpath>
         
-        <xpath expr="//table[@class='table table-condensed']" position="replace">
-                <table class="table table-condensed">
-                    <thead>
+        <xpath expr="//table[@class='table table-sm o_main_table']" position="replace">
+                <table class="table table-sm o_main_table">
+                    <thead style="display: table-row-group">
                         <tr>
                             <!--<th>Item</th>-->
                             <th>Descripción</th>

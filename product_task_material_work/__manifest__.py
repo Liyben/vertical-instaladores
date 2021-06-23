@@ -21,7 +21,8 @@ En la vista 'sale.report_invoice_layouted' comentar la etiqueta <xpath expr="//t
             'views/sale_view.xml',
             'views/account_move_view.xml',
             'views/project_task.xml',
-            'security/ir.model.access.csv',],
+            'security/ir.model.access.csv',
+            'views/report_saleorder.xml',],
     'qweb': [],
     'images': [
     ],
