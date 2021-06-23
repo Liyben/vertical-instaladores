@@ -16,6 +16,9 @@ class ProjectTask(models.Model):
 	#Campo relacional para los trabajos de la linea de presupuesto
 	task_works_ids = fields.One2many(comodel_name='project.task.work', inverse_name='project_task_id', string='Trabajos', copy=True)
 
+	#Trabajo a realizar
+	work_to_do = fields.Html(string='Trabajo a realizar')
+
 	#Al pasar un PT a por administracion recalculamos su linea de pedido asociada
 	#con los cambios introducidos en el PT
 	
