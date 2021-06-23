@@ -238,7 +238,7 @@ class SaleOrder(models.Model):
 
 
 	#Añadimos al origen las tareas asociadas al presupuesto
-	
+	"""
 	def _prepare_invoice(self):
 		invoice_vals = super(SaleOrder, self)._prepare_invoice()
 
@@ -247,10 +247,10 @@ class SaleOrder(models.Model):
 			for line in self.tasks_ids:
 				origin = origin + ", " + line.code
 
-		invoice_vals.update({'origin': origin})
+		invoice_vals.update({'invoice_origin': origin})
 
 		return invoice_vals
-
+	"""
 
 	#Redefinimos la acción cancelar como la original
 	"""
