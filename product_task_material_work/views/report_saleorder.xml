@@ -42,18 +42,16 @@
             </div>
         </xpath>
 
-        <!--<xpath expr="//table[@class='table table-sm o_main_table']" position="before">
-          <t t-if="not display_discount">
-            <t t-foreach="page" t-as="layout_category">
-              <t t-foreach="layout_category['lines']" t-as="l">
-                <t t-set="display_discount" t-value="any([work.discount for work in l.task_works_ids])"/>
-                <t t-if="not display_discount">
-                  <t t-set="display_discount" t-value="any([material.discount for material in l.task_materials_ids])"/>
+        <xpath expr="//table[@class='table table-sm o_main_table']" position="before">
+            <t t-if="not display_discount">
+                <t t-foreach="doc.order_line" t-as="line">
+                    <t t-set="display_discount" t-value="any([work.discount for work in line.task_works_ids])"/>
+                    <t t-if="not display_discount">
+                        <t t-set="display_discount" t-value="any([material.discount for material in line.task_materials_ids])"/>
+                    </t>
                 </t>
-              </t>
             </t>
-          </t>
-        </xpath>-->
+        </xpath>
         
         <xpath expr="//table[@class='table table-sm o_main_table']" position="replace">
             <table class="table table-sm o_main_table">
@@ -62,9 +60,11 @@
                         <th name="th_description" >Descripción</th>
                         <th name="th_quantity" class="text-right">Cantidad</th>
                         <th name="th_priceunit" class="text-right">P. Und</th>
-                        <th name="th_discount" t-if="display_discount" class="text-right" groups="product.group_discount_per_so_line">%</th>
-                        <th name="th_subtotal" class="text-right" groups="account.group_show_line_subtotals_tax_excluded">Importe</th>
-                        <th name="th_total" class="text-right price_tax_included" groups="account.group_show_line_subtotals_tax_excluded">Total</th>
+                        <th name="th_discount" t-if="display_discount" class="text-right" groups="product.group_discount_per_so_line"> Desc.%</th>
+                        <th name="th_subtotal" class="text-right">
+                            <span groups="account.group_show_line_subtotals_tax_excluded">Importe</span>
+                            <span groups="account.group_show_line_subtotals_tax_included">Total</span>
+                        </th>
                     </tr>
                 </thead>
                 <tbody class="sale_tbody">
@@ -73,7 +73,8 @@
 
                     <t t-foreach="doc.order_line" t-as="line">
 
-                        <t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_excluded"/>
+                        <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                        <t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
 
                         <tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
                             <t t-if="not line.display_type">
@@ -95,14 +96,10 @@
                                         <span t-field="line.discount"/>
                                     </t>
                                 </td>
-                                <td name="td_subtotal" class="text-right">
-                                    <t t-if="not line.product_uom_qty == 0">
-                                        <span t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
-                                    </t>
-                                </td>
                                 <td name="td_total" class="text-right o_price_total">
                                     <t t-if="not line.product_uom_qty == 0">
-                                        <span t-field="line.price_total" groups="account.group_show_line_subtotals_tax_excluded"/>
+                                        <span t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                                        <span t-field="line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
                                     </t>
                                 </td>
                             </t>
@@ -133,7 +130,112 @@
             </table>
         </xpath>
 
-        
+        <xpath expr="//span[@t-field='line.name']/../.." position="inside">
+
+                <t t-if="line.task_works_ids and line.detailed_time">
+                    <t t-set="uom_hour" t-value="line.env.ref('uom.product_uom_hour')"/>
+                    <t t-raw="'&lt;/tr&gt;&lt;tr class=\'works_title\'&gt;'"/>
+                        <!--<td class="works_total_hours"></td>-->
+                        <td class="works_lbl">Total Trabajos Und.</td>
+                        <td class="works_total_hours">
+                            <t t-if="line.detailed_time">
+                                <!--<span t-field="line.total_hours"/>
+                                <span t-esc="'{0:,.2f}'.format(line.total_hours * line.product_uom_qty).replace('.', ',')"/>
+                                <span groups="uom.group_uom" t-field="uom_hour.name"/>-->
+                            </t>
+                        </td>
+                        <td class="works_hours_price">
+                            <!--<t t-if="line.workforce_id and line.detailed_time">
+                                <span t-field="line.workforce_id.lst_price" t-field-options='{"widget": "monetary", "display_currency": "doc.pricelist_id.currency_id"}'/>
+                            </t>-->
+                        </td>
+                        <td t-if="display_discount" class="text-right" groups="product.group_discount_per_so_line"></td>
+                        <td class="works_total_amount">
+                            <t t-if="line.detailed_price_time">
+                                <span t-esc="'{0:,.2f}'.format(line.total_sp_work).replace('.', ',')"/> <span t-field="doc.pricelist_id.currency_id.symbol"/>
+                                <!--<span t-field="line.total_sp_work" t-field-options='{"widget": "monetary", "display_currency": "doc.pricelist_id.currency_id"}'/>-->
+                            </t>
+                        </td>
+                    <t t-foreach="line.task_works_ids" t-as="work">
+                        <t t-raw="'&lt;/tr&gt;&lt;tr class=\'works_line\'&gt;'"/>
+                        <!--<td class="works_line_name"></td>-->
+                        <td class="works_line_name">
+                            <t t-if="line.detailed_time">
+                                <span t-field="work.name"/>
+                            </t>
+                        </td>
+                        <td class="works_line_hours">
+                            <t t-if="line.detailed_price_time">
+                                <!--<span t-field="work.hours"/>-->
+                                <span t-esc="'{0:,.2f}'.format(work.hours).replace('.', ',')"/>
+                                <span groups="uom.group_uom" t-field="uom_hour.name"/>
+                            </t>
+                        </td>
+                        <!-- REPORT DESGLOSE HORAS -->
+                        <td class="materials_line_price">
+                            <t t-if="line.detailed_price_time">
+                                <span t-field="work.sale_price_unit" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;doc.pricelist_id.currency_id&quot;}"/>
+                            </t>
+                        </td>
+                        <td class="materials_line_price" t-if="display_discount" groups="product.group_discount_per_so_line">
+                            <t t-if="line.detailed_price_time">
+                                <span t-esc="'{0:,.2f}'.format(work.discount).replace('.', ',')"/>
+                            </t>
+                        </td>
+                        <td class="materials_line_price">
+                            <t t-if="line.detailed_price_time">
+                                <span t-esc="'{0:,.2f}'.format(work.sale_price_unit * work.hours * (1 - (work.discount/100))).replace('.', ',')"/> <span t-field="doc.pricelist_id.currency_id.symbol"/>
+                              <!--<span t-field="work.sale_price" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;doc.pricelist_id.currency_id&quot;}"/>-->  
+                            </t>
+                        </td>
+                    </t>
+                </t>
+                <t t-if="line.task_materials_ids and line.detailed_materials">
+                    <t t-raw="'&lt;/tr&gt;&lt;tr class=\'materials_title\'&gt;'"/>
+                        <!--<td class="materials_lbl"></td>-->
+                        <td class="materials_lbl">Total Materiales Und.</td>
+                        <td></td>
+                        <td></td>
+                        <td t-if="display_discount" class="text-right" groups="product.group_discount_per_so_line"></td>
+                        <td class="materials_total_amount">
+                            <t t-if="line.detailed_price_materials">
+                                <span t-esc="'{0:,.2f}'.format(line.total_sp_material).replace('.', ',')"/> <span t-field="doc.pricelist_id.currency_id.symbol"/>
+                                <!--<span t-field="line.total_sp_material" t-field-options='{"widget": "monetary", "display_currency": "doc.pricelist_id.currency_id"}'/>-->
+                            </t>
+                        </td>
+                    <t t-foreach="line.task_materials_ids" t-as="material">
+                        <t t-raw="'&lt;/tr&gt;&lt;tr class=\'materials_line\'&gt;'"/>
+                        <!--<td class="materials_line_name"></td>-->
+                        <td class="materials_line_name">
+                            <!--<span t-field="material.material_id.display_name"/>-->
+                            <t t-if="material.name"><span t-field="material.name"/></t>
+                            <t t-if="not material.name"><span t-field="material.material_id.name"/></t>
+                        </td>
+                        <td class="materials_line_qty">
+                            <!--<span t-field="material.quantity"/>-->
+                            <span t-esc="'{0:,.2f}'.format(material.quantity).replace('.', ',')"/>
+                            <span groups="uom.group_uom" t-field="material.material_id.uom_id.name"/>
+                        </td>
+                        <td class="materials_line_price">
+                            <t t-if="line.detailed_price_materials">
+                                <span t-field="material.sale_price_unit" t-field-options='{"widget": "monetary", "display_currency": "doc.pricelist_id.currency_id"}'/>
+                            </t>
+                        </td>
+                        <td class="materials_line_qty" t-if="display_discount" groups="product.group_discount_per_so_line">
+                            <t t-if="line.detailed_price_materials">
+                                <span t-esc="'{0:,.2f}'.format(material.discount).replace('.', ',')"/>
+                            </t>
+                        </td>
+                        <td class="materials_line_price">
+                            <t t-if="line.detailed_price_materials">
+                                <span t-esc="'{0:,.2f}'.format(material.sale_price_unit * material.quantity * (1 - (material.discount/100))).replace('.', ',')"/> <span t-field="doc.pricelist_id.currency_id.symbol"/>
+                                <!--<span t-field="material.sale_price" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;doc.pricelist_id.currency_id&quot;}"/>-->  
+                            </t>
+                        </td>
+                    </t>
+                </t>
+
+        </xpath>
     </template>
 
 </odoo>

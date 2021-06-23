@@ -128,7 +128,7 @@
             </xpath>-->
 
             <xpath expr="//field[@name='order_line']/form/group" position="before">
-                <group>
+                <group attrs="{'invisible': [('display_type', '!=', False)]}">
                     <group>
                         <field name="detailed_time"/>
                         <field name="detailed_price_time" attrs="{'invisible': [('detailed_time','=', False)]}"/>
