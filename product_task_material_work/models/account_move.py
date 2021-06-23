@@ -9,7 +9,7 @@ class AccountMove(models.Model):
 	_inherit='account.move'
 
 	#Numero de cliente
-	ref = fields.Char(related='partner_id.ref', readonly=True, string='Nº. Cliente')
+	customer_code = fields.Char(related='partner_id.ref', readonly=True, string='Nº. Cliente')
 
 
 class AccountMoveLine(models.Model):

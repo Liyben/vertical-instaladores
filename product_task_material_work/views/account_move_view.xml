@@ -6,11 +6,11 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
-           <!-- <xpath expr="//field[@name='payment_reference']" position="before">
-                <field name="ref"/>
+           <xpath expr="//field[@name='payment_reference']" position="before">
+                <field name="customer_code"/>
             </xpath>
 
-            <xpath expr="//page[@name='other_info']//field[@name='name']" position="replace">
+            <!--<xpath expr="//page[@name='other_info']//field[@name='name']" position="replace">
                 
             </xpath>
 
