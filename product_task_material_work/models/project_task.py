@@ -19,6 +19,9 @@ class ProjectTask(models.Model):
 	#Trabajo a realizar
 	work_to_do = fields.Html(string='Trabajo a realizar')
 
+	#Opportunidad / Aviso
+	oppor_id = fields.Many2one(comodel_name='crm.lead', string='Oportunidad / Aviso')
+
 	#Al pasar un PT a por administracion recalculamos su linea de pedido asociada
 	#con los cambios introducidos en el PT
 	
