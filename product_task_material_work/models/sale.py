@@ -690,7 +690,7 @@ class SaleOrderLine(models.Model):
 	#Calculo de los valores necesarios de la linea factura asociada a la linea de pedido, al crear la factura del pedido
 	
 	def _prepare_invoice_line(self, **optional_values):
-		res = super(SaleOrderLine, self)._prepare_invoice_line(optional_values)
+		res = super(SaleOrderLine, self)._prepare_invoice_line(**optional_values)
 
 		"""origin = self.order_id.name
 		if self.task_ids:
