@@ -13,7 +13,8 @@ Este módulo contiene los mecanismos necesarios para manejar las secciones dentr
     'author': 'Liyben',
     'depends': ['sale', 'uom', 'product_task_material_work'],
     'data': ['views/sale_view.xml',
-            'data/uom_data.xml',],
+            'data/uom_data.xml',
+            'security/ir.model.access.csv',],
     'qweb': [],
     'images': [
     ],
