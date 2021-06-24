@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="view_sale_order_line_sections_form">
+        <field name="name">sale.order.line.form.sections.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="product_task_material_work.view_sale_order_line_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='auto_create_task']" position="before">
+
+                <group string="Secciones">
+                    <field name="secciones_ids" nolabel="1">
+                        <tree string="Secciones" editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="seccion_name"/>
+                            <field name="unidades"/>
+                            <field name="ancho"/>
+                            <field name="alto"/>
+                            <field name="mts_cuadrados" string="Mts^2 Und."/>
+                            <field name="mts_cuadrados_sub"/>
+                        </tree>
+                    </field>
+                </group>
+
+                <!-- CAMPOS PARA EL MODO MANUAL -->
+                <group>
+                    <group>
+                        <field name="total_lineales" attrs="{'invisible': [('manual_mode','=',True)]}"/>
+                        <field name="total_lineales_manual" attrs="{'invisible': [('manual_mode','=',False)]}"/>
+                    </group>
+                    <group>
+                        <field name="total_cuadrados" attrs="{'invisible': [('manual_mode','=',True)]}"/>
+                        <field name="total_cuadrados_manual" attrs="{'invisible': [('manual_mode','=',False)]}"/>
+                    </group>
+                </group>
+                <group>
+                        <field name="manual_mode" />
+                </group>
+
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

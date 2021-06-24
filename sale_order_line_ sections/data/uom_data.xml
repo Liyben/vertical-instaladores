@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!--
+        Resource: uom.category
+        -->
+        <record id="product_uom_categ_area" model="uom.category">
+            <field name="name">Area</field>
+        </record>
+       <!--
+            Resource: uom.uom
+        -->
+        <record id="product_uom_lineal_meter" model="uom.uom">
+            <field name="category_id" ref="product_uom_categ_area"/>
+            <field name="name">ml</field>
+            <field name="factor" eval="1.0"/>
+        </record>
+
+        <record id="product_uom_square_meter" model="uom.uom">
+            <field name="category_id" ref="product_uom_categ_area"/>
+            <field name="name">m<sup>2</sup></field>
+            <field name="factor" eval="1.0"/>
+        </record>
+    </data>
+</odoo>

@@ -3,14 +3,13 @@
 
 {
     'name': 'Trabajos y Materiales en producto',
-    'version': '11.0.1.0.0',
+    'version': '14.0.1.0.0',
     'license': 'AGPL-3',
     'category': 'Sales',
     'summary': 'Trabajos y Materiales en producto',
     'description': """
 Este módulo contiene los mecanismos necesarios para manejar un producto como una partida.
 
-En la vista 'sale.report_invoice_layouted' comentar la etiqueta <xpath expr="//table" position="after">...</xpath>
     """,
     'author': 'Liyben',
     'depends': ['sale', 'project_task_material','sale_timesheet', 'product',
