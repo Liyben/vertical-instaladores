@@ -7,11 +7,15 @@
         <record id="product_uom_categ_area" model="uom.category">
             <field name="name">Area</field>
         </record>
+
+        <record id="product_uom_categ_lineal" model="uom.category">
+            <field name="name">Lineales</field>
+        </record>
        <!--
             Resource: uom.uom
         -->
         <record id="product_uom_lineal_meter" model="uom.uom">
-            <field name="category_id" ref="product_uom_categ_area"/>
+            <field name="category_id" ref="product_uom_categ_lineal"/>
             <field name="name">ml</field>
             <field name="factor" eval="1.0"/>
         </record>
