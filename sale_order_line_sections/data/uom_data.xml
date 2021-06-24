@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
+    <data noupdate="1">
         <!--
         Resource: uom.category
         -->
@@ -18,7 +18,7 @@
 
         <record id="product_uom_square_meter" model="uom.uom">
             <field name="category_id" ref="product_uom_categ_area"/>
-            <field name="name">m<sup>2</sup></field>
+            <field name="name">m2</field>
             <field name="factor" eval="1.0"/>
         </record>
     </data>
