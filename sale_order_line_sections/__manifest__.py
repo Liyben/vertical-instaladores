@@ -14,7 +14,8 @@ Este módulo contiene los mecanismos necesarios para manejar las secciones dentr
     'depends': ['sale', 'uom', 'product_task_material_work'],
     'data': ['views/sale_view.xml',
             'data/uom_data.xml',
-            'security/ir.model.access.csv',],
+            'security/ir.model.access.csv',
+            'views/report_saleorder.xml',],
     'qweb': [],
     'images': [
     ],

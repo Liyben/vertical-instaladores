@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <template id="report_saleorder_document" inherit_id="product_task_material_work.report_saleorder_document">
+
+        <xpath expr="//t[@t-if='line.task_works_ids and line.detailed_time']" position="before">
+
+            <t t-if ="l.secciones_ids">
+                <t t-raw="'&lt;/tr&gt;&lt;tr class=\'materials_title\'&gt;'"/>
+                <td align="center">
+                    <table>
+                        <tr>
+                            <td align="center" style="text-decoration: underline" width="60" heigth="60">Sección</td>
+                            <td align="center" style="text-decoration: underline" width="60" heigth="60">Und.</td>
+                            <td align="center" style="text-decoration: underline" width="60" heigth="60">Ancho</td>
+                            <td align="center" style="text-decoration: underline" width="60" heigth="60">Alto</td>
+                            <td align="center" style="text-decoration: underline" width="60" heigth="60">Mts.<sup>2</sup></td>
+                            <!-- IMPRIME EL SUBTOTAL DE M^2 DE LAS SECCIONES -->
+                            <td align="center" style="text-decoration: underline" width="70" heigth="60">Mts.<sup>2</sup> Sub.</td>
+                        </tr>
+                        <t t-foreach="l.secciones_ids" t-as="seccion">
+                            <tr>
+                                <td align="center" style="font-size: 12px;color: grey">
+                                    <span t-field="seccion.seccion_name"/>
+                                </td>
+                                <td align="center" style="font-size: 12px;color: grey">
+                                    <span t-field="seccion.unidades"/>
+                                </td>
+                                <td align="center" style="font-size: 12px;color: grey">
+                                    <span t-field="seccion.ancho"/>
+                                </td>
+                                <td align="center" style="font-size: 12px;color: grey">
+                                    <span t-field="seccion.alto"/>
+                                </td>
+                                <td align="center" style="font-size: 12px;color: grey">
+                                    <span t-field="seccion.mts_cuadrados"/>
+                                </td>
+                            <!-- IMPRIME EL SUBTOTAL DE M^2 DE LAS SECCIONES -->
+                                <td align="center" style="font-size: 12px;color: grey">
+                                    <span t-field="seccion.mts_cuadrados_sub"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </table>
+                </td>
+                <td/>
+                <td/>
+                <td/>
+                <td/>
+                <td/>
+            </t>
+            
+        </xpath>
+
+    </template>
+
+</odoo>
