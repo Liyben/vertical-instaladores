@@ -43,10 +43,10 @@ class SaleOrderLine(models.Model):
 
 		for material in self.task_materials_ids:
 			# Comparamos el id de la unidad de medida del producto con ml_id
-			if (material.product_id.uom_id.id == ml_id):
+			if (material.material_id.uom_id.id == ml_id):
 				material.quantity = self.total_lineales
 			# Comparamos el id de la unidad de medida del producto con m2_id
-			elif (material.product_id.uom_id.id == m2_id):
+			elif (material.material_id.uom_id.id == m2_id):
 				material.quantity = self.total_cuadrados
 
 	
@@ -58,10 +58,10 @@ class SaleOrderLine(models.Model):
 
 		for material in self.task_materials_ids:
 			# Comparamos el id de la unidad de medida del producto con ml_id
-			if (material.product_id.uom_id.id == ml_id):
+			if (material.material_id.uom_id.id == ml_id):
 				material.quantity = self.total_lineales_manual
 			# Comparamos el id de la unidad de medida del producto con m2_id
-			elif (material.product_id.uom_id.id == m2_id):
+			elif (material.material_id.uom_id.id == m2_id):
 				material.quantity = self.total_cuadrados_manual
 
 	@api.depends('secciones_ids', 'secciones_ids.ancho', 
