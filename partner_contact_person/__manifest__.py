@@ -1,6 +1,5 @@
-# Copyright 2018 Apruzzese Francesco <f.apruzzese@apuliasoftware.it>
+# © 2021 Liyben
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
-
 {
     "name": "Persona de contacto",
     "category": "Extra Tools",
