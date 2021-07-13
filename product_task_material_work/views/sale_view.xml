@@ -27,7 +27,7 @@
             </xpath>
 
             <xpath expr="//notebook[last()]" position="inside">
-                <page string="Comparaciones" invisible="0">
+                <page string="Comparaciones" invisible="1">
                     <group>
                         <group>
                             <group string="Según Presupuesto">
