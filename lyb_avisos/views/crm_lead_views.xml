@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <!-- Vistas nuevas -->
+        <record id="lyb_avisos_tree_view_avisos" model="ir.ui.view">
+            <field name="name">lyb.avisos.tree.avisos</field>
+            <field name="model">crm.lead</field>
+            <field name="arch" type="xml">
+                <tree string="Avisos" sample="1" multi_edit="1">
+                    <field name="date_deadline" invisible="1"/>
+                    <field name="create_date" invisible="1"/> 
+                    <field name="country_id" invisible="1"/>
+                    <field name="activity_date_deadline" invisible="1"/>
+                    <field name="activity_summary" invisible="1"/>
+                    <field name="medium_id" invisible="1"/>
+                    <field name="campaign_id" invisible="1"/>
+                    <field name="source_id" invisible="1"/>
+                    <field name="planned_revenue" sum="Expected Revenues" invisible="1"/>
+                    <field name="probability" avg="Avg. of Probability" invisible="1"/>
+                    <field name="team_id" invisible="1"/>
+                    <field name="user_id" invisible="1"/>
+                    <field name="referred" invisible="1"/>
+                    <field name="priority" invisible="1"/>
+                    <field name="message_needaction" invisible="1"/>
+                    <field name="probability" invisible="1"/>
+                    <field name="write_date" invisible="1"/>
+                    <field name="partner_id" string="Customer" invisible="1"/>
+                    <field name="sequence_code" />
+                    <field name="date_begin"/>
+                    <field name="name" string="Titulo"/>
+                    <field name="create_date" optional="hide"/>
+                    <field name="partner_id" optional="hide"/>
+                    <field name="contact_name" optional="hide"/>
+                    <field name="stage_id" optional="show" decoration-bf="1"/>
+                    <field name="worker_one"/>
+                    <field name="worker_two" optional="hide"/>
+                    <field name="helpers" optional="hide"/>
+                    <field name="tag_ids" optional="hide" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_create_aviso_simplified" model="ir.ui.view">
+            <field name="name">aviso.form.simple</field>
+            <field name="model">crm.lead</field>
+            <field name="priority">1000</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="partner_id" widget="res_partner_many2one"
+                            string='Organization / Contact'
+                            context="{
+                            'res_partner_search_mode': type == 'opportunity' and sub_type == 'notice' and 'customer' or False,
+                            'default_name': contact_name or partner_name,
+                            'default_is_company': type == 'opportunity' and sub_type == 'notice' and contact_name == False,
+                            'default_company_name': type == 'opportunity' and sub_type == 'notice' and partner_name,
+                            'default_phone': phone,
+                            'default_email': email_from,
+                            'show_vat': True}"/>
+                        <field name="name" placeholder="e.g. Nombre del aviso" />
+                        <field name="email_from" string="Email" />
+                        <field name="phone" string="Phone" />
+                        <label for="expected_revenue"/>
+                        <div class="o_row">
+                            <field name="expected_revenue" class="oe_inline mr-5" widget="monetary" options="{'currency_field': 'company_currency'}"/>
+                            <field name="priority" class="oe_inline" nolabel="1" widget="priority"/>
+                        </div>
+                        <div class="o_row">
+                            <field name="recurring_revenue" class="oe_inline pr-4" widget="monetary" options="{'currency_field': 'company_currency'}"/>
+                            <field name="recurring_plan" class="oe_inline" placeholder="E.g. Monthly"
+                                   attrs="{'required': [('recurring_revenue', '!=', 0)]}" options="{'no_create': True, 'no_open': True}"/>
+                        </div>
+                        <field name="company_currency" invisible="1"/>
+                        <field name="company_id" invisible="1"/>
+                        <field name="user_id" invisible="1"/>
+                        <field name="team_id" invisible="1"/>
+                        <field name="type" invisible="1"/>
+                        <field name="partner_name" invisible="1"/>
+                        <field name="contact_name" invisible="1"/>
+                        <field name="country_id" invisible="1"/>
+                        <field name="state_id" invisible="1"/>
+                        <field name="city" invisible="1"/>
+                        <field name="street" invisible="1"/>
+                        <field name="street2" invisible="1"/>
+                        <field name="zip" invisible="1"/>
+                        <field name="mobile" invisible="1"/>
+                        <field name="website" invisible="1"/>
+                        <field name="function" invisible="1"/>
+                        <field name="title" invisible="1"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <!--<record id="create_aviso_simplified" model="ir.actions.act_window">
+            <field name="name">Crear un Aviso</field>
+            <field name="res_model">crm.lead</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_create_aviso_simplified"/>
+            <field name="target">new</field>
+        </record>-->
+
+        <record id="lyb_avisos_kanban_view_avisos" model="ir.ui.view">
+            <field name="name">lyb.avisos.kanban.avisos</field>
+            <field name="model">crm.lead</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <kanban default_group_by="stage_id" class="o_kanban_small_column o_opportunity_kanban" on_create="quick_create" quick_create_view="lyb_avisos.create_aviso_simplified"
+                    archivable="false" sample="1">
+                    <field name="stage_id"  options='{"group_by_tooltip": {"requirements": "Description"}}'/>
+                    <field name="color"/>
+                    <field name="priority"/>
+                    <field name="expected_revenue"/>
+                    <field name="kanban_state"/>
+                    <field name="activity_date_deadline"/>
+                    <field name="user_email"/>
+                    <field name="user_id"/>
+                    <!--<field name="partner_address_email"/>
+                    <field name="message_needaction_counter"/>-->
+                    <field name="partner_id"/>
+                    <field name="activity_summary"/>
+                    <field name="active"/>
+                    <field name="company_currency"/>
+                    <field name="activity_state" />
+                    <field name="activity_ids" />
+                    <field name="date_begin"/>
+                    <field name="next_action"/>
+                    <field name="worker_one"/>
+                    <progressbar field="activity_state" colors='{"planned": "success", "today": "warning", "overdue": "danger"}' sum_field="expected_revenue"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="#{!selection_mode ? kanban_color(record.color.raw_value) : ''} oe_kanban_global_click">
+                                <div class="o_dropdown_kanban dropdown">
+
+                                    <a class="dropdown-toggle o-no-caret btn" role="button" data-toggle="dropdown" data-display="static" href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                        <span class="fa fa-ellipsis-v"/>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <t t-if="widget.editable"><a role="menuitem" type="edit" class="dropdown-item">Editar</a></t>
+                                        <t t-if="widget.deletable"><a role="menuitem" type="delete" class="dropdown-item">Eliminar</a></t>
+                                        <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                    </ul>
+                                </div>
+                                <div class="oe_kanban_content">
+                                    <div class="o_kanban_record_title">
+                                        <field name="sequence_code" />
+                                        <strong><field name="name"/></strong>
+                                    </div>
+                                    <div class="o_kanban_record_subtitle">
+                                        <t t-if="record.expected_revenue.raw_value">
+                                            <field name="expected_revenue" widget="monetary" options="{'currency_field': 'company_currency'}"/>
+                                            <span t-if="record.recurring_revenue and record.recurring_revenue.raw_value"> + </span>
+                                        </t>
+                                        <t t-if="record.recurring_revenue and record.recurring_revenue.raw_value">
+                                            <field name="recurring_revenue" widget="monetary" options="{'currency_field': 'company_currency'}"/>
+                                            <field name="recurring_plan"/>
+                                        </t>
+                                    </div>
+                                    <div>
+                                        <span t-if="record.partner_id.value" t-esc="record.partner_id.value"></span>
+                                    </div>
+                                    <div style="padding-left: 0.5em">
+                                        <t t-if="record.date_begin.raw_value">
+                                            <span class="o_kanban_record_subtitle"><field name="date_begin"/></span>
+                                        </t>
+                                        <!-- PROXIMA ACCION -->
+                                        <!--<t t-if="record.next_action.raw_value">
+                                            <span> : <span class="o_kanban_record_subtitle"><field name="next_action"/></span></span>
+                                        </t>-->
+                                    </div>
+
+                                    <div>
+                                        <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                    </div>
+
+                                    <div class="o_kanban_record_bottom">
+                                        <div class="oe_kanban_bottom_left">
+                                            <field name="priority" widget="priority" groups="base.group_user"/>
+                                            <field name="activity_ids" widget="kanban_activity"/>
+                                        </div>
+                                        <div class="oe_kanban_bottom_right">
+                                            <field name="user_id" widget="many2one_avatar_user"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="oe_clear"></div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>   
+
+
+        <record  id="lyb_avisos_calendar_view_avisos" model="ir.ui.view">
+            <field name="name">lyb.avisos.calendar.avisos</field>
+            <field name="model">crm.lead</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <calendar string="Avisos" create="0" mode="month" date_start="date_begin" color="worker_one" hide_time="true" event_limit="5">
+                    <field name="name"/>
+                    <field name="partner_id" avatar_field="image_128"/>
+                    <field name="worker_one" filters="1" invisible="1"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record id="view_lyb_avisos_filter_avisos" model="ir.ui.view">
+            <field name="name">lyb.avisos.search.avisos</field>
+            <field name="model">crm.lead</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Avisos">
+                    <field name="name" string="Avisos" filter_domain="['|','|','|','|','|',('partner_id','ilike',self),('partner_name','ilike',self),('email_from','ilike',self),('contact_name', 'ilike', self),('name', 'ilike', self),('sequence_code', 'ilike', self)]"/>
+                    <field name="tag_ids" string="Etiqueta" filter_domain="[('tag_ids', 'ilike', self)]"/>
+                    <field name="team_id"/>
+                    <field name="worker_one" string="Oficial 1"/>
+                    <field name="phone_mobile_search"/>
+                    <field name="stage_id" domain="[]"/>
+                    
+                    <separator/>
+                    <filter string="Archivados" name="inact" domain="[('active', '=', False)]"/>
+                    <separator/>
+                    <filter string="Avisos" name="avisos"
+                            domain="[('type','=','opportunity'),('sub_type','=','notice')]"
+                            help="Avisos"/>
+                    <filter string="Mis avisos" name="asignado_a_mi"
+                            domain="[('worker_one', '=', uid),('type','=','opportunity'),('sub_type','=','notice')]"
+                            help="Avisos que son asignados a mi"/>
+                    <filter string="Sin asignar" name="sinasignar"
+                            domain="[('worker_one','=', False),('type','=','opportunity'),('sub_type','=','notice')]" help="Sin oficial"/>
+                    <separator/>
+                    <filter string="Actividades tardías" name="act_overdue"
+                            domain="[('activity_ids.date_deadline', '&lt;', context_today().strftime('%Y-%m-%d')),('type','=','opportunity'),('sub_type','=','notice')]"/>
+                    <filter string="Actividades de Hoy" name="act_today"
+                            domain="[('activity_ids.date_deadline', '=', context_today().strftime('%Y-%m-%d')),('type','=','opportunity'),('sub_type','=','notice')]"/>
+                    <filter string="Actividades futuras" name="act_upcoming_all"
+                            domain="[('activity_ids.date_deadline', '&gt;', context_today().strftime('%Y-%m-%d')),('type','=','opportunity'),('sub_type','=','notice')]"/>
+
+                    <separator/>
+                    <filter string="Avisos atrasados" name="overdue_avv"
+                            domain="[('date_deadline', '&lt;', context_today().strftime('%Y-%m-%d')), ('date_closed', '=', False)]"
+                            help="Muestra todos los avisos con un plazo para el cual la próxima fecha de la acción es antes de hoy."/>
+                    <separator/>
+                    <filter string="Perdido" domain="[('active', '=', False)]"/>
+                    <filter string="Ganados" name="won"
+                            domain="[('stage_id.probability', '=', 100)]"/>
+                    <group expand="0" string="Group By" colspan="16">
+                        <filter string="Oficial 1" context="{'group_by':'worker_one'}"/>
+                        <filter string="Canal de Ventas" context="{'group_by':'team_id'}"/>
+                        <filter string="País" context="{'group_by':'country_id'}" />
+                        <filter string="Compañia" context="{'group_by':'company_id'}" groups="base.group_multi_company"/>
+                        <filter name="Etapa" string="Stage" context="{'group_by':'stage_id'}"/>
+                        <filter string="Campaña" domain="[]" context="{'group_by':'campaign_id'}"/>
+                        <filter string="Media" domain="[]" context="{'group_by':'medium_id'}"/>
+                        <filter string="Origen" domain="[]" context="{'group_by':'source_id'}"/>
+                        <separator orientation="vertical" />
+                        <filter string="Mes de creación" context="{'group_by':'create_date:month'}" name="month"/>
+                        <filter string="Fecha de cierre prevista" context="{'group_by':'date_deadline'}"/>
+                        <filter string="Motivo de la perdida" context="{'group_by':'lost_reason'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Vistas heredadas -->
+        <record model="ir.ui.view" id="crm_lead_code_tree_view">
+            <field name="name">crm.lead.code.tree</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_tree_view_oppor" />
+            <field name="arch" type="xml">
+                <field name="name" position="before">
+                    <field name="sequence_code" />
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="lyb_avisos_search_view">
+            <field name="name">crm.lead.code.search</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.view_crm_case_opportunities_filter" />
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='assigned_to_me']" position="before">
+                    <filter string="Oportunidades" name="oportunidades"
+                            domain="[('type','=','opportunity'),('sub_type','=','opportunity')]"
+                            help="Oportunidades"/>
+                </xpath>
+                <field name="name" position="attributes">
+                    <attribute name="filter_domain">['|', ('name', 'ilike', self), ('sequence_code', 'ilike', self)]</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="crm_lead_code_kanban_view">
+            <field name="name">crm.lead.code.kanban</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_kanban_view_leads" />
+            <field name="arch" type="xml">
+                <field name="name" position="before">
+                    <field name="sequence_code" />
+                </field>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="lyb_avisos_form_stage_view">
+            <field name="name">lyb.avisos.stage.form</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="sale_crm.crm_case_form_view_oppor" />
+            <field name="arch" type="xml">
+            
+                <xpath expr="//field[@name='stage_id']" position="attributes">
+                    <attribute name="domain">"[('team_id', 'in', [team_id, False]), ('crm_sub_type', 'in', [type, 'both'])]"</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="lyb_avisos_form_view3">
+            <field name="name">lyb.avisos.form3</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="sale_crm.crm_case_form_view_oppor" />
+            <field name="arch" type="xml">
+            
+                <xpath expr="//button[@name='%(sale_crm.action_sale_quotations_new)d']" position="attributes">
+                    <attribute name="context">{'search_default_partner_id': partner_id, 'default_partner_id': partner_id, 'default_team_id': team_id, 'default_campaign_id': campaign_id, 'default_medium_id': medium_id, 'default_source_id': source_id}
+                    </attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="lyb_avisos_form_view_avisos">
+            <field name="name">lyb.avisos.form.avisos</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_lead_view_form" />
+            <field name="arch" type="xml">
+
+                <xpath expr="//form/sheet/div[@class='oe_title']/h2[@class='o_row no-gutters align-items-end']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('sub_type','=','notice')]}</attribute>
+                </xpath>
+
+                <xpath expr="//button[@name='action_schedule_meeting']" position="attributes">
+                    <attribute name="attrs">{'invisible': ['|', ('type', '=', 'lead'),('sub_type','=','notice')]}</attribute>
+                </xpath>
+
+                <xpath expr="//button[@name='action_schedule_meeting']" position="after">
+                    <button class="oe_stat_button" type="object" context="{'partner_id': partner_id}" name="action_schedule_workers" icon="fa-calendar" attrs="{'invisible': [('sub_type','!=','notice')]}">
+                        <div class="o_stat_info">
+                            <field name="meeting_count" class="o_stat_value"/>
+                                <span class="o_stat_text" attrs="{'invisible': [('meeting_count', '&lt;', 2)]}"> Reuniones</span>
+                                <span class="o_stat_text" attrs="{'invisible': [('meeting_count', '&gt;', 1)]}"> Reunión</span>
+                        </div>
+                    </button>
+                </xpath>
+
+                <field name="date_deadline" position="before">
+                    <field name="date_creation" attrs="{'invisible': [('sub_type','!=','notice')]}"/>
+                    <field name="date_begin" attrs="{'invisible': [('sub_type','!=','notice')]}"/>
+                    <field name="date_end" attrs="{'invisible': [('sub_type','!=','notice')]}"/>
+                    <field name="next_action" attrs="{'invisible': True}"/>
+                </field>
+
+                <field name="user_id" position="before">
+                    <field name="worker_one" attrs="{'invisible': [('sub_type','!=','notice')]}"/>
+                    <field name="worker_two" attrs="{'invisible': [('sub_type','!=','notice')]}"/>
+                    <field name="helpers" attrs="{'invisible': [('sub_type','!=','notice')]}"/>
+                </field>
+
+                <!--<field name="phone" position="after">
+                    <field name="contact_name" string="Solicitado por" attrs="{'invisible': [('sub_type','!=','notice')]}" />
+                </field>-->
+
+                <field name="description" position="before">
+                    <field name="note"/>
+                    <!--<field name="note" attrs="{'invisible': [('sub_type','!=','notice')]}"/>-->
+                </field>
+                <field name="description" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </field>
+
+                <!--<xpath expr="//field[@name='team_id']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>-->
+                
+                <!--<xpath expr="//page[@name='lead']" position="replace">
+                        <page name="lead" string="Información de Contacto">
+                            <group>
+                                <group>
+                                    <field name="partner_name" string="Nombre del cliente"/>
+                                    <label for="street" string="Dirección"/>
+                                    <div class="o_address_format">
+                                        <field name="street" placeholder="Calle..." class="o_address_street"/>
+                                        <field name="street2" placeholder="Calle 2..." class="o_address_street"/>
+                                        <field name="city" placeholder="Ciudad" class="o_address_city"/>
+                                        <field name="state_id" class="o_address_state" placeholder="Estado" options="{&quot;no_open&quot;: True}"/>
+                                        <field name="zip" placeholder="Código postal" class="o_address_zip"/>
+                                        <field name="country_id" placeholder="País" class="o_address_country" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+                                    </div>
+                                    <field name="website" widget="url" placeholder="e.g. www.odoo.com"/>
+                                </group>
+
+                                <group>
+                                    <label for="title" string="Título"/>
+                                    <div class="o_row">
+                                        <field name="title" placeholder="Title" domain="[]" options="{&quot;no_open&quot;: True}"/>
+                                    </div>
+                                    <field name="function"/>
+                                    <field name="mobile"/>
+                                    <field name="opt_out"/>
+                                </group>
+                                <group string="Marketing">
+                                    <field name="team_id" />
+                                    <field name="campaign_id" />
+                                    <field name="medium_id" />
+                                    <field name="source_id" />
+                                </group>
+                                <group string="Miscelaneo" name="Misc">
+                                    <field name="day_open" groups="base.group_no_one"/>
+                                    <field name="day_close" groups="base.group_no_one"/>
+                                    <field name="referred"/>
+                                    <field name="type" invisible="1"/>
+                                    <field name="sub_type" invisible="1"/>
+                                </group>
+                            </group>
+                        </page>
+                </xpath>-->
+            </field>
+        </record>
+
+        <!-- Acciones de Ventana -->
+        <record id="crm.crm_lead_action_pipeline" model="ir.actions.act_window">
+            <!--<field name="domain" eval="[('type','=','opportunity'),('sub_type','=','opportunity')]"/>-->
+            <field name="domain" eval="[]"/>
+            <field name="context">{'default_type': 'opportunity', 'default_sub_type': 'opportunity', 'default_user_id': uid, 'search_default_oportunidades': 1}</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="crm.crm_lead_opportunities">
+            <field name="domain" eval="[('type','=','opportunity'),('sub_type','=','opportunity')]"/>
+            <field name="context">{'default_type': 'opportunity','default_sub_type': 'opportunity'}</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="lyb_avisos_action_your_avisos">
+            <field name="name">Avisos</field>
+            <field name="res_model">crm.lead</field>
+            <field name="view_mode">tree,calendar,kanban,form,graph,pivot</field>
+            <!--<field name="domain" eval="[('type','=','opportunity'),('sub_type','=','notice')]"/>-->
+            <field name="domain" eval="[]"/>
+            <field name="context" eval="{'default_type': 'opportunity', 'default_sub_type': 'notice','search_default_avisos': 1}"/>
+            <field name="view_ids"
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('lyb_avisos_tree_view_avisos'),'sequence': 2}),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('crm.crm_lead_view_form'),'sequence': 3}),
+                          (0, 0, {'view_mode': 'kanban', 'view_id': ref('lyb_avisos_kanban_view_avisos'),'sequence': 1}),
+                          (0, 0, {'view_mode': 'calendar', 
+                          'view_id': ref('lyb_avisos_calendar_view_avisos'),'sequence': 4}),
+                          (0, 0, {'view_mode': 'pivot','sequence': 5}),
+                          (0, 0, {'view_mode': 'graph','sequence': 6})]"/>
+            <field name="search_view_id" ref="view_lyb_avisos_filter_avisos"/>
+            <field name="help" type="html">
+                <p>
+                
+                </p>
+            </field>
+        </record>    
+        
+        <record id="lyb_avisos_action_quotations" model="ir.actions.act_window">
+            <field name="name">Presupuesto</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="sale.view_quotation_tree"/>
+            <field name="view_mode">tree,kanban,form,calendar,pivot,graph</field>
+            <field name="search_view_id" ref="sale.sale_order_view_search_inherit_quotation"/>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p>
+                
+                </p>
+            </field>
+        </record>
+        
+
+        <!-- Menu padre -->
+        <menuitem
+            id="lyb_avisos_menu_root"
+            name="Avisos"
+            web_icon="lyb_avisos,static/description/instalaciones_ico.jpg"
+            groups="base.group_no_one,project.group_project_user"
+            action="lyb_avisos_action_your_avisos"
+            sequence="4"/>
+
+        <menuitem
+            id="lyb_avisos_menu_root_avisos"
+            name="Avisos"
+            parent="lyb_avisos_menu_root"
+            sequence="1"/>
+        
+        <menuitem
+            id="lyb_avisos_menu_avisos"
+            action="lyb_avisos_action_your_avisos"
+            name="Avisos"
+            parent="lyb_avisos_menu_root_avisos"
+            sequence="1"/>
+
+        <menuitem
+            id="lyb_avisos_menu_presupuestos"
+            action="lyb_avisos_action_quotations"
+            name="Presupuestos"
+            parent="lyb_avisos_menu_root_avisos"
+            sequence="2"/>    
+
+        <menuitem
+            id="lyb_avisos_menu_root_clientes"
+            action="base.action_partner_form"
+            name="Clientes"
+            parent="lyb_avisos_menu_root"
+            sequence="2"/>
+
+        <menuitem
+            id="lyb_avisos_menu_root_informes"
+            name="Informes"
+            parent="lyb_avisos_menu_root"
+            sequence="3"/>
+
+        <menuitem
+            id="lyb_avisos_menu_informes_actividades"
+            action="crm.crm_activity_report_action"
+            name="Actividades"
+            parent="lyb_avisos_menu_root_informes"
+            sequence="1"/>
+
+        <menuitem
+            id="lyb_avisos_menu_informes_canales_venta"
+            action="sales_team.crm_team_salesteams_act"
+            name="Canales de venta"
+            parent="lyb_avisos_menu_root_informes"
+            sequence="2"/>
+
+        <menuitem
+            id="lyb_avisos_menu_root_configuracion"
+            name="Configuración"
+            parent="lyb_avisos_menu_root"
+            sequence="4"/>
+
+        <menuitem
+            id="lyb_avisos_menu_etapas"
+            action="crm.crm_stage_action"
+            name="Etapas"
+            parent="lyb_avisos_menu_root_configuracion"
+            sequence="1"/>
+
+        <menuitem
+            id="lyb_avisos_menu_etiquetas_avisos"
+            action="crm.crm_lead_tag_action"
+            name="Etiquetas de avisos"
+            parent="lyb_avisos_menu_root_configuracion"
+            sequence="2"/>
+
+        <menuitem
+            id="lyb_avisos_menu_canales_venta"
+            action="sales_team.sales_team_config_action"
+            name="Canales de venta"
+            parent="lyb_avisos_menu_root_configuracion"
+            sequence="3"/>
+
+        <menuitem
+            id="lyb_avisos_menu_tipo_actividad"
+            action="sales_team.mail_activity_type_action_config_sales"
+            name="Tipos de actividad"
+            parent="lyb_avisos_menu_root_configuracion"
+            sequence="4"/>
+
+        <menuitem
+            id="lyb_avisos_menu_motivo_perdida"
+            action="crm.crm_lost_reason_action"
+            name="Motivo de pérdida"
+            parent="lyb_avisos_menu_root_configuracion"
+            sequence="5"/>
+
+</odoo>
