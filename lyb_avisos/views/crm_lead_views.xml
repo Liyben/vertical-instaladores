@@ -552,8 +552,8 @@
 
         <menuitem
             id="lyb_avisos_menu_etiquetas_avisos"
-            action="crm.crm_lead_tag_action"
-            name="Etiquetas de avisos"
+            action="sales_team.sales_team_crm_tag_action"
+            name="Categorias de avisos"
             parent="lyb_avisos_menu_root_configuracion"
             sequence="2"/>
 
