@@ -95,7 +95,7 @@
         <!--<record id="create_aviso_simplified" model="ir.actions.act_window">
             <field name="name">Crear un Aviso</field>
             <field name="res_model">crm.lead</field>
-            <field name="view_type">form</field>
+            <field name="binding_view_types">form</field>
             <field name="view_mode">form</field>
             <field name="view_id" ref="view_create_aviso_simplified"/>
             <field name="target">new</field>
@@ -467,7 +467,7 @@
             <field name="name">Presupuesto</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">sale.order</field>
-            <field name="view_type">form</field>
+            <field name="binding_view_types">form</field>
             <field name="view_id" ref="sale.view_quotation_tree"/>
             <field name="view_mode">tree,kanban,form,calendar,pivot,graph</field>
             <field name="search_view_id" ref="sale.sale_order_view_search_inherit_quotation"/>
