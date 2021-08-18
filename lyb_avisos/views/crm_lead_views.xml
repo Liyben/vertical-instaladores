@@ -360,6 +360,7 @@
                 </field>
 
                 <field name="user_id" position="before">
+                    <field name="sub_type" invisible="1"/>
                     <field name="worker_one" attrs="{'invisible': [('sub_type','!=','notice')]}"/>
                     <field name="worker_two" attrs="{'invisible': [('sub_type','!=','notice')]}"/>
                     <field name="helpers" attrs="{'invisible': [('sub_type','!=','notice')]}"/>
