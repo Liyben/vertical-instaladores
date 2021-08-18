@@ -2,8 +2,6 @@
 <odoo noupdate="1">
     <record model="crm.stage" id="stage_aviso1">
         <field name="name">NUEVO</field>
-        
-        <field name="on_change">1</field>
         <field name="sequence">1</field>
         <field name="crm_sub_type">notice</field>
         <field name="requirements">
@@ -16,8 +14,6 @@
     </record>
     <record model="crm.stage" id="stage_aviso2">
         <field name="name">PTE. CITA</field>
-        
-        <field name="on_change">1</field>
         <field name="sequence">2</field>
         <field name="crm_sub_type">notice</field>
         <field name="requirements">
@@ -32,8 +28,6 @@
     </record>
     <record model="crm.stage" id="stage_aviso3">
         <field name="name">CITA CONCERTADA</field>
-        
-        <field name="on_change">1</field>
         <field name="sequence">3</field>
         <field name="crm_sub_type">notice</field>
         <field name="requirements">
@@ -43,8 +37,6 @@
     <record model="crm.stage" id="stage_aviso4">
         <field name="name">PARA PRESUPUESTO</field>
         <field name="fold" eval="False"/>
-        
-        <field name="on_change">1</field>
         <field name="sequence">4</field>
         <field name="crm_sub_type">notice</field>
         <field name="requirements">
@@ -54,8 +46,6 @@
     <record model="crm.stage" id="stage_aviso">
         <field name="name">PENDIENTE MATERIAL</field>
         <field name="fold" eval="False"/>
-        
-        <field name="on_change">1</field>
         <field name="sequence">5</field>
         <field name="crm_sub_type">notice</field>
         <field name="requirements">
