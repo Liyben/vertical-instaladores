@@ -206,7 +206,7 @@
             </field>
         </record>
 
-        <record id="view_lyb_avisos_filter_avisos" model="ir.ui.view">
+       <!--<record id="view_lyb_avisos_filter_avisos" model="ir.ui.view">
             <field name="name">lyb.avisos.search.avisos</field>
             <field name="model">crm.lead</field>
             <field name="arch" type="xml">
@@ -218,7 +218,7 @@
                     <field name="phone_mobile_search"/>
                     <field name="stage_id" domain="[]"/>
                     
-                    <!--<separator/>
+                    <separator/>
                     <filter string="Archivados" name="inact" domain="[('active', '=', False)]"/>
                     <separator/>
                     <filter string="Avisos" name="avisos"
@@ -243,7 +243,7 @@
                             help="Muestra todos los avisos con un plazo para el cual la próxima fecha de la acción es antes de hoy."/>
                     <separator/>
                     <filter string="Perdido" domain="['&amp;', ('active', '=', False), ('probability', '=', 0)]"/>
-                    <filter string="Ganados" domain="['&amp;', ('active', '=', True), ('stage_id.is_won', '=', True)]"/>-->
+                    <filter string="Ganados" domain="['&amp;', ('active', '=', True), ('stage_id.is_won', '=', True)]"/>
                     <group expand="0" string="Group By" colspan="16">
                         <filter string="Oficial 1" context="{'group_by':'worker_one'}"/>
                         <filter string="Canal de Ventas" context="{'group_by':'team_id'}"/>
@@ -260,7 +260,7 @@
                     </group>
                 </search>
             </field>
-        </record>
+        </record>-->
 
         <!-- Vistas heredadas -->
         <record model="ir.ui.view" id="crm_lead_code_tree_view">
