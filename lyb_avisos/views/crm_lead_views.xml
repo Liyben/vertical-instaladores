@@ -14,7 +14,7 @@
                     <field name="medium_id" invisible="1"/>
                     <field name="campaign_id" invisible="1"/>
                     <field name="source_id" invisible="1"/>
-                    <field name="planned_revenue" sum="Expected Revenues" invisible="1"/>
+                    <field name="expected_revenue" sum="Expected Revenues" invisible="1"/>
                     <field name="probability" avg="Avg. of Probability" invisible="1"/>
                     <field name="team_id" invisible="1"/>
                     <field name="user_id" invisible="1"/>
