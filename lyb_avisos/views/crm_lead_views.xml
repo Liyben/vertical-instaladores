@@ -211,12 +211,12 @@
             <field name="model">crm.lead</field>
             <field name="arch" type="xml">
                 <search string="Buscar Avisos">
-                    <field name="name" string="Avisos" filter_domain="['|','|','|','|','|',('partner_id','ilike',self),('partner_name','ilike',self),('email_from','ilike',self),('contact_name', 'ilike', self),('name', 'ilike', self),('sequence_code', 'ilike', self)]"/>
+                    <!--<field name="name" string="Avisos" filter_domain="['|','|','|','|','|',('partner_id','ilike',self),('partner_name','ilike',self),('email_from','ilike',self),('contact_name', 'ilike', self),('name', 'ilike', self),('sequence_code', 'ilike', self)]"/>
                     <field name="tag_ids" string="Etiqueta" filter_domain="[('tag_ids', 'ilike', self)]"/>
                     <field name="team_id"/>
                     <field name="worker_one" string="Oficial 1"/>
                     <field name="phone_mobile_search"/>
-                    <field name="stage_id" domain="[]"/>
+                    <field name="stage_id" domain="[]"/>-->
                     
                     <separator/>
                     <filter string="Archivados" name="inact" domain="[('active', '=', False)]"/>
@@ -243,8 +243,7 @@
                             help="Muestra todos los avisos con un plazo para el cual la próxima fecha de la acción es antes de hoy."/>
                     <separator/>
                     <filter string="Perdido" domain="['&amp;', ('active', '=', False), ('probability', '=', 0)]"/>
-                    <filter string="Ganados" name="won"
-                            domain="['&amp;', ('active', '=', True), ('stage_id.is_won', '=', True)]"/>
+                    <filter string="Ganados" domain="['&amp;', ('active', '=', True), ('stage_id.is_won', '=', True)]"/>
                     <group expand="0" string="Group By" colspan="16">
                         <filter string="Oficial 1" context="{'group_by':'worker_one'}"/>
                         <filter string="Canal de Ventas" context="{'group_by':'team_id'}"/>
