@@ -256,8 +256,8 @@
                             domain="['&amp;',('date_deadline', '&lt;', context_today().strftime('%Y-%m-%d')), ('date_closed', '=', False)]"
                             help="Muestra todos los avisos con un plazo para el cual la próxima fecha de la acción es antes de hoy."/>
                     <separator/>
-                    <filter string="Perdido" domain="['&amp;', ('active', '=', False), ('probability', '=', 0)]"/>
-                    <filter string="Ganados" domain="['&amp;', ('active', '=', True), ('stage_id.is_won', '=', True)]"/>
+                    <filter string="Perdido" name="won_avv" domain="['&amp;', ('active', '=', False), ('probability', '=', 0)]"/>
+                    <filter string="Ganados" name="lost_avv" domain="['&amp;', ('active', '=', True), ('stage_id.is_won', '=', True)]"/>
                     <!--<group expand="0" string="Group By" colspan="16">
                         <filter string="Oficial 1" context="{'group_by':'worker_one'}"/>
                         <filter string="Canal de Ventas" context="{'group_by':'team_id'}"/>
