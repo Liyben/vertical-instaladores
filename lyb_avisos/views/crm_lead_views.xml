@@ -206,12 +206,26 @@
             </field>
         </record>
 
-       <!--<record id="view_lyb_avisos_filter_avisos" model="ir.ui.view">
+       <record id="view_lyb_avisos_filter_avisos" model="ir.ui.view">
             <field name="name">lyb.avisos.search.avisos</field>
             <field name="model">crm.lead</field>
+            <field name="priority">15</field>
             <field name="arch" type="xml">
                 <search string="Buscar Avisos">
-                    <field name="name" string="Avisos" filter_domain="['|','|','|','|','|',('partner_id','ilike',self),('partner_name','ilike',self),('email_from','ilike',self),('contact_name', 'ilike', self),('name', 'ilike', self),('sequence_code', 'ilike', self)]"/>
+                    <field name="name" string="Avisos" filter_domain="[
+                        '|', '|', '|', '|','|',
+                        ('partner_id', 'ilike', self),
+                        ('partner_name', 'ilike', self),
+                        ('email_from', 'ilike', self),
+                        ('name', 'ilike', self),
+                        ('contact_name', 'ilike', self),
+                        ('sequence_code', 'ilike', self)]"/>
+                    <field name="partner_id" operator="child_of" string="Cliente" filter_domain="[
+                        '|', '|', '|',
+                        ('partner_id', 'ilike', self),
+                        ('partner_name', 'ilike', self),
+                        ('email_from', 'ilike', self),
+                        ('contact_name', 'ilike', self)]"/>
                     <field name="tag_ids" string="Etiqueta" filter_domain="[('tag_ids', 'ilike', self)]"/>
                     <field name="team_id"/>
                     <field name="worker_one" string="Oficial 1"/>
@@ -260,7 +274,7 @@
                     </group>
                 </search>
             </field>
-        </record>-->
+        </record>
 
         <!-- Vistas heredadas -->
         <record model="ir.ui.view" id="crm_lead_code_tree_view">
