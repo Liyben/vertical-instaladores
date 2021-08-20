@@ -243,7 +243,7 @@
                             help="Avisos que son asignados a mi"/>
                     <filter string="Sin asignar" name="sinasignar"
                             domain="['&amp;','&amp;',('worker_one','=', False),('type','=','opportunity'),('sub_type','=','notice')]" help="Sin oficial"/>
-                    <separator/>
+                    <!--<separator/>
                     <filter string="Actividades tardías" name="act_overdue"
                             domain="['&amp;','&amp;',('activity_ids.date_deadline', '&lt;', context_today().strftime('%Y-%m-%d')),('type','=','opportunity'),('sub_type','=','notice')]"/>
                     <filter string="Actividades de Hoy" name="act_today"
@@ -258,7 +258,7 @@
                     <separator/>
                     <filter string="Perdido" domain="['&amp;', ('active', '=', False), ('probability', '=', 0)]"/>
                     <filter string="Ganados" domain="['&amp;', ('active', '=', True), ('stage_id.is_won', '=', True)]"/>
-                    <!--<group expand="0" string="Group By" colspan="16">
+                    <group expand="0" string="Group By" colspan="16">
                         <filter string="Oficial 1" context="{'group_by':'worker_one'}"/>
                         <filter string="Canal de Ventas" context="{'group_by':'team_id'}"/>
                         <filter string="País" context="{'group_by':'country_id'}" />
