@@ -258,20 +258,20 @@
                     <separator/>
                     <filter string="Perdido" name="won_avv" domain="['&amp;', ('active', '=', False), ('probability', '=', 0)]"/>
                     <filter string="Ganados" name="lost_avv" domain="['&amp;', ('active', '=', True), ('stage_id.is_won', '=', True)]"/>
-                    <!--<group expand="0" string="Group By" colspan="16">
-                        <filter string="Oficial 1" context="{'group_by':'worker_one'}"/>
-                        <filter string="Canal de Ventas" context="{'group_by':'team_id'}"/>
-                        <filter string="País" context="{'group_by':'country_id'}" />
-                        <filter string="Compañia" context="{'group_by':'company_id'}" groups="base.group_multi_company"/>
-                        <filter name="Etapa" string="Stage" context="{'group_by':'stage_id'}"/>
-                        <filter string="Campaña" domain="[]" context="{'group_by':'campaign_id'}"/>
-                        <filter string="Media" domain="[]" context="{'group_by':'medium_id'}"/>
-                        <filter string="Origen" domain="[]" context="{'group_by':'source_id'}"/>
+                    <group expand="0" string="Group By" colspan="16">
+                        <filter string="Oficial 1" name="worker" context="{'group_by':'worker_one'}"/>
+                        <filter string="Canal de Ventas" name="saleschanel_avv" context="{'group_by':'team_id'}"/>
+                        <filter string="País" name="coutry_avv" context="{'group_by':'country_id'}" />
+                        <filter string="Compañia" name="company_avv" context="{'group_by':'company_id'}" groups="base.group_multi_company"/>
+                        <filter name="Etapa" name="stage_avv" string="Stage" context="{'group_by':'stage_id'}"/>
+                        <filter string="Campaña" name="compaign" domain="[]" context="{'group_by':'campaign_id'}"/>
+                        <filter string="Medio" name="medium_avv" domain="[]" context="{'group_by':'medium_id'}"/>
+                        <filter string="Origen" name="source_avv" domain="[]" context="{'group_by':'source_id'}"/>
                         <separator orientation="vertical" />
-                        <filter string="Mes de creación" context="{'group_by':'create_date:month'}" name="month"/>
-                        <filter string="Fecha de cierre prevista" context="{'group_by':'date_deadline'}"/>
-                        <filter string="Motivo de la perdida" context="{'group_by':'lost_reason'}"/>
-                    </group>-->
+                        <filter string="Mes de creación" context="{'group_by':'create_date:month'}" name="month_avv"/>
+                        <filter string="Fecha de cierre prevista" name="date_deadline_avv" context="{'group_by':'date_deadline'}"/>
+                        <filter string="Motivo de la perdida" name="lost_reason_avv" context="{'group_by':'lost_reason'}"/>
+                    </group>
                 </search>
             </field>
         </record>
