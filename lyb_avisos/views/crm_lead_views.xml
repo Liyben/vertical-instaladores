@@ -263,7 +263,7 @@
                         <filter string="Canal de Ventas" name="saleschanel_avv" context="{'group_by':'team_id'}"/>
                         <filter string="País" name="coutry_avv" context="{'group_by':'country_id'}" />
                         <filter string="Compañia" name="company_avv" context="{'group_by':'company_id'}" groups="base.group_multi_company"/>
-                        <filter name="Etapa" name="stage_avv" string="Stage" context="{'group_by':'stage_id'}"/>
+                        <filter name="stage_avv" string="Etapa" context="{'group_by':'stage_id'}"/>
                         <filter string="Campaña" name="compaign" domain="[]" context="{'group_by':'campaign_id'}"/>
                         <filter string="Medio" name="medium_avv" domain="[]" context="{'group_by':'medium_id'}"/>
                         <filter string="Origen" name="source_avv" domain="[]" context="{'group_by':'source_id'}"/>
