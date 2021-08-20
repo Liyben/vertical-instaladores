@@ -235,7 +235,7 @@
                     <separator/>
                     <filter string="Archivados" name="inact" domain="[('active', '=', False)]"/>
                     <separator/>
-                    <!--<filter string="Avisos" name="avisos"
+                    <filter string="Avisos" name="avisos"
                             domain="['&amp;',('type','=','opportunity'),('sub_type','=','notice')]"
                             help="Avisos"/>
                     <filter string="Mis avisos" name="asignado_a_mi"
@@ -257,8 +257,8 @@
                             help="Muestra todos los avisos con un plazo para el cual la próxima fecha de la acción es antes de hoy."/>
                     <separator/>
                     <filter string="Perdido" domain="['&amp;', ('active', '=', False), ('probability', '=', 0)]"/>
-                    <filter string="Ganados" domain="['&amp;', ('active', '=', True), ('stage_id.is_won', '=', True)]"/>-->
-                    <group expand="0" string="Group By" colspan="16">
+                    <filter string="Ganados" domain="['&amp;', ('active', '=', True), ('stage_id.is_won', '=', True)]"/>
+                    <!--<group expand="0" string="Group By" colspan="16">
                         <filter string="Oficial 1" context="{'group_by':'worker_one'}"/>
                         <filter string="Canal de Ventas" context="{'group_by':'team_id'}"/>
                         <filter string="País" context="{'group_by':'country_id'}" />
@@ -271,7 +271,7 @@
                         <filter string="Mes de creación" context="{'group_by':'create_date:month'}" name="month"/>
                         <filter string="Fecha de cierre prevista" context="{'group_by':'date_deadline'}"/>
                         <filter string="Motivo de la perdida" context="{'group_by':'lost_reason'}"/>
-                    </group>
+                    </group>-->
                 </search>
             </field>
         </record>
