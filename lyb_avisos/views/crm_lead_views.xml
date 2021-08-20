@@ -236,24 +236,24 @@
                     <filter string="Archivados" name="inact" domain="[('active', '=', False)]"/>
                     <separator/>
                     <filter string="Avisos" name="avisos"
-                            domain="[('type','=','opportunity'),('sub_type','=','notice')]"
+                            domain="['&amp;',('type','=','opportunity'),('sub_type','=','notice')]"
                             help="Avisos"/>
-                    <!--<filter string="Mis avisos" name="asignado_a_mi"
-                            domain="[('worker_one', '=', uid),('type','=','opportunity'),('sub_type','=','notice')]"
+                    <filter string="Mis avisos" name="asignado_a_mi"
+                            domain="['&amp;','&amp;',('worker_one', '=', uid),('type','=','opportunity'),('sub_type','=','notice')]"
                             help="Avisos que son asignados a mi"/>
                     <filter string="Sin asignar" name="sinasignar"
-                            domain="[('worker_one','=', False),('type','=','opportunity'),('sub_type','=','notice')]" help="Sin oficial"/>
-                    --><separator/>
+                            domain="['&amp;','&amp;',('worker_one','=', False),('type','=','opportunity'),('sub_type','=','notice')]" help="Sin oficial"/>
+                    <separator/>
                     <filter string="Actividades tardías" name="act_overdue"
-                            domain="[('activity_ids.date_deadline', '&lt;', context_today().strftime('%Y-%m-%d')),('type','=','opportunity'),('sub_type','=','notice')]"/>
+                            domain="['&amp;','&amp;',('activity_ids.date_deadline', '&lt;', context_today().strftime('%Y-%m-%d')),('type','=','opportunity'),('sub_type','=','notice')]"/>
                     <filter string="Actividades de Hoy" name="act_today"
-                            domain="[('activity_ids.date_deadline', '=', context_today().strftime('%Y-%m-%d')),('type','=','opportunity'),('sub_type','=','notice')]"/>
+                            domain="['&amp;','&amp;',('activity_ids.date_deadline', '=', context_today().strftime('%Y-%m-%d')),('type','=','opportunity'),('sub_type','=','notice')]"/>
                     <filter string="Actividades futuras" name="act_upcoming_all"
-                            domain="[('activity_ids.date_deadline', '&gt;', context_today().strftime('%Y-%m-%d')),('type','=','opportunity'),('sub_type','=','notice')]"/>
+                            domain="['&amp;','&amp;',('activity_ids.date_deadline', '&gt;', context_today().strftime('%Y-%m-%d')),('type','=','opportunity'),('sub_type','=','notice')]"/>
 
                     <separator/>
                     <filter string="Avisos atrasados" name="overdue_avv"
-                            domain="[('date_deadline', '&lt;', context_today().strftime('%Y-%m-%d')), ('date_closed', '=', False)]"
+                            domain="['&amp;',('date_deadline', '&lt;', context_today().strftime('%Y-%m-%d')), ('date_closed', '=', False)]"
                             help="Muestra todos los avisos con un plazo para el cual la próxima fecha de la acción es antes de hoy."/>
                     <separator/>
                     <filter string="Perdido" domain="['&amp;', ('active', '=', False), ('probability', '=', 0)]"/>
