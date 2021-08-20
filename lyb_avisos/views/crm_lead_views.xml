@@ -233,7 +233,7 @@
                     <field name="stage_id" domain="[]"/>
                     
                     <separator/>
-                    <filter string="Archivados" name="inact" domain="[('active', '=', False)]"/>
+                    <!--<filter string="Archivados" name="inact" domain="[('active', '=', False)]"/>
                     <separator/>
                     <filter string="Avisos" name="avisos"
                             domain="[('type','=','opportunity'),('sub_type','=','notice')]"
@@ -271,7 +271,7 @@
                         <filter string="Mes de creación" context="{'group_by':'create_date:month'}" name="month"/>
                         <filter string="Fecha de cierre prevista" context="{'group_by':'date_deadline'}"/>
                         <filter string="Motivo de la perdida" context="{'group_by':'lost_reason'}"/>
-                    </group>
+                    </group>-->
                 </search>
             </field>
         </record>
