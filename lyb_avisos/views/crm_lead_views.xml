@@ -243,7 +243,7 @@
                             help="Avisos que son asignados a mi"/>
                     <filter string="Sin asignar" name="sinasignar"
                             domain="['&amp;','&amp;',('worker_one','=', False),('type','=','opportunity'),('sub_type','=','notice')]" help="Sin oficial"/>
-                    <!--<separator/>
+                    <separator/>
                     <filter string="Actividades tardías" name="act_overdue"
                             domain="['&amp;','&amp;',('activity_ids.date_deadline', '&lt;', context_today().strftime('%Y-%m-%d')),('type','=','opportunity'),('sub_type','=','notice')]"/>
                     <filter string="Actividades de Hoy" name="act_today"
@@ -251,7 +251,7 @@
                     <filter string="Actividades futuras" name="act_upcoming_all"
                             domain="['&amp;','&amp;',('activity_ids.date_deadline', '&gt;', context_today().strftime('%Y-%m-%d')),('type','=','opportunity'),('sub_type','=','notice')]"/>
 
-                    <separator/>
+                    <!--<separator/>
                     <filter string="Avisos atrasados" name="overdue_avv"
                             domain="['&amp;',('date_deadline', '&lt;', context_today().strftime('%Y-%m-%d')), ('date_closed', '=', False)]"
                             help="Muestra todos los avisos con un plazo para el cual la próxima fecha de la acción es antes de hoy."/>
