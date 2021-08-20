@@ -469,7 +469,7 @@
                           'view_id': ref('lyb_avisos_calendar_view_avisos'),'sequence': 4}),
                           (0, 0, {'view_mode': 'pivot','sequence': 5}),
                           (0, 0, {'view_mode': 'graph','sequence': 6})]"/>
-            <!--<field name="search_view_id" ref="view_lyb_avisos_filter_avisos"/>-->
+            <field name="search_view_id" ref="view_lyb_avisos_filter_avisos"/>
             <field name="help" type="html">
                 <p>
                 
