@@ -348,11 +348,6 @@
             <field name="inherit_id" ref="crm.crm_lead_view_form" />
             <field name="arch" type="xml">
 
-                <field name="name" position="before">
-                    <field name="sequence_code" class="oe_inline" />
-                    <label string="  " class="oe_inline" />
-                </field>
-
                 <xpath expr="//form/sheet/div[@class='oe_title']/h2[@class='o_row no-gutters align-items-end']" position="attributes">
                     <attribute name="attrs">{'invisible': [('sub_type','=','notice')]}</attribute>
                 </xpath>
