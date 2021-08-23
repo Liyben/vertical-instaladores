@@ -347,11 +347,6 @@
             <field name="model">crm.lead</field>
             <field name="inherit_id" ref="crm.crm_lead_view_form" />
             <field name="arch" type="xml">
-            
-                <xpath expr="//label[@for='name']" position="replace">
-                    <label for="name" string="Aviso" class="oe_edit_only" attrs="{'invisible': [('sub_type','=','opportunity')]}"/>
-                    <label for="name" string="Oportunidad" class="oe_edit_only" attrs="{'invisible': [('sub_type','=','notice')]}"/>
-                </xpath>
 
                 <field name="name" position="before">
                     <field name="sequence_code" class="oe_inline" />
