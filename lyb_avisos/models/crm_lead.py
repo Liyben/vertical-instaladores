@@ -104,7 +104,7 @@ class CrmLead(models.Model):
 		#Mandamos el correo a los seguidores del aviso con los datos de este. También se envia otro correo al comercial
 		message = _("<p>Estimado/a %s,</p> <p>Ha sido asignado/a al aviso %s.</p>") % (record.worker_one.name, record.name)
 		subject = _("%s : %s") % (record.sequence_code, record.name)
-		record.message_post(body=message, message_type='comment', subtype='mail.mt_comment', subject=subject, author_id=record.user_id.partner_id.id)
+		record.message_post(body=message, message_type='comment', subtype_xmlid='mail.mt_comment', subject=subject, author_id=record.user_id.partner_id.id)
 
 		return record
 
@@ -130,7 +130,7 @@ class CrmLead(models.Model):
 			if old_worker_id != worker.id:
 				message = _("<p>Estimado/a %s,</p> <p>Ha sido asignado/a al aviso %s.</p>") % (worker.name, self.name)
 				subject = _("%s : %s") % (self.sequence_code, self.name)
-				self.message_post(body=message, message_type='comment', subtype='mail.mt_comment', subject=subject, author_id=self.user_id.partner_id.id)
+				self.message_post(body=message, message_type='comment', subtype_xmlid='mail.mt_comment', subject=subject, author_id=self.user_id.partner_id.id)
 
 		return super(CrmLead,self.with_context(mail_create_nosubscribe=True)).write(vals)
 
