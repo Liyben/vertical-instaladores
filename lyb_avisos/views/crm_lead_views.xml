@@ -356,6 +356,11 @@
                     <attribute name="attrs">{'invisible': ['|', ('type', '=', 'lead'),('sub_type','=','notice')]}</attribute>
                 </xpath>
 
+                <xpath expr="//label[@for='name']" position="replace">
+                    <label for="name" string="Aviso" class="oe_edit_only" attrs="{'invisible': [('sub_type','=','opportunity')]}"/>
+                    <label for="name" string="Oportunidad" class="oe_edit_only" attrs="{'invisible': [('sub_type','=','notice')]}"/>
+                </xpath>
+
                 <xpath expr="//button[@name='action_schedule_meeting']" position="after">
                     <button class="oe_stat_button" type="object" context="{'partner_id': partner_id}" name="action_schedule_workers" icon="fa-calendar" attrs="{'invisible': [('sub_type','!=','notice')]}">
                         <div class="o_stat_info">
