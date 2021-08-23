@@ -322,7 +322,7 @@
             <field name="arch" type="xml">
             
                 <xpath expr="//field[@name='stage_id']" position="attributes">
-                    <attribute name="domain">"[('team_id', 'in', [team_id, False]), ('crm_sub_type', 'in', [type, 'both'])]"</attribute>
+                    <attribute name="domain">[('team_id', 'in', [team_id, False]), ('crm_sub_type', 'in', [sub_type, 'both'])]</attribute>
                 </xpath>
 
             </field>
