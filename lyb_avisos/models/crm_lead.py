@@ -80,7 +80,7 @@ class CrmLead(models.Model):
 		# Creamos el aviso para cambiar los seguidores del documento
 		record = super(CrmLead,self.with_context(mail_create_nosubscribe=True)).create(vals_list)
 
-		""" #Asignamos la secuencia correcta 
+		#Asignamos la secuencia correcta 
 		if (record.sub_type == 'notice'):
 			record.sequence_code = self.env.ref(
 					"lyb_avisos.sequence_notice", raise_if_not_found=False
@@ -89,7 +89,7 @@ class CrmLead(models.Model):
 			record.sequence_code = self.env.ref(
 					"lyb_avisos.sequence_opportunity", raise_if_not_found=False
 				).next_by_id()
- """
+
 		#Lista de seguidores
 		follower_ids = []
 
@@ -144,7 +144,7 @@ class CrmLead(models.Model):
 			
 		return super(CrmLead,self).copy(default=default)
 
-	#Funciones redefinidas para el uso del subtipo en las etapas
+	""" #Funciones redefinidas para el uso del subtipo en las etapas
 	@api.model
 	def _read_group_stage_ids(self, stages, domain, order):
 		ctx_type = self.env.context.get('default_sub_type')
@@ -167,7 +167,7 @@ class CrmLead(models.Model):
 			if ctx_type:
 				types += [ctx_type]
 			domain.append(("crm_sub_type", "in", types))
-		return super(CrmLead, self)._stage_find(team_id, domain, order)
+		return super(CrmLead, self)._stage_find(team_id, domain, order) """
 
 	def merge_opportunity(self, user_id=False, team_id=False, auto_unlink=True):
 		opportunities_head = super(CrmLead, self).merge_opportunity(
