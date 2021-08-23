@@ -47,7 +47,7 @@
                 <form>
                     <group>
                         <field name="partner_id" widget="res_partner_many2one"
-                            string='Organization / Contact'
+                            string='Organización / Contacto'
                             context="{
                             'res_partner_search_mode': type == 'opportunity' and sub_type == 'notice' and 'customer' or False,
                             'default_name': contact_name or partner_name,
@@ -56,9 +56,9 @@
                             'default_phone': phone,
                             'default_email': email_from,
                             'show_vat': True}"/>
-                        <field name="name" placeholder="e.g. Nombre del aviso" />
+                        <field name="name" string="Aviso" placeholder="e.g. Nombre del aviso" />
                         <field name="email_from" string="Email" />
-                        <field name="phone" string="Phone" />
+                        <field name="phone" string="Teléfono" />
                         <label for="expected_revenue"/>
                         <div class="o_row">
                             <field name="expected_revenue" class="oe_inline mr-5" widget="monetary" options="{'currency_field': 'company_currency'}"/>
