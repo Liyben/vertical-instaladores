@@ -315,7 +315,7 @@
             </field>
         </record>
         
-        <record model="ir.ui.view" id="lyb_avisos_form_stage_view">
+        <!--<record model="ir.ui.view" id="lyb_avisos_form_stage_view">
             <field name="name">lyb.avisos.stage.form</field>
             <field name="model">crm.lead</field>
             <field name="inherit_id" ref="sale_crm.crm_case_form_view_oppor" />
@@ -326,7 +326,7 @@
                 </xpath>
 
             </field>
-        </record>
+        </record>-->
 
         <record model="ir.ui.view" id="lyb_avisos_form_view3">
             <field name="name">lyb.avisos.form3</field>
@@ -347,6 +347,10 @@
             <field name="model">crm.lead</field>
             <field name="inherit_id" ref="crm.crm_lead_view_form" />
             <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='stage_id']" position="attributes">
+                    <attribute name="domain">[('team_id', 'in', [team_id, False]), ('crm_sub_type', 'in', [sub_type, 'both'])]</attribute>
+                </xpath>
 
                 <xpath expr="//form/sheet/div[@class='oe_title']/h2[@class='o_row no-gutters align-items-end']" position="attributes">
                     <attribute name="attrs">{'invisible': [('sub_type','=','notice')]}</attribute>
