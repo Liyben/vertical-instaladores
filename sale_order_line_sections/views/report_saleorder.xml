@@ -5,7 +5,7 @@
 
         <xpath expr="//t[@t-if='line.task_works_ids and line.detailed_time']" position="before">
 
-            <t t-if ="l.secciones_ids">
+            <t t-if ="line.secciones_ids">
                 <t t-raw="'&lt;/tr&gt;&lt;tr class=\'materials_title\'&gt;'"/>
                 <td align="center">
                     <table>
@@ -18,7 +18,7 @@
                             <!-- IMPRIME EL SUBTOTAL DE M^2 DE LAS SECCIONES -->
                             <td align="center" style="text-decoration: underline" width="70" heigth="60">Mts.<sup>2</sup> Sub.</td>
                         </tr>
-                        <t t-foreach="l.secciones_ids" t-as="seccion">
+                        <t t-foreach="line.secciones_ids" t-as="seccion">
                             <tr>
                                 <td align="center" style="font-size: 12px;color: grey">
                                     <span t-field="seccion.seccion_name"/>
