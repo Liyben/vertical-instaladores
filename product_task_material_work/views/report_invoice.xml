@@ -9,6 +9,10 @@
             <link rel="stylesheet" href="/product_task_material_work/static/src/css/report.css"/>
         </xpath>
 
+        <xpath expr="//div[@class='page']" position="attributes">
+          <attribute name="style">font-size: 11px !important;</attribute>
+        </xpath>
+        
         <xpath expr="//div[@id='informations']" position="replace">
             <div id="informations" class="row mt32 mb32">
                 <div class="col-xs-2" t-if="o.invoice_date">
