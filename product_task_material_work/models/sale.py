@@ -556,7 +556,7 @@ class SaleOrderLine(models.Model):
 		if not self.product_id:
 			return
 		for line in self:
-			line.purchase_price = (line.total_cp_material + line.total_cp_work)
+			
 			product = line.product_id.with_context(
 				lang=line.order_id.partner_id.lang,
 				partner=line.order_id.partner_id.id,
@@ -565,23 +565,16 @@ class SaleOrderLine(models.Model):
 				pricelist=line.order_id.pricelist_id.id,
 				uom=line.product_uom.id
 			)
-			if line.purchase_price != line.product_id.standard_price:
-				line.price_unit = self.env['account.tax']._fix_tax_included_price_company(line.purchase_price, product.taxes_id, self.tax_id, self.company_id)
-			else:
-				line.price_unit = self.env['account.tax']._fix_tax_included_price_company(self._get_display_price(product), product.taxes_id, self.tax_id, self.company_id)
-			#line.price_unit = (line.total_sp_material + line.total_sp_work)
+			self._compute_tax_id()
+
+			line.price_unit = self.env['account.tax']._fix_tax_included_price_company(self._get_display_price(product), product.taxes_id, self.tax_id, self.company_id)
+			line.purchase_price = (line.total_cp_material + line.total_cp_work)
 			
 
 	#Cuando se cambie la cantida o las unidades del producto aplique la tarifa a los trabajos y
 	#materiales si es de tipo partida el producto
 	@api.onchange('product_uom', 'product_uom_qty')
 	def product_uom_change(self):
-		price_unit = 0.0
-		purchase_price = 0.0
-		for line in self:
-			price_unit = line.price_unit
-			purchase_price = line.purchase_price
-
 		result = super(SaleOrderLine, self).product_uom_change()
 		product = self.product_id
 		if product:
@@ -597,16 +590,11 @@ class SaleOrderLine(models.Model):
 					pricelist=line.order_id.pricelist_id.id,
 					uom=line.product_uom.id
 				)
-				if line.purchase_price != line.product_id.standard_price:
-					line.price_unit = self.env['account.tax']._fix_tax_included_price_company(line.purchase_price, product.taxes_id, self.tax_id, self.company_id)
-				else:
-					line.price_unit = self.env['account.tax']._fix_tax_included_price_company(self._get_display_price(product), product.taxes_id, self.tax_id, self.company_id)#line.price_unit = (line.total_sp_material + line.total_sp_work)
 
-		if price_unit != 0.0:
-			self.price_unit = price_unit
+				self._compute_tax_id()
 
-		if purchase_price != 0.0:
-			self.purchase_price = purchase_price
+				line.price_unit = self.env['account.tax']._fix_tax_included_price_company(self._get_display_price(product), product.taxes_id, self.tax_id, self.company_id)
+				line.purchase_price = (line.total_cp_material + line.total_cp_work)
 
 		return result
 
