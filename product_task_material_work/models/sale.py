@@ -553,22 +553,44 @@ class SaleOrderLine(models.Model):
 	
 	@api.onchange('task_materials_ids', 'task_works_ids')
 	def _onchange_task_materials_works_workforce(self):
-		if not self.product_id:
+		product = self.product_id
+		if product:
+			self.auto_create_task = (product.service_tracking == 'task_global_project') or (product.service_tracking == 'task_in_project')
+		else:
+			self.price_unit = 0.0
 			return
-		for line in self:
 			
-			product = line.product_id.with_context(
-				lang=line.order_id.partner_id.lang,
-				partner=line.order_id.partner_id.id,
-				quantity=line.product_uom_qty,
-				date=line.order_id.date_order,
-				pricelist=line.order_id.pricelist_id.id,
-				uom=line.product_uom.id
-			)
-			self._compute_tax_id()
+		if self.auto_create_task and self.order_id.pricelist_id and self.order_id.partner_id:
+			for line in self:
+				#Guardamos los precios de la ficha de producto
+				product_lst_price = line.product_id.lst_price
+				product_standard_price = line.product_id.standard_price
 
-			line.price_unit = self.env['account.tax']._fix_tax_included_price_company(self._get_display_price(product), product.taxes_id, self.tax_id, self.company_id)
-			line.purchase_price = (line.total_cp_material + line.total_cp_work)
+				#Actualizamos los precios de la ficha de producto con los precios de la linea de pedido
+				line.product_id.write({
+					'lst_price' : (line.total_sp_material + line.total_sp_work),
+					'standard_price' : (line.total_cp_material + line.total_cp_work),
+				})
+
+				#Aplicamos la tarifa
+				product = line.product_id.with_context(
+					lang=line.order_id.partner_id.lang,
+					partner=line.order_id.partner_id.id,
+					quantity=line.product_uom_qty,
+					date=line.order_id.date_order,
+					pricelist=line.order_id.pricelist_id.id,
+					uom=line.product_uom.id,
+					fiscal_position=self.env.context.get('fiscal_position')
+				)
+
+				line.price_unit = self.env['account.tax']._fix_tax_included_price_company(self._get_display_price(product), product.taxes_id, self.tax_id, self.company_id)
+				line.purchase_price = (line.total_cp_material + line.total_cp_work)
+
+				#Recuperamos los precios de la ficha producto previamente guardado
+				line.product_id.write({
+					'lst_price' : product_lst_price,
+					'standard_price' : product_standard_price,
+				})
 			
 
 	#Cuando se cambie la cantida o las unidades del producto aplique la tarifa a los trabajos y
@@ -580,21 +602,37 @@ class SaleOrderLine(models.Model):
 		if product:
 			self.auto_create_task = (product.service_tracking == 'task_global_project') or (product.service_tracking == 'task_in_project')
 
-		if self.auto_create_task:
+		if self.auto_create_task and self.order_id.pricelist_id and self.order_id.partner_id:
 			for line in self:
+				#Guardamos los precios de la ficha de producto
+				product_lst_price = line.product_id.lst_price
+				product_standard_price = line.product_id.standard_price
+
+				#Actualizamos los precios de la ficha de producto con los precios de la linea de pedido
+				line.product_id.write({
+					'lst_price' : (line.total_sp_material + line.total_sp_work),
+					'standard_price' : (line.total_cp_material + line.total_cp_work),
+				})
+
+				#Aplicamos la tarifa
 				product = line.product_id.with_context(
 					lang=line.order_id.partner_id.lang,
 					partner=line.order_id.partner_id.id,
 					quantity=line.product_uom_qty,
 					date=line.order_id.date_order,
 					pricelist=line.order_id.pricelist_id.id,
-					uom=line.product_uom.id
+					uom=line.product_uom.id,
+					fiscal_position=self.env.context.get('fiscal_position')
 				)
-
-				self._compute_tax_id()
 
 				line.price_unit = self.env['account.tax']._fix_tax_included_price_company(self._get_display_price(product), product.taxes_id, self.tax_id, self.company_id)
 				line.purchase_price = (line.total_cp_material + line.total_cp_work)
+
+				#Recuperamos los precios de la ficha producto previamente guardado
+				line.product_id.write({
+					'lst_price' : product_lst_price,
+					'standard_price' : product_standard_price,
+				})
 
 		return result
 
