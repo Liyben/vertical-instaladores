@@ -487,7 +487,7 @@ class SaleOrderLine(models.Model):
 			
 			discount = (new_list_price - price) / new_list_price * 100
 			if (discount > 0):
-				self.discount = discount
+				return discount
 
 	#Carga de los datos del producto en la linea de pedido al seleccionar dicho producto
 	
