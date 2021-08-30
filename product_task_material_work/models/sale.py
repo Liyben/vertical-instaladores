@@ -841,10 +841,12 @@ class SaleOrderLineTaskWork(models.Model):
 
 		workforce_context = dict(self.env.context, partner_id=self.order_line_id.order_id.partner_id.id, date=self.order_line_id.order_id.date_order, uom=self.work_id.uom_id.id)
 		final_price, rule_id = self.order_line_id.order_id.pricelist_id.with_context(workforce_context).get_product_price_rule(self.work_id, self.hours or 1.0, self.order_line_id.order_id.partner_id)
-		base_price, currency_id = self.order_line_id.with_context(workforce_context)._get_real_price_currency(workforce, rule_id, self.hours, self.work_id.uom_id, self.order_line_id.order_id.pricelist_id.id)
+		base_price, currency = self.order_line_id.with_context(workforce_context)._get_real_price_currency(workforce, rule_id, self.hours, self.work_id.uom_id, self.order_line_id.order_id.pricelist_id.id)
 
-		if currency_id != self.order_line_id.order_id.pricelist_id.currency_id.id:
-			base_price = self.env['res.currency'].browse(currency_id).with_context(workforce_context).compute(base_price, self.order_line_id.order_id.pricelist_id.currency_id)
+		if currency != self.order_line_id.order_id.pricelist_id.currency_id.id:
+			base_price = currency._convert(
+				base_price, self.order_line_id.order_id.pricelist_id.currency_id,
+				self.order_line_id.order_id.company_id or self.env.company, self.order_line_id.order_id.date_order or fields.Date.today())
 
 		return max(base_price, final_price)
 
@@ -963,10 +965,12 @@ class SaleOrderLineTaskMaterial(models.Model):
 
 		material_context = dict(self.env.context, partner_id=self.order_line_id.order_id.partner_id.id, date=self.order_line_id.order_id.date_order, uom=self.material_id.uom_id.id)
 		final_price, rule_id = self.order_line_id.order_id.pricelist_id.with_context(material_context).get_product_price_rule(self.material_id, self.quantity or 1.0, self.order_line_id.order_id.partner_id)
-		base_price, currency_id = self.order_line_id.with_context(material_context)._get_real_price_currency(material, rule_id, self.quantity, self.material_id.uom_id, self.order_line_id.order_id.pricelist_id.id)
+		base_price, currency = self.order_line_id.with_context(material_context)._get_real_price_currency(material, rule_id, self.quantity, self.material_id.uom_id, self.order_line_id.order_id.pricelist_id.id)
 
-		if currency_id != self.order_line_id.order_id.pricelist_id.currency_id.id:
-			base_price = self.env['res.currency'].browse(currency_id).with_context(material_context).compute(base_price, self.order_line_id.order_id.pricelist_id.currency_id)
+		if currency != self.order_line_id.order_id.pricelist_id.currency_id.id:
+			base_price = currency._convert(
+				base_price, self.order_line_id.order_id.pricelist_id.currency_id,
+				self.order_line_id.order_id.company_id or self.env.company, self.order_line_id.order_id.date_order or fields.Date.today())
 
 		return max(base_price, final_price)
 
