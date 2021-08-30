@@ -460,7 +460,7 @@ class SaleOrderLine(models.Model):
 				self.order_id.partner_id and 
 				self.order_id.pricelist_id and 
 				self.order_id.pricelist_id.discount_policy == 'without_discount' and 
-				self.env.user.has_group('sale.group_discount_per_so_line')):
+				self.env.user.has_group('product.group_discount_per_so_line')):
 			return
 
 		product = product_id.with_context(
@@ -475,13 +475,15 @@ class SaleOrderLine(models.Model):
 		product_context = dict(self.env.context, partner_id=self.order_id.partner_id.id, date=self.order_id.date_order, uom=product_id.uom_id.id)
 
 		price, rule_id = self.order_id.pricelist_id.with_context(product_context).get_product_price_rule(product_id, quantity or 1.0, self.order_id.partner_id)
-		new_list_price, currency_id = self.with_context(product_context)._get_real_price_currency(product, rule_id, quantity, product_id.uom_id, self.order_id.pricelist_id.id)
+		new_list_price, currency = self.with_context(product_context)._get_real_price_currency(product, rule_id, quantity, product_id.uom_id, self.order_id.pricelist_id.id)
 
 		if new_list_price != 0:
-			if self.order_id.pricelist_id.currency_id.id != currency_id:
+			if self.order_id.pricelist_id.currency_id.id != currency:
 				#necesitamos que new_list_price este en la misma moneda que price, 
 				#la cual esta en la moneda de la tarida del presupuesto
-				new_list_price = self.env['res.currency'].browse(currency_id).with_context(product_context).compute(new_list_price, self.order_id.pricelist_id.currency_id)
+				new_list_price = currency._convert(
+					new_list_price, self.order_id.pricelist_id.currency_id,
+					self.order_id.company_id or self.env.company, self.order_id.date_order or fields.Date.today())
 			
 			discount = (new_list_price - price) / new_list_price * 100
 			if (discount > 0):
@@ -889,7 +891,7 @@ class SaleOrderLineTaskWork(models.Model):
 				self.order_line_id.order_id.partner_id and 
 				self.order_line_id.order_id.pricelist_id and 
 				self.order_line_id.order_id.pricelist_id.discount_policy == 'without_discount' and 
-				self.env.user.has_group('sale.group_discount_per_so_line')):
+				self.env.user.has_group('product.group_discount_per_so_line')):
 			return
 
 		self.discount = 0.0
@@ -905,13 +907,15 @@ class SaleOrderLineTaskWork(models.Model):
 		workforce_context = dict(self.env.context, partner_id=self.order_line_id.order_id.partner_id.id, date=self.order_line_id.order_id.date_order, uom=self.work_id.uom_id.id)
 
 		price, rule_id = self.order_line_id.order_id.pricelist_id.with_context(workforce_context).get_product_price_rule(self.work_id, self.hours or 1.0, self.order_line_id.order_id.partner_id)
-		new_list_price, currency_id = self.order_line_id.with_context(workforce_context)._get_real_price_currency(workforce, rule_id, self.hours, self.work_id.uom_id, self.order_line_id.order_id.pricelist_id.id)
+		new_list_price, currency = self.order_line_id.with_context(workforce_context)._get_real_price_currency(workforce, rule_id, self.hours, self.work_id.uom_id, self.order_line_id.order_id.pricelist_id.id)
 
 		if new_list_price != 0:
-			if self.order_line_id.order_id.pricelist_id.currency_id.id != currency_id:
+			if self.order_line_id.order_id.pricelist_id.currency_id.id != currency:
 				#necesitamos que new_list_price este en la misma moneda que price, 
 				#la cual esta en la moneda de la tarida del presupuesto
-				new_list_price = self.env['res.currency'].browse(currency_id).with_context(workforce_context).compute(new_list_price, self.order_line_id.order_id.pricelist_id.currency_id)
+				new_list_price = currency._convert(
+					new_list_price, self.order_line_id.order_id.pricelist_id.currency_id,
+					self.order_line_id.order_id.company_id or self.env.company, self.order_line_id.order_id.date_order or fields.Date.today())
 			
 			discount = (new_list_price - price) / new_list_price * 100
 			if discount > 0:
@@ -1009,7 +1013,7 @@ class SaleOrderLineTaskMaterial(models.Model):
 				self.order_line_id.order_id.partner_id and 
 				self.order_line_id.order_id.pricelist_id and 
 				self.order_line_id.order_id.pricelist_id.discount_policy == 'without_discount' and 
-				self.env.user.has_group('sale.group_discount_per_so_line')):
+				self.env.user.has_group('product.group_discount_per_so_line')):
 			return
 
 		self.discount = 0.0
@@ -1025,13 +1029,15 @@ class SaleOrderLineTaskMaterial(models.Model):
 		mat_context = dict(self.env.context, partner_id=self.order_line_id.order_id.partner_id.id, date=self.order_line_id.order_id.date_order, uom=self.material_id.uom_id.id)
 
 		price, rule_id = self.order_line_id.order_id.pricelist_id.with_context(mat_context).get_product_price_rule(self.material_id, self.quantity or 1.0, self.order_line_id.order_id.partner_id)
-		new_list_price, currency_id = self.order_line_id.with_context(mat_context)._get_real_price_currency(mat, rule_id, self.quantity, self.material_id.uom_id, self.order_line_id.order_id.pricelist_id.id)
+		new_list_price, currency = self.order_line_id.with_context(mat_context)._get_real_price_currency(mat, rule_id, self.quantity, self.material_id.uom_id, self.order_line_id.order_id.pricelist_id.id)
 
 		if new_list_price != 0:
-			if self.order_line_id.order_id.pricelist_id.currency_id.id != currency_id:
+			if self.order_line_id.order_id.pricelist_id.currency_id.id != currency:
 				#necesitamos que new_list_price este en la misma moneda que price, 
 				#la cual esta en la moneda de la tarida del presupuesto
-				new_list_price = self.env['res.currency'].browse(currency_id).with_context(mat_context).compute(new_list_price, self.order_line_id.order_id.pricelist_id.currency_id)
+				new_list_price = currency._convert(
+					new_list_price, self.order_line_id.order_id.pricelist_id.currency_id,
+					self.order_line_id.order_id.company_id or self.env.company, self.order_line_id.order_id.date_order or fields.Date.today())
 			
 			discount = (new_list_price - price) / new_list_price * 100
 			if discount > 0:
