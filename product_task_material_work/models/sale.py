@@ -478,7 +478,7 @@ class SaleOrderLine(models.Model):
 		new_list_price, currency = self.with_context(product_context)._get_real_price_currency(product, rule_id, quantity, product_id.uom_id, self.order_id.pricelist_id.id)
 
 		if new_list_price != 0:
-			if self.order_id.pricelist_id.currency_id.id != currency:
+			if self.order_id.pricelist_id.currency_id != currency:
 				#necesitamos que new_list_price este en la misma moneda que price, 
 				#la cual esta en la moneda de la tarida del presupuesto
 				new_list_price = currency._convert(
@@ -843,7 +843,7 @@ class SaleOrderLineTaskWork(models.Model):
 		final_price, rule_id = self.order_line_id.order_id.pricelist_id.with_context(workforce_context).get_product_price_rule(self.work_id, self.hours or 1.0, self.order_line_id.order_id.partner_id)
 		base_price, currency = self.order_line_id.with_context(workforce_context)._get_real_price_currency(workforce, rule_id, self.hours, self.work_id.uom_id, self.order_line_id.order_id.pricelist_id.id)
 
-		if currency != self.order_line_id.order_id.pricelist_id.currency_id.id:
+		if currency != self.order_line_id.order_id.pricelist_id.currency_id:
 			base_price = currency._convert(
 				base_price, self.order_line_id.order_id.pricelist_id.currency_id,
 				self.order_line_id.order_id.company_id or self.env.company, self.order_line_id.order_id.date_order or fields.Date.today())
@@ -912,7 +912,7 @@ class SaleOrderLineTaskWork(models.Model):
 		new_list_price, currency = self.order_line_id.with_context(workforce_context)._get_real_price_currency(workforce, rule_id, self.hours, self.work_id.uom_id, self.order_line_id.order_id.pricelist_id.id)
 
 		if new_list_price != 0:
-			if self.order_line_id.order_id.pricelist_id.currency_id.id != currency:
+			if self.order_line_id.order_id.pricelist_id.currency_id != currency:
 				#necesitamos que new_list_price este en la misma moneda que price, 
 				#la cual esta en la moneda de la tarida del presupuesto
 				new_list_price = currency._convert(
@@ -967,7 +967,7 @@ class SaleOrderLineTaskMaterial(models.Model):
 		final_price, rule_id = self.order_line_id.order_id.pricelist_id.with_context(material_context).get_product_price_rule(self.material_id, self.quantity or 1.0, self.order_line_id.order_id.partner_id)
 		base_price, currency = self.order_line_id.with_context(material_context)._get_real_price_currency(material, rule_id, self.quantity, self.material_id.uom_id, self.order_line_id.order_id.pricelist_id.id)
 
-		if currency != self.order_line_id.order_id.pricelist_id.currency_id.id:
+		if currency != self.order_line_id.order_id.pricelist_id.currency_id:
 			base_price = currency._convert(
 				base_price, self.order_line_id.order_id.pricelist_id.currency_id,
 				self.order_line_id.order_id.company_id or self.env.company, self.order_line_id.order_id.date_order or fields.Date.today())
@@ -1036,7 +1036,7 @@ class SaleOrderLineTaskMaterial(models.Model):
 		new_list_price, currency = self.order_line_id.with_context(mat_context)._get_real_price_currency(mat, rule_id, self.quantity, self.material_id.uom_id, self.order_line_id.order_id.pricelist_id.id)
 
 		if new_list_price != 0:
-			if self.order_line_id.order_id.pricelist_id.currency_id.id != currency:
+			if self.order_line_id.order_id.pricelist_id.currency_id != currency:
 				#necesitamos que new_list_price este en la misma moneda que price, 
 				#la cual esta en la moneda de la tarida del presupuesto
 				new_list_price = currency._convert(
