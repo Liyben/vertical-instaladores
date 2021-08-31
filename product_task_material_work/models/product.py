@@ -14,14 +14,14 @@ class ProductTemplate(models.Model):
 	#Producto mano de obra
 	workforce_id = fields.Many2one(comodel_name='product.product', string='Mano de obra', copy=True)
 	#Precio totales, unitarios y beneficio de Trabajos
-	total_sp_work = fields.Float(string='Total P.V.', digits=dp.get_precision('Product Price'), compute='_compute_total_sp_work')
-	total_cp_work = fields.Float(string='Total P.C.', digits=dp.get_precision('Product Price'), compute='_compute_total_cp_work')
-	benefit_work = fields.Float(string='Beneficio', digits=dp.get_precision('Product Price'), compute='_compute_benefit_work')
+	total_sp_work = fields.Float(string='Total P.V.', digits='Product Price', compute='_compute_total_sp_work')
+	total_cp_work = fields.Float(string='Total P.C.', digits='Product Price', compute='_compute_total_cp_work')
+	benefit_work = fields.Float(string='Beneficio', digits='Product Price', compute='_compute_benefit_work')
 	total_hours = fields.Float(string='Total horas', compute='_compute_total_hours')
 	#Precios totales, unitarios  y beneficio de Materiales
-	total_sp_material = fields.Float(string='Total P.V.', digits=dp.get_precision('Product Price'), compute='_compute_total_sp_material')
-	total_cp_material = fields.Float(string='Total P.C.', digits=dp.get_precision('Product Price'), compute='_compute_total_cp_material')
-	benefit_material = fields.Float(string='Beneficio', digits=dp.get_precision('Product Price'), compute='_compute_benefit_material')
+	total_sp_material = fields.Float(string='Total P.V.', digits='Product Price', compute='_compute_total_sp_material')
+	total_cp_material = fields.Float(string='Total P.C.', digits='Product Price', compute='_compute_total_cp_material')
+	benefit_material = fields.Float(string='Beneficio', digits='Product Price', compute='_compute_benefit_material')
 	#Campo boolean para saber si crear o no una tarea de forma automatica
 	auto_create_task = fields.Boolean(string='Tarea automática', compute='_compute_auto_create_task')
 
@@ -140,11 +140,11 @@ class ProdcutTaskWork(models.Model):
 	#Descripcion del trabajo
 	name = fields.Char(string='Nombre', required=True)
 	#Precios Totales para cada trabajo
-	sale_price = fields.Float(string='Precio Venta', digits=dp.get_precision('Product Price'), compute="_compute_price")
-	cost_price = fields.Float(string='Precio Coste', digits=dp.get_precision('Product Price'), compute="_compute_price")
+	sale_price = fields.Float(string='Precio Venta', digits='Product Price', compute="_compute_price")
+	cost_price = fields.Float(string='Precio Coste', digits='Product Price', compute="_compute_price")
 	#Precios Unitarios para cada material
-	sale_price_unit = fields.Float(string='P.V. unitario', digits=dp.get_precision('Product Price'), compute='_compute_price')
-	cost_price_unit = fields.Float(string='P.C. unitario', digits=dp.get_precision('Product Price'), compute='_compute_price')
+	sale_price_unit = fields.Float(string='P.V. unitario', digits='Product Price', compute='_compute_price')
+	cost_price_unit = fields.Float(string='P.C. unitario', digits='Product Price', compute='_compute_price')
 	#Horas empleadas en el trabajo
 	hours = fields.Float(string='Horas')
 	sequence = fields.Integer()
@@ -182,11 +182,11 @@ class ProductTaskMaterial(models.Model):
 	#Material
 	material_id = fields.Many2one(comodel_name='product.product', string='Material', required=True)
 	#Precios Totales de para cada material
-	sale_price = fields.Float(string='Precio Venta', digits=dp.get_precision('Product Price'), compute='_compute_price')
-	cost_price = fields.Float(string='Precio Coste', digits=dp.get_precision('Product Price'), compute='_compute_price')
+	sale_price = fields.Float(string='Precio Venta', digits='Product Price', compute='_compute_price')
+	cost_price = fields.Float(string='Precio Coste', digits='Product Price', compute='_compute_price')
 	#Precios Unitarios para cada material
-	sale_price_unit = fields.Float(string='P.V. unitario', digits=dp.get_precision('Product Price'), compute='_compute_price')
-	cost_price_unit = fields.Float(string='P.C. unitario', digits=dp.get_precision('Product Price'), compute='_compute_price')
+	sale_price_unit = fields.Float(string='P.V. unitario', digits='Product Price', compute='_compute_price')
+	cost_price_unit = fields.Float(string='P.C. unitario', digits='Product Price', compute='_compute_price')
 	#Cantidad de cada material
 	quantity = fields.Float(string='Cantidad', digits=dp.get_precision('Product Unit of Measure'))
 	sequence = fields.Integer()
