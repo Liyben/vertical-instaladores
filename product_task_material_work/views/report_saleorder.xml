@@ -40,7 +40,7 @@
                     <strong>Payment Terms:</strong>
                     <p t-field="doc.payment_term_id"/>
                 </div>
-                <div t-if="doc.validity_date and doc.state in ['draft', 'sent']" class="col-auto col-3 mw-100 mb-2">
+                <div t-if="doc.validity_date and doc.state in ['draft', 'sent']" class="col-auto col-3 mw-100 mb-2" name="expiration_date">
                     <strong>Fecha de caducidad:</strong>
                     <p t-field="doc.validity_date"/>
                 </div>
