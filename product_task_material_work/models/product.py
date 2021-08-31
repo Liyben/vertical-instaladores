@@ -16,12 +16,12 @@ class ProductTemplate(models.Model):
 	#Precio totales, unitarios y beneficio de Trabajos
 	total_sp_work = fields.Float(string='Total P.V.', digits='Product Price', compute='_compute_total_sp_work')
 	total_cp_work = fields.Float(string='Total P.C.', digits='Product Price', compute='_compute_total_cp_work')
-	benefit_work = fields.Float(string='Beneficio', digits='Product Price', compute='_compute_benefit_work')
+	benefit_work = fields.Float(string='Beneficio', compute='_compute_benefit_work')
 	total_hours = fields.Float(string='Total horas', compute='_compute_total_hours')
 	#Precios totales, unitarios  y beneficio de Materiales
 	total_sp_material = fields.Float(string='Total P.V.', digits='Product Price', compute='_compute_total_sp_material')
 	total_cp_material = fields.Float(string='Total P.C.', digits='Product Price', compute='_compute_total_cp_material')
-	benefit_material = fields.Float(string='Beneficio', digits='Product Price', compute='_compute_benefit_material')
+	benefit_material = fields.Float(string='Beneficio',  compute='_compute_benefit_material')
 	#Campo boolean para saber si crear o no una tarea de forma automatica
 	auto_create_task = fields.Boolean(string='Tarea automática', compute='_compute_auto_create_task')
 
