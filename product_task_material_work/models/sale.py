@@ -9,32 +9,32 @@ class SaleOrder(models.Model):
 	_inherit='sale.order'
 
 	#Precio totales, unitarios y beneficio de Trabajos Reales
-	total_sp_work = fields.Float(string='P.V. Total', digits=dp.get_precision('Product Price'), compute='_compute_price_work')
-	total_cp_work = fields.Float(string='P.C. Total', digits=dp.get_precision('Product Price'), compute='_compute_price_work')
-	sale_price_work_hour = fields.Float(string='P.V. Hora', digits=dp.get_precision('Product Price'), compute="_compute_price_work")
-	cost_price_work_hour = fields.Float(string='P.C. Hora', digits=dp.get_precision('Product Price'), compute="_compute_price_work")
-	benefit_work = fields.Float(string='Beneficio', digits=dp.get_precision('Product Price'), compute='_compute_price_work')
+	total_sp_work = fields.Float(string='P.V. Total', digits='Product Price', compute='_compute_price_work')
+	total_cp_work = fields.Float(string='P.C. Total', digits='Product Price', compute='_compute_price_work')
+	sale_price_work_hour = fields.Float(string='P.V. Hora', digits='Product Price', compute="_compute_price_work")
+	cost_price_work_hour = fields.Float(string='P.C. Hora', digits='Product Price', compute="_compute_price_work")
+	benefit_work = fields.Float(string='Beneficio', digits='Product Price', compute='_compute_price_work')
 	total_hours = fields.Float(string='Total horas', compute='_compute_price_work')
 
 	#Precio totales, unitarios y beneficio de Trabajos Ideales
-	total_sp_ideal_work = fields.Float(string='P.V. Total', digits=dp.get_precision('Product Price'), compute='_compute_price_work_ideal')
-	total_cp_ideal_work = fields.Float(string='P.C. Total', digits=dp.get_precision('Product Price'), compute='_compute_price_work_ideal')
-	sale_price_ideal_work_hour = fields.Float(string='P.V. Hora', digits=dp.get_precision('Product Price'))
-	cost_price_ideal_work_hour = fields.Float(string='P.C. Hora', digits=dp.get_precision('Product Price'))
-	benefit_ideal_work = fields.Float(string='Beneficio', digits=dp.get_precision('Product Price'), compute='_compute_price_work_ideal')
+	total_sp_ideal_work = fields.Float(string='P.V. Total', digits='Product Price', compute='_compute_price_work_ideal')
+	total_cp_ideal_work = fields.Float(string='P.C. Total', digits='Product Price', compute='_compute_price_work_ideal')
+	sale_price_ideal_work_hour = fields.Float(string='P.V. Hora', digits='Product Price')
+	cost_price_ideal_work_hour = fields.Float(string='P.C. Hora', digits='Product Price')
+	benefit_ideal_work = fields.Float(string='Beneficio', digits='Product Price', compute='_compute_price_work_ideal')
 	total_ideal_hours = fields.Float(string='Total horas')
 	
 	#Margenes y descuento de los totales
-	discount_ideal = fields.Float(string='Descuento', digits=dp.get_precision('Product Price'))
-	margin_real_monetary = fields.Float(string='Margen Real', digits=dp.get_precision('Product Price'), compute='_compute_real')
-	margin_real_percent = fields.Float(string='Margen Real', digits=dp.get_precision('Product Price'), compute='_compute_real')
-	margin_ideal_monetary = fields.Float(string='Margen Ideal', digits=dp.get_precision('Product Price'), compute='_compute_ideal')
-	margin_ideal_percent = fields.Float(string='Margen Ideal', digits=dp.get_precision('Product Price'), compute='_compute_ideal')
+	discount_ideal = fields.Float(string='Descuento', digits='Product Price')
+	margin_real_monetary = fields.Float(string='Margen Real', digits='Product Price', compute='_compute_real')
+	margin_real_percent = fields.Float(string='Margen Real', digits='Product Price', compute='_compute_real')
+	margin_ideal_monetary = fields.Float(string='Margen Ideal', digits='Product Price', compute='_compute_ideal')
+	margin_ideal_percent = fields.Float(string='Margen Ideal', digits='Product Price', compute='_compute_ideal')
 
 	#Precios totales y beneficio de Materiales
-	total_sp_material = fields.Float(string='P.V. Total', digits=dp.get_precision('Product Price'), compute='_compute_price_material')
-	total_cp_material = fields.Float(string='P.C. Total', digits=dp.get_precision('Product Price'), compute='_compute_price_material')
-	benefit_material = fields.Float(string='Beneficio', digits=dp.get_precision('Product Price'), compute='_compute_price_material')
+	total_sp_material = fields.Float(string='P.V. Total', digits='Product Price', compute='_compute_price_material')
+	total_cp_material = fields.Float(string='P.C. Total', digits='Product Price', compute='_compute_price_material')
+	benefit_material = fields.Float(string='Beneficio', digits='Product Price', compute='_compute_price_material')
 	#Numero de cliente
 	ref = fields.Char(related='partner_id.ref', readonly=True, string='Nº. Cliente')
 
@@ -270,11 +270,11 @@ class SaleOrderTaskMaterial(models.Model):
 	#Material
 	material_id = fields.Many2one(comodel_name='product.product', string='Material', required=True)
 	#Precios Totales de para cada material
-	sale_price = fields.Float(string='Precio Venta', digits=dp.get_precision('Product Price'), compute='_compute_price')
-	cost_price = fields.Float(string='Precio Coste', digits=dp.get_precision('Product Price'), compute='_compute_price')
+	sale_price = fields.Float(string='Precio Venta', digits='Product Price', compute='_compute_price')
+	cost_price = fields.Float(string='Precio Coste', digits='Product Price', compute='_compute_price')
 	#Precios Unitarios para cada material
-	sale_price_unit = fields.Float(string='P.V. unitario', digits=dp.get_precision('Product Price'))
-	cost_price_unit = fields.Float(string='P.C. unitario', digits=dp.get_precision('Product Price'))
+	sale_price_unit = fields.Float(string='P.V. unitario', digits='Product Price')
+	cost_price_unit = fields.Float(string='P.C. unitario', digits='Product Price')
 	#Cantidad de cada material
 	quantity = fields.Float(string='Cantidad', digits=dp.get_precision('Product Unit of Measure'))
 	#Descuento aplicado al precio del material
@@ -304,11 +304,11 @@ class SaleOrderTaskWork(models.Model):
 	#Descripcion del trabajo
 	name = fields.Char(string='Nombre')
 	#Precios Totales para cada trabajo
-	sale_price = fields.Float(string='Precio Venta', digits=dp.get_precision('Product Price'), compute="_compute_price")
-	cost_price = fields.Float(string='Precio Coste', digits=dp.get_precision('Product Price'), compute="_compute_price")
+	sale_price = fields.Float(string='Precio Venta', digits='Product Price', compute="_compute_price")
+	cost_price = fields.Float(string='Precio Coste', digits='Product Price', compute="_compute_price")
 	#Precios Unitarios para cada trabajo
-	sale_price_unit = fields.Float(string='P.V. unitario', digits=dp.get_precision('Product Price'))
-	cost_price_unit = fields.Float(string='P.C. unitario', digits=dp.get_precision('Product Price'))
+	sale_price_unit = fields.Float(string='P.V. unitario', digits='Product Price')
+	cost_price_unit = fields.Float(string='P.C. unitario', digits='Product Price')
 	#Horas empleadas en el trabajo
 	hours = fields.Float(string='Horas')
 	#Descuento aplicado al precio de la mano de obra
@@ -333,14 +333,14 @@ class SaleOrderLine(models.Model):
 	task_works_ids = fields.One2many(comodel_name='sale.order.line.task.work', inverse_name='order_line_id', string='Trabajos', copy=True)
 	task_materials_ids = fields.One2many(comodel_name='sale.order.line.task.material', inverse_name='order_line_id', string='Materiales', copy=True)
 	#Precio totales, unitarios y beneficio de Trabajos
-	total_sp_work = fields.Float(string='Total P.V.', digits=dp.get_precision('Product Price'), compute='_compute_total_sp_work')
-	total_cp_work = fields.Float(string='Total P.C.', digits=dp.get_precision('Product Price'), compute='_compute_total_cp_work')
-	benefit_work = fields.Float(string='Beneficio', digits=dp.get_precision('Product Price'), compute='_compute_benefit_work')
+	total_sp_work = fields.Float(string='Total P.V.', digits='Product Price', compute='_compute_total_sp_work')
+	total_cp_work = fields.Float(string='Total P.C.', digits='Product Price', compute='_compute_total_cp_work')
+	benefit_work = fields.Float(string='Beneficio', digits='Product Price', compute='_compute_benefit_work')
 	total_hours = fields.Float(string='Total horas', compute='_compute_total_hours')
 	#Precios totales, unitarios  y beneficio de Materiales
-	total_sp_material = fields.Float(string='Total P.V.', digits=dp.get_precision('Product Price'), compute='_compute_total_sp_material')
-	total_cp_material = fields.Float(string='Total P.C.', digits=dp.get_precision('Product Price'), compute='_compute_total_cp_material')
-	benefit_material = fields.Float(string='Beneficio', digits=dp.get_precision('Product Price'), compute='_compute_benefit_material')
+	total_sp_material = fields.Float(string='Total P.V.', digits='Product Price', compute='_compute_total_sp_material')
+	total_cp_material = fields.Float(string='Total P.C.', digits='Product Price', compute='_compute_total_cp_material')
+	benefit_material = fields.Float(string='Beneficio', digits='Product Price', compute='_compute_benefit_material')
 	#Campo boolean para saber si crear o no una tarea de forma automatica
 	auto_create_task = fields.Boolean(string='Tarea automática', copy=True)
 	#Opciones de impresión por linea de pedido
@@ -822,11 +822,11 @@ class SaleOrderLineTaskWork(models.Model):
 	#Descripcion del trabajo
 	name = fields.Char(string='Nombre', required=True)
 	#Precios Totales para cada trabajo
-	sale_price = fields.Float(string='Precio Venta', digits=dp.get_precision('Product Price'), compute="_compute_price")
-	cost_price = fields.Float(string='Precio Coste', digits=dp.get_precision('Product Price'), compute="_compute_price")
+	sale_price = fields.Float(string='Precio Venta', digits='Product Price', compute="_compute_price")
+	cost_price = fields.Float(string='Precio Coste', digits='Product Price', compute="_compute_price")
 	#Precios Unitarios para cada trabajo
-	sale_price_unit = fields.Float(string='P.V. unitario', digits=dp.get_precision('Product Price'))
-	cost_price_unit = fields.Float(string='P.C. unitario', digits=dp.get_precision('Product Price'))
+	sale_price_unit = fields.Float(string='P.V. unitario', digits='Product Price')
+	cost_price_unit = fields.Float(string='P.C. unitario', digits='Product Price')
 	#Horas empleadas en el trabajo
 	hours = fields.Float(string='Horas')
 	#Descuento aplicado al precio de la mano de obra
@@ -946,11 +946,11 @@ class SaleOrderLineTaskMaterial(models.Model):
 	#Material
 	material_id = fields.Many2one(comodel_name='product.product', string='Material', required=True)
 	#Precios Totales de para cada material
-	sale_price = fields.Float(string='Precio Venta', digits=dp.get_precision('Product Price'), compute='_compute_price')
-	cost_price = fields.Float(string='Precio Coste', digits=dp.get_precision('Product Price'), compute='_compute_price')
+	sale_price = fields.Float(string='Precio Venta', digits='Product Price', compute='_compute_price')
+	cost_price = fields.Float(string='Precio Coste', digits='Product Price', compute='_compute_price')
 	#Precios Unitarios para cada material
-	sale_price_unit = fields.Float(string='P.V. unitario', digits=dp.get_precision('Product Price'))
-	cost_price_unit = fields.Float(string='P.C. unitario', digits=dp.get_precision('Product Price'))
+	sale_price_unit = fields.Float(string='P.V. unitario', digits='Product Price')
+	cost_price_unit = fields.Float(string='P.C. unitario', digits='Product Price')
 	#Cantidad de cada material
 	quantity = fields.Float(string='Cantidad', digits=dp.get_precision('Product Unit of Measure'))
 	#Descuento aplicado al precio del material
