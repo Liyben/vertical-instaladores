@@ -67,7 +67,7 @@ class ProductTemplate(models.Model):
 		self.benefit_work = 0.0
 		for record in self:
 			if (record.total_sp_work != 0) and (record.total_cp_work != 0):
-				record.benefit_work = (1-(record.total_cp_work/record.total_sp_work)) * 100
+				record.benefit_work = (1-(record.total_cp_work/record.total_sp_work))
 
 	#Calcula el precio de venta total del campo Materiales
 	
@@ -94,7 +94,7 @@ class ProductTemplate(models.Model):
 		self.benefit_material = 0.0
 		for record in self:
 			if (record.total_cp_material != 0) and (record.total_sp_material != 0):
-				record.benefit_material = (1-(record.total_cp_material/record.total_sp_material)) * 100
+				record.benefit_material = (1-(record.total_cp_material/record.total_sp_material))
 
 	#Función que recalcula el precio de venta y coste del articulo partida a partir de los totales de venta y coste
 	
