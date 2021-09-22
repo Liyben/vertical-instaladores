@@ -125,7 +125,7 @@ class CrmLead(models.Model):
 		if vals.get('worker_one'):
 			worker = self.env['res.users'].browse(vals.get('worker_one'))
 			follower_ids.append(worker.partner_id.id)
-			self.message_subscribe(partner_ids=follower_ids.ids)
+			self.message_subscribe(partner_ids=follower_ids)
 
 			if old_worker_id != worker.id:
 				message = _("<p>Estimado/a %s,</p> <p>Ha sido asignado/a al aviso %s.</p>") % (worker.name, self.name)
