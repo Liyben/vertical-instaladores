@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <data>
         <record id="action_report_sales_delivery_note" model="ir.actions.report">
             <field name="name">Albarán de venta</field>
             <field name="model">sale.order</field>
