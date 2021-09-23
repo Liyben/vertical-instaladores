@@ -7,7 +7,7 @@
                 <t t-call="web.external_layout">
                     <div class="page">
 
-                        <table class="table table-condensed">
+                        <table class="table table-sm o_main_table">
                             <tbody>
                                 <tr>
                                     <td colspan="6" style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:0;">PARTE DE TRABAJO <span t-field="o.code" /></td>                                
@@ -52,7 +52,7 @@
                             </tbody>
                         </table>                             
 <!--===================DATOS DEL CLIENTE=======================-->                             
-                        <table class="table table-condensed">
+                        <table class="table table-sm o_main_table">
                             <tbody>
                                 <tr>
                                     <td colspan="4" style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:0;">CLIENTE</td>
@@ -84,7 +84,7 @@
                             </tbody>
                         </table>
 <!--===================DESCRIPCION=========================--> 
-                        <table class="table table-condensed">
+                        <table class="table table-sm o_main_table">
                             <tbody>
                                 <tr>
                                     <td style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:1px solid #238AA9;">TRABAJO A REALIZAR</td>
@@ -95,7 +95,7 @@
                             </tbody>
                         </table>
 <!--====================TRABAJOS A REALIZAR======================--> 
-                        <table class="table table-condensed">
+                        <table class="table table-sm o_main_table">
                             <tbody>
                                 <tr>
                                     <td style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:1px solid #238AA9;">TRABAJO REALIZADO</td>
@@ -112,7 +112,7 @@
                             </tbody>
                         </table>
 <!--===================MATERIALES EMPLEADOS=======================--> 
-                        <table class="table table-condensed">
+                        <table class="table table-sm o_main_table">
                             <tbody>
                                 <tr>
                                     <td style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:1px solid #238AA9;;width:85%;">MATERIALES EMPLEADOS</td>
