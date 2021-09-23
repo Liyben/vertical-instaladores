@@ -83,7 +83,7 @@
                                 </tr>
                             </tbody>
                         </table>
-<!--===================DESCRIPCION=========================--> 
+<!--===================TRABAJOS A REALIZAR=========================--> 
                         <table class="table table-sm o_main_table">
                             <tbody>
                                 <tr>
@@ -94,7 +94,7 @@
                                 </tr>
                             </tbody>
                         </table>
-<!--====================TRABAJOS A REALIZAR======================--> 
+<!--====================TRABAJOS REALIZADO======================--> 
                         <table class="table table-sm o_main_table">
                             <tbody>
                                 <tr>
@@ -118,9 +118,25 @@
                                     <td style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:1px solid #238AA9;;width:85%;">MATERIALES EMPLEADOS</td>
                                     <td style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:1px solid #238AA9;">UNIDADES</td>
                                 </tr>                                
-                                <tr t-foreach="o.material_ids" t-as="m">
-                                    <td style="font-weight:normal;width:85%;border:1px solid #238AA9;"><span t-field="m.product_id"/></td>
-                                    <td style="font-weight:normal;border:1px solid #238AA9;text-align: right;"><span t-field="m.quantity"/></td>
+                                <tr>
+                                    <td style="font-weight:normal;width:85%;border:1px solid #238AA9;"><br/></td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"> </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:normal;width:85%;border:1px solid #238AA9;"><br/></td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"> </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:normal;width:85%;border:1px solid #238AA9;"><br/></td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"> </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:normal;width:85%;border:1px solid #238AA9;"><br/></td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"> </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:normal;width:85%;border:1px solid #238AA9;"><br/></td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"> </td>
                                 </tr>
                             </tbody>
                         </table>                             
