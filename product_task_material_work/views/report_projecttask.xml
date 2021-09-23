@@ -27,11 +27,11 @@
                                 </tr>
                                 <tr>
                                     <td style="font-weight:bold;border:0;">Fecha </td>
-                                    <td style="font-weight:normal;border: 1px solid #238AA9;width: 125px;"><span t-field="o.create_date" t-field-options='{"format": "dd/MM/yyyy"}'/></td>
+                                    <td style="font-weight:normal;border: 1px solid #238AA9;width: 125px;"><span t-field="o.create_date" t-options="{&quot;widget&quot;: &quot;date&quot;}"/></td>
                                     <td style="font-weight:bold;border:0;">Asignado</td>
                                     <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="o.user_id" /></td>
                                     <td style="font-weight:bold;border:0;">Fecha Límite</td>
-                                    <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="o.date_deadline" t-field-options='{"format": "dd/MM/yyyy"}'/></td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="o.date_deadline" t-options="{&quot;widget&quot;: &quot;date&quot;}"/></td>
                                 </tr>
                                 <tr>
                                     <td style="font-weight:normal;border:0;">
@@ -106,7 +106,7 @@
                                 <tr t-foreach="o.timesheet_ids" t-as="w">
                                     <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="w.name"/></td>
                                     <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="w.hours"/></td>
-                                    <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="w.date" t-field-options='{"format": "dd/MM/yyyy"}'/></td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="w.date" t-options="{&quot;widget&quot;: &quot;date&quot;}"/></td>
                                     <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="w.employee_id"/></td>
                                 </tr>
                             </tbody>
