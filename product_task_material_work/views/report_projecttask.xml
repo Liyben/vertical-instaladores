@@ -105,7 +105,7 @@
                                 </tr>                                
                                 <tr t-foreach="o.timesheet_ids" t-as="w">
                                     <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="w.name"/></td>
-                                    <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="w.hours"/></td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="w.unit_amount"/></td>
                                     <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="w.date" t-options="{&quot;widget&quot;: &quot;date&quot;}"/></td>
                                     <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="w.employee_id"/></td>
                                 </tr>
