@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_report_project_task_work_order" model="ir.actions.report">
+            <field name="name">Parte de trabajo</field>
+            <field name="model">project.task</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">product_task_material_work.report_project_task_work_order</field>
+            <field name="report_file">product_task_material_work.report_project_task_work_order</field>
+            <field name="print_report_name">'Parte de trabajo - %s' % (object.code)</field>
+            <field name="binding_model_id" ref="model_project_task"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

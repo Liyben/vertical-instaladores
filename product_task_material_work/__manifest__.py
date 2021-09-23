@@ -22,7 +22,9 @@ Este módulo contiene los mecanismos necesarios para manejar un producto como un
             'views/project_task.xml',
             'security/ir.model.access.csv',
             'views/sale_report.xml',
+            'views/project_task_report.xml',
             'views/report_saleorder.xml',
+            'views/report_projecttask.xml',
             'views/report_invoice.xml',],
     'qweb': [],
     'images': [

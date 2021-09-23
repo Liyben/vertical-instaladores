@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_project_task_work_order">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+
+                        <table class="table table-condensed">
+                            <tbody>
+                                <tr>
+                                    <td colspan="6" style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:0;">PARTE DE TRABAJO <span t-field="o.code" /></td>                                
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:normal;border:0;">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:bold;border:0;">Asunto</td>
+                                    <td colspan="5" style="font-weight:normal;border:1px solid #238AA9;">
+                                    <span t-field="o.name" /></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:normal;border:0;">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:bold;border:0;">Fecha </td>
+                                    <td style="font-weight:normal;border: 1px solid #238AA9;width: 125px;"><span t-field="o.create_date" t-field-options='{"format": "dd/MM/yyyy"}'/></td>
+                                    <td style="font-weight:bold;border:0;">Asignado</td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="o.user_id" /></td>
+                                    <td style="font-weight:bold;border:0;">Fecha Límite</td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="o.date_deadline" t-field-options='{"format": "dd/MM/yyyy"}'/></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:normal;border:0;">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:bold;border:0;">Obra</td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="o.project_id.name" /></td>
+                                    <td style="font-weight:bold;border:0;">Horas Estimadas</td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="o.planned_hours" /></td>
+                                    <td style="font-weight:bold;border:0;">Revisor</td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="o.project_id.user_id" /></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:normal;border:0;">
+                                    </td>
+                                </tr>                               
+                            </tbody>
+                        </table>                             
+<!--===================DATOS DEL CLIENTE=======================-->                             
+                        <table class="table table-condensed">
+                            <tbody>
+                                <tr>
+                                    <td colspan="4" style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:0;">CLIENTE</td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:normal;border:0;">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:bold;">Sr/a.</td>
+                                    <td colspan="3" style="font-weight:normal;"><span t-field="o.partner_id"/></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:bold;">Dirección:</td>
+                                    <td colspan="3" style="font-weight:normal;"><span t-field="o.partner_id.street"/><t t-if="o.partner_id.street2">, </t><span t-field="o.partner_id.street2"/></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:bold;width: 150px;">Población / Zona:</td>
+                                    <td style="font-weight:normal;"><span t-field="o.partner_id.city"/></td>
+                                    <td style="font-weight:bold;">Provincia:</td>
+                                    <td style="font-weight:normal;min-width:50px;"><span t-field="o.partner_id.state_id"/></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:bold;">Telf:</td>
+                                    <td style="font-weight:normal;"><span t-field="o.partner_id.phone"/><span t-if="o.partner_id.phone and o.partner_id.mobile"> / </span><span t-field="o.partner_id.mobile"/></td>
+                                    <td style="font-weight:bold;">E-Mail:</td>
+                                    <td style="font-weight:normal;min-width:50px;"><span t-field="o.partner_id.email"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+<!--===================DESCRIPCION=========================--> 
+                        <table class="table table-condensed">
+                            <tbody>
+                                <tr>
+                                    <td style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:1px solid #238AA9;">TRABAJO A REALIZAR</td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="o.work_to_do"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+<!--====================TRABAJOS A REALIZAR======================--> 
+                        <table class="table table-condensed">
+                            <tbody>
+                                <tr>
+                                    <td style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:1px solid #238AA9;">TRABAJO REALIZADO</td>
+                                    <td style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:1px solid #238AA9;">TIEMPO DEDICADO</td>
+                                    <td style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:1px solid #238AA9;">FECHA</td>
+                                    <td style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:1px solid #238AA9;">REALIZADO POR</td>
+                                </tr>                                
+                                <tr t-foreach="o.timesheet_ids" t-as="w">
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="w.name"/></td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="w.hours"/></td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="w.date" t-field-options='{"format": "dd/MM/yyyy"}'/></td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="w.employee_id"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+<!--===================MATERIALES EMPLEADOS=======================--> 
+                        <table class="table table-condensed">
+                            <tbody>
+                                <tr>
+                                    <td style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:1px solid #238AA9;;width:85%;">MATERIALES EMPLEADOS</td>
+                                    <td style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:1px solid #238AA9;">UNIDADES</td>
+                                </tr>                                
+                                <tr t-foreach="o.material_ids" t-as="m">
+                                    <td style="font-weight:normal;width:85%;border:1px solid #238AA9;"><span t-field="m.product_id"/></td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;text-align: right;"><span t-field="m.quantity"/></td>
+                                </tr>
+                            </tbody>
+                        </table>                             
+                            
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>
