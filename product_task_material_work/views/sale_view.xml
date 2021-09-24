@@ -227,7 +227,6 @@
             <xpath expr="//div[@class='text-nowrap']" position="attributes">
                 <attribute name="groups">product_task_material_work.group_sales_margin</attribute>
             </xpath>
-            </xpath>
         </field>
     </record>
 </odoo>
