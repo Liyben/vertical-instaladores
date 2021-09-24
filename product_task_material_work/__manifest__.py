@@ -21,6 +21,7 @@ Este módulo contiene los mecanismos necesarios para manejar un producto como un
             'views/account_move_view.xml',
             'views/project_task.xml',
             'security/ir.model.access.csv',
+            'security/sale_security.xml',
             'views/sale_report.xml',
             'views/project_task_report.xml',
             'views/report_saleorder.xml',
