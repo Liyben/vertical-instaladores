@@ -39,27 +39,31 @@
                 </div>-->
                 <div t-if="doc.date_order and doc.state in ['draft','sent']" class="col-auto col-3 mw-100 mb-2">
                     <strong>Fecha del presupuesto:</strong>
-                    <p t-field="doc.date_order"/>
+                    <p class="m-0" t-field="doc.date_order" t-options="{&quot;widget&quot;: &quot;date&quot;}"/>
+                </div>
+                <div t-if="doc.date_order and doc.state not in ['draft','sent']" class="col-auto col-3 mw-100 mb-2">
+                    <strong>Fecha del pedido:</strong>
+                    <p class="m-0" t-field="doc.date_order" t-options="{&quot;widget&quot;: &quot;date&quot;}"/>
                 </div>
                 <div t-if="doc.user_id.name" class="col-auto col-3 mw-100 mb-2">
                     <strong>Comercial:</strong>
-                    <p t-field="doc.user_id"/>
+                    <p class="m-0" t-field="doc.user_id"/>
                 </div>
                 <div t-if="doc.ref" class="col-auto col-3 mw-100 mb-2">
                     <strong>Nº cliente:</strong>
-                    <p t-field="doc.ref"/>
+                    <p class="m-0" t-field="doc.ref"/>
                 </div>
                 <div t-if="doc.client_order_ref" class="col-auto col-3 mw-100 mb-2">
                     <strong>Ref. del cliente:</strong>
-                    <p t-field="doc.client_order_ref"/>
+                    <p class="m-0" t-field="doc.client_order_ref"/>
                 </div>
                 <div name="payment_term" t-if="doc.payment_term_id" class="col-auto col-3 mw-100 mb-2">
                     <strong>Payment Terms:</strong>
-                    <p t-field="doc.payment_term_id"/>
+                    <p class="m-0" t-field="doc.payment_term_id"/>
                 </div>
                 <div t-if="doc.validity_date and doc.state in ['draft', 'sent']" class="col-auto col-3 mw-100 mb-2" name="expiration_date">
                     <strong>Fecha de caducidad:</strong>
-                    <p t-field="doc.validity_date"/>
+                    <p class="m-0" t-field="doc.validity_date"/>
                 </div>
             </div>
         </xpath>
