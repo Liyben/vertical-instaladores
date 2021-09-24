@@ -216,4 +216,18 @@
         </field>
     </record>
 
+    <record model="ir.ui.view" id="sale_margin_group">
+        <field name="name">sale.margin.group.view.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale_margin.sale_margin_sale_order"/>
+        <field name="arch" type="xml">
+            <xpath expr="//label[@for='margin']" position="attributes">
+                <attribute name="groups">product_task_material_work.group_sales_margin</attribute>
+            </xpath>
+            <xpath expr="//div[@class='text-nowrap']" position="attributes">
+                <attribute name="groups">product_task_material_work.group_sales_margin</attribute>
+            </xpath>
+            </xpath>
+        </field>
+    </record>
 </odoo>
