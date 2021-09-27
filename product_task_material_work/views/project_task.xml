@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="project.view_task_form2"/>
         <field name="arch" type="xml">
         	<div name="button_box" position="inside">
-        		<button name="sale_order_action_recalculate" type="object" 
+        		<button name="sale_order_action_recalculate" type="object" icon="fa-file-text-o"
         			attrs="{'invisible': [('allow_billable', '=', False)]}" 
         			confirm="¿Estas seguro que quiere pasarlo a 'Por Administración'?">
         			<field name="by_administration" widget="boolean_button" 
@@ -41,10 +41,10 @@
         <field name="model">project.task</field>
         <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited"/>
         <field name="arch" type="xml">
-            
             <xpath expr="//field[@name='timesheet_ids']" position='before'>
-                <separator string="Trabajo a realizar"/>
-                <field name="work_to_do" class="oe_clear"/>
+                <separator string="Trabajo realizado"/>
+            </xpath>
+            <xpath expr="//field[@name='timesheet_ids']" position='after'>
                 <separator string="Tareas a realizar"/>
                 <field name="task_works_ids" nolabel="1" context="{'default_product_id': active_id}">
                     <tree string="Trabajos" editable="bottom">
@@ -57,7 +57,8 @@
                         <field name="validated"/>
                     </tree>
                 </field>
-                <separator string="Trabajo realizado"/>
+                <separator string="Trabajo a realizar"/>
+                <field name="work_to_do" class="oe_clear"/>
             </xpath>
         </field>
     </record>
