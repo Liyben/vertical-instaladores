@@ -1,4 +1,4 @@
-# © 2019 Liyben
+# © 2021 Liyben
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import api, fields, models, _
@@ -10,7 +10,6 @@ class HrEmployee(models.Model):
 	work_id = fields.Many2one(comodel_name='product.product', string='Mano de obra', required=False)
 
 	#Carga el coste hora en el empleado
-	@api.multi
 	@api.onchange('work_id')
 	def _onchange_work_id(self):
 		for record in self:
