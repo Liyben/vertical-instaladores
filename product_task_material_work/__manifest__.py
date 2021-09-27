@@ -18,7 +18,7 @@ Este módulo contiene los mecanismos necesarios para manejar un producto como un
     'data': ['data/product_data.xml',
             'views/product_template.xml',
             'views/sale_view.xml',
-            'views/hr.xml',
+            'views/hr_view.xml',
             'views/account_move_view.xml',
             'views/project_task.xml',
             'security/ir.model.access.csv',
