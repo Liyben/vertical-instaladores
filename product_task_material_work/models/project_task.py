@@ -117,8 +117,8 @@ class ProjectTask(models.Model):
 				line.purchase_price = (line.total_cp_material + line.total_cp_work)
 
 			#Cambiamos el valor del campo Por Administracio del PT
-			for task in self:
-				task.by_administration = not task.by_administration
+			if not self.by_administration:
+				self.by_administration = not self.by_administration
 
 	#Funcion que comprueba si el PT tiene linea de pedido
 	def _check_sale_line_exist(self):
