@@ -100,9 +100,6 @@ class ProjectTask(models.Model):
 			if self.work_to_do:
 				nameToText += self.work_to_do + '<br/>'
 
-			if self.work_done:
-				nameToText += self.work_done
-
 			#Limpiamos la lista de trabajos y materiales de la linea de pedido asociada
 			self.sale_line_id.update({'task_works_ids' : False,
 								'task_materials_ids' : False
