@@ -9,7 +9,7 @@
 
             <xpath expr="//field[@name='auto_create_task']" position="before">
 
-                <group string="Secciones">
+                <group string="Secciones" attrs="{'invisible': [('display_type', '!=', False)]}">
                     <field name="secciones_ids" nolabel="1">
                         <tree string="Secciones" editable="bottom">
                             <field name="sequence" widget="handle"/>
@@ -24,7 +24,7 @@
                 </group>
 
                 <!-- CAMPOS PARA EL MODO MANUAL -->
-                <group>
+                <group attrs="{'invisible': [('display_type', '!=', False)]}">
                     <group>
                         <field name="total_lineales" attrs="{'invisible': [('manual_mode','=',True)]}"/>
                         <field name="total_lineales_manual" attrs="{'invisible': [('manual_mode','=',False)]}"/>
