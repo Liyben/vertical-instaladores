@@ -177,7 +177,7 @@
                         </td>
                         <td t-if="display_discount" class="text-right" groups="product.group_discount_per_so_line"></td>
                         <td class="works_total_amount">
-                            <t t-if="line.detailed_price_time">
+                            <t t-if="line.detailed_subtotal_price_time">
                                 <span t-esc="'{0:,.2f}'.format(line.total_sp_work).replace('.', ',')"/> <span t-field="doc.pricelist_id.currency_id.symbol"/>
                                 <!--<span t-field="line.total_sp_work" t-field-options='{"widget": "monetary", "display_currency": "doc.pricelist_id.currency_id"}'/>-->
                             </t>
@@ -224,7 +224,7 @@
                         <td></td>
                         <td t-if="display_discount" class="text-right" groups="product.group_discount_per_so_line"></td>
                         <td class="materials_total_amount">
-                            <t t-if="line.detailed_price_materials">
+                            <t t-if="line.detailed_subtotal_price_materials">
                                 <span t-esc="'{0:,.2f}'.format(line.total_sp_material).replace('.', ',')"/> <span t-field="doc.pricelist_id.currency_id.symbol"/>
                                 <!--<span t-field="line.total_sp_material" t-field-options='{"widget": "monetary", "display_currency": "doc.pricelist_id.currency_id"}'/>-->
                             </t>

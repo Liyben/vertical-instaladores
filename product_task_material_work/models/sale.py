@@ -348,6 +348,8 @@ class SaleOrderLine(models.Model):
 	detailed_price_time = fields.Boolean(string='Imp. precio Hr.')
 	detailed_materials = fields.Boolean(string='Imp.materiales')
 	detailed_price_materials = fields.Boolean(string='Imp. precio Mat.')
+	detailed_subtotal_price_time = fields.Boolean(string='Imp. subtotal Hr.')
+	detailed_subtotal_price_materials = fields.Boolean(string='Imp. subtotal Mat.')
 
 	#Albaranes relacionados
 	#picking_ids = fields.One2many('stock.picking', string='Albaranes', compute='_compute_picking_ids')
