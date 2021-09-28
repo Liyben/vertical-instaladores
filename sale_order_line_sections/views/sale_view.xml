@@ -34,7 +34,7 @@
                         <field name="total_cuadrados_manual" attrs="{'invisible': [('manual_mode','=',False)]}"/>
                     </group>
                 </group>
-                <group>
+                <group attrs="{'invisible': [('display_type', '!=', False)]}">
                         <field name="manual_mode" />
                 </group>
 
