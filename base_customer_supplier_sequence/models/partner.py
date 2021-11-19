@@ -4,13 +4,13 @@
 from odoo import _, api, exceptions, models
 
 
-class ResPartner(models.Model):
+class Partner(models.Model):
 
 	"""Assigns 'ref' from a sequence on creation and copying"""
 	inherit = "res.partner"
 
 	def _get_next_ref(self, vals=None):
-		if vals.get('customer'):
+		if vals.get('customer_rank'):
 			return self.env['ir.sequence'].next_by_code('res.partner.customer')
-		elif vals.get('supplier'):
+		elif vals.get('supplier_rank'):
 			return self.env['ir.sequence'].next_by_code('res.partner.supplier')
