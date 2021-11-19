@@ -11,7 +11,7 @@
 Añade secuencia para clientes y proveedores.
     """,
     'author': 'Liyben',
-    'depends': ['base', 'base_partner_sequence'],
+    'depends': ['base_partner_sequence'],
     'data': ['data/partner_sequence.xml'],
     'qweb': [],
     'images': [
