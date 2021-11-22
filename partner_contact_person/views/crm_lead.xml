@@ -9,7 +9,7 @@
 
             <xpath expr="//group[@name='opportunity_partner']" position="inside">
                 <label for="contact_name_mobile_person"/>
-                <div class="o_row" class="oe_inline">
+                <div class="o_row oe_inline">
                     <field name="contact_person" id="contact_name_mobile_person" placeholder="Nombre..."/>
                     <field name="contact_mobile" widget="phone" placeholder="Móvil..."/>
                 </div>
