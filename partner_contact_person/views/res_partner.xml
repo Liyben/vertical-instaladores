@@ -6,7 +6,11 @@
         <field name="inherit_id" ref="base.view_partner_simple_form" />
         <field name="arch" type="xml">
             <field name="function" position="after">
-                <field name="contact_person"/>
+                <label for="contact_name_mobile_person"/>
+                <div class="o_row">
+                    <field name="contact_person" id="contact_name_mobile_person" placeholder="Nombre..."/>
+                    <field name="contact_mobile" widget="phone" placeholder="Móvil..."/>
+                </div>
             </field>
         </field>
     </record>
@@ -16,13 +20,21 @@
         <field name="inherit_id" ref="base.view_partner_form" />
         <field name="arch" type="xml">
             <field name="function" position="after">
-                <field name="contact_person" />
+                <label for="contact_name_mobile_person"/>
+                <div class="o_row">
+                    <field name="contact_person" id="contact_name_mobile_person" placeholder="Nombre..."/>
+                    <field name="contact_mobile" widget="phone" placeholder="Móvil..."/>
+                </div>
             </field>
             <xpath
                 expr="//field[@name='child_ids']/form//field[@name='mobile']"
                 position="after"
             >
-                <field name="contact_person"/>
+                <label for="contact_name_mobile_person"/>
+                <div class="o_row">
+                    <field name="contact_person" id="contact_name_mobile_person" placeholder="Nombre..."/>
+                    <field name="contact_mobile" widget="phone" placeholder="Móvil..."/>
+                </div>
             </xpath>
         </field>
     </record>

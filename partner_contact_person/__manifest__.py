@@ -3,12 +3,13 @@
 {
     "name": "Persona de contacto",
     "category": "Extra Tools",
-    "summary": "Añade una persona de contacto a la compañia",
+    "summary": "Añade una persona de contacto indicando su móvil, en la ficha de cliente llevando dicha información al aviso",
     "version": "14.0.1.0.0",
     "license": "AGPL-3",
     "author": "Liyben",
     "website": "",
-    "depends": ["base_setup"],
-    "data": ["views/res_partner.xml"],
+    "depends": ["base_setup", "lyb_avisos"],
+    "data": ["views/res_partner.xml",
+            "views/crm_lead.xml"],
     "installable": True,
 }

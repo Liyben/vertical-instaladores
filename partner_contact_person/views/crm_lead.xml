@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="partner_contact_person_form_view_avisos">
+        <field name="name">lyb.avisos.form.avisos</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='email_from']" position="after">
+                <label for="contact_name_mobile_person"/>
+                <div class="o_row">
+                    <field name="contact_person" id="contact_name_mobile_person" placeholder="Nombre..."/>
+                    <field name="contact_mobile" widget="phone" placeholder="Móvil..."/>
+                </div>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>
