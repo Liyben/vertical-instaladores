@@ -7,7 +7,7 @@ from odoo import fields, models, api, _
 class CrmLead(models.Model):
 	_inherit = 'crm.lead'
 	
-	contact_person = fields.Char(string="Persona de contacto")
+	contact_person = fields.Char(string="Contacto Obra")
 	contact_mobile = fields.Char()
 
 	@api.onchange('contact_mobile', 'country_id', 'company_id')
