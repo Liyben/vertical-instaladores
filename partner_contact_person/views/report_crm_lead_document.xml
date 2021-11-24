@@ -6,9 +6,9 @@
         <xpath expr="//tr[@id='contact_person']" position="replace">
             <tr id="contact_person">
                 <td style="font-weight:bold;">Sr/a.</td>
-                <td colspan="2" style="font-weight:normal;"><span t-field="o.partner_id"/></td>
+                <td style="font-weight:normal;"><span t-field="o.partner_id"/></td>
                 <td style="font-weight:bold;">Contacto Obra:</td>
-                <td colspan="2" style="font-weight:normal;"><span t-field="o.contact_person"/><span t-if="o.contact_person and o.contact_mobile"> / </span><span t-field="o.contact_mobile"/></td>
+                <td style="font-weight:normal;"><span t-field="o.contact_person"/><span t-if="o.contact_person and o.contact_mobile"> / </span><span t-field="o.contact_mobile"/></td>
             </tr>
         </xpath>
         
