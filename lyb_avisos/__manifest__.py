@@ -18,6 +18,8 @@
             'views/crm_lead_views.xml',
             'views/res_partner_view.xml',
             'views/crm_stage_views.xml',
+            'views/crm_lead_report.xml',
+            'views/report_crm_lead_document.xml',
     ],
     'qweb': [],
     'images': [

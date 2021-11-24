@@ -58,7 +58,7 @@
                             'show_vat': True}"/>
                         <field name="name" string="Aviso" placeholder="e.g. Nombre del aviso" />
                         <field name="email_from" string="Email" />
-                        <field name="phone" string="Teléfono" />
+                        <field name="mobile" string="Móvil" />
                         <label for="expected_revenue"/>
                         <div class="o_row">
                             <field name="expected_revenue" class="oe_inline mr-5" widget="monetary" options="{'currency_field': 'company_currency'}"/>
@@ -83,7 +83,7 @@
                         <field name="street" invisible="1"/>
                         <field name="street2" invisible="1"/>
                         <field name="zip" invisible="1"/>
-                        <field name="mobile" invisible="1"/>
+                        <field name="phone" invisible="1"/>
                         <field name="website" invisible="1"/>
                         <field name="function" invisible="1"/>
                         <field name="title" invisible="1"/>
@@ -277,6 +277,27 @@
         </record>
 
         <!-- Vistas heredadas -->
+        <record model="ir.ui.view" id="lyb_avisos_quick_create_opportunity_form">
+        <field name="name">lyb.avisos.quick.create.opportunity.form</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.quick_create_opportunity_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='mobile']" position="replace"></xpath>
+
+            <xpath expr="//field[@name='phone']" position="replace"></xpath>
+
+            <xpath expr="//field[@name='email_from']" position="after">
+                <field name="mobile" string="Móvil" />
+            </xpath>
+
+            <xpath expr="//field[@name='zip']" position="after">
+                <field name="phone" invisible="1" />
+            </xpath>
+
+        </field>
+    </record>
+
         <record model="ir.ui.view" id="crm_lead_code_tree_view">
             <field name="name">crm.lead.code.tree</field>
             <field name="model">crm.lead</field>
@@ -350,6 +371,22 @@
 
                 <xpath expr="//field[@name='stage_id']" position="attributes">
                     <attribute name="domain">[('team_id', 'in', [team_id, False]), ('crm_sub_type', 'in', [sub_type, 'both'])]</attribute>
+                </xpath>
+
+                <xpath expr="//group[@name='opportunity_partner']" position="inside">
+                    <label for="mobile" class="oe_inline"/>
+                    <div class="o_row o_row_readonly">
+                        <button name="phone_action_blacklist_remove" class="fa fa-ban text-danger" title="This phone number is blacklisted for SMS Marketing. Click to unblacklist." type="object" context="{'default_phone': mobile}" groups="base.group_user" attrs="{'invisible': [('mobile_blacklisted', '=', False)]}"/>
+                        <field name="mobile" widget="phone" string="Móvil"/>
+                    </div>
+                </xpath>
+
+                <xpath expr="//field[@id='mobile_page_lead']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+
+                <xpath expr="//label[@for='mobile_page_lead']" position="attributes">
+                    <attribute name="invisible">True</attribute>
                 </xpath>
 
                 <xpath expr="//form/sheet/div[@class='oe_title']/h2[@class='o_row no-gutters align-items-end']" position="attributes">
