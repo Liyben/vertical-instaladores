@@ -10,8 +10,7 @@
                         <table class="table table-sm o_main_table">
                             <tbody>
                                 <tr>
-                                    <td colspan="3" style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:0;">PARTE DE MEDICIÓN</td>   
-                                    <td colspan="3" class="pull-right" style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:0;">Nº AVISO <span t-field="o.sequence_code" /></td>                             
+                                    <td colspan="6" style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:0;">PARTE DE MEDICIÓN <span style="float:right;">Nº AVISO <span t-field="o.sequence_code"/></span></td>                            
                                 </tr>
                                 <tr>
                                     <td style="font-weight:normal;border:0;">
@@ -19,11 +18,11 @@
                                 </tr>
                                 <tr>
                                     <td style="font-weight:bold;border:0;">Presupuesto</td>
-                                    <td style="font-weight:normal;border:1px solid #238AA9;"></td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;width: 275px;"></td>
                                     <td style="font-weight:bold;border:0;">Fecha </td>
                                     <td style="font-weight:normal;border: 1px solid #238AA9;width: 125px;"><span t-field="o.date_begin" t-options="{&quot;widget&quot;: &quot;date&quot;}"/></td>
                                     <td style="font-weight:bold;border:0;">Hora </td>
-                                    <td style="font-weight:normal;border: 1px solid #238AA9;width: 125px;"><span t-field="o.date_begin" t-field-options='{"format": "HH:mm"}'/></td>
+                                    <td style="font-weight:normal;border: 1px solid #238AA9;width: 125px;"><span t-esc="datetime.datetime.strftime(o.date_begin, '%H:%M:%S')"/></td>
                                 </tr>
                                 <tr>
                                     <td style="font-weight:normal;border:0;">
@@ -33,7 +32,7 @@
                                     <td style="font-weight:bold;border:0;">Téc. Medición </td>
                                     <td style="font-weight:normal;border: 1px solid #238AA9;"><span t-field="o.worker_one" /></td>
                                     <td style="font-weight:bold;border:0;">Téc. Ppto.</td>
-                                    <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="o.user_id" /></td></tr>
+                                    <td colspan="3" style="font-weight:normal;border:1px solid #238AA9;"><span t-field="o.user_id" /></td></tr>
                                 <tr>
                                     <td style="font-weight:normal;border:0;">
                                     </td>
