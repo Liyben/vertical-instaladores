@@ -8,7 +8,7 @@
             <field name="report_name">lyb_avisos.report_crm_lead_notice</field>
             <field name="report_file">lyb_avisos.report_crm_lead_notice</field>
             <field name="print_report_name">'Parte de mecición - %s' % (object.sequence_code)</field>
-            <field name="binding_model_id" ref="model_project_task"/>
+            <field name="binding_model_id" ref="model_crm_lead"/>
             <field name="binding_type">report</field>
         </record>
     </data>
