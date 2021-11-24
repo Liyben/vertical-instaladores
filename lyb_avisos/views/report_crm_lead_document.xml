@@ -78,7 +78,7 @@
                                     <td style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:1px solid #238AA9;">Croquis</td>
                                 </tr>
                                 <tr>
-                                    <td style="font-weight:normal;border:1px solid #238AA9;text-align:center;"><img src='/lyb_avisos/static/src/img/croquis.png' height="665px" width="830px" /></td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;text-align:center;"><img src='/lyb_avisos/static/src/img/croquis.png' height="550px" width="830px" /></td>
                                 </tr>
                              </tbody>
                         </table>
