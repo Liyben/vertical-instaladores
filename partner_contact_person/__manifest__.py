@@ -10,6 +10,7 @@
     "website": "",
     "depends": ["base_setup", "lyb_avisos"],
     "data": ["views/res_partner.xml",
-            "views/crm_lead.xml"],
+            "views/crm_lead.xml",
+            'views/report_crm_lead_document.xml',],
     "installable": True,
 }
