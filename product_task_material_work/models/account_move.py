@@ -33,11 +33,13 @@ class AccountMoveLine(models.Model):
 	benefit_material = fields.Float(string='Beneficio', digits=dp.get_precision('Product Price'), compute='_compute_benefit_material', default=0.0)
 	#Campo boolean para saber si crear o no una tarea de forma automatica
 	auto_create_task = fields.Boolean(string='Tarea automática', copy=True)
-	#Opciones de impresión por linea de factura
+	#Opciones de impresión por linea de pedido
 	detailed_time = fields.Boolean(string='Imp. horas')
 	detailed_price_time = fields.Boolean(string='Imp. precio Hr.')
 	detailed_materials = fields.Boolean(string='Imp.materiales')
 	detailed_price_materials = fields.Boolean(string='Imp. precio Mat.')
+	detailed_subtotal_price_time = fields.Boolean(string='Imp. subtotal Hr.')
+	detailed_subtotal_price_materials = fields.Boolean(string='Imp. subtotal Mat.')
 
 
 	#Carga de los datos del producto en la linea de factura al seleccionar dicho producto

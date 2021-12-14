@@ -35,10 +35,12 @@
                  <group>
                     <group>
                         <field name="detailed_time"/>
+                        <field name="detailed_subtotal_price_time" attrs="{'invisible': [('detailed_time','=', False)]}"/>
                         <field name="detailed_price_time" attrs="{'invisible': [('detailed_time','=', False)]}"/>
                     </group>
                     <group>
                         <field name="detailed_materials"/>
+                        <field name="detailed_subtotal_price_materials" attrs="{'invisible': [('detailed_materials','=', False)]}"/>
                         <field name="detailed_price_materials" attrs="{'invisible': [('detailed_materials','=', False)]}"/>
                     </group>
                 </group>

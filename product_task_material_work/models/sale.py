@@ -784,6 +784,8 @@ class SaleOrderLine(models.Model):
 			res['detailed_price_time'] = self.detailed_price_time
 			res['detailed_materials'] = self.detailed_materials
 			res['detailed_price_materials'] = self.detailed_price_materials
+			res['detailed_subtotal_price_time'] = self.detailed_subtotal_price_time
+			res['detailed_subtotal_price_materials'] = self.detailed_subtotal_price_materials
 
 		return res
 
