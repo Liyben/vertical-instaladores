@@ -24,6 +24,7 @@ class ProductTemplate(models.Model):
 	benefit_material = fields.Float(string='Beneficio',  compute='_compute_benefit_material')
 	#Campo boolean para saber si crear o no una tarea de forma automatica
 	auto_create_task = fields.Boolean(string='Tarea automática', compute='_compute_auto_create_task')
+	apply_pricelist = fields.Boolean(string='Aplicar tarifa')
 
 	#Calcula el total de horas del campo Trabajos
 	

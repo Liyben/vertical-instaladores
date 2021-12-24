@@ -16,6 +16,7 @@
                 <page string ="Partida" name="partida" attrs="{'invisible':[('auto_create_task','!=',True)]}">
                         <group string="Trabajos">
                             <group>
+                                <field name="apply_pricelist"/>
                                 <field name="auto_create_task" invisible="1"/>
                                 <field name="workforce_id" invisible="1" ref="product_task_material_work.mano_obra_00" domain="[('categ_id', '=', %(product_task_material_work.product_category_mo)d )]"/>
                             </group>
