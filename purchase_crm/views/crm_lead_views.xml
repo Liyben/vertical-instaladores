@@ -9,7 +9,7 @@
                 <div name="button_box" position="inside">
                     <button class="oe_stat_button" type="object"
                             name="action_view_purchase_rfq" icon="fa-pencil-square">
-                        <field name="rfq_count" widget="statinfo" string="Solicitud(es)"/>
+                        <field name="rfq_count" widget="statinfo" string="Compra(s)"/>
                     </button>
                     <button class="oe_stat_button" type="object" attrs="{'invisible': [('purchase_order_count', '=', 0)]}"
                             name="action_view_purchase_order" icon="fa-shopping-cart">

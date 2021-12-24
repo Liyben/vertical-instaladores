@@ -137,8 +137,9 @@ class SaleOrderLineSecciones(models.Model):
 	def _compute_mts_cuadrados(self):
 		for line in self:
 			line.mts_cuadrados = (line.ancho * line.alto)
-
+"""
 	@api.onchange('seccion_name')
 	def _onchage_seccion_name(self):
 		self.ancho = 0.0
 		self.alto = 0.0
+"""
