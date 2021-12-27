@@ -118,7 +118,6 @@ class SaleOrderLineSecciones(models.Model):
 		('J','J'),
 		('K','K')],
 		string = 'Sección',
-		default=_get_default_seccion_name,
 		help = 'Seleccione sección...')
 
 	unidades = fields.Integer(default = 1, string="Und.")
