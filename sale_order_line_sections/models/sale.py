@@ -34,11 +34,6 @@ class SaleOrderLine(models.Model):
 	total_cuadrados_manual = fields.Float(
 		string = "T-mts. cuadrados",
 		digits="Product Unit Of Measure")
-
-	last_seccion_name = fields.Char(
-		string = "Ultima sección",
-		compute = '_compute_last_seccion_name',
-		readonly = True)
 	
 	@api.onchange('total_lineales','total_cuadrados','manual_mode')
 	def _onchange_metros(self):
@@ -104,7 +99,7 @@ class SaleOrderLine(models.Model):
 					val = 'J'
 				elif s.seccion_name == 'K':
 					val = 'K'
-					
+
 			line.last_seccion_name = val
 
 
@@ -124,7 +119,7 @@ class SaleOrderLineSecciones(models.Model):
 		comodel_name = 'sale.order.line',
 		string = 'Order Line')
 
-	sequence = fields.Integer(default = 10)
+	sequence = fields.Integer()
 
 	ancho = fields.Float(
 		string = 'Ancho',
@@ -153,7 +148,6 @@ class SaleOrderLineSecciones(models.Model):
 		('J','J'),
 		('K','K')],
 		string = 'Sección',
-		default=_get_default_seccion_name,
 		help = 'Seleccione sección...')
 
 	unidades = fields.Integer(default = 1, string="Und.")
