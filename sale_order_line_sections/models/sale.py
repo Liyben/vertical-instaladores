@@ -34,6 +34,11 @@ class SaleOrderLine(models.Model):
 	total_cuadrados_manual = fields.Float(
 		string = "T-mts. cuadrados",
 		digits="Product Unit Of Measure")
+
+	last_seccion_name = fields.Char(
+		string = "Ultima sección",
+		compute = '_compute_last_seccion_name',
+		readonly = True)
 	
 	@api.onchange('total_lineales','total_cuadrados','manual_mode')
 	def _onchange_metros(self):
@@ -72,6 +77,37 @@ class SaleOrderLine(models.Model):
 			line.total_lineales = sum(line.secciones_ids.mapped('mts_lineales_sub'))
 			line.total_cuadrados = sum(line.secciones_ids.mapped('mts_cuadrados_sub'))
 
+	@api.depends('secciones_ids', 'secciones_ids.seccion_name')
+	def _compute_last_seccion_name(self):
+		val='A'
+		for line in self:
+			for s in line.secciones_ids:
+				if s.seccion_name == 'A':
+					val = 'A'
+				elif s.seccion_name == 'B':
+					val = 'B'
+				elif s.seccion_name == 'C':
+					val = 'C'
+				elif s.seccion_name == 'D':
+					val = 'D'
+				elif s.seccion_name == 'E':
+					val = 'E'
+				elif s.seccion_name == 'F':
+					val = 'F'
+				elif s.seccion_name == 'G':
+					val = 'G'
+				elif s.seccion_name == 'H':
+					val = 'H'
+				elif s.seccion_name == 'I':
+					val = 'I'
+				elif s.seccion_name == 'J':
+					val = 'J'
+				elif s.seccion_name == 'K':
+					val = 'K'
+					
+			line.last_seccion_name = val
+
+
 class SaleOrderLineSecciones(models.Model):
 	
 	_name = 'sale.order.line.secciones'
@@ -79,10 +115,9 @@ class SaleOrderLineSecciones(models.Model):
 
 	@api.model
 	def _get_default_seccion_name(self):
-	
-		for s in self.order_line_id.secciones_ids:
-			val = dict(self._fields['seccion_name'].selection).get(s.seccion_name)
-	
+		val=''
+		for line in self:
+			val = line.order_line_id.last_seccion_name
 		return val
 
 	order_line_id = fields.Many2one(
@@ -118,6 +153,7 @@ class SaleOrderLineSecciones(models.Model):
 		('J','J'),
 		('K','K')],
 		string = 'Sección',
+		default=_get_default_seccion_name,
 		help = 'Seleccione sección...')
 
 	unidades = fields.Integer(default = 1, string="Und.")
