@@ -77,6 +77,12 @@ class SaleOrderLineSecciones(models.Model):
 	_name = 'sale.order.line.secciones'
 	_order = 'order_line_id, sequence, id'
 
+	@api.model
+	def _get_default_seccion_name(self):
+		val='A'
+
+		return val
+		
 	order_line_id = fields.Many2one(
 		comodel_name = 'sale.order.line',
 		string = 'Order Line')
@@ -110,6 +116,7 @@ class SaleOrderLineSecciones(models.Model):
 		('J','J'),
 		('K','K')],
 		string = 'Sección',
+		default=_get_default_seccion_name,
 		help = 'Seleccione sección...')
 
 	unidades = fields.Integer(default = 1, string="Und.")
