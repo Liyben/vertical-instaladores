@@ -79,11 +79,13 @@ class SaleOrderLineSecciones(models.Model):
 
 	@api.model
 	def _get_default_seccion_name(self):
-		val='A'
+	
 		if self.order_line_id.secciones_ids:
 			for s in self.order_line_id.secciones_ids:
 				val = s.seccion_name
-
+		else:
+			val='A'
+			
 		return val
 
 	order_line_id = fields.Many2one(
