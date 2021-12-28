@@ -34,6 +34,8 @@ class SaleOrderLine(models.Model):
 	total_cuadrados_manual = fields.Float(
 		string = "T-mts. cuadrados",
 		digits="Product Unit Of Measure")
+
+	last_seccion_name = fields.Char(string="Ultima sección")
 	
 	@api.onchange('total_lineales','total_cuadrados','manual_mode')
 	def _onchange_metros(self):
@@ -71,36 +73,6 @@ class SaleOrderLine(models.Model):
 		for line in self:
 			line.total_lineales = sum(line.secciones_ids.mapped('mts_lineales_sub'))
 			line.total_cuadrados = sum(line.secciones_ids.mapped('mts_cuadrados_sub'))
-
-	@api.depends('secciones_ids', 'secciones_ids.seccion_name')
-	def _compute_last_seccion_name(self):
-		val='A'
-		for line in self:
-			for s in line.secciones_ids:
-				if s.seccion_name == 'A':
-					val = 'A'
-				elif s.seccion_name == 'B':
-					val = 'B'
-				elif s.seccion_name == 'C':
-					val = 'C'
-				elif s.seccion_name == 'D':
-					val = 'D'
-				elif s.seccion_name == 'E':
-					val = 'E'
-				elif s.seccion_name == 'F':
-					val = 'F'
-				elif s.seccion_name == 'G':
-					val = 'G'
-				elif s.seccion_name == 'H':
-					val = 'H'
-				elif s.seccion_name == 'I':
-					val = 'I'
-				elif s.seccion_name == 'J':
-					val = 'J'
-				elif s.seccion_name == 'K':
-					val = 'K'
-
-			line.last_seccion_name = val
 
 
 class SaleOrderLineSecciones(models.Model):
@@ -148,6 +120,7 @@ class SaleOrderLineSecciones(models.Model):
 		('J','J'),
 		('K','K')],
 		string = 'Sección',
+		default=_get_default_seccion_name,
 		help = 'Seleccione sección...')
 
 	unidades = fields.Integer(default = 1, string="Und.")
@@ -175,9 +148,31 @@ class SaleOrderLineSecciones(models.Model):
 	def _compute_mts_cuadrados(self):
 		for line in self:
 			line.mts_cuadrados = (line.ancho * line.alto)
-"""
+
 	@api.onchange('seccion_name')
 	def _onchage_seccion_name(self):
-		self.ancho = 0.0
-		self.alto = 0.0
-"""
+		val=''
+		if self.seccion_name == 'A':
+			val = 'A'
+		elif self.seccion_name == 'B':
+			val = 'B'
+		elif self.seccion_name == 'C':
+			val = 'C'
+		elif self.seccion_name == 'D':
+			val = 'D'
+		elif self.seccion_name == 'E':
+			val = 'E'
+		elif self.seccion_name == 'F':
+			val = 'F'
+		elif self.seccion_name == 'G':
+			val = 'G'
+		elif self.seccion_name == 'H':
+			val = 'H'
+		elif self.seccion_name == 'I':
+			val = 'I'
+		elif self.seccion_name == 'J':
+			val = 'J'
+		elif self.seccion_name == 'K':
+			val = 'K'
+
+		self.order_line_id.last_seccion_name = val
