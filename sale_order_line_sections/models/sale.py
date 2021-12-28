@@ -120,7 +120,6 @@ class SaleOrderLineSecciones(models.Model):
 		('J','J'),
 		('K','K')],
 		string = 'Sección',
-		default=_get_default_seccion_name,
 		help = 'Seleccione sección...')
 
 	unidades = fields.Integer(default = 1, string="Und.")
@@ -174,5 +173,7 @@ class SaleOrderLineSecciones(models.Model):
 			val = 'J'
 		elif self.seccion_name == 'K':
 			val = 'K'
+		else:
+			val='else'
 
 		self.order_line_id.last_seccion_name = val
