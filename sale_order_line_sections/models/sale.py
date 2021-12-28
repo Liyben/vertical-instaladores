@@ -83,6 +83,8 @@ class SaleOrderLine(models.Model):
 						line.last_seccion_name = 'A'
 					else: 
 						line.last_seccion_name = 'else'
+			else:
+				line.last_seccion_name = 'no'
 
 class SaleOrderLineSecciones(models.Model):
 	
