@@ -35,7 +35,7 @@ class SaleOrderLine(models.Model):
 		string = "T-mts. cuadrados",
 		digits="Product Unit Of Measure")
 
-	last_seccion_name = fields.Char(string="Ultima sección",compute = '_compute_last_seccion_name')
+	last_seccion_name = fields.Char(string="Ultima sección",compute = '_compute_last_seccion_name',store=True)
 	
 	@api.onchange('total_lineales','total_cuadrados','manual_mode')
 	def _onchange_metros(self):
@@ -113,10 +113,7 @@ class SaleOrderLineSecciones(models.Model):
 
 	@api.model
 	def _get_default_seccion_name(self):
-		val=''
-		for line in self:
-			val = line.order_line_id.last_seccion_name
-		return val
+		return self.order_line_id.last_seccion_name
 
 	order_line_id = fields.Many2one(
 		comodel_name = 'sale.order.line',
