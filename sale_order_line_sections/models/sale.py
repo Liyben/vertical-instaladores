@@ -81,10 +81,30 @@ class SaleOrderLine(models.Model):
 				for s in line.secciones_ids:
 					if s.seccion_name == 'A':
 						line.last_seccion_name = 'A'
+					elif s.seccion_name == 'B':
+						line.last_seccion_name = 'B'
+					elif s.seccion_name == 'C':
+						line.last_seccion_name = 'C'
+					elif s.seccion_name == 'D':
+						line.last_seccion_name = 'D'
+					elif s.seccion_name == 'E':
+						line.last_seccion_name = 'E'
+					elif s.seccion_name == 'F':
+						line.last_seccion_name = 'F'
+					elif s.seccion_name == 'G':
+						line.last_seccion_name = 'G'
+					elif s.seccion_name == 'H':
+						line.last_seccion_name = 'H'
+					elif s.seccion_name == 'I':
+						line.last_seccion_name = 'I'
+					elif s.seccion_name == 'J':
+						line.last_seccion_name = 'J'
+					elif s.seccion_name == 'K':
+						line.last_seccion_name = 'K'
 					else: 
-						line.last_seccion_name = 'else'
+						line.last_seccion_name = ''
 			else:
-				line.last_seccion_name = 'no'
+				line.last_seccion_name = ''
 
 class SaleOrderLineSecciones(models.Model):
 	
@@ -131,6 +151,7 @@ class SaleOrderLineSecciones(models.Model):
 		('J','J'),
 		('K','K')],
 		string = 'Sección',
+		default=_get_default_seccion_name,
 		help = 'Seleccione sección...')
 
 	unidades = fields.Integer(default = 1, string="Und.")
