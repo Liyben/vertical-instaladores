@@ -35,7 +35,7 @@
                     </group>
                 </group>
                 <group attrs="{'invisible': [('display_type', '!=', False)]}">
-                    <field name="last_seccion_name" invisible="1"/>
+                    <field name="last_seccion_name" invisible="0"/>
                     <field name="manual_mode" />
                 </group>
 

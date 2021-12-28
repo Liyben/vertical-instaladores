@@ -35,7 +35,7 @@ class SaleOrderLine(models.Model):
 		string = "T-mts. cuadrados",
 		digits="Product Unit Of Measure")
 
-	last_seccion_name = fields.Char(string="Ultima sección",compute = '_compute_last_seccion_name',store=True)
+	last_seccion_name = fields.Char(string="Ultima sección")#,compute = '_compute_last_seccion_name',store=True)
 	
 	@api.onchange('total_lineales','total_cuadrados','manual_mode')
 	def _onchange_metros(self):
@@ -74,7 +74,7 @@ class SaleOrderLine(models.Model):
 			line.total_lineales = sum(line.secciones_ids.mapped('mts_lineales_sub'))
 			line.total_cuadrados = sum(line.secciones_ids.mapped('mts_cuadrados_sub'))
 
-	@api.depends('secciones_ids', 'secciones_ids.seccion_name')
+	@api.depends('secciones_ids.seccion_name')
 	def _compute_last_seccion_name(self):
 		for line in self:
 			if line.secciones_ids:
