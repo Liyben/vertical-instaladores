@@ -77,12 +77,13 @@ class SaleOrderLine(models.Model):
 	@api.depends('secciones_ids', 'secciones_ids.seccion_name')
 	def _compute_last_seccion_name(self):
 		for line in self:
-			for s in line.secciones_ids:
-				if s.seccion_name == 'A':
-					line.last_seccion_name = 'A'
-				else: 
-					line.last_seccion_name = 'else'
-					
+			if line.secciones_ids:
+				for s in line.secciones_ids:
+					if s.seccion_name == 'A':
+						line.last_seccion_name = 'A'
+					else: 
+						line.last_seccion_name = 'else'
+
 class SaleOrderLineSecciones(models.Model):
 	
 	_name = 'sale.order.line.secciones'
