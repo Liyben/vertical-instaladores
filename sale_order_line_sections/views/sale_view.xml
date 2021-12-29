@@ -8,7 +8,9 @@
         <field name="arch" type="xml">
 
             <xpath expr="//field[@name='auto_create_task']" position="before">
-
+                <group attrs="{'invisible': [('display_type', '!=', False)]}">
+                    <field name="last_seccion_name" invisible="0"/>
+                </group>
                 <group string="Secciones" attrs="{'invisible': [('display_type', '!=', False)]}">
                     <field name="secciones_ids" nolabel="1">
                         <tree string="Secciones" editable="bottom">
@@ -35,7 +37,6 @@
                     </group>
                 </group>
                 <group attrs="{'invisible': [('display_type', '!=', False)]}">
-                    <field name="last_seccion_name" invisible="0"/>
                     <field name="manual_mode" />
                 </group>
 
