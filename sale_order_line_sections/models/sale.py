@@ -80,7 +80,7 @@ class SaleOrderLine(models.Model):
 			if len(line.secciones_ids) == 0:
 				line.last_seccion_name = 'A'
 			else:
-				s_name = line.secciones_ids[len(line.secciones_ids)-1]
+				s_name = line.secciones_ids[len(line.secciones_ids)-1].seccion_name
 				
 				if s_name == 'A':
 					line.last_seccion_name = 'B'
