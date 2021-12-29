@@ -35,7 +35,7 @@ class SaleOrderLine(models.Model):
 		string = "T-mts. cuadrados",
 		digits="Product Unit Of Measure")
 
-	last_seccion_name = fields.Char(string="Ultima sección")#,compute = '_compute_last_seccion_name',store=True)
+	last_seccion_name = fields.Char(string="Ultima sección",compute = '_compute_last_seccion_name',store=True)
 	
 	@api.onchange('total_lineales','total_cuadrados','manual_mode')
 	def _onchange_metros(self):
@@ -77,43 +77,41 @@ class SaleOrderLine(models.Model):
 	@api.depends('secciones_ids.seccion_name')
 	def _compute_last_seccion_name(self):
 		for line in self:
-			if line.secciones_ids:
-				for s in line.secciones_ids:
-					if s.seccion_name == 'A':
-						line.last_seccion_name = 'A'
-					elif s.seccion_name == 'B':
-						line.last_seccion_name = 'B'
-					elif s.seccion_name == 'C':
-						line.last_seccion_name = 'C'
-					elif s.seccion_name == 'D':
-						line.last_seccion_name = 'D'
-					elif s.seccion_name == 'E':
-						line.last_seccion_name = 'E'
-					elif s.seccion_name == 'F':
-						line.last_seccion_name = 'F'
-					elif s.seccion_name == 'G':
-						line.last_seccion_name = 'G'
-					elif s.seccion_name == 'H':
-						line.last_seccion_name = 'H'
-					elif s.seccion_name == 'I':
-						line.last_seccion_name = 'I'
-					elif s.seccion_name == 'J':
-						line.last_seccion_name = 'J'
-					elif s.seccion_name == 'K':
-						line.last_seccion_name = 'K'
-					else: 
-						line.last_seccion_name = ''
+			if len(line.secciones_ids) == 0:
+				line.last_seccion_name = 'A'
 			else:
-				line.last_seccion_name = ''
+				s_name = line.secciones_ids[len(line.secciones_ids)-1]
+				
+				if s_name == 'A':
+					line.last_seccion_name = 'B'
+				elif s_name == 'B':
+					line.last_seccion_name = 'C'
+				elif s_name == 'C':
+					line.last_seccion_name = 'D'
+				elif s_name == 'D':
+					line.last_seccion_name = 'E'
+				elif s_name == 'E':
+					line.last_seccion_name = 'F'
+				elif s_name == 'F':
+					line.last_seccion_name = 'G'
+				elif s_name == 'G':
+					line.last_seccion_name = 'H'
+				elif s_name == 'H':
+					line.last_seccion_name = 'I'
+				elif s_name == 'I':
+					line.last_seccion_name = 'J'
+				elif s_name == 'J':
+					line.last_seccion_name = 'K'
+				elif s_name == 'K':
+					line.last_seccion_name = 'A'
+				else: 
+					line.last_seccion_name = ''
+			
 
 class SaleOrderLineSecciones(models.Model):
 	
 	_name = 'sale.order.line.secciones'
 	_order = 'order_line_id, sequence, id'
-
-	@api.model
-	def _get_default_seccion_name(self):
-		return self.order_line_id.last_seccion_name
 
 	order_line_id = fields.Many2one(
 		comodel_name = 'sale.order.line',
@@ -175,35 +173,3 @@ class SaleOrderLineSecciones(models.Model):
 	def _compute_mts_cuadrados(self):
 		for line in self:
 			line.mts_cuadrados = (line.ancho * line.alto)
-
-"""
-	@api.onchange('seccion_name')
-	def _onchage_seccion_name(self):
-		val=''
-		if self.seccion_name == 'A':
-			val = 'A'
-		elif self.seccion_name == 'B':
-			val = 'B'
-		elif self.seccion_name == 'C':
-			val = 'C'
-		elif self.seccion_name == 'D':
-			val = 'D'
-		elif self.seccion_name == 'E':
-			val = 'E'
-		elif self.seccion_name == 'F':
-			val = 'F'
-		elif self.seccion_name == 'G':
-			val = 'G'
-		elif self.seccion_name == 'H':
-			val = 'H'
-		elif self.seccion_name == 'I':
-			val = 'I'
-		elif self.seccion_name == 'J':
-			val = 'J'
-		elif self.seccion_name == 'K':
-			val = 'K'
-		else:
-			val='else'
-
-		self.order_line_id.last_seccion_name = val
-"""
