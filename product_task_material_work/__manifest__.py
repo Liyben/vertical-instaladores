@@ -3,7 +3,7 @@
 
 {
     'name': 'Trabajos y Materiales en producto',
-    'version': '14.0.1.0.0',
+    'version': '14.0.1.0.1',
     'license': 'AGPL-3',
     'category': 'Sales',
     'summary': 'Trabajos y Materiales en producto',
