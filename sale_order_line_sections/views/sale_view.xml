@@ -12,8 +12,8 @@
                     <field name="last_seccion_name" invisible="0"/>
                 </group>
                 <group string="Secciones" attrs="{'invisible': [('display_type', '!=', False)]}">
-                    <field name="secciones_ids" nolabel="1">
-                        <tree string="Secciones" editable="bottom">
+                    <field name="secciones_ids" nolabel="1" context="{'default_seccion_name': last_seccion_name}">
+                        <tree string="Secciones" editable="bottom" >
                             <field name="sequence" widget="handle"/>
                             <field name="seccion_name"/>
                             <field name="unidades"/>
