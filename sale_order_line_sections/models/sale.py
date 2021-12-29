@@ -77,32 +77,35 @@ class SaleOrderLine(models.Model):
 	@api.depends('secciones_ids','secciones_ids.seccion_name')
 	def _compute_last_seccion_name(self):
 		for line in self:
-			s_name = line.secciones_ids[len(line.secciones_ids)-1].seccion_name
-			
-			if s_name == 'A':
-				line.last_seccion_name = 'B'
-			elif s_name == 'B':
-				line.last_seccion_name = 'C'
-			elif s_name == 'C':
-				line.last_seccion_name = 'D'
-			elif s_name == 'D':
-				line.last_seccion_name = 'E'
-			elif s_name == 'E':
-				line.last_seccion_name = 'F'
-			elif s_name == 'F':
-				line.last_seccion_name = 'G'
-			elif s_name == 'G':
-				line.last_seccion_name = 'H'
-			elif s_name == 'H':
-				line.last_seccion_name = 'I'
-			elif s_name == 'I':
-				line.last_seccion_name = 'J'
-			elif s_name == 'J':
-				line.last_seccion_name = 'K'
-			elif s_name == 'K':
+			if len(line.secciones_ids) == 0:
 				line.last_seccion_name = 'A'
-			else: 
-				line.last_seccion_name = 'A'
+			else:
+				s_name = line.secciones_ids[len(line.secciones_ids)-1].seccion_name
+				
+				if s_name == 'A':
+					line.last_seccion_name = 'B'
+				elif s_name == 'B':
+					line.last_seccion_name = 'C'
+				elif s_name == 'C':
+					line.last_seccion_name = 'D'
+				elif s_name == 'D':
+					line.last_seccion_name = 'E'
+				elif s_name == 'E':
+					line.last_seccion_name = 'F'
+				elif s_name == 'F':
+					line.last_seccion_name = 'G'
+				elif s_name == 'G':
+					line.last_seccion_name = 'H'
+				elif s_name == 'H':
+					line.last_seccion_name = 'I'
+				elif s_name == 'I':
+					line.last_seccion_name = 'J'
+				elif s_name == 'J':
+					line.last_seccion_name = 'K'
+				elif s_name == 'K':
+					line.last_seccion_name = 'A'
+				else: 
+					line.last_seccion_name = 'A'
 			
 
 class SaleOrderLineSecciones(models.Model):
