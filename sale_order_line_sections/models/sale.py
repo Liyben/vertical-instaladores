@@ -74,7 +74,7 @@ class SaleOrderLine(models.Model):
 			line.total_lineales = sum(line.secciones_ids.mapped('mts_lineales_sub'))
 			line.total_cuadrados = sum(line.secciones_ids.mapped('mts_cuadrados_sub'))
 
-	@api.depends('secciones_ids.seccion_name')
+	@api.depends('secciones_ids','secciones_ids.seccion_name')
 	def _compute_last_seccion_name(self):
 		for line in self:
 			if len(line.secciones_ids) == 0:
