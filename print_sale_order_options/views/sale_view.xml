@@ -7,27 +7,27 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
             <div name="button_box" position="inside">
-                <button name="print_detailed_time" type="object" string="Imp. horas" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-clock-o">
+                <button name="print_detailed_time" type="object" string="Horas" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-print">
                     <field name="detailed_time" widget="boolean_toggle"/>
                 </button>
 
-                <button name="print_detailed_subtotal_price_time" type="object" string="Imp. subtotal Hr." attrs="{'invisible': [('detailed_time', '=', False)]}" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-clock-o">
+                <button name="print_detailed_subtotal_price_time" type="object" string="Subtotal Hr." attrs="{'invisible': [('detailed_time', '=', False)]}" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-print">
                     <field name="detailed_subtotal_price_time" widget="boolean_toggle"/>
                 </button>
 
-                <button name="print_detailed_price_time" type="object" string="Imp. precio Hr." attrs="{'invisible': [('detailed_time', '=', False)]}" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-clock-o">
+                <button name="print_detailed_price_time" type="object" string="Precio Hr." attrs="{'invisible': [('detailed_time', '=', False)]}" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-print">
                     <field name="detailed_price_time" widget="boolean_toggle"/>
                 </button>
 
-                <button name="print_detailed_materials" type="object" string="Imp. materiales" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-building-o">
+                <button name="print_detailed_materials" type="object" string="Materiales" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-print">
                     <field name="detailed_materials" widget="boolean_toggle"/>
                 </button>
 
-                <button name="print_detailed_subtotal_price_materials" type="object" string="Imp. subtotal Mat." attrs="{'invisible': [('detailed_materials', '=', False)]}" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-building-o">
+                <button name="print_detailed_subtotal_price_materials" type="object" string="Subtotal Mat." attrs="{'invisible': [('detailed_materials', '=', False)]}" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-print">
                     <field name="detailed_subtotal_price_materials" widget="boolean_toggle"/>
                 </button>
 
-                <button name="print_detailed_price_materials" type="object" string="Imp. precio Mat." attrs="{'invisible': [('detailed_materials', '=', False)]}" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-building-o">
+                <button name="print_detailed_price_materials" type="object" string="Precio Mat." attrs="{'invisible': [('detailed_materials', '=', False)]}" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-print">
                     <field name="detailed_price_materials" widget="boolean_toggle"/>
                 </button>
             </div>
