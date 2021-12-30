@@ -7,64 +7,28 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
             <div name="button_box" position="inside">
-                <button name="print_detailed_time" type="object" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-clock-o">
-                    <field name="detailed_time" widget="boolean_button" 
-                    options='{"terminology": {
-                        "string_true": "Imp. horas",
-                        "hover_true": "Desactivar",
-                        "string_false": "Imp. horas",
-                        "hover_false": "Activar"
-                    }}'/>
+                <button name="print_detailed_time" type="object" string="Imp. horas" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-clock-o">
+                    <field name="detailed_time" widget="toggle_button"/>
                 </button>
 
-                <button name="print_detailed_subtotal_price_time" type="object" attrs="{'invisible': [('detailed_time', '=', False)]}" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-clock-o">
-                    <field name="detailed_subtotal_price_time" widget="boolean_button" 
-                    options='{"terminology": {
-                        "string_true": "Imp. subtotal Hr.",
-                        "hover_true": "Desactivar",
-                        "string_false": "Imp. subtotal Hr.",
-                        "hover_false": "Activar"
-                    }}'/>
+                <button name="print_detailed_subtotal_price_time" type="object" string="Imp. subtotal Hr." attrs="{'invisible': [('detailed_time', '=', False)]}" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-clock-o">
+                    <field name="detailed_subtotal_price_time" widget="toggle_button"/>
                 </button>
 
-                <button name="print_detailed_price_time" type="object" attrs="{'invisible': [('detailed_time', '=', False)]}" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-clock-o">
-                    <field name="detailed_price_time" widget="boolean_button" 
-                    options='{"terminology": {
-                        "string_true": "Imp. precio Hr.",
-                        "hover_true": "Desactivar",
-                        "string_false": "Imp. precio Hr.",
-                        "hover_false": "Activar"
-                    }}'/>
+                <button name="print_detailed_price_time" type="object" string="Imp. precio Hr." attrs="{'invisible': [('detailed_time', '=', False)]}" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-clock-o">
+                    <field name="detailed_price_time" widget="toggle_button"/>
                 </button>
 
-                <button name="print_detailed_materials" type="object" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-building-o">
-                    <field name="detailed_materials" widget="boolean_button" 
-                    options='{"terminology": {
-                        "string_true": "Imp. materiales",
-                        "hover_true": "Desactivar",
-                        "string_false": "Imp. materiales",
-                        "hover_false": "Activar"
-                    }}'/>
+                <button name="print_detailed_materials" type="object" string="Imp. materiales" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-building-o">
+                    <field name="detailed_materials" widget="toggle_button"/>
                 </button>
 
-                <button name="print_detailed_subtotal_price_materials" type="object" attrs="{'invisible': [('detailed_materials', '=', False)]}" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-building-o">
-                    <field name="detailed_subtotal_price_materials" widget="boolean_button" 
-                    options='{"terminology": {
-                        "string_true": "Imp. subtotal Mat.",
-                        "hover_true": "Desactivar",
-                        "string_false": "Imp. subtotal Mat.",
-                        "hover_false": "Activar"
-                    }}'/>
+                <button name="print_detailed_subtotal_price_materials" type="object" string="Imp. subtotal Mat." attrs="{'invisible': [('detailed_materials', '=', False)]}" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-building-o">
+                    <field name="detailed_subtotal_price_materials" widget="toggle_button"/>
                 </button>
 
-                <button name="print_detailed_price_materials" type="object" attrs="{'invisible': [('detailed_materials', '=', False)]}" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-building-o">
-                    <field name="detailed_price_materials" widget="boolean_button" 
-                    options='{"terminology": {
-                        "string_true": "Imp. precio Mat.",
-                        "hover_true": "Desactivar",
-                        "string_false": "Imp. precio Mat.",
-                        "hover_false": "Activar"
-                    }}'/>
+                <button name="print_detailed_price_materials" type="object" string="Imp. precio Mat." attrs="{'invisible': [('detailed_materials', '=', False)]}" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-building-o">
+                    <field name="detailed_price_materials" widget="toggle_button"/>
                 </button>
             </div>
         </field>
