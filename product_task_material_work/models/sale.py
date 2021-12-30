@@ -5,6 +5,9 @@ from odoo import api, fields, models, exceptions, _
 from odoo.addons import decimal_precision as dp
 from odoo.tools import float_is_zero, float_compare
 
+import logging
+_logger = logging.getLogger(__name__)
+
 class SaleOrder(models.Model):
 	"""docstring for SaleOrder"""
 	_inherit='sale.order'
@@ -74,6 +77,7 @@ class SaleOrder(models.Model):
 							encontrado = False
 							for item in material_list:
 								material_id = item[2]["material_id"]
+								_logger.debug('List: %s ; Material: %s', material_id, material.material_id)
 								if material_id == material.material_id.id:
 									item[2]["quantity"] = item[2]["quantity"] + (material.quantity * line.product_uom_qty)
 									encontrado = True
