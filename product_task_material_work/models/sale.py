@@ -17,7 +17,7 @@ class SaleOrder(models.Model):
 	benefit_work = fields.Float(string='Beneficio', digits='Product Price', compute='_compute_price_work')
 	total_hours = fields.Float(string='Total horas', compute='_compute_price_work')
 
-	#Precio totales, unitarios y beneficio de Trabajos Ideales
+	#Precio totales, unitarios y beneficio de Trabajos Presupuesto
 	total_sp_ideal_work = fields.Float(string='P.V. Total', digits='Product Price', compute='_compute_price_work_ideal')
 	total_cp_ideal_work = fields.Float(string='P.C. Total', digits='Product Price', compute='_compute_price_work_ideal')
 	sale_price_ideal_work_hour = fields.Float(string='P.V. Hora', digits='Product Price')
@@ -32,10 +32,16 @@ class SaleOrder(models.Model):
 	margin_ideal_monetary = fields.Float(string='Margen Ideal', digits='Product Price', compute='_compute_ideal')
 	margin_ideal_percent = fields.Float(string='Margen Ideal', digits='Product Price', compute='_compute_ideal')
 
-	#Precios totales y beneficio de Materiales
+	#Precios totales y beneficio de Materiales Presupuesto
 	total_sp_material = fields.Float(string='P.V. Total', digits='Product Price', compute='_compute_price_material')
 	total_cp_material = fields.Float(string='P.C. Total', digits='Product Price', compute='_compute_price_material')
 	benefit_material = fields.Float(string='Beneficio', digits='Product Price', compute='_compute_price_material')
+
+	#Precios totales y beneficio de Materiales Reales
+	total_sp_real_material = fields.Float(string='P.V. Total', digits=dp.get_precision('Product Price'), compute='_compute_price_material_real')
+	total_cp_real_material = fields.Float(string='P.C. Total', digits=dp.get_precision('Product Price'))
+	benefit_real_material = fields.Float(string='Beneficio', digits=dp.get_precision('Product Price'), compute='_compute_price_material_real')
+
 	#Numero de cliente
 	ref = fields.Char(related='partner_id.ref', readonly=True, string='Nº. Cliente')
 
@@ -137,7 +143,7 @@ class SaleOrder(models.Model):
 
 	#Calculo de los margenes ideales
 	
-	@api.depends('sale_price_ideal_work_hour','cost_price_ideal_work_hour','total_ideal_hours','order_line','discount_ideal')
+	@api.depends('sale_price_ideal_work_hour','cost_price_ideal_work_hour','total_ideal_hours','order_line','discount_ideal','total_cp_real_material')
 	def _compute_ideal(self):
 		sale = 0.0
 		cost = 0.0
@@ -146,22 +152,22 @@ class SaleOrder(models.Model):
 			if line.product_id.type == 'service':
 				if line.auto_create_task:
 					sale = sale + (sum(line.task_materials_ids.mapped('sale_price')) * line.product_uom_qty * (1 - (line.discount/100)))
-					cost = cost + (sum(line.task_materials_ids.mapped('cost_price')) * line.product_uom_qty)
+					#cost = cost + (sum(line.task_materials_ids.mapped('cost_price')) * line.product_uom_qty)
 			else:
 				sale = sale + (line.price_unit * line.product_uom_qty * (1 - (line.discount/100)))
-				cost = cost + (line.purchase_price * line.product_uom_qty)
+				#cost = cost + (line.purchase_price * line.product_uom_qty)
 
 		for record in self:
 			#sale = sale + (record.total_ideal_hours * record.sale_price_ideal_work_hour)
 			sale = sale + record.total_sp_ideal_work
-			cost = cost + (record.total_ideal_hours * record.cost_price_ideal_work_hour)
+			cost = record.total_cp_real_material + (record.total_ideal_hours * record.cost_price_ideal_work_hour)
 				
 		sale = sale - (sale * (self.discount_ideal / 100))
 		self.margin_ideal_monetary = sale - cost
 		if (cost != 0) and (sale != 0):
 			self.margin_ideal_percent = (1-(cost/sale)) * 100
 
-	#Calculo del precio de venta y coste total de los materiales y su beneficio
+	#Calculo del precio de venta y coste total de los materiales y su beneficio según presupuesto
 	
 	@api.depends('order_line')
 	def _compute_price_material(self):
@@ -182,7 +188,36 @@ class SaleOrder(models.Model):
 			if (cost != 0) and (sale != 0):
 				order.benefit_material = (1-(cost/sale)) * 100
 
-	#Calculo del precio de venta y coste de los trabajos y su beneficio
+	#Calculo del precio de venta y coste total de los materiales y su beneficio reales
+	@api.multi
+	@api.depends('order_line')
+	def _compute_price_material_real(self):
+		sale = 0.0
+		cost = self.total_cp_real_material
+		for line in self.order_line:
+			if line.product_id.type == 'service':
+				if line.auto_create_task:
+					sale = sale + sum(line.task_materials_ids.mapped('sale_price')) * (line.product_uom_qty * (1 - (line.discount/100)))
+			else:
+				sale = sale + ((line.price_unit * line.product_uom_qty) * (1 - (line.discount/100)))
+		self.total_sp_real_material = sale
+		if (cost != 0) and (sale != 0):
+			self.benefit_real_material = (1-(cost/sale)) * 100
+
+	#Calculo del coste total real de los materiales
+	@api.onchange('order_line')
+	def _onchange_total_cp_real_material(self):
+		cost = 0.0
+		for line in self.order_line:
+			if line.product_id.type == 'service':
+				if line.auto_create_task:
+					cost = cost + sum(line.task_materials_ids.mapped('cost_price')) * line.product_uom_qty
+			else:
+				cost = cost + (line.purchase_price * line.product_uom_qty)
+
+		self.total_cp_real_material = cost
+
+	#Calculo del precio de venta y coste de los trabajos y su beneficio reales
 	
 	@api.depends('order_line')
 	def _compute_price_work(self):
@@ -221,7 +256,7 @@ class SaleOrder(models.Model):
 			#record.sale_price_ideal_work_hour = record.sale_price_work_hour
 			record.cost_price_ideal_work_hour = record.cost_price_work_hour
 
-	#Calculo del precio de venta y coste ideal de los trabajos y su beneficio
+	#Calculo del precio de venta y coste de los trabajos y su beneficio según presupuesto
 	
 	@api.depends('sale_price_ideal_work_hour','cost_price_ideal_work_hour','total_ideal_hours')
 	def _compute_price_work_ideal(self):

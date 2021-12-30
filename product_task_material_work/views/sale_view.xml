@@ -38,7 +38,7 @@
                                 <field name="total_sp_work" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                 <field name="benefit_work" widget="percentage"/>
                             </group>
-                            <group string="Presupuesto Ideal">
+                            <group string="Presupuesto Real">
                                 <field name="total_ideal_hours" widget="float_time"/>
                                 <field name="cost_price_ideal_work_hour" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                 <field name="sale_price_ideal_work_hour" readonly="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
@@ -49,12 +49,19 @@
                         </group>
                         <group>
                             <group string="Materiales">
-                                <field name="total_cp_material" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                                <field name="total_sp_material" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                                <field name="benefit_material" widget="percentage"/>
+                                <group string="Material Ppto">
+                                    <field name="total_cp_material" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <field name="total_sp_material" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <field name="benefit_material" widget="percentage"/>
+                                </group>
+                                <group string="Material Real">
+                                    <field name="total_cp_real_material" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <field name="total_sp_real_material" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <field name="benefit_real_material" widget="percentage"/>
+                                </group>
                             </group>
                             <group string="Margen General">
-                                <label for="margin_real_monetary" string="Margen Ideal"/>
+                                <label for="margin_real_monetary" string="Margen Ppto"/>
                                 <div>
                                     <field name="margin_real_monetary" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                     <span> | </span>
