@@ -77,7 +77,9 @@ class SaleOrder(models.Model):
 							encontrado = False
 							for item in material_list:
 								material_id = item[2]["material_id"]
+								_logger.debug('\n##############################\n')
 								_logger.debug('List: %s ; Material: %s', material_id, material.material_id)
+								_logger.debug('\n##############################\n')
 								if material_id == material.material_id.id:
 									item[2]["quantity"] = item[2]["quantity"] + (material.quantity * line.product_uom_qty)
 									encontrado = True
