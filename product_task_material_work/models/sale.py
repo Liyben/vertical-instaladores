@@ -55,7 +55,7 @@ class SaleOrder(models.Model):
 
 	#Calculo de la lista de materiales
 	
-	@api.onchange('order_line', 'order_line.task_materials_ids','order_line.task_works_ids')
+	@api.onchange('order_line')
 	def _onchange_material_ids(self):
 		material_list = []
 		work_list = []
