@@ -197,6 +197,7 @@ class SaleOrder(models.Model):
 	def _compute_price_material_real(self):
 		sale = 0.0
 		cost = self.total_cp_real_material
+		self.benefit_real_material = 0.0
 		for line in self.order_line:
 			if line.product_id.type == 'service':
 				if line.auto_create_task:
