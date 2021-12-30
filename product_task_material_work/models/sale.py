@@ -193,7 +193,6 @@ class SaleOrder(models.Model):
 				order.benefit_material = (1-(cost/sale)) * 100
 
 	#Calculo del precio de venta y coste total de los materiales y su beneficio reales
-	@api.multi
 	@api.depends('order_line')
 	def _compute_price_material_real(self):
 		sale = 0.0
