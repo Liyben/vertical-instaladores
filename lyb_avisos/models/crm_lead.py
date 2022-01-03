@@ -5,7 +5,7 @@ from datetime import datetime, timedelta, date
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models, _, SUPERUSER_ID
-
+from lxml import etree
 
 class CrmLead(models.Model):
 	_inherit = 'crm.lead'
@@ -191,3 +191,15 @@ class CrmLead(models.Model):
 										  ['opportunity', 'both'])])
 			value['stage_id'] = stage.id
 		return value
+
+	@api.model
+	def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
+		result = super(CrmLead, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu)
+		if view_type == 'form':
+			if self.project_id:
+				doc = etree.XML(result['arch'])
+				button = doc.xpath("//button[@name='action_sale_quotations_new']")
+				if button:
+					button[0].set("confirm","¿Esta seguro que quiere usar el actual proyecto?")
+					result['arch'] = etree.tostring(doc, encoding='unicode')
+		return result
