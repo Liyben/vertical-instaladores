@@ -196,7 +196,7 @@ class CrmLead(models.Model):
 			value['stage_id'] = stage.id
 		return value
 
-"""
+
 	@api.model
 	def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
 		result = super(CrmLead, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu)
@@ -204,17 +204,13 @@ class CrmLead(models.Model):
 			_logger.debug('#########################\n')
 			_logger.debug('form\n')
 			_logger.debug('#########################\n')
-			if self.project_id:
+			
+			doc = etree.XML(result['arch'])
+			button = doc.xpath("//button[@name='action_sale_quotations_new']")
+			if button:
 				_logger.debug('#########################\n')
-				_logger.debug('project_id\n')
+				_logger.debug('button\n')
 				_logger.debug('#########################\n')
-				doc = etree.XML(result['arch'])
-				button = doc.xpath("//button[@name='action_sale_quotations_new']")
-				if button:
-					_logger.debug('#########################\n')
-					_logger.debug('button\n')
-					_logger.debug('#########################\n')
-					button[0].set('invisible','true')
-					result['arch'] = etree.tostring(doc, encoding='unicode')
-		return resultç
-"""
+				
+		return result
+
