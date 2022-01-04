@@ -7,10 +7,6 @@ from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models, _, SUPERUSER_ID
 from lxml import etree
 
-import logging
-
-_logger = logging.getLogger(__name__)
-
 class CrmLead(models.Model):
 	_inherit = 'crm.lead'
 
@@ -197,20 +193,14 @@ class CrmLead(models.Model):
 		return value
 
 
-	@api.model
 	def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
+
+		print("View id", view_id)
+		print("View Type", view_type)
+		print("Toolbar", toolbar)
+		print("Submenu",submenu)
 		result = super(CrmLead, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu)
-		if view_type == 'form':
-			_logger.debug('#########################\n')
-			_logger.debug('form\n')
-			_logger.debug('#########################\n')
-			
-			doc = etree.XML(result['arch'])
-			button = doc.xpath("//button[@name='action_sale_quotations_new']")
-			if button:
-				_logger.debug('#########################\n')
-				_logger.debug('button\n')
-				_logger.debug('#########################\n')
+		print("RESULT", result)
 				
 		return result
 
