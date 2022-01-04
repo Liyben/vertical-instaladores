@@ -200,6 +200,6 @@ class CrmLead(models.Model):
 				doc = etree.XML(result['arch'])
 				button = doc.xpath("//button[@name='action_sale_quotations_new']")
 				if button:
-					button[0].set("confirm","¿Esta seguro que quiere usar el actual proyecto?")
+					button[0].set('invisible','true')
 					result['arch'] = etree.tostring(doc, encoding='unicode')
 		return result
