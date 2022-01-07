@@ -57,6 +57,22 @@
         </field>
     </record>
 
+    <record model="ir.ui.view" id="project_task_digitized_signature_form_view">
+        <field name="name">project.task.digitized.signature.form</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='extra_info']" position="before">
+                <page string="Firma">
+                    <group>
+                        <field name="signature" widget="signature" />
+                        <field name="sign_by" />
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
     <!--<record model="ir.ui.view" id="edit_project_task_track_translation">
         <field name="name">edit.project.task.track.translation</field>
         <field name="model">project.task</field>

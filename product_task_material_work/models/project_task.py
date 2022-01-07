@@ -22,6 +22,10 @@ class ProjectTask(models.Model):
 	#Opportunidad / Aviso
 	oppor_id = fields.Many2one(comodel_name='crm.lead', string='Oportunidad / Aviso')
 
+	#Firma digital
+	signature = fields.Binary(string='Firma')
+	sign_by = fields.Char(string='Firmado por')
+
 	#Al pasar un PT a por administracion recalculamos su linea de pedido asociada
 	#con los cambios introducidos en el PT
 	
