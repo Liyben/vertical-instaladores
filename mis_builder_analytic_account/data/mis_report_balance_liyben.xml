@@ -230,8 +230,8 @@
             <field name="report_id" ref="mis_report_es_balance_liyben"/>
             <field name="aggregate">sum</field>
             <field name="model_id" ref="sale_crm.model_sale_order"/>
-            <field name="field_ids" eval="[(4,ref('product_task_material_work.field_sale_order_total_cp_work'))]"/>
-            <field name="date_field" ref="sale.field_sale_order_confirmation_date"/>
+            <field name="field_ids" eval="[(4,ref('product_task_material_work.field_sale_order__total_cp_work'))]"/>
+            <field name="date_field" ref="sale.field_sale_order__date_order"/>
             <field name="name_analytic_account">analytic_account_id</field>
             <field name="base_domain"></field>
         </record>
@@ -240,8 +240,8 @@
             <field name="report_id" ref="mis_report_es_balance_liyben"/>
             <field name="aggregate">sum</field>
             <field name="model_id" ref="sale.model_account_analytic_line"/>
-            <field name="field_ids" eval="[(4, ref('analytic.field_account_analytic_line_amount'))]"/>
-            <field name="date_field" ref="analytic.field_account_analytic_line_date"/>
+            <field name="field_ids" eval="[(4, ref('analytic.field_account_analytic_line__amount'))]"/>
+            <field name="date_field" ref="analytic.field_account_analytic_line__date"/>
             <field name="name_analytic_account">account_id</field>
             <field name="base_domain">('project_id', '!=', False)</field>
         </record>
@@ -250,8 +250,8 @@
             <field name="report_id" ref="mis_report_es_balance_liyben"/>
             <field name="aggregate">sum</field>
             <field name="model_id" ref="sale_crm.model_sale_order"/>
-            <field name="field_ids" eval="[(4, ref('product_task_material_work.field_sale_order_total_cp_material'))]"/>
-            <field name="date_field" ref="sale.field_sale_order_confirmation_date"/>
+            <field name="field_ids" eval="[(4, ref('product_task_material_work.field_sale_order__total_cp_material'))]"/>
+            <field name="date_field" ref="sale.field_sale_order__date_order"/>
             <field name="name_analytic_account">analytic_account_id</field>
             <field name="base_domain"></field>
         </record>
@@ -260,8 +260,8 @@
             <field name="report_id" ref="mis_report_es_balance_liyben"/>
             <field name="aggregate">sum</field>
             <field name="model_id" ref="sale_crm.model_sale_order"/>
-            <field name="field_ids" eval="[(4, ref('product_task_material_work.field_sale_order_total_sp_work'))]"/>
-            <field name="date_field" ref="sale.field_sale_order_confirmation_date"/>
+            <field name="field_ids" eval="[(4, ref('product_task_material_work.field_sale_order__total_sp_work'))]"/>
+            <field name="date_field" ref="sale.field_sale_order__date_order"/>
             <field name="name_analytic_account">analytic_account_id</field>
             <field name="base_domain"></field>
         </record>
@@ -270,8 +270,8 @@
             <field name="report_id" ref="mis_report_es_balance_liyben"/>
             <field name="aggregate">sum</field>
             <field name="model_id" ref="sale_crm.model_sale_order"/>
-            <field name="field_ids" eval="[(4, ref('product_task_material_work.field_sale_order_total_sp_material'))]"/>
-            <field name="date_field" ref="sale.field_sale_order_confirmation_date"/>
+            <field name="field_ids" eval="[(4, ref('product_task_material_work.field_sale_order__total_sp_material'))]"/>
+            <field name="date_field" ref="sale.field_sale_order__date_order"/>
             <field name="name_analytic_account">analytic_account_id</field>
             <field name="base_domain"></field>
         </record>
