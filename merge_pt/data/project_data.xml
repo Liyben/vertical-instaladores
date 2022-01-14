@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<odoo>
+    <template id="mail_template_task_merge">
+        <t t-if="target">
+            <t t-if="len(tasks) == 1"><p>La siguiente tarea se ha fusionado con esta:</p></t>
+            <t t-if="len(tasks) &gt; 1"><p>Las siguientes tareas se han fusionado en esta:</p></t>
+            <ul>
+                <t t-foreach="tasks" t-as="task">
+                    <li><a href="#" t-att-data-oe-model="task._name" t-att-data-oe-id="task.id"><t t-esc="task.name"/></a></li>
+                </t>
+            </ul>
+        </t>
+        <t t-if="not target">
+            <p>Esta tarea se ha fusionado con la siguiente tarea:</p>
+            <ul>
+                <li><a href="#" t-att-data-oe-model="task._name" t-att-data-oe-id="task.id"><t t-esc="task.name"/></a></li>
+            </ul>
+        </t>
+    </template>
+
+</odoo>
