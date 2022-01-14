@@ -27,24 +27,13 @@
                 </form>
             </field>
         </record>
-<!--
-        <act_window
-            id="project_task_actions_act_window_merge_tasks"
-            res_model="project.task.merge.wizard"
-            src_model="project.task"
-            target="new"
-            multi="True"
-            key2="client_action_multi"
-            view_mode="form"
-            name="Combinar tareas seleccionadas"/>
 
-        <act_window
-            id="project_task_actions_act_window_merge_tasks"
-            res_model="project.task.merge.wizard"
-            src_model="project.task"
-            target="new"
-            multi="False"
-            key2="client_action_multi"
-            view_mode="form"
-            name="Combinar tareas seleccionadas"/> -->
+        <record id="project_task_actions_act_window_merge_tasks" model="ir.actions.act_window">
+            <field name="name">Combinar tareas seleccionadas</field>
+            <field name="res_model">project.task.merge.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="project.model_project_task"/>
+        </record>
+
 </odoo>
