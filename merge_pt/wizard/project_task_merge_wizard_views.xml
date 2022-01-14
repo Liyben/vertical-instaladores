@@ -21,8 +21,8 @@
                         <span class="text-muted">Esto archivará las tareas seleccionadas (excepto la tarea de destino)</span>
                     </sheet>
                     <footer>
-                        <button name='merge_tasks' string='Fusionar tareas' class='oe_highlight' type='object'/>
-                        <button special="cancel" string="Cancelar" type="object" class="btn btn-default oe_inline"/>
+                        <button name='merge_tasks' string='Fusionar tareas' class='btn-primary' type='object'/>
+                        <button special="cancel" string="Cancelar" type="object" class="btn-secondary"/>
                     </footer>
                 </form>
             </field>

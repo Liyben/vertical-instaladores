@@ -13,7 +13,9 @@
         """,
     'author': 'Liyben',
     'depends': ['project','project_task_material'],
-    'data': [ 'data/project_data.xml', 'wizard/project_task_merge_wizard_views.xml'
+    'data': [ 'security/ir.model.access.csv',
+            'data/project_data.xml', 
+            'wizard/project_task_merge_wizard_views.xml'
     ],
     'qweb': [],
     'images': [
