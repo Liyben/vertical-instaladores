@@ -21,13 +21,13 @@
                         <span class="text-muted">Esto archivará las tareas seleccionadas (excepto la tarea de destino)</span>
                     </sheet>
                     <footer>
-                        <button name='merge_tasks' string='Merge Tasks' class='oe_highlight' type='object'/>
-                        <button special="cancel" string="Cancel" type="object" class="btn btn-default oe_inline"/>
+                        <button name='merge_tasks' string='Fusionar tareas' class='oe_highlight' type='object'/>
+                        <button special="cancel" string="Cancelar" type="object" class="btn btn-default oe_inline"/>
                     </footer>
                 </form>
             </field>
         </record>
-
+<!--
         <act_window
             id="project_task_actions_act_window_merge_tasks"
             res_model="project.task.merge.wizard"
@@ -36,7 +36,7 @@
             multi="True"
             key2="client_action_multi"
             view_mode="form"
-            name="Merge Selected Tasks"/>
+            name="Combinar tareas seleccionadas"/>
 
         <act_window
             id="project_task_actions_act_window_merge_tasks"
@@ -46,5 +46,5 @@
             multi="False"
             key2="client_action_multi"
             view_mode="form"
-            name="Merge Selected Tasks"/>
+            name="Combinar tareas seleccionadas"/> -->
 </odoo>
