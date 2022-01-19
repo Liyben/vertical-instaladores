@@ -17,7 +17,6 @@
             'data/project_data.xml', 
             'wizard/project_task_merge_wizard_views.xml',
             'wizard/sale_order_merge_task_wizard_views.xml',
-            'views/sale_view.xml'
     ],
     'qweb': [],
     'images': [
