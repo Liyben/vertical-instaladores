@@ -44,12 +44,12 @@ class ProjectTaskMergeWizard(models.TransientModel):
 
 		#Combina los hilos de mensajes de los PTs seleccionados en el PT resultante
 		self.target_task_id.message_post_with_view(
-			'project.mail_template_task_merge',
+			'merge_pt.mail_template_task_merge',
 			values={'target': True, 'tasks': self.task_ids - self.target_task_id},
 			subtype_id=self.env['ir.model.data'].xmlid_to_res_id('mail.mt_comment')
 		)
 		(self.task_ids - self.target_task_id).message_post_with_view(
-			'project.mail_template_task_merge',
+			'merge_pt.mail_template_task_merge',
 			values={'target': False, 'task': self.target_task_id},
 			subtype_id=self.env['ir.model.data'].xmlid_to_res_id('mail.mt_comment')
 		)

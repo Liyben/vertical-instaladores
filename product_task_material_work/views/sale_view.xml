@@ -23,7 +23,7 @@
             </xpath>
 
             <xpath expr="//field[@name='validity_date']" position="before">
-                <field name="opportunity_id" help="Log in the chatter from which opportunity the order originates" string="Oportunidad / Aviso"/>
+                <field name="opportunity_id" options="{'no_create': True}" help="Log in the chatter from which opportunity the order originates" string="Oportunidad / Aviso"/>
             </xpath>
 
             <xpath expr="//notebook[last()]" position="inside">
