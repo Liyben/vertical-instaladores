@@ -6,13 +6,13 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//button[@id='action_confirm']" position="replace">
+            <xpath expr="//button[@id='action_confirm']" position="before">
                 <button name="merge_task_action_confirm" id="merge_task_action_confirm_not_sent"
                         string="Confirmar" class="btn-primary" type="object"
                         attrs="{'invisible': [('state', 'not in', ['sent'])]}" 
                         confirm="¿Está seguro de que quiere confirmar el presupuesto?"/>
             </xpath>
-            <xpath expr="//button[@name='action_confirm']" position="replace">
+            <xpath expr="//button[@name='action_confirm']" position="before">
                 <button name="merge_task_action_confirm" id="merge_task_action_confirm_not_draft" 
                         string="Confirmar" type="object" attrs="{'invisible': [('state', 'not in', ['draft'])]}"
                         confirm="¿Está seguro de que quiere confirmar el presupuesto?"/>
