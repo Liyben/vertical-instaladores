@@ -144,15 +144,12 @@
 <!--====================FIRMA======================--> 
                         <table class="table table-sm o_main_table">
                             <tbody>
-                                <tr>
+                                <tr style="background-color: #FFFFFF;">
                                     <td style="valign:bottom;">
                                         <div style="text-align: right;">
                                             <strong>Conforme cliente: </strong><span t-field="o.sign_by"/>
                                         </div>
-                                        <span t-field="o.signature" t-field-options="{&quot;widget&quot;: &quot;image&quot;}"/>
-                                        <!--<div style="text-align: right;">
-                                            <strong>Fecha: </strong><span t-field="o.date_start" t-field-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
-                                        </div>-->
+                                        <img t-att-src="'data:image/png;base64,%s' % to_text(o.signature)" width="35%" height="35%" style="float: right;"/>
                                     </td>
                                 </tr>                                
                             </tbody>
