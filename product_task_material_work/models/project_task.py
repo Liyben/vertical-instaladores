@@ -35,7 +35,7 @@ class ProjectTask(models.Model):
 		return task
 	
 	def write(self, vals):
-		self._track_signature(vals, 'digital_signature')
+		self._track_signature(vals, 'signature')
 		return super(ProjectTask, self).write(vals)
 		
 	#Al pasar un PT a por administracion recalculamos su linea de pedido asociada
