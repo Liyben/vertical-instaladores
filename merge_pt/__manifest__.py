@@ -14,6 +14,7 @@
     'author': 'Liyben',
     'depends': ['project','project_task_material','sale'],
     'data': [ 'security/ir.model.access.csv',
+            'security/sale_security.xml',
             'data/project_data.xml', 
             'wizard/project_task_merge_wizard_views.xml',
             'wizard/sale_order_merge_task_wizard_views.xml',
