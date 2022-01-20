@@ -6,3 +6,4 @@ from . import sale
 from . import account_move
 from . import project_task
 from . import hr
+from . import mail_thread

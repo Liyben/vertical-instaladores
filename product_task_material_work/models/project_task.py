@@ -1,4 +1,4 @@
-# © 2019 Liyben
+# © 2022 Liyben
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 import html2text
@@ -26,6 +26,18 @@ class ProjectTask(models.Model):
 	signature = fields.Binary(string='Firma')
 	sign_by = fields.Char(string='Firmado por')
 
+	@api.model
+	def create(self, vals):
+		task = super(ProjectTask, self).create(vals)
+		if task.signature:
+			values = {'signature': task.signature}
+			task._track_signature(vals, 'signature')
+		return task
+	
+	def write(self, vals):
+		self._track_signature(vals, 'digital_signature')
+		return super(ProjectTask, self).write(vals)
+		
 	#Al pasar un PT a por administracion recalculamos su linea de pedido asociada
 	#con los cambios introducidos en el PT
 	
