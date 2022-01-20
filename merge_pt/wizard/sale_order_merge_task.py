@@ -13,20 +13,23 @@ class SaleOrderMergeTaskWizard(models.TransientModel):
 	#Combina los PTs
 	def merge_task(self):
 		
+		#Obtenemos el presupuesto activo
+		order_ids = self.env['sale.order'].browse(self.env.context.get('active_ids', False))
+		order_selected = order_ids[0]
 		#Obtenemos los valores para el PT resultante
-		task_name = self.name + ':'
-		for task in self.tasks_ids:
+		task_name = order_selected.name + ':'
+		for task in order_selected.tasks_ids:
 			task_name += '[%s] ' % task.sale_line_id.product_id.default_code
 
 		values = {
 			'name': '%s' % (task_name or ''),
 			'project_id': self.project_id.id,
 			'user_id': False,
-			'work_to_do': self.merge_work_to_do(),
-			'planned_hours': self.merge_planned_hours(),
-			'material_ids': self.merge_materials(),
-			'timesheet_ids' : self.merge_timesheet(),
-			'task_works_ids' : self.merge_task_works(),
+			'work_to_do': self.merge_work_to_do(order_selected),
+			'planned_hours': self.merge_planned_hours(order_selected),
+			'material_ids': self.merge_materials(order_selected),
+			'timesheet_ids' : self.merge_timesheet(order_selected),
+			'task_works_ids' : self.merge_task_works(order_selected),
 		}
 
 		#Creamos un PT nuevo 
@@ -34,38 +37,38 @@ class SaleOrderMergeTaskWizard(models.TransientModel):
 
 		#Combina los seguidores de los PTs seleccionados en el nuevo PT	
 		self.target_task_id.message_subscribe(
-			partner_ids=(self.tasks_ids - self.target_task_id).mapped('message_partner_ids').ids,
-			channel_ids=(self.tasks_ids - self.target_task_id).mapped('message_channel_ids').ids,
+			partner_ids=(order_selected.tasks_ids - self.target_task_id).mapped('message_partner_ids').ids,
+			channel_ids=(order_selected.tasks_ids - self.target_task_id).mapped('message_channel_ids').ids,
 		)
 
 		#Combina los hilos de mensajes de los PTs seleccionados en el nuevo PT
 		self.target_task_id.message_post_with_view(
 			self.env.ref('merge_pt.mail_template_task_merge'),
-			values={'target': True, 'tasks': self.tasks_ids - self.target_task_id},
+			values={'target': True, 'tasks': order_selected.tasks_ids - self.target_task_id},
 			subtype_id=self.env['ir.model.data'].xmlid_to_res_id('mail.mt_comment')
 		)
-		(self.tasks_ids - self.target_task_id).message_post_with_view(
+		(order_selected.tasks_ids - self.target_task_id).message_post_with_view(
 			self.env.ref('merge_pt.mail_template_task_merge'),
 			values={'target': False, 'task': self.target_task_id},
 			subtype_id=self.env['ir.model.data'].xmlid_to_res_id('mail.mt_comment')
 		)
-		(self.tasks_ids - self.target_task_id).write({'active': False})
+		(order_selected.tasks_ids - self.target_task_id).write({'active': False})
 
 	#Combina el trabajo a realizar de los PTs asociados
-	def merge_work_to_do(self):
-		return '<br/>'.join(self.tasks_ids.mapped(lambda task: "Trabajo a realizar para el PT <b>%s</b>:<br/>%s" % (task.name, task.work_to_do or 'Sin trabajo a realizar')))
+	def merge_work_to_do(self, order):
+		return '<br/>'.join(order.tasks_ids.mapped(lambda task: "Trabajo a realizar para el PT <b>%s</b>:<br/>%s" % (task.name, task.work_to_do or 'Sin trabajo a realizar')))
 
 	#Combina las horas estimadas de los PTS asociados
-	def merge_planned_hours(self):
+	def merge_planned_hours(self, order):
 		hours = 0
-		for task in self.tasks_ids:
+		for task in order.tasks_ids:
 			hours += task.planned_hours
 		return hours
 
 	#Combina la lista de materiales de los PTs asociados
-	def merge_materials(self):
+	def merge_materials(self, order):
 		material_list = []
-		for task in self.tasks_ids:
+		for task in order.tasks_ids:
 			if task.material_ids:
 				for material in task.material_ids:
 					if not material_list:
@@ -94,9 +97,9 @@ class SaleOrderMergeTaskWizard(models.TransientModel):
 		return material_list
 
 	#Combina la lista de trabajos a realizar de los PTs asociados
-	def merge_task_works(self):
+	def merge_task_works(self, order):
 		works_list = []
-		for task in self.tasks_ids:
+		for task in order.tasks_ids:
 			if task.task_works_ids:
 				for work in task.task_works_ids:
 					works_list.append((0,0, {
@@ -110,9 +113,9 @@ class SaleOrderMergeTaskWizard(models.TransientModel):
 		return works_list
 
 	#Combina los parte de horas de los PTs asociados
-	def merge_timesheet(self):
+	def merge_timesheet(self, order):
 		timesheet_list = []
-		for task in self.tasks_ids:
+		for task in order.tasks_ids:
 			if task.timesheet_ids:
 				for timesheet in task.timesheet_ids:
 					timesheet_list.append((0,0, {
