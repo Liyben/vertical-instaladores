@@ -16,23 +16,23 @@
 
         <xpath expr="//div[@id='informations']" position="replace">
             <div id="informations" class="row mt32 mb32">
-                <div class="col-xs-2" t-if="o.invoice_date">
+                <div class="col-auto col-3 mw-100 mb-2" t-if="o.invoice_date">
                     <strong>Fecha Factura:</strong>
                     <p t-field="o.invoice_date"/>
                 </div>
-                <div class="col-xs-2" t-if="o.invoice_date_due and o.move_type == 'out_invoice' and (o.state == 'open' or o.state == 'paid')">
+                <div class="col-auto col-3 mw-100 mb-2" t-if="o.invoice_date_due and o.move_type == 'out_invoice' and (o.state == 'open' or o.state == 'paid')">
                     <strong>Fecha de Vencimiento:</strong>
                     <p t-field="o.invoice_date_due"/>
                 </div>
-                <div class="col-xs-2" t-if="o.invoice_origin">
+                <div class="col-auto col-3 mw-100 mb-2" t-if="o.invoice_origin">
                     <strong>Fuente:</strong>
                     <p t-field="o.invoice_origin"/>
                 </div>
-                <div class="col-xs-2" t-if="o.customer_code">
+                <div class="col-auto col-3 mw-100 mb-2" t-if="o.customer_code">
                     <strong>Nº cliente:</strong>
                     <p t-field="o.customer_code"/>
                 </div>
-                <div name="reference" class="col-xs-2" t-if="o.ref">
+                <div name="reference" class="col-auto col-3 mw-100 mb-2" t-if="o.ref">
                     <strong>Reference:</strong>
                     <p t-field="o.ref"/>
                 </div>
