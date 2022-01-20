@@ -23,7 +23,7 @@ class SaleOrderMergeTaskWizard(models.TransientModel):
 
 		values = {
 			'name': '%s' % (task_name or ''),
-			'project_id': order_selected.project_id.id,
+			'project_id': order_selected.tasks_ids[0].project_id.id,
 			'user_id': False,
 			'work_to_do': self.merge_work_to_do(order_selected),
 			'planned_hours': self.merge_planned_hours(order_selected),

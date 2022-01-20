@@ -18,8 +18,5 @@ class SaleOrder(models.Model):
 				'view_id': self.env.ref('merge_pt.view_sale_order_merge_task').id,
 				'view_mode': 'form'}
 
-	"""
-	def merge_task_wizard_open(self):
-		return self.env["ir.actions.act_window"]._for_xml_id("merge_pt.action_view_sale_order_merge_task")
-	"""
+
 
