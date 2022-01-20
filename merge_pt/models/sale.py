@@ -10,7 +10,8 @@ class SaleOrder(models.Model):
 
 	def action_confirm(self):
 		result = super(SaleOrder, self).action_confirm()
-		self.merge_task_wizard_open()
+		if len(self.tasks_ids) > 1:
+			self.merge_task_wizard_open()
 		return result
 
 	def merge_task_wizard_open(self):
