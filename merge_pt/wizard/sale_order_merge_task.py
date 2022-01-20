@@ -14,7 +14,7 @@ class SaleOrderMergeTaskWizard(models.TransientModel):
 	def merge_task(self):
 		
 		#Obtenemos el presupuesto activo
-		order_ids = self.env['sale.order'].browse(self.env.context.get('active_ids', False))
+		order_ids = self.env['sale.order'].browse(self.env.context.get('active_ids'))
 		order_selected = order_ids[0]
 		#Obtenemos los valores para el PT resultante
 		task_name = order_selected.name + ':'
