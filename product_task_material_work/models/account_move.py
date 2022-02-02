@@ -23,14 +23,16 @@ class AccountMoveLine(models.Model):
 	#Producto mano de obra
 	workforce_id = fields.Many2one(comodel_name='product.product', string='Mano de obra', copy=True)
 	#Precio totales, unitarios y beneficio de Trabajos
-	total_sp_work = fields.Float(string='Total P.V.', digits=dp.get_precision('Product Price'), compute='_compute_total_sp_work', default=0.0)
-	total_cp_work = fields.Float(string='Total P.C.', digits=dp.get_precision('Product Price'), compute='_compute_total_cp_work', default=0.0)
-	benefit_work = fields.Float(string='Beneficio', digits=dp.get_precision('Product Price'), compute='_compute_benefit_work', default=0.0)
+	total_sp_work = fields.Float(string='Total P.V.', digits='Product Price', compute='_compute_total_sp_work', default=0.0)
+	total_cp_work = fields.Float(string='Total P.C.', digits='Product Price', compute='_compute_total_cp_work', default=0.0)
+	benefit_work = fields.Float(string='Beneficio (%)', digits='Product Price', compute='_compute_benefit_work', default=0.0)
+	benefit_work_amount = fields.Float(string='Beneficio (€)', digits='Product Price', compute='_compute_benefit_work', default=0.0)
 	total_hours = fields.Float(string='Total horas', compute='_compute_total_hours')
 	#Precios totales, unitarios  y beneficio de Materiales
-	total_sp_material = fields.Float(string='Total P.V.', digits=dp.get_precision('Product Price'), compute='_compute_total_sp_material', default=0.0)
-	total_cp_material = fields.Float(string='Total P.C.', digits=dp.get_precision('Product Price'), compute='_compute_total_cp_material', default=0.0)
-	benefit_material = fields.Float(string='Beneficio', digits=dp.get_precision('Product Price'), compute='_compute_benefit_material', default=0.0)
+	total_sp_material = fields.Float(string='Total P.V.', digits='Product Price', compute='_compute_total_sp_material', default=0.0)
+	total_cp_material = fields.Float(string='Total P.C.', digits='Product Price', compute='_compute_total_cp_material', default=0.0)
+	benefit_material = fields.Float(string='Beneficio (%)', digits='Product Price', compute='_compute_benefit_material', default=0.0)
+	benefit_material_amount = fields.Float(string='Beneficio (€)', digits='Product Price', compute='_compute_benefit_material', default=0.0)
 	#Campo boolean para saber si crear o no una tarea de forma automatica
 	auto_create_task = fields.Boolean(string='Tarea automática', copy=True)
 	#Opciones de impresión por linea de pedido
@@ -113,10 +115,12 @@ class AccountMoveLine(models.Model):
 	@api.depends('total_sp_work', 'total_cp_work')
 	def _compute_benefit_work(self):
 		self.benefit_work = 0.0
+		self.benefit_work_amount = 0.0
 		for record in self:
+			record.benefit_work_amount = record.total_sp_work - record.total_cp_work
 			if (record.total_sp_work != 0) and (record.total_cp_work != 0):
 				record.benefit_work = (1-(record.total_cp_work/record.total_sp_work))
-
+			
 	#Calculo del precio total de venta de los materiales
 	
 	@api.depends('task_materials_ids', 'task_materials_ids.sale_price')
@@ -140,7 +144,9 @@ class AccountMoveLine(models.Model):
 	@api.depends('total_sp_material', 'total_cp_material')
 	def _compute_benefit_material(self):
 		self.benefit_material = 0.0
+		self.benefit_material_amount = 0.0
 		for record in self:
+			record.benefit_material_amount = record.total_sp_material - record.total_cp_material
 			if (record.total_cp_material != 0) and (record.total_sp_material != 0):
 				record.benefit_material = (1-(record.total_cp_material/record.total_sp_material))
 

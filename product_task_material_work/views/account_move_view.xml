@@ -72,6 +72,7 @@
                                 <field name="total_cp_work" invisible="1"/>
                                 <field name="total_hours" invisible="1"/>
                                 <field name="benefit_work" widget="percentage"/>
+                                <field name="benefit_work_amount" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                             </group>
                         </group>
                         <group string="Materiales">
@@ -93,6 +94,7 @@
                                 <field name="total_sp_material" invisible="1"/>
                                 <field name="total_cp_material" invisible="1"/>
                                 <field name="benefit_material" widget="percentage"/>
+                                <field name="benefit_material_amount" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                             </group>
                         </group>
                 </div>
