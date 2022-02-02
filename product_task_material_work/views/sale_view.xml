@@ -176,6 +176,7 @@
                                     <field name="discount" groups="product.group_discount_per_so_line"/>
                                     <field name="cost_price" sum="Total P.C."/>
                                     <field name="sale_price" sum="Total P.V."/>
+                                    <field name="work_margin" />
                                 </tree>
                             </field>
                             <group class="pull-right">
@@ -199,6 +200,7 @@
                                     <field name="discount" groups="product.group_discount_per_so_line"/>
                                     <field name="cost_price" sum="Total P.C."/>
                                     <field name="sale_price" sum="Total P.V."/>
+                                    <field name="material_margin" />
                                 </tree>
                             </field>
                             <group class="pull-right">

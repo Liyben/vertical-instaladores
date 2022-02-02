@@ -901,6 +901,8 @@ class SaleOrderLineTaskWork(models.Model):
 	#Descuento aplicado al precio de la mano de obra
 	discount = fields.Float(string='Des. (%)', digits=dp.get_precision('Discount'), default=0.0)
 	sequence = fields.Integer()
+	#Margen
+	work_margin = fields.Float(string='Margen', digits='Product Price', compute='_compute_price')
 
 	#Obtiene el precio de la mano de obra segun tarifa
 	
@@ -998,9 +1000,11 @@ class SaleOrderLineTaskWork(models.Model):
 	def _compute_price(self):
 		self.sale_price = 0.0
 		self.cost_price = 0.0
+		self.work_margin = 0.0
 		for record in self:
 			record.sale_price = record.hours * (record.sale_price_unit * (1 - (record.discount / 100)))
 			record.cost_price = (record.hours * record.cost_price_unit)
+			record.work_margin = (record.hours * (record.sale_price_unit * (1 - (record.discount / 100)))) - (record.hours * record.cost_price_unit)
 
 class SaleOrderLineTaskMaterial(models.Model):
 	"""Modelo para almacenar los materiales del producto partida en la linea de pedido"""
@@ -1025,6 +1029,8 @@ class SaleOrderLineTaskMaterial(models.Model):
 	#Descuento aplicado al precio del material
 	discount = fields.Float(string='Des. (%)', digits=dp.get_precision('Discount'), default=0.0)
 	sequence = fields.Integer()
+	#Margen
+	material_margin = fields.Float(string='Margen', digits='Product Price', compute='_compute_price')
 
 	#Obtiene el precio del material segun tarifa
 	
@@ -1122,6 +1128,8 @@ class SaleOrderLineTaskMaterial(models.Model):
 	def _compute_price(self):
 		self.sale_price = 0.0
 		self.cost_price = 0.0
+		self.material_margin = 0.0
 		for record in self:
 				record.sale_price = record.quantity * (record.sale_price_unit * (1 - (record.discount / 100)))
 				record.cost_price = (record.quantity * record.cost_price_unit)
+				record.material_margin = (record.quantity * (record.sale_price_unit * (1 - (record.discount / 100)))) - (record.quantity * record.cost_price_unit)

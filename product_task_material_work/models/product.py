@@ -155,6 +155,9 @@ class ProdcutTaskWork(models.Model):
 	#Horas empleadas en el trabajo
 	hours = fields.Float(string='Hr.')
 	sequence = fields.Integer()
+	#Margen
+	work_margin = fields.Float(string='Margen', digits='Product Price', compute='_compute_price')
+
 
 	#Calcula el valor para todos los precios de cada linea de trabajo
 	
@@ -164,11 +167,13 @@ class ProdcutTaskWork(models.Model):
 		self.cost_price_unit = 0.0
 		self.sale_price = 0.0
 		self.cost_price = 0.0
+		self.work_margin = 0.0
 		for record in self:
 			record.sale_price_unit = record.work_id.list_price
 			record.cost_price_unit = record.work_id.standard_price
 			record.sale_price = (record.hours * record.work_id.list_price)
 			record.cost_price = (record.hours * record.work_id.standard_price)
+			record.work_margin = (record.hours * record.work_id.list_price) - (record.hours * record.work_id.standard_price)
 
 	#Carga el nombre de la mano de obra
 	@api.onchange('work_id')
@@ -197,6 +202,8 @@ class ProductTaskMaterial(models.Model):
 	#Cantidad de cada material
 	quantity = fields.Float(string='Und.', digits=dp.get_precision('Product Unit of Measure'))
 	sequence = fields.Integer()
+	#Margen
+	material_margin = fields.Float(string='Margen', digits='Product Price', compute='_compute_price')
 
 	#Calcula el valor de todos los precios de cada linea del material
 	
@@ -206,11 +213,13 @@ class ProductTaskMaterial(models.Model):
 		self.cost_price_unit = 0.0
 		self.sale_price = 0.0
 		self.cost_price = 0.0
+		self.material_margin = 0.0
 		for record in self:
 				record.sale_price_unit = record.material_id.list_price
 				record.cost_price_unit = record.material_id.standard_price
 				record.sale_price = (record.quantity * record.material_id.list_price)
 				record.cost_price = (record.quantity * record.material_id.standard_price)
+				record.material_margin = (record.quantity * record.material_id.list_price) - (record.quantity * record.material_id.standard_price)
 	
 	#Carga el nombre del material
 	@api.onchange('material_id')
