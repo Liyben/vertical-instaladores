@@ -147,13 +147,13 @@ class ProdcutTaskWork(models.Model):
 	#Descripcion del trabajo
 	name = fields.Char(string='Nombre', required=True)
 	#Precios Totales para cada trabajo
-	sale_price = fields.Float(string='Precio Venta', digits='Product Price', compute="_compute_price")
-	cost_price = fields.Float(string='Precio Coste', digits='Product Price', compute="_compute_price")
+	sale_price = fields.Float(string='P.V.', digits='Product Price', compute="_compute_price")
+	cost_price = fields.Float(string='P.C.', digits='Product Price', compute="_compute_price")
 	#Precios Unitarios para cada material
-	sale_price_unit = fields.Float(string='P.V. unitario', digits='Product Price', compute='_compute_price')
-	cost_price_unit = fields.Float(string='P.C. unitario', digits='Product Price', compute='_compute_price')
+	sale_price_unit = fields.Float(string='P.V.U.', digits='Product Price', compute='_compute_price')
+	cost_price_unit = fields.Float(string='P.C.U.', digits='Product Price', compute='_compute_price')
 	#Horas empleadas en el trabajo
-	hours = fields.Float(string='Horas')
+	hours = fields.Float(string='Hr.')
 	sequence = fields.Integer()
 
 	#Calcula el valor para todos los precios de cada linea de trabajo
@@ -189,13 +189,13 @@ class ProductTaskMaterial(models.Model):
 	#Material
 	material_id = fields.Many2one(comodel_name='product.product', string='Material', required=True)
 	#Precios Totales de para cada material
-	sale_price = fields.Float(string='Precio Venta', digits='Product Price', compute='_compute_price')
-	cost_price = fields.Float(string='Precio Coste', digits='Product Price', compute='_compute_price')
+	sale_price = fields.Float(string='P.V.', digits='Product Price', compute='_compute_price')
+	cost_price = fields.Float(string='P.C.', digits='Product Price', compute='_compute_price')
 	#Precios Unitarios para cada material
-	sale_price_unit = fields.Float(string='P.V. unitario', digits='Product Price', compute='_compute_price')
-	cost_price_unit = fields.Float(string='P.C. unitario', digits='Product Price', compute='_compute_price')
+	sale_price_unit = fields.Float(string='P.V.U.', digits='Product Price', compute='_compute_price')
+	cost_price_unit = fields.Float(string='P.C.U.', digits='Product Price', compute='_compute_price')
 	#Cantidad de cada material
-	quantity = fields.Float(string='Cantidad', digits=dp.get_precision('Product Unit of Measure'))
+	quantity = fields.Float(string='Und.', digits=dp.get_precision('Product Unit of Measure'))
 	sequence = fields.Integer()
 
 	#Calcula el valor de todos los precios de cada linea del material

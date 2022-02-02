@@ -60,11 +60,11 @@
                                     <field name="work_id" domain="[('type', '=', 'service')]"/>
                                     <field name="name"/>
                                     <field name="hours" sum="Horas totales" widget="float_time"/>
-                                    <field name="sale_price_unit"/>
                                     <field name="cost_price_unit"/>
+                                    <field name="sale_price_unit"/>
                                     <field name="discount" groups="product.group_discount_per_so_line"/>
-                                    <field name="sale_price" sum="Total P.V."/>
                                     <field name="cost_price" sum="Total P.C."/>
+                                    <field name="sale_price" sum="Total P.V."/>
                                 </tree>
                             </field>
                             <group class="pull-right">
@@ -83,11 +83,11 @@
                                     <field name="material_id" domain="[('type', '!=', 'service')]"/>
                                     <field name="name"/>
                                     <field name="quantity"/>
-                                    <field name="sale_price_unit"/>
                                     <field name="cost_price_unit"/>
+                                    <field name="sale_price_unit"/>
                                     <field name="discount" groups="product.group_discount_per_so_line"/>
-                                    <field name="sale_price" sum="Total P.V."/>
                                     <field name="cost_price" sum="Total P.C."/>
+                                    <field name="sale_price" sum="Total P.V."/>
                                 </tree>
                             </field>
                             <group class="pull-right">

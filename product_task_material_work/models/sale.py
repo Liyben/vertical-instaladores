@@ -891,15 +891,15 @@ class SaleOrderLineTaskWork(models.Model):
 	#Descripcion del trabajo
 	name = fields.Char(string='Nombre', required=True)
 	#Precios Totales para cada trabajo
-	sale_price = fields.Float(string='Precio Venta', digits='Product Price', compute="_compute_price")
-	cost_price = fields.Float(string='Precio Coste', digits='Product Price', compute="_compute_price")
+	sale_price = fields.Float(string='P.V.', digits='Product Price', compute="_compute_price")
+	cost_price = fields.Float(string='P.C.', digits='Product Price', compute="_compute_price")
 	#Precios Unitarios para cada trabajo
-	sale_price_unit = fields.Float(string='P.V. unitario', digits='Product Price')
-	cost_price_unit = fields.Float(string='P.C. unitario', digits='Product Price')
+	sale_price_unit = fields.Float(string='P.V.U.', digits='Product Price')
+	cost_price_unit = fields.Float(string='P.C.U.', digits='Product Price')
 	#Horas empleadas en el trabajo
-	hours = fields.Float(string='Horas')
+	hours = fields.Float(string='Hr.')
 	#Descuento aplicado al precio de la mano de obra
-	discount = fields.Float(string='Descuento (%)', digits=dp.get_precision('Discount'), default=0.0)
+	discount = fields.Float(string='Des. (%)', digits=dp.get_precision('Discount'), default=0.0)
 	sequence = fields.Integer()
 
 	#Obtiene el precio de la mano de obra segun tarifa
@@ -1015,15 +1015,15 @@ class SaleOrderLineTaskMaterial(models.Model):
 	#Material
 	material_id = fields.Many2one(comodel_name='product.product', string='Material', required=True)
 	#Precios Totales de para cada material
-	sale_price = fields.Float(string='Precio Venta', digits='Product Price', compute='_compute_price')
-	cost_price = fields.Float(string='Precio Coste', digits='Product Price', compute='_compute_price')
+	sale_price = fields.Float(string='P.V.', digits='Product Price', compute='_compute_price')
+	cost_price = fields.Float(string='P.C.', digits='Product Price', compute='_compute_price')
 	#Precios Unitarios para cada material
-	sale_price_unit = fields.Float(string='P.V. unitario', digits='Product Price')
-	cost_price_unit = fields.Float(string='P.C. unitario', digits='Product Price')
+	sale_price_unit = fields.Float(string='P.V.U.', digits='Product Price')
+	cost_price_unit = fields.Float(string='P.C.U.', digits='Product Price')
 	#Cantidad de cada material
-	quantity = fields.Float(string='Cantidad', digits=dp.get_precision('Product Unit of Measure'))
+	quantity = fields.Float(string='Und.', digits=dp.get_precision('Product Unit of Measure'))
 	#Descuento aplicado al precio del material
-	discount = fields.Float(string='Descuento (%)', digits=dp.get_precision('Discount'), default=0.0)
+	discount = fields.Float(string='Des. (%)', digits=dp.get_precision('Discount'), default=0.0)
 	sequence = fields.Integer()
 
 	#Obtiene el precio del material segun tarifa
