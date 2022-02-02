@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_project_task_breakdown_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page" style="font-size: 9px !important;">
+
+                        <table class="table table-sm o_main_table">
+                            <tbody>
+                                <tr>
+                                    <td colspan="6" style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:0;">PARTE DE AVERIA</td>                                
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:normal;border:0;">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:bold;border:0;">Fecha Aviso</td>
+                                    <td style="font-weight:normal;border: 1px solid #238AA9;width: 125px;"><span t-field="o.oppor_id.date_begin" t-options="{&quot;widget&quot;: &quot;date&quot;}"/></td>
+                                    <td style="font-weight:bold;border:0;">Asignado a</td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="o.user_id" /></td>
+                                    <td style="font-weight:bold;border:0;">Fecha Reparación</td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="o.date_deadline" t-options="{&quot;widget&quot;: &quot;date&quot;}"/></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:normal;border:0;">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:bold;border:0;">Obra</td>
+                                    <td colspan="3" style="font-weight:normal;border:1px solid #238AA9;"><span t-field="o.project_id.name" /></td>
+                                    <td style="font-weight:bold;border:0;">Ref.</td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;width: 125px;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:normal;border:0;">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:bold;border:0;">Instalación</td>
+                                    <td colspan="5" style="font-weight:normal;border:1px solid #238AA9;"></td>    
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:normal;border:0;">
+                                    </td>
+                                </tr>                               
+                            </tbody>
+                        </table>                             
+<!--===================DATOS DEL CLIENTE=======================-->                             
+                        <table class="table table-sm o_main_table">
+                            <tbody>
+                                <tr>
+                                    <td colspan="4" style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:0;">CLIENTE</td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:normal;border:0;">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:bold;">Sr/a.</td>
+                                    <td colspan="3" style="font-weight:normal;"><span t-field="o.partner_id"/></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:bold;">Dirección:</td>
+                                    <td colspan="3" style="font-weight:normal;"><span t-field="o.partner_id.street"/><t t-if="o.partner_id.street2">, </t><span t-field="o.partner_id.street2"/></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:bold;width: 150px;">Población / Zona:</td>
+                                    <td style="font-weight:normal;"><span t-field="o.partner_id.city"/></td>
+                                    <td style="font-weight:bold;">Provincia:</td>
+                                    <td style="font-weight:normal;min-width:50px;"><span t-field="o.partner_id.state_id"/></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:bold;">Telf:</td>
+                                    <td style="font-weight:normal;"><span t-field="o.partner_id.phone"/><span t-if="o.partner_id.phone and o.partner_id.mobile"> / </span><span t-field="o.partner_id.mobile"/></td>
+                                    <td style="font-weight:bold;">E-Mail:</td>
+                                    <td style="font-weight:normal;min-width:50px;"><span t-field="o.partner_id.email"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+<!--===================DESCRIPCION=========================--> 
+                        <table class="table table-sm o_main_table">
+                            <tbody>
+                                <tr>
+                                    <td style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:1px solid #238AA9;">DESCRIPCION</td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="o.work_to_do"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+<!--====================TRABAJOS REALIZADO======================--> 
+                        <table class="table table-sm o_main_table">
+                            <tbody>
+                                <tr>
+                                    <td style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:1px solid #238AA9;">TRABAJO REALIZADO</td>
+                                    <td style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:1px solid #238AA9;">TIEMPO DEDICADO</td>
+                                    <td style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:1px solid #238AA9;">FECHA</td>
+                                    <td style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:1px solid #238AA9;">REALIZADO POR</td>
+                                </tr>                                
+                                <tr t-foreach="o.timesheet_ids" t-as="w">
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="w.name"/></td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="w.unit_amount"/></td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="w.date" t-options="{&quot;widget&quot;: &quot;date&quot;}"/></td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="w.employee_id"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+<!--===================MATERIALES EMPLEADOS=======================--> 
+                        <table class="table table-sm o_main_table">
+                            <tbody>
+                                <tr>
+                                    <td style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:1px solid #238AA9;;width:85%;">MATERIALES EMPLEADOS</td>
+                                    <td style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:1px solid #238AA9;">UNIDADES</td>
+                                </tr>                                
+                                <tr>
+                                    <td style="font-weight:normal;width:85%;border:1px solid #238AA9;"><br/></td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"> </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:normal;width:85%;border:1px solid #238AA9;"><br/></td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"> </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:normal;width:85%;border:1px solid #238AA9;"><br/></td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"> </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:normal;width:85%;border:1px solid #238AA9;"><br/></td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"> </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:normal;width:85%;border:1px solid #238AA9;"><br/></td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"> </td>
+                                </tr>
+                            </tbody>
+                        </table>     
+<!--===================HORA Y TIEMPO EMPLEADOS=======================--> 
+                        <table class="table table-sm o_main_table">
+                            <tbody >
+                               
+                                <tr>
+                                    <td style="font-weight:bold;border:0;text-align:right;">Hora Llegada</td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;width: 100px;"></td>
+                                    <td style="font-weight:normal;border:0;"></td>
+                                    <td style="font-weight:bold;border:0;text-align:right;">Hora Salida</td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;width: 100px;"></td>
+                                    <td style="font-weight:normal;border:0;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:normal;border:0;">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:bold;border:0;text-align:right;">Total Tiempo Empleado</td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;width: 100px;"></td>
+                                    <td style="font-weight:normal;border:0;"></td>
+                                    <td style="font-weight:bold;border:0;text-align:right;">Desplazamiento en KM</td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;width: 100px;"></td>
+                                    <td style="font-weight:normal;border:0;"></td>
+                                </tr>
+                            </tbody>
+                        </table>    
+<!--===================CARGO=======================--> 
+                        <table class="table table-sm o_main_table">
+                            <tbody >
+                                
+                                <tr>
+                                    <td style="font-weight:bold;border:0;text-align:right;">CON CARGO</td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"></td>
+                                    <td style="font-weight:normal;border:0;"></td>
+                                    <td style="font-weight:bold;border:0;text-align:right;">IMPORTE</td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;width: 150px;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:normal;border:0;">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:bold;border:0;text-align:right;">SIN CARGO</td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"></td>
+                                    <td style="font-weight:normal;border:0;"></td>
+                                    <td style="font-weight:bold;border:0;text-align:right;"></td>
+                                    <td style="font-weight:normal;border:0"></td>
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+<!--===================ASIGNADO Y CLIENTE=======================-->
+                        <div class="col-xs-6 pull-left">
+                            <p>Asignado a: </p>
+                        </div> 
+                        <div class="col-xs-6 pull-right">
+                            <p>Conforme Cliente: </p>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>
