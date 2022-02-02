@@ -141,7 +141,7 @@ class SaleOrder(models.Model):
 
 		self.margin_real_monetary = sale - cost
 		if (cost != 0) and (sale != 0):
-			self.margin_real_percent = (1-(cost/sale)) * 100
+			self.margin_real_percent = (1-(cost/sale))
 
 	#Calculo de los margenes ideales
 	
@@ -167,7 +167,7 @@ class SaleOrder(models.Model):
 		sale = sale - (sale * (self.discount_ideal / 100))
 		self.margin_ideal_monetary = sale - cost
 		if (cost != 0) and (sale != 0):
-			self.margin_ideal_percent = (1-(cost/sale)) * 100
+			self.margin_ideal_percent = (1-(cost/sale))
 
 	#Calculo del precio de venta y coste total de los materiales y su beneficio según presupuesto
 	
@@ -188,7 +188,7 @@ class SaleOrder(models.Model):
 			order.total_sp_material = sale
 			order.total_cp_material = cost
 			if (cost != 0) and (sale != 0):
-				order.benefit_material = (1-(cost/sale)) * 100
+				order.benefit_material = (1-(cost/sale))
 
 	#Calculo del precio de venta y coste total de los materiales y su beneficio reales
 	@api.depends('order_line')
@@ -204,7 +204,7 @@ class SaleOrder(models.Model):
 				sale = sale + ((line.price_unit * line.product_uom_qty) * (1 - (line.discount/100)))
 		self.total_sp_real_material = sale
 		if (cost != 0) and (sale != 0):
-			self.benefit_real_material = (1-(cost/sale)) * 100
+			self.benefit_real_material = (1-(cost/sale))
 
 	#Calculo del coste total real de los materiales
 	@api.onchange('order_line')
@@ -247,7 +247,7 @@ class SaleOrder(models.Model):
 				order.sale_price_work_hour = sale/hours
 				order.cost_price_work_hour = cost/hours
 			if (cost != 0) and (sale != 0):
-				order.benefit_work = (1-(cost/sale)) * 100
+				order.benefit_work = (1-(cost/sale))
 
 	#Recalcula los totales ideales al cambiar las horas
 	
@@ -272,7 +272,7 @@ class SaleOrder(models.Model):
 			record.total_sp_ideal_work = record.total_sp_work
 			record.total_cp_ideal_work = record.total_ideal_hours * record.cost_price_ideal_work_hour
 			if (record.total_cp_ideal_work != 0) and (record.total_sp_ideal_work != 0):
-				record.benefit_ideal_work = (1-(record.total_cp_ideal_work/record.total_sp_ideal_work)) * 100
+				record.benefit_ideal_work = (1-(record.total_cp_ideal_work/record.total_sp_ideal_work))
 
 
 	#Añadimos al origen las tareas asociadas al presupuesto
@@ -448,7 +448,7 @@ class SaleOrderLine(models.Model):
 		self.benefit_work = 0.0
 		for record in self:
 			if (record.total_sp_work != 0) and (record.total_cp_work != 0):
-				record.benefit_work = (1-(record.total_cp_work/record.total_sp_work)) * 100
+				record.benefit_work = (1-(record.total_cp_work/record.total_sp_work))
 
 	#Calculo del precio total de venta de los materiales
 	
@@ -475,7 +475,7 @@ class SaleOrderLine(models.Model):
 		self.benefit_material = 0.0
 		for record in self:
 			if (record.total_cp_material != 0) and (record.total_sp_material != 0):
-				record.benefit_material = (1-(record.total_cp_material/record.total_sp_material)) * 100
+				record.benefit_material = (1-(record.total_cp_material/record.total_sp_material))
 
 	#Obtiene el precio del material o mano de obra segun tarifa
 	
