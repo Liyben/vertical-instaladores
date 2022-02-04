@@ -14,7 +14,7 @@ Este módulo contiene los mecanismos necesarios para manejar un producto como un
     'author': 'Liyben',
     'depends': ['sale', 'project_task_material','sale_timesheet', 'product',
                 'sale_project','account', 'project_task_code','sales_team','hr',
-                'hr_timesheet','sale_margin',],
+                'hr_timesheet','sale_margin','crm'],
     'data': ['data/product_data.xml',
             'views/product_template.xml',
             'views/sale_view.xml',
