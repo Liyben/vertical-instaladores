@@ -14,7 +14,7 @@
     'description': """
         Cambia el tipo de campo 'narration' de Text a Html
     """,
-    'depends': ['account'],
+    'depends': ['account','sale_order_note_template'],
     'data': [
     ],
     'demo': [
