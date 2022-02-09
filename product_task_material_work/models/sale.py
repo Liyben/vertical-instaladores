@@ -76,7 +76,9 @@ class SaleOrder(models.Model):
 							encontrado = False
 							for item in material_list:
 								material_id = item[2]["material_id"]
-								if material_id == material.material_id.id:
+								sale_price = item[2]["sale_price_unit"]
+								cost_price = item[2]["cost_price_unit"]
+								if material_id == material.material_id.id and sale_price == material.sale_price_unit and cost_price == material.cost_price_unit:
 									item[2]["quantity"] = item[2]["quantity"] + (material.quantity * line.product_uom_qty)
 									encontrado = True
 							if not encontrado:	
@@ -105,7 +107,9 @@ class SaleOrder(models.Model):
 							encontrado = False
 							for item in work_list:
 								work_id = item[2]["work_id"]
-								if work_id == work.work_id.id:
+								sale_price = item[2]["sale_price_unit"]
+								cost_price = item[2]["cost_price_unit"]
+								if work_id == work.work_id.id and sale_price == work.sale_price_unit and cost_price == work.cost_price_unit:
 									item[2]["hours"] = item[2]["hours"] + (work.hours * line.product_uom_qty)
 									encontrado = True
 							if not encontrado:	
