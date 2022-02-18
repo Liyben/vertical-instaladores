@@ -176,15 +176,15 @@
                                     <field name="discount" groups="product.group_discount_per_so_line"/>
                                     <field name="cost_price" sum="Total P.C."/>
                                     <field name="sale_price" sum="Total P.V."/>
-                                    <field name="work_margin" />
+                                    <field name="work_margin" groups="product_task_material_work.group_sales_margin"/>
                                 </tree>
                             </field>
                             <group class="pull-right">
                                 <field name="total_sp_work" invisible="1"/>
                                 <field name="total_cp_work" invisible="1"/>
                                 <field name="total_hours" invisible="1"/>
-                                <field name="benefit_work" widget="percentage"/>
-                                <field name="benefit_work_amount" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                <field name="benefit_work" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
+                                <field name="benefit_work_amount" groups="product_task_material_work.group_sales_margin" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                             </group>
                         </group>
                         <group string="Materiales">
@@ -200,14 +200,14 @@
                                     <field name="discount" groups="product.group_discount_per_so_line"/>
                                     <field name="cost_price" sum="Total P.C."/>
                                     <field name="sale_price" sum="Total P.V."/>
-                                    <field name="material_margin" />
+                                    <field name="material_margin" groups="product_task_material_work.group_sales_margin"/>
                                 </tree>
                             </field>
                             <group class="pull-right">
                                 <field name="total_sp_material" invisible="1"/>
                                 <field name="total_cp_material" invisible="1"/>
-                                <field name="benefit_material" widget="percentage"/>
-                                <field name="benefit_material_amount" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                <field name="benefit_material" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
+                                <field name="benefit_material_amount" groups="product_task_material_work.group_sales_margin" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                             </group>
                         </group>
                 </div>
