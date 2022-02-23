@@ -14,3 +14,10 @@ class HrEmployee(models.Model):
 	def _onchange_work_id(self):
 		for record in self:
 			record.timesheet_cost = record.work_id.standard_price
+
+
+class HrEmployee(models.Model):
+	_inherit = 'hr.employee.public'
+
+	#Mano de obra asociada al empleado
+	work_id = fields.Many2one(comodel_name='product.product', string='Mano de obra', required=False)
