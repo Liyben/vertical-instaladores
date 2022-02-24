@@ -8,7 +8,7 @@
             
             <xpath expr="//field[@name='partner_id']" position='before'>
                 <field name="latitude" class="oe_inline"/>
-                <field name="Longitude" class="oe_inline"/>
+                <field name="longitude" class="oe_inline"/>
             </xpath>
         </field>
     </record>
