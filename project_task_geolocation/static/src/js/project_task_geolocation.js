@@ -24,12 +24,7 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
                 model: "project.task",
                 method: "get_current_geolocation",
                 args: [[this.res_id], [position.coords.latitude, position.coords.longitude]],
-            }).then(function (result) {
-                if (result.action) {
-                    self.do_action(result.action);
-                } else if (result.warning) {
-                    self.do_warn(result.warning);
-                }
+            }).then(function () {         
                 console.log('https://maps.google.com/?q='+ position.coords.latitude+','+ position.coords.longitude);
             });
         },
