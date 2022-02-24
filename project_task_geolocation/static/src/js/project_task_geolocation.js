@@ -22,7 +22,7 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
             var self = this;
             this._rpc({
                 model: "project.task",
-                method: "get_geolocation",
+                method: "get_current_geolocation",
                 args: [[this.res_id], [position.coords.latitude, position.coords.longitude]],
             }).then(function (result) {
                 if (result.action) {
