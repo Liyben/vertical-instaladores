@@ -30,13 +30,6 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
         },
         _getPositionError: function (error) {
             console.warn("ERROR(" + error.code + "): " + error.message);
-            const position = {
-                coords: {
-                    latitude: 0.0,
-                    longitude: 0.0,
-                },
-            };
-            this._get_geolocation(position);
         },
         _onButtonClicked: function (event) {
             if(event.data.attrs.name === "button_start_work"){
