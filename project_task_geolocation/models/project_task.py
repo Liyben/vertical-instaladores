@@ -3,9 +3,6 @@
 
 from odoo import api, fields, models, exceptions, _
 
-import logging
-logger = logging.getLogger(__name__)
-
 class ProjectTask(models.Model):
 	_inherit = 'project.task'
 
@@ -24,6 +21,4 @@ class ProjectTask(models.Model):
 		if (location):
 			self.latitude = location[0]
 			self.longitude = location[1]
-		else:
-			logger.info("no location")
 
