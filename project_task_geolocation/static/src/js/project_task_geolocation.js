@@ -13,7 +13,7 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     self._get_geolocation.bind(self),
-                    self._getPositionError.bind(self),
+                    self._getPositionError,
                     options
                 );
             }
