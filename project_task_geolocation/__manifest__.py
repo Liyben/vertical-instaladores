@@ -18,6 +18,7 @@
     'depends': ['project', 'project_timesheet_time_control', 'account', 'web'],
     'data': [
         "views/assets.xml",
+        "views/project_task.xml",
         "data/geolocation_data.xml",
     ],
     'demo': [

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record model="ir.ui.view" id="project_task_oppor_form_view">
+        <field name="name">project.task.oppor.form</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//field[@name='partner_id']" position='before'>
+                <field name="latitude" class="oe_inline"/>
+                <field name="Longitude" class="oe_inline"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -16,8 +16,8 @@ class ProjectTask(models.Model):
 		digits='Geolocalización',
 		readonly=True
 	)
-""" 
+
 	def get_geolocation(self, location=False):
 		if (location):
 			self.latitude = location[0]
-			self.longitude = location[1] """
+			self.longitude = location[1] 
