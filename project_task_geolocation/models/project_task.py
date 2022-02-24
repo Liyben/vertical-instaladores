@@ -20,4 +20,4 @@ class ProjectTask(models.Model):
 	def get_geolocation(self, location=False):
 		if (location):
 			self.latitude = location[0]
-			self.longitude = location[1] 
+			self.longitude = location[1]
