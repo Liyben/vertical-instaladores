@@ -17,6 +17,7 @@ class ProjectTask(models.Model):
 		readonly=True
 	)
 
+	@api.model
 	def get_geolocation(self, location=False):
 		if (location):
 			self.latitude = location[0]
