@@ -25,5 +25,5 @@ class ProjectTask(models.Model):
 			self.latitude = location[0]
 			self.longitude = location[1]
 		else:
-			logger.debug("no location")
+			logger.info("no location")
 
