@@ -41,7 +41,7 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
         },
         _onButtonClicked: function (event) {
             var self = this;
-            var id = self.model.loadParams.res_id;
+            var id = event.data.record.data.id;
             var def = this._rpc({
                 model: 'project.task',
                 method: 'search_read',
