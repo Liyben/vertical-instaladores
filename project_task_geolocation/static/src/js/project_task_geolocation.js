@@ -3,20 +3,6 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
 
     var FormController = require('web.FormController');
     var formController = FormController.include({
-        willStart: function () {
-            var self = this;
-            var id = self.model.loadParams.res_id;
-            var def = this._rpc({
-                model: 'project.task',
-                method: 'search_read',
-                args: [[['id', '=', id]]],
-            }).then(function (res) {
-                    console.log('willstart:' + res[0].id + ' ##### ');
-                    self.task = res[0];
-                });
-    
-            return Promise.all([def, this._super.apply(this, arguments)]);
-        },
         update_task: function () {
             var self = this;
             var options = {
@@ -54,7 +40,17 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
             this._get_geolocation(position);
         },
         _onButtonClicked: function (event) {
-
+            var self = this;
+            var id = self.model.loadParams.res_id;
+            var def = this._rpc({
+                model: 'project.task',
+                method: 'search_read',
+                args: [[['id', '=', id]]],
+            }).then(function (res) {
+                    console.log('Click:' + res[0].id + ' ##### ');
+                    self.task = res[0];
+                });
+            console.log(event.data);
             if(event.data.attrs.name === "button_start_work"){
                 this.update_task();
             }
