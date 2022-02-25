@@ -5,10 +5,11 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
     var formController = FormController.include({
         willStart: function () {
             var self = this;
+            var id = self.model.loadParams.res_id;
             var def = this._rpc({
                 model: 'project.task',
                 method: 'search_read',
-                args: [[['id', '=', 34]]],
+                args: [[['id', '=', id]]],
             }).then(function (res) {
                     console.log('willstart:' + res[0].id + ' ##### ');
                     self.task = res[0];
@@ -37,7 +38,7 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
             this._rpc({
                 model: "project.task",
                 method: "get_current_geolocation",
-                args: [[id], [position.coords.latitude, position.coords.longitude]],
+                args: [[self.task.id], [position.coords.latitude, position.coords.longitude]],
             }).then(function () {         
                 console.log('https://maps.google.com/?q='+ position.coords.latitude+','+ position.coords.longitude);
                 
@@ -54,8 +55,7 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
             this._get_geolocation(position);
         },
         _onButtonClicked: function (event) {
-            var self = this
-            var id = self.model.loadParams.res_id;
+
             if(event.data.attrs.name === "button_start_work"){
                 this.update_task();
             }
