@@ -8,7 +8,7 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
             this.location = (null, null);
             this.errorCode = null;
             this.task = this.res_id;
-            console.log('INIT: '+this.model)
+            console.log('INIT: '+this.model.get(this.handle))
         },
         update_task: function () {
             var self = this;
