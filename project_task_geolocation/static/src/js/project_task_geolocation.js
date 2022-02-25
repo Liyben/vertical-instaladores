@@ -11,7 +11,7 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
                 method: 'search_read',
                 args: [[['id', '=', this.res_id]]],
             }).then(function (res) {
-                    console.log('willstart:')
+                    console.log('willstart:' + res[0])
                     self.task = res.length && res[0];
                 });
     
