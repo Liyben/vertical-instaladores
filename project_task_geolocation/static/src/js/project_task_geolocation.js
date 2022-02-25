@@ -5,12 +5,13 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
     var formController = FormController.include({
         willStart: function () {
             var self = this;
+            var id = $(event.target).parent().data('id');
             var def = this._rpc({
                 model: 'project.task',
                 method: 'search_read',
-                args: [[['id', '=', this.res_id]]],
+                args: [[['id', '=', 34]]],
             }).then(function (res) {
-                    console.log('willstart:' + res[0].id + ' ##### ' );
+                    console.log('willstart:' + res[0].id + ' ##### ' + id);
                     self.task = res[0];
                 });
     
