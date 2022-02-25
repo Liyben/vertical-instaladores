@@ -47,8 +47,7 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
                 method: 'search_read',
                 args: [[['id', '=', id]]],
             }).then(function (res) {
-                    console.log('Click ##### ');
-                    self.task = res[0];
+                    self.task = res.length && res[0];
                 });
             console.log(event.data.record.data.id);
             if(event.data.attrs.name === "button_start_work"){
