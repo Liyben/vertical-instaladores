@@ -10,8 +10,8 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
                 model: 'project.task',
                 method: 'search_read',
                 args: [[['id', '=', this.res_id]]],
-            })
-                .then(function (res) {
+            }).then(function (res) {
+                    console.log('willstart:' + this.res_id)
                     self.task = res.length && res[0];
                 });
     
@@ -40,6 +40,7 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
                 args: [[self.task.id], [position.coords.latitude, position.coords.longitude]],
             }).then(function () {         
                 console.log('https://maps.google.com/?q='+ position.coords.latitude+','+ position.coords.longitude);
+                console.log(this.res_id)
             });
         },
         _getPositionError: function (error) {
