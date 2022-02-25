@@ -9,7 +9,7 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
             var def = this._rpc({
                 model: 'project.task',
                 method: 'search_read',
-                args: [[['id', '=', this.res_id]]],
+                args: [[['id', '=', 34]]],
             }).then(function (res) {
                     console.log('willstart:' + res);
                 });
