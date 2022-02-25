@@ -55,7 +55,7 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
         },
         _onButtonClicked: function (event) {
             var self = this
-            console.log(self.model.loadParams);
+            console.log(self.model.loadParams.res_id);
             if(event.data.attrs.name === "button_start_work"){
                 this.update_task();
             }
