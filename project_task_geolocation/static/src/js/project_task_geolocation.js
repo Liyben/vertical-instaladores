@@ -3,6 +3,20 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
 
     var FormController = require('web.FormController');
     var formController = FormController.include({
+        willStart: function () {
+            var self = this;
+    
+            var def = this._rpc({
+                model: 'project.task',
+                method: 'search_read',
+                args: [[['id', '=', this.res_id]]],
+            })
+                .then(function (res) {
+                    self.task = res.length && res[0];
+                });
+    
+            return Promise.all([def, this._super.apply(this, arguments)]);
+        },
         update_task: function () {
             var self = this;
             var options = {
@@ -23,7 +37,7 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
             this._rpc({
                 model: "project.task",
                 method: "get_current_geolocation",
-                args: [[34], [position.coords.latitude, position.coords.longitude]],
+                args: [[self.task.id], [position.coords.latitude, position.coords.longitude]],
             }).then(function () {         
                 console.log('https://maps.google.com/?q='+ position.coords.latitude+','+ position.coords.longitude);
             });
