@@ -888,10 +888,16 @@ class SaleOrderLineTaskWork(models.Model):
 	_name = 'sale.order.line.task.work'
 	_order = 'order_line_id, sequence, id'
 
+	#Dominio para el campo mano de obra
+	@api.model
+	def _get_work_id_domain(self):
+		uom_id = self.env.ref('uom.product_uom_hour').id
+		return [('type', '=', 'service'),('uom_id', '=', uom_id)]
+
 	#Campo relación con la linea de pedido
 	order_line_id = fields.Many2one(comodel_name='sale.order.line', string='Linea de pedido')
 	#Mano de obra
-	work_id = fields.Many2one(comodel_name='product.product', string='Mano de obra', required=True)
+	work_id = fields.Many2one(comodel_name='product.product', string='Mano de obra', required=True, domain=_get_work_id_domain)
 	#Descripcion del trabajo
 	name = fields.Char(string='Nombre', required=True)
 	#Precios Totales para cada trabajo
@@ -907,6 +913,7 @@ class SaleOrderLineTaskWork(models.Model):
 	sequence = fields.Integer()
 	#Margen
 	work_margin = fields.Float(string='Margen', digits='Product Price', compute='_compute_price')
+
 
 	#Obtiene el precio de la mano de obra segun tarifa
 	
