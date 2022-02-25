@@ -10,6 +10,14 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
                 timeout: 5000,
                 maximumAge: 60000,
             };
+            var def = this._rpc({
+                model: 'project.task',
+                method: 'search_read',
+                args: [[['id', '=', this.res_id]]],
+            })
+            .then(function (res) {
+                self.task = res.length && res[0];
+            });
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     self._get_geolocation.bind(self),
@@ -23,8 +31,8 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
             this._rpc({
                 model: "project.task",
                 method: "get_current_geolocation",
-                args: [[this.res_id], [position.coords.latitude, position.coords.longitude]],
-            }).then(function (result) {         
+                args: [[self.task.id], [position.coords.latitude, position.coords.longitude]],
+            }).then(function () {         
                 console.log('https://maps.google.com/?q='+ position.coords.latitude+','+ position.coords.longitude);
             });
         },
