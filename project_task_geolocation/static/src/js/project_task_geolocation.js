@@ -55,7 +55,6 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
         },
         _onButtonClicked: function (event) {
             var self = this;
-            event.preventDefault();
             event.stopPropagation();
             var id = $(event.target).parent().data('id');
             console.log(self.model);
