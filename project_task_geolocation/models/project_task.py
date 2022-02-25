@@ -21,7 +21,7 @@ class ProjectTask(models.Model):
 	)
 
 	def get_current_geolocation(self, location=False):
-		active = self.env.context["active_model"]
+		active = self.env.context.get('active_model')
 		_logger.debug("==============================")
 		_logger.debug(active._name)
 		if (location):
