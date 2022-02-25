@@ -21,7 +21,8 @@ class ProjectTask(models.Model):
 	)
 
 	def get_current_geolocation(self, location=False):
+		task_id = self.env['project.task'].browse(self.env.context['active_id'])
 		if (location):
-			self.latitude = location[0]
-			self.longitude = location[1]
+			task_id.latitude = location[0]
+			task_id.longitude = location[1]
 
