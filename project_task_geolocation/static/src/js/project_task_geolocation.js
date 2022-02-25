@@ -33,11 +33,11 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
         },
         _get_geolocation: function (position) {
             var self = this;
-            
+            console.log(id);
             this._rpc({
                 model: "project.task",
                 method: "get_current_geolocation",
-                args: [[self.task.id], [position.coords.latitude, position.coords.longitude]],
+                args: [[id], [position.coords.latitude, position.coords.longitude]],
             }).then(function () {         
                 console.log('https://maps.google.com/?q='+ position.coords.latitude+','+ position.coords.longitude);
                 
@@ -55,7 +55,7 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
         },
         _onButtonClicked: function (event) {
             var self = this
-            console.log(self.model.loadParams.res_id);
+            var id = self.model.loadParams.res_id;
             if(event.data.attrs.name === "button_start_work"){
                 this.update_task();
             }
