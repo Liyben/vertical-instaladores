@@ -6,7 +6,9 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
         init: function (parent, action) {
             this._super.apply(this, arguments);
             this.location = (null, null);
-            this.task = this.id;
+            this.errorCode = null;
+            this.task = this.res_id;
+            console.log('INIT: '+this.task)
         },
         update_task: function () {
             var self = this;
@@ -31,7 +33,7 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
                 args: [[self.task.id], [position.coords.latitude, position.coords.longitude]],
             }).then(function () {         
                 console.log('https://maps.google.com/?q='+ position.coords.latitude+','+ position.coords.longitude);
-                console.log(this.res_id)
+                console.log(self.task)
             });
         },
         _getPositionError: function (error) {
