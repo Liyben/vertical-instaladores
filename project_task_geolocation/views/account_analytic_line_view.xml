@@ -11,6 +11,7 @@
                 <field name="start_longitude" invisible="1"/>
                 <field name="end_latitude" invisible="1"/>
                 <field name="end_longitude" invisible="1"/>
+            </xpath>
         </field>
     </record>
 </odoo>
