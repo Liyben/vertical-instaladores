@@ -7,9 +7,32 @@
         <field name="arch" type="xml">
             
             <xpath expr="//field[@name='partner_id']" position='before'>
-                <field name="latitude" class="oe_inline"/>
-                <field name="longitude" class="oe_inline"/>
+                <field name="latitude" class="oe_inline" invisible="1"/>
+                <field name="longitude" class="oe_inline" invisible="1"/>
             </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_task_form2_inherited">
+        <field name="name">Add geolocation</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited" />
+        <field name="arch" type="xml">
+            <!-- Sub-tree view for timesheet_ids -->
+            <xpath expr="//field[@name='timesheet_ids']/tree//field[@name='unit_amount']" position='after'>
+                <field name="start_latitude" invisible="1"/>
+                <field name="start_longitude" invisible="1"/>
+                <button
+                    name="button_start_geolocation"
+                    string="Localización de comienzo"
+                    tabindex="-1"
+                    type="object"
+                    icon="fa-map-location-dot text-success"
+                    class="oe_stat_button"
+                />
+
+            </xpath>
+
         </field>
     </record>
 

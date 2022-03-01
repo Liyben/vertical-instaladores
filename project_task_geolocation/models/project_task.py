@@ -21,10 +21,15 @@ class ProjectTask(models.Model):
 	)
 
 	def get_current_geolocation(self, location=False):
-		active = self.env.context.get('active_id')
-		_logger.debug("==============================")
-		_logger.debug(active)
 		if (location):
 			self.latitude = location[0]
 			self.longitude = location[1]
+
+	def button_start_work(self):
+		result = super().button_start_work()
+		result["context"].update({
+			"default_start_latitude": self.latitude,
+			"default_start_longitude": self.longitude,
+		})
+		return result
 
