@@ -891,7 +891,7 @@ class SaleOrderLineTaskWork(models.Model):
 	#Dominio para el campo mano de obra
 	@api.model
 	def _get_work_id_domain(self):
-		uom_categ_id = self.env.ref('uom.uom_categ_wtime').id
+		uom_categ_id = self.env.ref('uom.uom_categ_wtime')
 		uom_ids = self.env["uom.uom"].search(["category_id", "=", uom_categ_id])
 		return [('uom_id', 'in', uom_ids)]
 
@@ -1027,7 +1027,7 @@ class SaleOrderLineTaskMaterial(models.Model):
 	#Dominio para el campo material
 	@api.model
 	def _get_material_id_domain(self):
-		uom_categ_id = self.env.ref('uom.uom_categ_wtime').id
+		uom_categ_id = self.env.ref('uom.uom_categ_wtime')
 		uom_ids = self.env["uom.uom"].search(["category_id", "=", uom_categ_id])
 		return [('uom_id', 'not in', uom_ids)]
 
