@@ -143,9 +143,8 @@ class ProdcutTaskWork(models.Model):
 	#Dominio para el campo mano de obra
 	@api.model
 	def _get_work_id_domain(self):
-		uom_categ_id = self.env.ref('uom.uom_categ_wtime')[0]
-		uom_ids = self.env["uom.uom"].search(["category_id", "=", uom_categ_id])
-		return [('uom_id', 'in', uom_ids)]
+		uom_categ_id = self.env.ref('uom.uom_categ_wtime').id
+		return [('uom_id.category_id', '=', uom_categ_id)]
 
 	#Campo relación con el producto de la partida
 	product_id = fields.Many2one(comodel_name='product.template', string='Producto', ondelete='restrict')
