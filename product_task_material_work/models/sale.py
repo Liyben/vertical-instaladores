@@ -892,8 +892,7 @@ class SaleOrderLineTaskWork(models.Model):
 	@api.model
 	def _get_work_id_domain(self):
 		uom_categ_id = self.env.ref('uom.uom_categ_wtime').id
-		uom_ids = self.env["uom.uom"].search(["category_id", "=", uom_categ_id])
-		return [('uom_id', 'in', uom_ids)]
+		return [('uom_id.category_id', '=', uom_categ_id)]
 
 	#Campo relación con la linea de pedido
 	order_line_id = fields.Many2one(comodel_name='sale.order.line', string='Linea de pedido')
@@ -1028,8 +1027,7 @@ class SaleOrderLineTaskMaterial(models.Model):
 	@api.model
 	def _get_material_id_domain(self):
 		uom_categ_id = self.env.ref('uom.uom_categ_wtime').id
-		uom_ids = self.env["uom.uom"].search(["category_id", "=", uom_categ_id])
-		return [('uom_id', 'not in', uom_ids)]
+		return [('uom_id.category_id', '!=', uom_categ_id)]
 
 	#Descripcion del material
 	name = fields.Char(string='Descripción', required=True)

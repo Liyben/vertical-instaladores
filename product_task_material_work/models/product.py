@@ -197,8 +197,7 @@ class ProductTaskMaterial(models.Model):
 	@api.model
 	def _get_material_id_domain(self):
 		uom_categ_id = self.env.ref('uom.uom_categ_wtime').id
-		uom_ids = self.env["uom.uom"].search(["category_id", "=", uom_categ_id])
-		return [('uom_id', 'not in', uom_ids)]
+		return [('uom_id.category_id', '!=', uom_categ_id)]
 
 	#Descripcion del material
 	name = fields.Char(string='Descripción', required=True)
