@@ -167,7 +167,6 @@
                             <field name="task_works_ids" nolabel="1" context="{'default_product_id': active_id}">
                                 <tree string="Trabajos" editable="bottom">
                                     <field name="sequence" widget="handle"/>
-                                    <!-- Solo los productos de tipo servicio -->
                                     <field name="work_id"/>
                                     <field name="name"/>
                                     <field name="hours" sum="Horas totales" widget="float_time"/>
@@ -191,8 +190,8 @@
                             <field name="task_materials_ids" nolabel="1" context="{'default_product_id':active_id}">
                                 <tree string="Materiales" editable="bottom">
                                     <field name="sequence" widget="handle"/>
-                                    <!-- Se eliminan los productos de tipo servicio -->
-                                    <field name="material_id" domain="[('type', '!=', 'service')]"/>
+                                    
+                                    <field name="material_id"/>
                                     <field name="name"/>
                                     <field name="quantity"/>
                                     <field name="cost_price_unit"/>
