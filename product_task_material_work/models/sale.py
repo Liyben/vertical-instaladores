@@ -891,8 +891,9 @@ class SaleOrderLineTaskWork(models.Model):
 	#Dominio para el campo mano de obra
 	@api.model
 	def _get_work_id_domain(self):
-		uom_id = self.env.ref('uom.product_uom_hour').id
-		return [('type', '=', 'service'),('uom_id', '=', uom_id)]
+		uom_categ_id = self.env.ref('uom.uom_categ_wtime').id
+		uom_ids = self.env["uom.uom"].search(["category_id", "=", uom_categ_id])
+		return [('uom_id', 'in', uom_ids)]
 
 	#Campo relación con la linea de pedido
 	order_line_id = fields.Many2one(comodel_name='sale.order.line', string='Linea de pedido')
@@ -1023,12 +1024,19 @@ class SaleOrderLineTaskMaterial(models.Model):
 	_name = 'sale.order.line.task.material'
 	_order = 'order_line_id, sequence, id'
 
+	#Dominio para el campo material
+	@api.model
+	def _get_material_id_domain(self):
+		uom_categ_id = self.env.ref('uom.uom_categ_wtime').id
+		uom_ids = self.env["uom.uom"].search(["category_id", "=", uom_categ_id])
+		return [('uom_id', 'not in', uom_ids)]
+
 	#Descripcion del material
 	name = fields.Char(string='Descripción', required=True)
 	#Campo relación con la linea de pedido
 	order_line_id = fields.Many2one(comodel_name='sale.order.line', string='Linea de pedido')
 	#Material
-	material_id = fields.Many2one(comodel_name='product.product', string='Material', required=True)
+	material_id = fields.Many2one(comodel_name='product.product', string='Material', required=True, domain=_get_material_id_domain)
 	#Precios Totales de para cada material
 	sale_price = fields.Float(string='P.V.', digits='Product Price', compute='_compute_price')
 	cost_price = fields.Float(string='P.C.', digits='Product Price', compute='_compute_price')
