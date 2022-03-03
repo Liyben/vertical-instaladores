@@ -24,13 +24,20 @@
                 <field name="start_longitude" invisible="1"/>
                 <button
                     name="button_start_geolocation"
-                    string="Localización de comienzo"
+                    string="Comienzo"
                     tabindex="-1"
                     type="object"
-                    icon="fa-map-location-dot text-success"
+                    icon="fa-map-marker text-success"
                     class="oe_stat_button"
                 />
-
+                <button
+                    name="button_stop_geolocation"
+                    string="Fin"
+                    tabindex="-1"
+                    type="object"
+                    icon="fa-map-marker text-warning"
+                    class="oe_stat_button"
+                />
             </xpath>
 
         </field>

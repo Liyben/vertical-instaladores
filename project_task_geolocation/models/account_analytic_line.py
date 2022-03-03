@@ -34,8 +34,20 @@ class AccountAnalyticLine(models.Model):
 			location = "https://maps.google.com/?q=%f,%f" % (record.start_latitude,record.start_longitude)
 
 		return {
-            'name' : 'Ubicación',
-            'type' : 'ir.actions.act_url',
-            'target': 'new',
-            'url' : location
-        } 
+			'name' : 'Ubicación',
+			'type' : 'ir.actions.act_url',
+			'target': 'new',
+			'url' : location
+		} 
+
+	def button_stop_geolocation(self):
+		location = ""  
+		for record in self:
+			location = "https://maps.google.com/?q=%f,%f" % (record.end_latitude,record.end_longitude)
+
+		return {
+			'name' : 'Ubicación',
+			'type' : 'ir.actions.act_url',
+			'target': 'new',
+			'url' : location
+		} 
