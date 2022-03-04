@@ -180,7 +180,7 @@ class ProjectTaskMaterial(models.Model):
 
     def create_stock_move(self):
         pick_type = self.env.ref(
-            "project_task_material_stock.project_task_material_picking_type"
+            "project_task_material_stock_liyben_mig_mod.project_task_material_picking_type"
         )
         task = self[0].task_id
         picking_id = task.picking_id or self.env["stock.picking"].create(
