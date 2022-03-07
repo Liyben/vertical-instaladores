@@ -30,6 +30,8 @@
                     icon="fa-map-marker text-success"
                     class="oe_stat_button"
                 />
+                <field name="end_latitude" invisible="1"/>
+                <field name="end_longitude" invisible="1"/>
                 <button
                     name="button_stop_geolocation"
                     string="Fin"

@@ -21,14 +21,14 @@ class ProjectTask(models.Model):
 	)
 
 	def get_current_geolocation(self, location=False):
-		if (location):
-			self.write({'latitude': location[0], 'longitude': location[1]})
+		for record in self:
+			if (location):
+				record.write({'latitude': location[0], 'longitude': location[1]})
 
 	def button_start_work(self):
 		result = super().button_start_work()
 		result["context"].update({
-			"default_start_latitude": self.latitude,
-			"default_start_longitude": self.longitude,
+			"default_lead_id": self.oppor_id,
 		})
 		return result
 
