@@ -66,6 +66,7 @@
                 >
                     <notebook>
                         <page string="Products" name="products">
+                            <field name="has_stock_move_ids" invisible="1"/>
                             <field name="material_ids" attrs="{'readonly': [('has_stock_move_ids', '=', True)]}">
                                 <tree string="Materials used" editable="top">
                                     <field name="product_id" />
