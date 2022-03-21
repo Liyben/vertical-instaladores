@@ -25,6 +25,8 @@ class Task(models.Model):
             task.stock_move_ids = task.mapped("material_ids.stock_move_id")
             if task.stock_move_ids:
                 task.has_stock_move_ids = True
+            else:
+                task.has_stock_move_ids = False
 
     @api.depends("material_ids.analytic_line_id")
     def _compute_analytic_line(self):
