@@ -3,6 +3,7 @@
 # Copyright 2016-2017 Tecnativa - Vicent Cubells
 # Copyright 2019 Valentin Vinagre <valentin.vinagre@qubiq.es>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl)
+from email.policy import default
 from odoo import _, api, exceptions, fields, models
 
 
@@ -22,6 +23,8 @@ class Task(models.Model):
     def _compute_stock_move(self):
         for task in self:
             task.stock_move_ids = task.mapped("material_ids.stock_move_id")
+            if task.stock_move_ids:
+                task.has_stock_move_ids = True
 
     @api.depends("material_ids.analytic_line_id")
     def _compute_analytic_line(self):
@@ -83,6 +86,10 @@ class Task(models.Model):
         string="Destination Location",
         index=True,
         help="Keep this field empty to use the default value from the project.",
+    )
+    has_stock_move_ids = fields.Boolean(
+        compute="_compute_stock_move",
+        default=False,
     )
 
     def unlink_stock_move(self):
