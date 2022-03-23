@@ -45,6 +45,12 @@ class Task(models.Model):
                         task.stock_state = state
                         break
 
+    @api.depends('picking_ids')
+    def _compute_picking_ids(self):
+        for task in self:
+            task.delivery_count = len(task.picking_ids)
+
+
     picking_id = fields.Many2one(
         "stock.picking",
         related="stock_move_ids.picking_id",
@@ -91,8 +97,49 @@ class Task(models.Model):
     )
     has_stock_move_ids = fields.Boolean(
         compute="_compute_stock_move",
-        default=False,
     )
+    picking_ids = fields.One2many(
+        'stock.picking', 
+        'task_id', 
+        string='Albaranes'
+    )
+    delivery_count = fields.Integer(
+        string='Pedidos de entrega', 
+        compute='_compute_picking_ids'
+    )
+    procurement_group_id = fields.Many2one(
+        'procurement.group', 
+        'Procurement Group', 
+        copy=False
+    )
+
+    def action_view_delivery(self):
+        action = self.env["ir.actions.actions"]._for_xml_id("stock.action_picking_tree_all")
+
+        pickings = self.mapped('picking_ids')
+        if len(pickings) > 1:
+            action['domain'] = [('id', 'in', pickings.ids)]
+        elif pickings:
+            form_view = [(self.env.ref('stock.view_picking_form').id, 'form')]
+            if 'views' in action:
+                action['views'] = form_view + [(state,view) for state,view in action['views'] if view != 'form']
+            else:
+                action['views'] = form_view
+            action['res_id'] = pickings.id
+        # Prepara el context.
+        picking_id = pickings.filtered(lambda l: l.picking_type_id.code == 'outgoing')
+        if picking_id:
+            picking_id = picking_id[0]
+        else:
+            picking_id = pickings[0]
+        action['context'] = dict(self._context, default_partner_id=self.partner_id.id, default_picking_type_id=picking_id.picking_type_id.id, default_origin=self.name, default_group_id=picking_id.group_id.id)
+        return action
+
+    def action_view_stock_move_lines(self):
+        self.ensure_one()
+        action = self.env["ir.actions.actions"]._for_xml_id('stock.stock_move_action')
+        action['domain'] = [('analytic_account_id', '=', self.project_id.analytic_account_id.id)]
+        return action
 
     def unlink_stock_move(self):
         res = False
@@ -109,6 +156,7 @@ class Task(models.Model):
     def write(self, vals):
         res = super().write(vals)
         for task in self:
+            
             if "stage_id" in vals or "material_ids" in vals:
                 if task.consume_material:
                     todo_lines = task.material_ids.filtered(
@@ -177,7 +225,7 @@ class ProjectTaskMaterial(models.Model):
             "state": "confirmed",
             "product_uom": self.product_uom_id.id or product.uom_id.id,
             "product_uom_qty": self.quantity,
-            "origin": self.task_id.name,
+            "origin": self.task_id.sale_line_id.order_id.name +' ('+ self.task_id.code + ')',
             "location_id": self.task_id.location_source_id.id
             or self.task_id.project_id.location_source_id.id
             or self.env.ref("stock.stock_location_stock").id,
@@ -192,19 +240,43 @@ class ProjectTaskMaterial(models.Model):
             "project_task_material_stock_liyben_mig_mod.project_task_material_picking_type"
         )
         task = self[0].task_id
+
+        group_id = task.procurement_group_id
+        if not group_id:
+            group_id = self.env['procurement.group'].create(
+                {
+                    'name': task.sale_line_id.order_id.name +' ('+ task.code + ')', 
+                    'move_type': task.sale_line_id.order_id.picking_policy or 'direct',
+                    'task_id': task.id,
+                    'sale_id': task.sale_line_id.order_id.id or False,
+                    'partner_id': task.partner_id.id,
+                }
+            )
+            task.procurement_group_id = group_id.id
+
         picking_id = task.picking_id or self.env["stock.picking"].create(
             {
-                "origin": "{}/{}".format(task.project_id.name, task.name),
+                "origin": "{}/{}".format(task.sale_line_id.order_id.name, task.code),
                 "partner_id": task.partner_id.id,
                 "picking_type_id": pick_type.id,
                 "location_id": pick_type.default_location_src_id.id,
                 "location_dest_id": pick_type.default_location_dest_id.id,
             }
         )
+        if not task.picking_ids:
+            list_picking = []
+            list_picking.append(picking_id.id)
+            
         for line in self:
             if not line.stock_move_id:
                 move_vals = line._prepare_stock_move()
-                move_vals.update({"picking_id": picking_id.id or False})
+                move_vals.update(
+                    {
+                        "picking_id": picking_id.id or False,
+                        'group_id': group_id.id or False,
+                        'analytic_account_id' : task.project_id.analytic_account_id.id or False,
+                    }
+                )
                 move_id = self.env["stock.move"].create(move_vals)
                 line.stock_move_id = move_id.id
 
@@ -277,6 +349,8 @@ class ProjectTaskMaterial(models.Model):
             sel.analytic_line_id.amount = sel.stock_move_id.product_id.standard_price
 
     def unlink(self):
+        self.mapped('move_ids')._action_cancel()
+        self.with_context(prefetch_fields=False).mapped('move_ids').unlink()
         self.unlink_stock_move()
         if self.stock_move_id:
             raise exceptions.Warning(

@@ -25,6 +25,21 @@
             ref="project_task_material.view_project_task_form_material"
         />
         <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button type="object"
+                    name="action_view_delivery"
+                    class="oe_stat_button"
+                    icon="fa-truck"
+                    attrs="{'invisible': [('delivery_count', '=', 0)]}" groups="base.group_user">
+                    <field name="delivery_count" widget="statinfo" string="Entrega"/>
+                </button>
+
+                <button string="Movimientos de stock" 
+                    type="object" 
+                    name="action_view_stock_move_lines" 
+                    attrs="{'invisible': [('delivery_count', '=', 0)]}" class="oe_stat_button" icon="fa-arrows-v" groups="base.group_user"/>
+            </xpath>
+
             <field name="project_id" position="after">
                 <field
                     name="analytic_account_id"
