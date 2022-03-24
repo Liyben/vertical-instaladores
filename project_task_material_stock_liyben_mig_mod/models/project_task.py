@@ -349,8 +349,8 @@ class ProjectTaskMaterial(models.Model):
             sel.analytic_line_id.amount = sel.stock_move_id.product_id.standard_price
 
     def unlink(self):
-        self.mapped('move_ids')._action_cancel()
-        self.with_context(prefetch_fields=False).mapped('move_ids').unlink()
+        #self.mapped('move_ids')._action_cancel()
+        #self.with_context(prefetch_fields=False).mapped('move_ids').unlink()
         self.unlink_stock_move()
         if self.stock_move_id:
             raise exceptions.Warning(
