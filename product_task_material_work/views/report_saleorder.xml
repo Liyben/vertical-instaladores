@@ -221,9 +221,9 @@
                         <!--<td class="materials_lbl"></td>-->
                         <td class="materials_lbl">Total Materiales Und.</td>
                         <td></td>
-                        <td></td>
-                        <td t-if="display_discount" class="text-right" groups="product.group_discount_per_so_line"></td>
-                        <td class="materials_total_amount">
+                        <td t-if="not (is_without_valuing and is_delivery_note)"></td>
+                        <td t-if="not (is_without_valuing and is_delivery_note) and display_discount" class="text-right" groups="product.group_discount_per_so_line"></td>
+                        <td t-if="not (is_without_valuing and is_delivery_note)" class="materials_total_amount">
                             <t t-if="line.detailed_subtotal_price_materials">
                                 <span t-esc="'{0:,.2f}'.format(line.total_sp_material).replace('.', ',')"/> <span t-field="doc.pricelist_id.currency_id.symbol"/>
                                 <!--<span t-field="line.total_sp_material" t-field-options='{"widget": "monetary", "display_currency": "doc.pricelist_id.currency_id"}'/>-->
@@ -242,17 +242,17 @@
                             <span t-esc="'{0:,.2f}'.format(material.quantity).replace('.', ',')"/>
                             <span groups="uom.group_uom" t-field="material.material_id.uom_id.name"/>
                         </td>
-                        <td class="materials_line_price">
+                        <td t-if="not (is_without_valuing and is_delivery_note)" class="materials_line_price">
                             <t t-if="line.detailed_price_materials">
                                 <span t-field="material.sale_price_unit" t-field-options='{"widget": "monetary", "display_currency": "doc.pricelist_id.currency_id"}'/>
                             </t>
                         </td>
-                        <td class="materials_line_qty" t-if="display_discount" groups="product.group_discount_per_so_line">
+                        <td class="materials_line_qty" t-if="not (is_without_valuing and is_delivery_note) and display_discount" groups="product.group_discount_per_so_line">
                             <t t-if="line.detailed_price_materials">
                                 <span t-esc="'{0:,.2f}'.format(material.discount).replace('.', ',')"/>
                             </t>
                         </td>
-                        <td class="materials_line_price">
+                        <td t-if="not (is_without_valuing and is_delivery_note)" class="materials_line_price">
                             <t t-if="line.detailed_price_materials">
                                 <span t-esc="'{0:,.2f}'.format(material.sale_price_unit * material.quantity * (1 - (material.discount/100))).replace('.', ',')"/> <span t-field="doc.pricelist_id.currency_id.symbol"/>
                                 <!--<span t-field="material.sale_price" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;doc.pricelist_id.currency_id&quot;}"/>-->  
