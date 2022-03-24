@@ -170,13 +170,13 @@
                                 <span groups="uom.group_uom" t-field="uom_hour.name"/>-->
                             </t>
                         </td>
-                        <td class="works_hours_price">
+                        <td t-if="not (is_without_valuing and is_delivery_note)" class="works_hours_price">
                             <!--<t t-if="line.workforce_id and line.detailed_time">
                                 <span t-field="line.workforce_id.lst_price" t-field-options='{"widget": "monetary", "display_currency": "doc.pricelist_id.currency_id"}'/>
                             </t>-->
                         </td>
-                        <td t-if="display_discount" class="text-right" groups="product.group_discount_per_so_line"></td>
-                        <td class="works_total_amount">
+                        <td t-if="not (is_without_valuing and is_delivery_note) and display_discount" class="text-right" groups="product.group_discount_per_so_line"></td>
+                        <td t-if="not (is_without_valuing and is_delivery_note)" class="works_total_amount">
                             <t t-if="line.detailed_subtotal_price_time">
                                 <span t-esc="'{0:,.2f}'.format(line.total_sp_work).replace('.', ',')"/> <span t-field="doc.pricelist_id.currency_id.symbol"/>
                                 <!--<span t-field="line.total_sp_work" t-field-options='{"widget": "monetary", "display_currency": "doc.pricelist_id.currency_id"}'/>-->
@@ -198,17 +198,17 @@
                             </t>
                         </td>
                         <!-- REPORT DESGLOSE HORAS -->
-                        <td class="materials_line_price">
+                        <td t-if="not (is_without_valuing and is_delivery_note)" class="materials_line_price">
                             <t t-if="line.detailed_price_time">
                                 <span t-field="work.sale_price_unit" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;doc.pricelist_id.currency_id&quot;}"/>
                             </t>
                         </td>
-                        <td class="materials_line_price" t-if="display_discount" groups="product.group_discount_per_so_line">
+                        <td class="materials_line_price" t-if="not (is_without_valuing and is_delivery_note) and display_discount" groups="product.group_discount_per_so_line">
                             <t t-if="line.detailed_price_time">
                                 <span t-esc="'{0:,.2f}'.format(work.discount).replace('.', ',')"/>
                             </t>
                         </td>
-                        <td class="materials_line_price">
+                        <td t-if="not (is_without_valuing and is_delivery_note)" class="materials_line_price">
                             <t t-if="line.detailed_price_time">
                                 <span t-esc="'{0:,.2f}'.format(work.sale_price_unit * work.hours * (1 - (work.discount/100))).replace('.', ',')"/> <span t-field="doc.pricelist_id.currency_id.symbol"/>
                               <!--<span t-field="work.sale_price" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;doc.pricelist_id.currency_id&quot;}"/>-->  
