@@ -112,17 +112,17 @@
                                         <span t-field="line.product_uom"/>
                                     </t>
                                 </td>
-                                <td name="td_priceunit" class="text-right">
+                                <td t-if="not (is_without_valuing and is_delivery_note)" name="td_priceunit" class="text-right">
                                     <t t-if="not line.product_uom_qty == 0">
                                         <span t-field="line.price_unit"/>
                                     </t>
                                 </td>
-                                <td t-if="display_discount" class="text-right" groups="product.group_discount_per_so_line">
+                                <td t-if="not (is_without_valuing and is_delivery_note) and display_discount" class="text-right" groups="product.group_discount_per_so_line">
                                     <t t-if="not line.product_uom_qty == 0">
                                         <span t-field="line.discount"/>
                                     </t>
                                 </td>
-                                <td name="td_total" class="text-right o_price_total">
+                                <td t-if="not (is_without_valuing and is_delivery_note)" name="td_total" class="text-right o_price_total">
                                     <t t-if="not line.product_uom_qty == 0">
                                         <span t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
                                         <span t-field="line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
@@ -144,7 +144,7 @@
                         </tr>
 
                         <t t-if="current_section and (line_last or doc.order_line[line_index+1].display_type == 'line_section')">
-                            <tr class="is-subtotal text-right">
+                            <tr t-if="not (is_without_valuing and is_delivery_note)" class="is-subtotal text-right">
                                 <td name="td_section_subtotal" colspan="99">
                                     <strong class="mr16">Subtotal</strong>
                                     <span t-esc="current_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
