@@ -86,7 +86,7 @@
                         <th name="th_description" >Descripción</th>
                         <th name="th_quantity" class="text-right">Cantidad</th>
                         <th t-if="not (is_without_valuing and is_delivery_note)" name="th_priceunit" class="text-right">P. Und</th>
-                        <th t-if="not (is_without_valuing and is_delivery_note)" name="th_discount" t-if="display_discount" class="text-right" groups="product.group_discount_per_so_line">Desc.%</th>
+                        <th t-if="not (is_without_valuing and is_delivery_note) and display_discount" name="th_discount" class="text-right" groups="product.group_discount_per_so_line">Desc.%</th>
                         <th t-if="not (is_without_valuing and is_delivery_note)" name="th_subtotal" class="text-right">
                             <span groups="account.group_show_line_subtotals_tax_excluded">Importe</span>
                             <span groups="account.group_show_line_subtotals_tax_included">Total</span>
