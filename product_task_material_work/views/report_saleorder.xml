@@ -262,6 +262,10 @@
                 </t>
 
         </xpath>
+
+        <xpath expr="//div[@name='so_total_summary']" position="attributes">
+            <attribute name="t-if">not (is_without_valuing and is_delivery_note)</attribute>
+        </xpath>
     </template>
 
     <template id="report_saleorder_sales_delivery_note">
