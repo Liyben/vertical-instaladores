@@ -9,7 +9,7 @@ class Stage(models.Model):
 	@api.model
 	def _get_activity_type_id_domain(self):
 
-		crm_id = self.env.ref('crm.model_crm_stage').id
+		crm_id = self.env.ref('crm.model_crm_lead').id
 		return ['|', ('res_model_id', '=', False), ('res_model_id', '=', crm_id)]
 
 	activity_type_id = fields.Many2one(
