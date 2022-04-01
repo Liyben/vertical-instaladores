@@ -36,11 +36,15 @@
                                 </tree>
                             </field>
                             <group class="pull-right">
-                                    <field name="total_sp_work" invisible="1"/>
-                                    <field name="total_cp_work" invisible="1"/>
-                                    <field name="total_hours" invisible="1"/>
-                                    <field name="benefit_work" widget="percentage"/>
-                                    <field name="benefit_work_amount" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                <field name="total_sp_work" invisible="1"/>
+                                <field name="total_cp_work" invisible="1"/>
+                                <field name="total_hours" invisible="1"/>
+                                <label for="benefit_work_amount" string="Beneficio"/>
+                                <div>
+                                    <field name="benefit_work_amount" groups="product_task_material_work.group_sales_margin" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                    <span> | </span>
+                                    <field name="benefit_work" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
+                                </div>
                             </group>
                         </group>
                         <group string="Materiales">
@@ -60,8 +64,12 @@
                             <group class="pull-right">
                                 <field name="total_sp_material" invisible="1"/>
                                 <field name="total_cp_material" invisible="1"/>
-                                <field name="benefit_material" widget="percentage"/>
-                                <field name="benefit_material_amount" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                <label for="benefit_material_amount" string="Beneficio"/>
+                                <div>
+                                    <field name="benefit_material_amount" groups="product_task_material_work.group_sales_margin" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                    <span> | </span>
+                                    <field name="benefit_material" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
+                                </div>
                             </group>
                         </group>
                         <group>
