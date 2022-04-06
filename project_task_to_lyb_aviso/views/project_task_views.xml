@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="view_task_form2_inherited">
+        <field name="name">Add create notice</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited" />
+        <field name="arch" type="xml">
+            <!-- Main task form action button -->
+            <div name="button_box" position="inside">
+                <button
+                    name="button_project_task_to_crm_lead"
+                    string="Crear aviso"
+                    type="object"
+                    icon="fa-bullhorn text-warning"
+                    attrs="{'invisible': [('oppor_id', '!=', False)]}"
+                    class="oe_stat_button"
+                    title="Crear aviso"
+                    confirm="¿Estas seguro que quiere crear un aviso?"
+                />
+        </field>
+    </record>
+
+</odoo>

@@ -9,7 +9,7 @@
         <field name="arch" type="xml">
             <!-- New fields -->
             <page name="extra" position="after">
-                <page string="Parte de trabajo">
+                <page string="Tareas">
                     <field name="task_ids" readonly="1"/>
                 </page>
             </page>
