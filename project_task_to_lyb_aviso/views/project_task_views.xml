@@ -18,6 +18,7 @@
                     title="Crear aviso"
                     confirm="¿Estas seguro que quiere crear un aviso?"
                 />
+            </div>
         </field>
     </record>
 
