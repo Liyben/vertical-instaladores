@@ -28,11 +28,12 @@
                                     <field name="work_id"/>
                                     <field name="name"/>
                                     <field name="hours" sum="Horas totales" widget="float_time"/>
-                                    <field name="cost_price_unit" />
-                                    <field name="sale_price_unit" />
-                                    <field name="cost_price" sum="Total P.C."/>
-                                    <field name="sale_price" sum="Total P.V."/>
-                                    <field name="work_margin" />
+                                    <field name="cost_price_unit" optional="show"/>
+                                    <field name="sale_price_unit" optional="show"/>
+                                    <field name="cost_price" sum="Total P.C." optional="hide"/>
+                                    <field name="sale_price" sum="Total P.V." optional="show"/>
+                                    <field name="work_margin" optional="hide" groups="product_task_material_work.group_sales_margin"/>
+                                    <field name="work_margin_percent" optional="show" groups="product_task_material_work.group_sales_margin"/>
                                 </tree>
                             </field>
                             <group class="pull-right">
@@ -54,11 +55,12 @@
                                     <field name="material_id"/>
                                     <field name="name"/>
                                     <field name="quantity"/>
-                                    <field name="cost_price_unit"/>
-                                    <field name="sale_price_unit"/>
-                                    <field name="cost_price" sum="Total P.C."/>
-                                    <field name="sale_price" sum="Total P.V."/>
-                                    <field name="material_margin" />
+                                    <field name="cost_price_unit" optional="show"/>
+                                    <field name="sale_price_unit" optional="show"/>
+                                    <field name="cost_price" sum="Total P.C." optional="hide"/>
+                                    <field name="sale_price" sum="Total P.V." optional="show"/>
+                                    <field name="material_margin" optional="hide" groups="product_task_material_work.group_sales_margin"/>
+                                    <field name="material_margin_percent" optional="show" groups="product_task_material_work.group_sales_margin"/>
                                 </tree>
                             </field>
                             <group class="pull-right">

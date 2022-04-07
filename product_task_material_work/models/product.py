@@ -163,6 +163,7 @@ class ProdcutTaskWork(models.Model):
 	sequence = fields.Integer()
 	#Margen
 	work_margin = fields.Float(string='Margen', digits='Product Price', compute='_compute_price')
+	work_margin_percent = fields.Float(string='Margen (%)', digits='Product Price', compute='_compute_price')
 
 
 	#Calcula el valor para todos los precios de cada linea de trabajo
@@ -174,12 +175,15 @@ class ProdcutTaskWork(models.Model):
 		self.sale_price = 0.0
 		self.cost_price = 0.0
 		self.work_margin = 0.0
+		self.work_margin_percent = 0.0
 		for record in self:
 			record.sale_price_unit = record.work_id.list_price
 			record.cost_price_unit = record.work_id.standard_price
 			record.sale_price = (record.hours * record.work_id.list_price)
 			record.cost_price = (record.hours * record.work_id.standard_price)
 			record.work_margin = (record.hours * record.work_id.list_price) - (record.hours * record.work_id.standard_price)
+			if (record.sale_price != 0) and (record.cost_price != 0):
+				record.work_margin_percent = (1-(record.cost_price/record.sale_price))
 
 	#Carga el nombre de la mano de obra
 	@api.onchange('work_id')
@@ -216,6 +220,7 @@ class ProductTaskMaterial(models.Model):
 	sequence = fields.Integer()
 	#Margen
 	material_margin = fields.Float(string='Margen', digits='Product Price', compute='_compute_price')
+	material_margin_percent = fields.Float(string='Margen (%)', digits='Product Price', compute='_compute_price')
 
 	#Calcula el valor de todos los precios de cada linea del material
 	
@@ -226,12 +231,15 @@ class ProductTaskMaterial(models.Model):
 		self.sale_price = 0.0
 		self.cost_price = 0.0
 		self.material_margin = 0.0
+		self.material_margin_percent = 0.0
 		for record in self:
-				record.sale_price_unit = record.material_id.list_price
-				record.cost_price_unit = record.material_id.standard_price
-				record.sale_price = (record.quantity * record.material_id.list_price)
-				record.cost_price = (record.quantity * record.material_id.standard_price)
-				record.material_margin = (record.quantity * record.material_id.list_price) - (record.quantity * record.material_id.standard_price)
+			record.sale_price_unit = record.material_id.list_price
+			record.cost_price_unit = record.material_id.standard_price
+			record.sale_price = (record.quantity * record.material_id.list_price)
+			record.cost_price = (record.quantity * record.material_id.standard_price)
+			record.material_margin = (record.quantity * record.material_id.list_price) - (record.quantity * record.material_id.standard_price)
+			if (record.sale_price != 0) and (record.cost_price != 0):
+				record.material_margin_percent = (1-(record.cost_price/record.sale_price))
 	
 	#Carga el nombre del material
 	@api.onchange('material_id')

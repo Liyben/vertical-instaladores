@@ -913,6 +913,7 @@ class SaleOrderLineTaskWork(models.Model):
 	sequence = fields.Integer()
 	#Margen
 	work_margin = fields.Float(string='Margen', digits='Product Price', compute='_compute_price')
+	work_margin_percent = fields.Float(string='Margen (%)', digits='Product Price', compute='_compute_price')
 
 
 	#Obtiene el precio de la mano de obra segun tarifa
@@ -1012,10 +1013,13 @@ class SaleOrderLineTaskWork(models.Model):
 		self.sale_price = 0.0
 		self.cost_price = 0.0
 		self.work_margin = 0.0
+		self.work_margin_percent = 0.0
 		for record in self:
 			record.sale_price = record.hours * (record.sale_price_unit * (1 - (record.discount / 100)))
 			record.cost_price = (record.hours * record.cost_price_unit)
 			record.work_margin = (record.hours * (record.sale_price_unit * (1 - (record.discount / 100)))) - (record.hours * record.cost_price_unit)
+			if (record.sale_price != 0) and (record.cost_price != 0):
+				record.work_margin_percent = (1-(record.cost_price/record.sale_price))
 
 class SaleOrderLineTaskMaterial(models.Model):
 	"""Modelo para almacenar los materiales del producto partida en la linea de pedido"""
@@ -1048,6 +1052,7 @@ class SaleOrderLineTaskMaterial(models.Model):
 	sequence = fields.Integer()
 	#Margen
 	material_margin = fields.Float(string='Margen', digits='Product Price', compute='_compute_price')
+	material_margin_percent = fields.Float(string='Margen (%)', digits='Product Price', compute='_compute_price')
 
 	#Obtiene el precio del material segun tarifa
 	
@@ -1147,6 +1152,8 @@ class SaleOrderLineTaskMaterial(models.Model):
 		self.cost_price = 0.0
 		self.material_margin = 0.0
 		for record in self:
-				record.sale_price = record.quantity * (record.sale_price_unit * (1 - (record.discount / 100)))
-				record.cost_price = (record.quantity * record.cost_price_unit)
-				record.material_margin = (record.quantity * (record.sale_price_unit * (1 - (record.discount / 100)))) - (record.quantity * record.cost_price_unit)
+			record.sale_price = record.quantity * (record.sale_price_unit * (1 - (record.discount / 100)))
+			record.cost_price = (record.quantity * record.cost_price_unit)
+			record.material_margin = (record.quantity * (record.sale_price_unit * (1 - (record.discount / 100)))) - (record.quantity * record.cost_price_unit)
+			if (record.sale_price != 0) and (record.cost_price != 0):
+				record.material_margin_percent = (1-(record.cost_price/record.sale_price))
