@@ -1151,6 +1151,7 @@ class SaleOrderLineTaskMaterial(models.Model):
 		self.sale_price = 0.0
 		self.cost_price = 0.0
 		self.material_margin = 0.0
+		self.material_margin_percent = 0.0
 		for record in self:
 			record.sale_price = record.quantity * (record.sale_price_unit * (1 - (record.discount / 100)))
 			record.cost_price = (record.quantity * record.cost_price_unit)
