@@ -56,45 +56,54 @@
                             <field name="task_works_ids" nolabel="1" context="{'default_product_id': active_id}">
                                 <tree string="Trabajos" editable="bottom">
                                     <field name="sequence" widget="handle"/>
-                                    <!-- Solo los productos de tipo servicio -->
-                                    <field name="work_id" domain="[('type', '=', 'service')]"/>
+                                    <field name="work_id"/>
                                     <field name="name"/>
                                     <field name="hours" sum="Horas totales" widget="float_time"/>
-                                    <field name="cost_price_unit"/>
-                                    <field name="sale_price_unit"/>
-                                    <field name="discount" groups="product.group_discount_per_so_line"/>
-                                    <field name="cost_price" sum="Total P.C."/>
-                                    <field name="sale_price" sum="Total P.V."/>
+                                    <field name="cost_price_unit" optional="show"/>
+                                    <field name="sale_price_unit" optional="show"/>
+                                    <field name="discount" groups="product.group_discount_per_so_line" optional="show"/>
+                                    <field name="cost_price" sum="Total P.C." optional="hide"/>
+                                    <field name="sale_price" sum="Total P.V." optional="show"/>
+                                    <field name="work_margin" groups="product_task_material_work.group_sales_margin" optional="hide"/>
+                                    <field name="work_margin_percent" optional="show" groups="product_task_material_work.group_sales_margin"/>
                                 </tree>
                             </field>
                             <group class="pull-right">
                                 <field name="total_sp_work" invisible="1"/>
                                 <field name="total_cp_work" invisible="1"/>
                                 <field name="total_hours" invisible="1"/>
-                                <field name="benefit_work" widget="percentage"/>
-                                <field name="benefit_work_amount" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                <label for="benefit_work_amount" string="Beneficio"/>
+                                <div>
+                                    <field name="benefit_work_amount" groups="product_task_material_work.group_sales_margin" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                    <span> | </span>
+                                    <field name="benefit_work" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
+                                </div>
                             </group>
                         </group>
                         <group string="Materiales">
                             <field name="task_materials_ids" nolabel="1" context="{'default_product_id':active_id}">
                                 <tree string="Materiales" editable="bottom">
                                     <field name="sequence" widget="handle"/>
-                                    <!-- Se eliminan los productos de tipo servicio -->
-                                    <field name="material_id" domain="[('type', '!=', 'service')]"/>
+                                    <field name="material_id"/>
                                     <field name="name"/>
                                     <field name="quantity"/>
-                                    <field name="cost_price_unit"/>
-                                    <field name="sale_price_unit"/>
-                                    <field name="discount" groups="product.group_discount_per_so_line"/>
-                                    <field name="cost_price" sum="Total P.C."/>
-                                    <field name="sale_price" sum="Total P.V."/>
+                                    <field name="cost_price_unit" optional="show"/>
+                                    <field name="sale_price_unit" optional="show"/>
+                                    <field name="discount" groups="product.group_discount_per_so_line" optional="show"/>
+                                    <field name="cost_price" sum="Total P.C." optional="hide"/>
+                                    <field name="sale_price" sum="Total P.V." optional="show"/>
+                                    <field name="material_margin" groups="product_task_material_work.group_sales_margin" optional="hide"/>
+                                    <field name="material_margin_percent" optional="show" groups="product_task_material_work.group_sales_margin"/>
                                 </tree>
                             </field>
                             <group class="pull-right">
                                 <field name="total_sp_material" invisible="1"/>
                                 <field name="total_cp_material" invisible="1"/>
-                                <field name="benefit_material" widget="percentage"/>
-                                <field name="benefit_material_amount" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                <div>
+                                    <field name="benefit_material_amount" groups="product_task_material_work.group_sales_margin" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                    <span> | </span>
+                                    <field name="benefit_material" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
+                                </div>
                             </group>
                         </group>
                 </div>

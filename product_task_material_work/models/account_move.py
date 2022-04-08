@@ -175,10 +175,16 @@ class AccountMoveLineTaskWork(models.Model):
 	_name = 'account.move.line.task.work'
 	_order = 'account_move_line_id, sequence, id'
 
+	#Dominio para el campo mano de obra
+	@api.model
+	def _get_work_id_domain(self):
+		uom_categ_id = self.env.ref('uom.uom_categ_wtime').id
+		return [('uom_id.category_id', '=', uom_categ_id)]
+
 	#Campo relación con la linea de factura
 	account_move_line_id = fields.Many2one(comodel_name='account.move.line', string='Linea de pedido')
 	#Mano de obra
-	work_id = fields.Many2one(comodel_name='product.product', string='Mano de obra', required=True)
+	work_id = fields.Many2one(comodel_name='product.product', string='Mano de obra', required=True, domain=_get_work_id_domain)
 	#Descripcion del trabajo
 	name = fields.Char(string='Nombre', required=True)
 	#Precios Totales para cada trabajo
@@ -191,6 +197,9 @@ class AccountMoveLineTaskWork(models.Model):
 	hours = fields.Float(string='Hr.')
 	#Descuento aplicado al precio de la mano de obra
 	discount = fields.Float(string='Des. (%)', digits=dp.get_precision('Discount'), default=0.0)
+	#Margen
+	work_margin = fields.Float(string='Margen', digits='Product Price', compute='_compute_price')
+	work_margin_percent = fields.Float(string='Margen (%)', digits='Product Price', compute='_compute_price')
 
 	sequence = fields.Integer()
 
@@ -209,9 +218,14 @@ class AccountMoveLineTaskWork(models.Model):
 	def _compute_price(self):
 		self.sale_price = 0.0
 		self.cost_price = 0.0
+		self.work_margin = 0.0
+		self.work_margin_percent = 0.0
 		for record in self:
 			record.sale_price = record.hours * (record.sale_price_unit * (1 - (record.discount / 100)))
 			record.cost_price = (record.hours * record.cost_price_unit)
+			record.work_margin = (record.hours * (record.sale_price_unit * (1 - (record.discount / 100)))) - (record.hours * record.cost_price_unit)
+			if (record.sale_price != 0) and (record.cost_price != 0):
+				record.work_margin_percent = (1-(record.cost_price/record.sale_price))
 
 class AccountMoveLineTaskMaterial(models.Model):
 	"""Modelo para almacenar los materiales del producto partida en la linea de factura"""
@@ -219,12 +233,18 @@ class AccountMoveLineTaskMaterial(models.Model):
 	_name = 'account.move.line.task.material'
 	_order = 'account_move_line_id, sequence, id'
 
+	#Dominio para el campo material
+	@api.model
+	def _get_material_id_domain(self):
+		uom_categ_id = self.env.ref('uom.uom_categ_wtime').id
+		return [('uom_id.category_id', '!=', uom_categ_id)]
+
 	#Descripcion del material
 	name = fields.Char(string='Descripción', required=True)
 	#Campo relación con la linea de factura
 	account_move_line_id = fields.Many2one(comodel_name='account.move.line', string='Linea de pedido')
 	#Material
-	material_id = fields.Many2one(comodel_name='product.product', string='Material', required=True)
+	material_id = fields.Many2one(comodel_name='product.product', string='Material', required=True, domain=_get_material_id_domain)
 	#Precios Totales de para cada material
 	sale_price = fields.Float(string='P.V.', digits=dp.get_precision('Product Price'), compute='_compute_price')
 	cost_price = fields.Float(string='P.V.', digits=dp.get_precision('Product Price'), compute='_compute_price')
@@ -235,6 +255,9 @@ class AccountMoveLineTaskMaterial(models.Model):
 	quantity = fields.Float(string='Und.', digits=dp.get_precision('Product Unit of Measure'))
 	#Descuento aplicado al precio del material
 	discount = fields.Float(string='Des. (%)', digits=dp.get_precision('Discount'), default=0.0)
+	#Margen
+	material_margin = fields.Float(string='Margen', digits='Product Price', compute='_compute_price')
+	material_margin_percent = fields.Float(string='Margen (%)', digits='Product Price', compute='_compute_price')
 
 	sequence = fields.Integer()
 
@@ -252,8 +275,13 @@ class AccountMoveLineTaskMaterial(models.Model):
 	def _compute_price(self):
 		self.sale_price = 0.0
 		self.cost_price = 0.0
+		self.material_margin = 0.0
+		self.material_margin_percent = 0.0
 		for record in self:
-				record.sale_price = record.quantity * (record.sale_price_unit * (1 - (record.discount / 100)))
-				record.cost_price = (record.quantity * record.cost_price_unit)
+			record.sale_price = record.quantity * (record.sale_price_unit * (1 - (record.discount / 100)))
+			record.cost_price = (record.quantity * record.cost_price_unit)
+			record.material_margin = (record.quantity * (record.sale_price_unit * (1 - (record.discount / 100)))) - (record.quantity * record.cost_price_unit)
+			if (record.sale_price != 0) and (record.cost_price != 0):
+				record.material_margin_percent = (1-(record.cost_price/record.sale_price))
 
 	
