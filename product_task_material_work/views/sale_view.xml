@@ -176,7 +176,7 @@
                                     <field name="cost_price" sum="Total P.C." optional="hide"/>
                                     <field name="sale_price" sum="Total P.V." optional="show"/>
                                     <field name="work_margin" groups="product_task_material_work.group_sales_margin" optional="hide"/>
-                                    <field name="work_margin_percent" optional="show" groups="product_task_material_work.group_sales_margin"/>
+                                    <field name="work_margin_percent" optional="show" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
                                 </tree>
                             </field>
                             <group class="pull-right">
@@ -205,7 +205,7 @@
                                     <field name="cost_price" sum="Total P.C." optional="hide"/>
                                     <field name="sale_price" sum="Total P.V." optional="show"/>
                                     <field name="material_margin" groups="product_task_material_work.group_sales_margin" optional="hide"/>
-                                    <field name="material_margin_percent" optional="show" groups="product_task_material_work.group_sales_margin"/>
+                                    <field name="material_margin_percent" optional="show" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
                                 </tree>
                             </field>
                             <group class="pull-right">
