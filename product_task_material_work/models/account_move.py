@@ -247,7 +247,7 @@ class AccountMoveLineTaskMaterial(models.Model):
 	material_id = fields.Many2one(comodel_name='product.product', string='Material', required=True, domain=_get_material_id_domain)
 	#Precios Totales de para cada material
 	sale_price = fields.Float(string='P.V.', digits=dp.get_precision('Product Price'), compute='_compute_price')
-	cost_price = fields.Float(string='P.V.', digits=dp.get_precision('Product Price'), compute='_compute_price')
+	cost_price = fields.Float(string='P.C.', digits=dp.get_precision('Product Price'), compute='_compute_price')
 	#Precios Unitarios para cada material
 	sale_price_unit = fields.Float(string='P.V.U.', digits=dp.get_precision('Product Price'))
 	cost_price_unit = fields.Float(string='P.C.U.', digits=dp.get_precision('Product Price'))

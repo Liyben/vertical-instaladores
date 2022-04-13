@@ -10,17 +10,27 @@
                 <field name="customer_code"/>
             </xpath>
 
-            <!--<xpath expr="//page[@name='other_info']//field[@name='name']" position="replace">
+            <!--
+            <xpath expr="//page[@name='other_info']//field[@name='name']" position="replace">
                 
             </xpath>
 
             <xpath expr="//field[@name='payment_term_id']" position="before">
                 <field name="name"/>
             </xpath>
-
+            -->
+            
+            <!--Editable en vista form-->
             <xpath expr="//field[@name='invoice_line_ids']/tree" position="attributes">
                 <attribute name="editable"/>
-            </xpath>-->
+            </xpath>
+
+            <xpath expr="//field[@name='invoice_line_ids']/form/sheet/group" position="inside">
+                <field name="price_subtotal" invisible="1"/>
+                <field name="price_total" string="Total" invisible="1"/>
+            </xpath>
+
+
 
         </field>
     </record>
