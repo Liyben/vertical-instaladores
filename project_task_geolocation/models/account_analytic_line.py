@@ -51,3 +51,11 @@ class AccountAnalyticLine(models.Model):
 			'target': 'new',
 			'url' : location
 		} 
+
+	def button_end_work(self):
+		result = super(AccountAnalyticLine, self).button_end_work()
+		if result:
+			for line in self:
+				line.end_latitude = line.task_id.latitude
+				line.end_longitude = line.task_id.longitude
+		return True

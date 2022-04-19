@@ -17,6 +17,7 @@
     """,
     'depends': ['project', 'project_timesheet_time_control', 'account', 'web', 'hr_timesheet'],
     'data': [
+        "security/project_task_timer_security.xml",
         "views/assets.xml",
         "views/project_task.xml",
         "views/account_analytic_line_view.xml",
