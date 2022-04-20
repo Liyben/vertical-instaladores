@@ -7,7 +7,7 @@
     </record>
 
     <record id="group_geolocation_worker" model="res.groups">
-        <field name="name">Mostar botones de geolocalizar, comenzar y detener trabajo para el grupo de operarios.</field>
+        <field name="name">Mostar botones de geolocalizar, comenzar, detener trabajo para el grupo de operarios.</field>
         <field name="category_id" ref="base.module_category_extra"/>
     </record>
 </data>
