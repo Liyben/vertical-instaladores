@@ -5,7 +5,7 @@
     <!--Form view-->
     <record model="ir.ui.view" id="project_timesheet_time_control_form_project_inherited">
         <field name="name">project.timesheet.time.control.form.project.inherited</field>
-        <field name="model">project.task</field>
+        <field name="model">project.project</field>
         <field name="inherit_id" ref="project_timesheet_time_control.project_invoice_form"/>
         <field name="arch" type="xml">
             
@@ -21,7 +21,7 @@
     <!--Kanban view-->
     <record model="ir.ui.view" id="project_timesheet_time_control_kanban_project_inherited">
         <field name="name">project.timesheet.time.control.kanban.project.inherited</field>
-        <field name="model">project.task</field>
+        <field name="model">project.project</field>
         <field name="inherit_id" ref="project_timesheet_time_control.view_project_kanban_inherited"/>
         <field name="arch" type="xml">
             
@@ -37,7 +37,7 @@
     <!--Tree view-->
     <record model="ir.ui.view" id="project_timesheet_time_control_tree_project_inherited">
         <field name="name">project.timesheet.time.control.tree.project.inherited</field>
-        <field name="model">project.task</field>
+        <field name="model">project.project</field>
         <field name="inherit_id" ref="project_timesheet_time_control.view_project_tree"/>
         <field name="arch" type="xml">
             
