@@ -3,3 +3,4 @@
 
 from . import project_task
 from . import account_analytic_line
+from . import hr_timesheet_time_control_mixin

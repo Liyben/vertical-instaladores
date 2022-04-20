@@ -13,20 +13,65 @@
         </field>
     </record>
 
-    <!--Botones para el grupo administrativo-->
+    
     <!--Form view-->
     <record model="ir.ui.view" id="project_timesheet_time_control_form_task_inherited">
         <field name="name">project.timesheet.time.control.form.task.inherited</field>
         <field name="model">project.task</field>
         <field name="inherit_id" ref="project_timesheet_time_control.view_task_form2_inherited"/>
         <field name="arch" type="xml">
-            
+            <!--Botones para el grupo administrativo-->
             <xpath expr="//button[@name='button_start_work']" position="attributes">
                 <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
             </xpath>
             <xpath expr="//button[@name='button_end_work']" position="attributes">
                 <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
             </xpath>
+
+            <!--Botones para el grupo operarios-->
+            <div name="button_box" position="inside">
+                <field name="show_geolocation_control" invisible="1" />
+                <button
+                    name="get_check_in_geolocation"
+                    string="Geolocalizar"
+                    type="object"
+                    icon="fa-map-marker text-success"
+                    attrs="{'invisible': [('show_time_control', '!=', 'start'), ('show_geolocation_control', '!=', 'check-in')]}"
+                    class="oe_stat_button"
+                    title="Geolocalizar"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+                <button
+                    name="get_start_geolocation"
+                    string="Comenzar trabajo"
+                    type="object"
+                    icon="fa-play-circle text-success"
+                    attrs="{'invisible': [('show_time_control', '!=', 'start'), ('show_geolocation_control', '!=', 'start')]}"
+                    class="oe_stat_button"
+                    title="Comenzar trabajo"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+                <button
+                    name="get_check_out_geolocation"
+                    string="Geolocalizar"
+                    type="object"
+                    icon="fa-map-marker text-warning"
+                    attrs="{'invisible': [('show_time_control', '!=', 'stop'), ('show_geolocation_control', '!=', 'check-out')]}"
+                    class="oe_stat_button"
+                    title="Geolocalizar"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+                <button
+                    name="get_stop_geolocation"
+                    string="Detener trabajo"
+                    type="object"
+                    icon="fa-stop-circle text-warning"
+                    attrs="{'invisible': [('show_time_control', '!=', 'stop'), ('show_geolocation_control', '!=', 'stop')]}"
+                    class="oe_stat_button"
+                    title="Detener trabajo"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+            </div>
         </field>
     </record>
 
@@ -36,13 +81,59 @@
         <field name="model">project.task</field>
         <field name="inherit_id" ref="project_timesheet_time_control.view_task_kanban"/>
         <field name="arch" type="xml">
-            
+            <!--Botones para el grupo administrativo-->
             <xpath expr="//a[@name='button_start_work']" position="attributes">
                 <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
             </xpath>
             <xpath expr="//a[@name='button_end_work']" position="attributes">
                 <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
             </xpath>
+
+            <!--Botones para el grupo operarios-->
+            <xpath expr="//*[hasclass('oe_kanban_bottom_left')]" position="inside">
+                <field name="show_geolocation_control" invisible="1" />
+                <a
+                    name="get_check_in_geolocation"
+                    attrs="{'invisible': [('show_time_control', '!=', 'start'), ('show_geolocation_control', '!=', 'check-in')]}"
+                    class="o_kanban_inline_block fa fa-lg fa-map-marker text-success"
+                    string="Geolocalizar"
+                    tabindex="-1"
+                    type="object"
+                    title="Geolocalizar"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+                <a
+                    name="get_start_geolocation"
+                    attrs="{'invisible': [('show_time_control', '!=', 'start'), ('show_geolocation_control', '!=', 'start')]}"
+                    class="o_kanban_inline_block fa fa-lg fa-play-circle text-success"
+                    string="Comenzar trabajo"
+                    tabindex="-1"
+                    type="object"
+                    title="Comenzar trabajo"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+                <a
+                    name="get_check_out_geolocation"
+                    attrs="{'invisible': [('show_time_control', '!=', 'stop'), ('show_geolocation_control', '!=', 'check-out')]}"
+                    class="o_kanban_inline_block fa fa-lg fa-map-marker text-warning"
+                    string="Geolocalizar"
+                    tabindex="-1"
+                    type="object"
+                    title="Geolocalizar"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+                <a
+                    name="button_end_work"
+                    attrs="{'invisible': [('show_time_control', '!=', 'stop'), ('show_geolocation_control', '!=', 'stop')]}"
+                    class="o_kanban_inline_block fa fa-lg fa-stop-circle text-warning"
+                    string="Detener trabajo"
+                    tabindex="-1"
+                    type="object"
+                    title="Detener trabajo"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+            </xpath>
+
         </field>
     </record>
 
@@ -52,13 +143,63 @@
         <field name="model">project.task</field>
         <field name="inherit_id" ref="project_timesheet_time_control.view_task_tree2_inherited"/>
         <field name="arch" type="xml">
-            
+            <!--Botones para el grupo administrativo-->
             <xpath expr="//button[@name='button_start_work']" position="attributes">
                 <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
             </xpath>
             <xpath expr="//button[@name='button_end_work']" position="attributes">
                 <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
             </xpath>
+
+            <!--Botones para el grupo operarios-->
+            <tree position="inside">
+                <field name="show_geolocation_control" invisible="1" />
+                <button
+                    name="get_check_in_geolocation"
+                    string="Geolocalizar"
+                    type="object"
+                    tabindex="-1"
+                    icon="fa-map-marker text-success"
+                    attrs="{'invisible': [('show_time_control', '!=', 'start'), ('show_geolocation_control', '!=', 'check-in')]}"
+                    class="oe_stat_button"
+                    title="Geolocalizar"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+                <button
+                    name="get_start_geolocation"
+                    string="Comenzar trabajo"
+                    tabindex="-1"
+                    type="object"
+                    icon="fa-play-circle text-success"
+                    attrs="{'invisible': [('show_time_control', '!=', 'start'), ('show_geolocation_control', '!=', 'start')]}"
+                    class="oe_stat_button"
+                    title="Comenzar trabajo"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+                <button
+                    name="get_check_out_geolocation"
+                    string="Geolocalizar"
+                    tabindex="-1"
+                    type="object"
+                    icon="fa-map-marker text-warning"
+                    attrs="{'invisible': [('show_time_control', '!=', 'stop'), ('show_geolocation_control', '!=', 'check-out')]}"
+                    class="oe_stat_button"
+                    title="Geolocalizar"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+                <button
+                    name="get_stop_geolocation"
+                    string="Detener trabajo"
+                    tabindex="-1"
+                    type="object"
+                    icon="fa-stop-circle text-warning"
+                    attrs="{'invisible': [('show_time_control', '!=', 'stop'), ('show_geolocation_control', '!=', 'stop')]}"
+                    class="oe_stat_button"
+                    title="Detener trabajo"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+            </tree>
+
         </field>
     </record>
 

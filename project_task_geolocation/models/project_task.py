@@ -25,10 +25,11 @@ class ProjectTask(models.Model):
 			if (location):
 				record.write({'latitude': location[0], 'longitude': location[1]})
 
-	def button_start_work(self):
+
+	""" def button_start_work(self):
 		result = super().button_start_work()
 		result["context"].update({
 			"default_lead_id": self.oppor_id.id,
 		})
-		return result
+		return result """
 
