@@ -20,7 +20,7 @@
         "security/project_task_timer_security.xml",
         "views/assets.xml",
         "views/project_task.xml",
-        "views/project_project.xml",
+        "views/project_project_view.xml",
         "views/account_analytic_line_view.xml",
         "data/geolocation_data.xml",
     ],
