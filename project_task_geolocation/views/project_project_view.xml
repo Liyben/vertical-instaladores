@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    
+    <!--Botones para el grupo administrativo-->
+    <!--Form view-->
+    <record model="ir.ui.view" id="project_timesheet_time_control_form_project_inherited">
+        <field name="name">project.timesheet.time.control.form.project.inherited</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project_timesheet_time_control.project_invoice_form"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//button[@name='button_start_work']" position="attributes">
+                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
+            </xpath>
+            <xpath expr="//button[@name='button_end_work']" position="attributes">
+                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!--Kanban view-->
+    <record model="ir.ui.view" id="project_timesheet_time_control_kanban_project_inherited">
+        <field name="name">project.timesheet.time.control.kanban.project.inherited</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project_timesheet_time_control.view_project_kanban_inherited"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//a[@name='button_start_work']" position="attributes">
+                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
+            </xpath>
+            <xpath expr="//a[@name='button_end_work']" position="attributes">
+                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!--Tree view-->
+    <record model="ir.ui.view" id="project_timesheet_time_control_tree_project_inherited">
+        <field name="name">project.timesheet.time.control.tree.project.inherited</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project_timesheet_time_control.view_project_tree"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//button[@name='button_start_work']" position="attributes">
+                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
+            </xpath>
+            <xpath expr="//button[@name='button_end_work']" position="attributes">
+                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
