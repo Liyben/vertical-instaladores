@@ -34,10 +34,7 @@ class ProjectTask(models.Model):
 		})
 		return result
 
-	""" def button_start_work(self):
-		result = super().button_start_work()
-		result["context"].update({
-			"default_lead_id": self.oppor_id.id,
-		})
-		return result """
+	def get_stop_geolocation(self):
+		super().get_stop_geolocation()
+		self.button_end_work()
 
