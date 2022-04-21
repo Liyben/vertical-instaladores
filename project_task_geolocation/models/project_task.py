@@ -38,3 +38,13 @@ class ProjectTask(models.Model):
 		super().get_stop_geolocation()
 		self.button_end_work()
 
+	@api.depends(
+		"project_id.allow_timesheets",
+		"timesheet_ids.employee_id",
+		"timesheet_ids.unit_amount",
+	)
+	def _compute_show_time_control(self):
+		result = super()._compute_show_time_control()
+		for task in self:
+			if task.show_time_control == 'start' and task.show_geolocation_control == 'check-out':
+				task.show_geolocation_control = 'start'
