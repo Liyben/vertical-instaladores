@@ -10,6 +10,7 @@ class HrTimesheetTimeControlMixin(models.AbstractModel):
 	show_geolocation_control = fields.Selection(
 		selection=[("check-in", "Check-In"), ("start", "Start"), ("check-out", "Check-Out"), ("stop", "Stop")],
 		help="Indica que boton de control mostrar.",
+		default='check-in',
 	)
 
 	def get_check_in_geolocation(self):

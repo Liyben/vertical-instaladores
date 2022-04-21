@@ -49,10 +49,10 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
             }).then(function (res) {
                     self.task = res.length && res[0];
                 });
-            if(event.data.attrs.name === "button_start_work"){
+            if(event.data.attrs.name === "get_check_in_geolocation"){
                 this.update_task();
             }
-            if(event.data.attrs.name === "button_end_work"){
+            if(event.data.attrs.name === "get_check_out_geolocation"){
                 this.update_task();
             }
             this._super(event);
