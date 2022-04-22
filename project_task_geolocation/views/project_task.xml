@@ -288,7 +288,7 @@
                     class="oe_stat_button"
                     title="Fin"
                 />
-            </div>
+            </xpath>
         </field>
     </record>
 
