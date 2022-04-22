@@ -265,13 +265,13 @@
         <field name="inherit_id" ref="project_timesheet_time_control.view_task_form2_inherited" />
         <field name="arch" type="xml">
             <!-- Sub-form view for timesheet_ids -->
-            <xpath expr="//field[@name='unit_amount']" position='after'>
+            <xpath expr="//field[@name='timesheet_ids']/form//field[@name='unit_amount']" position='after'>
                 <field name="start_latitude" invisible="1"/>
                 <field name="start_longitude" invisible="1"/>
                 <field name="end_latitude" invisible="1"/>
                 <field name="end_longitude" invisible="1"/>
             </xpath>
-            <div name="button_box" position="inside">
+            <xpath expr="//field[@name='timesheet_ids']/form//div[@name='button_box']" position="inside">
                 <button
                     name="button_start_geolocation"
                     string="Comienzo"
@@ -299,17 +299,17 @@
         <field name="inherit_id" ref="project_timesheet_time_control.view_task_form2_inherited"/>
         <field name="arch" type="xml">
             <!-- Sub-form view for timesheet_ids -->
-            <xpath expr="//field[@name='timesheet_ids']/form/sheet/div/button[@name='button_resume_work']" position="attributes">
+            <xpath expr="//field[@name='timesheet_ids']/form//button[@name='button_resume_work']" position="attributes">
                 <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
             </xpath>
-            <xpath expr="//field[@name='timesheet_ids']/form/sheet/div/button[@name='button_end_work']" position="attributes">
+            <xpath expr="//field[@name='timesheet_ids']/form//button[@name='button_end_work']" position="attributes">
                 <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
             </xpath>
             <!-- Sub-tree view for timesheet_ids -->
-            <xpath expr="//field[@name='timesheet_ids']/tree/button[@name='button_resume_work']" position="attributes">
+            <xpath expr="//field[@name='timesheet_ids']/tree//button[@name='button_resume_work']" position="attributes">
                 <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
             </xpath>
-            <xpath expr="//field[@name='timesheet_ids']/tree/button[@name='button_end_work']" position="attributes">
+            <xpath expr="//field[@name='timesheet_ids']/tree//button[@name='button_end_work']" position="attributes">
                 <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
             </xpath>
             <!-- Sub-kanban view for timesheet_ids -->
