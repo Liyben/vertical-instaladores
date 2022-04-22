@@ -13,7 +13,7 @@
         </field>
     </record>
 
-    
+    <!--TASK-->
     <!--Form view-->
     <record model="ir.ui.view" id="project_timesheet_time_control_form_task_inherited">
         <field name="name">project.timesheet.time.control.form.task.inherited</field>
@@ -203,8 +203,10 @@
         </field>
     </record>
 
+    <!--TIMESHEET_IDS-->
+    <!--Botones geolocalización-->
     <record model="ir.ui.view" id="view_task_form2_inherited">
-        <field name="name">Add geolocation</field>
+        <field name="name">Add geolocation tree and kanban view</field>
         <field name="model">project.task</field>
         <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited" />
         <field name="arch" type="xml">
@@ -231,7 +233,92 @@
                     class="oe_stat_button"
                 />
             </xpath>
+            <!-- Sub-kanban view for timesheet_ids -->
+            <xpath expr="//field[@name='timesheet_ids']/kanban//templates//field[@name='unit_amount']" position="after">
+                <field name="start_latitude" invisible="1"/>
+                <field name="start_longitude" invisible="1"/>
+                <a
+                    name="button_start_geolocation"
+                    tabindex="-1"
+                    type="object"
+                    string="Comienzo"
+                    class="o_kanban_inline_block fa fa-lg fa-map-marker text-success"
+                    title="Comienzo"
+                />
+                <field name="end_latitude" invisible="1"/>
+                <field name="end_longitude" invisible="1"/>
+                <a
+                    name="button_stop_geolocation"
+                    tabindex="-1"
+                    type="object"
+                    string="Fin"
+                    class="o_kanban_inline_block fa fa-lg fa-map-marker text-warning"
+                    title="Fin"
+                />
+            </xpath>
+        </field>
+    </record>
 
+    <record model="ir.ui.view" id="view_task_form3_inherited">
+        <field name="name">Add geolocation form view</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project_timesheet_time_control.view_task_form2_inherited" />
+        <field name="arch" type="xml">
+            <!-- Sub-form view for timesheet_ids -->
+            <xpath expr="//field[@name='unit_amount']" position='after'>
+                <field name="start_latitude" invisible="1"/>
+                <field name="start_longitude" invisible="1"/>
+                <field name="end_latitude" invisible="1"/>
+                <field name="end_longitude" invisible="1"/>
+            </xpath>
+            <div name="button_box" position="inside">
+                <button
+                    name="button_start_geolocation"
+                    string="Comienzo"
+                    type="object"
+                    icon="fa-map-marker text-success"
+                    class="oe_stat_button"
+                    title="Comienzo"
+                />
+                <button
+                    name="button_stop_geolocation"
+                    string="Fin"
+                    type="object"
+                    icon="fa-map-marker text-warning"
+                    class="oe_stat_button"
+                    title="Fin"
+                />
+            </div>
+        </field>
+    </record>
+
+    <!--Botones para el grupo administrativo-->
+    <record model="ir.ui.view" id="project_timesheet_time_control_timesheet_ids_inherited">
+        <field name="name">project.timesheet.time.control.timesheet_ids.inherited</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project_timesheet_time_control.view_task_form2_inherited"/>
+        <field name="arch" type="xml">
+            <!-- Sub-form view for timesheet_ids -->
+            <xpath expr="//field[@name='timesheet_ids']/form/sheet/button[@name='button_resume_work']" position="attributes">
+                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
+            </xpath>
+            <xpath expr="//field[@name='timesheet_ids']/form/sheet/button[@name='button_end_work']" position="attributes">
+                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
+            </xpath>
+            <!-- Sub-tree view for timesheet_ids -->
+            <xpath expr="//field[@name='timesheet_ids']/tree/button[@name='button_resume_work']" position="attributes">
+                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
+            </xpath>
+            <xpath expr="//field[@name='timesheet_ids']/tree/button[@name='button_end_work']" position="attributes">
+                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
+            </xpath>
+            <!-- Sub-kanban view for timesheet_ids -->
+            <xpath expr="//a[@name='button_resume_work']" position="attributes">
+                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
+            </xpath>
+            <xpath expr="//a[@name='button_end_work']" position="attributes">
+                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
+            </xpath>
         </field>
     </record>
 
