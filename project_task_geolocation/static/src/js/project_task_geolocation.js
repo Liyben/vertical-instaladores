@@ -40,7 +40,7 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
             this._get_geolocation(position);
         },
         _onButtonClicked: function (event) {
-            if(event.data.attrs.name === "get_check_in_geolocation" || event.data.attrs.name === "get_check_out_geolocation"){
+            if(event.data.attrs.name === "get_check_in_geolocation"){
                 var self = this;
                 var id = event.data.record.data.id;
                 var def = this._rpc({
@@ -54,6 +54,21 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
                 
                 this.update_task();
             }
+            if(event.data.attrs.name === "get_check_out_geolocation"){
+                var self = this;
+                var id = event.data.record.data.id;
+                var def = this._rpc({
+                    model: 'project.task',
+                    method: 'search_read',
+                    args: [[['id', '=', id]]],
+                }).then(function (res) {
+                        self.task = res.length && res[0];
+                        console.log("RECORD ID: " + self.task.id);
+                    });
+                
+                this.update_task();
+            }
+            this._super(event);
         },
     });
 });
