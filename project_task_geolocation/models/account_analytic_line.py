@@ -10,22 +10,26 @@ class AccountAnalyticLine(models.Model):
 	start_latitude = fields.Float(
 		"Start Latitude",
 		digits='Geolocalización',
-		readonly=True
+		readonly=True,
+		default=0.0,
 	)
 	start_longitude = fields.Float(
 		"Start Longitude",
 		digits='Geolocalización',
-		readonly=True
+		readonly=True,
+		default=0.0,
 	)
 	end_latitude = fields.Float(
 		"End Latitude",
 		digits='Geolocalización',
-		readonly=True
+		readonly=True,
+		default=0.0,
 	)
 	end_longitude = fields.Float(
 		"End Longitude",
 		digits='Geolocalización',
-		readonly=True
+		readonly=True,
+		default=0.0,
 	)
 
 	def button_start_geolocation(self):
