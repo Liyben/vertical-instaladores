@@ -12,8 +12,9 @@ class HrTimesheetSwitch(models.TransientModel):
 	@api.model
 	def default_get(self, fields_list):
 		result = super().default_get(fields_list)
-		result['start_latitude'] = self.env["project.task"].search([("id", "=", result['task_id'])]).latitude
-		result['start_longitude'] = self.env["project.task"].search([("id", "=", result['task_id'])]).longitude
-		result['end_latitude'] = 0.0
-		result['end_longitude'] = 0.0
+		if 'task_id' in result:
+			result['start_latitude'] = self.env["project.task"].search([("id", "=", result['task_id'])]).latitude
+			result['start_longitude'] = self.env["project.task"].search([("id", "=", result['task_id'])]).longitude
+			result['end_latitude'] = 0.0
+			result['end_longitude'] = 0.0
 		return result
