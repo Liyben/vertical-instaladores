@@ -12,7 +12,7 @@ class HrTimesheetSwitch(models.TransientModel):
 	@api.model
 	def default_get(self, fields_list):
 		result = super().default_get(fields_list)
-		_logger.debug('ID TASK %d', result['task'])
+		_logger.debug('ID TASK %d', result['task_id'])
 		result['start_latitude'] = self.env["project.task"].search([("id", "=", result['task_id'])]).latitude
 		result['start_longitude'] = self.env["project.task"].search([("id", "=", result['task_id'])]).longitude
 		result['end_latitude'] = 0.0
