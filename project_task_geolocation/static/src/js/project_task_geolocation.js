@@ -112,16 +112,19 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
         },
         _onButtonClicked: function (event) {
             if(event.data.attrs.name === "get_check_in_geolocation"){
+                console.log("CLICK START GEO");
                 var self = this;
-                var id = event.data.record.data.id;
-                var def = this._rpc({
+                var record = self.model.get(event.data.record.id);
+                console.log("RECORD ID: " + record.id);
+                self.task = record
+                /* var def = this._rpc({
                     model: 'project.task',
                     method: 'search_read',
                     args: [[['id', '=', id]]],
                 }).then(function (res) {
                         self.task = res.length && res[0];
                         console.log("RECORD ID: " + self.task.id);
-                    });
+                    }); */
                 
                 this.update_task();
             }
