@@ -114,7 +114,7 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
             if(event.data.attrs.name === "get_check_in_geolocation"){
                 console.log("CLICK START GEO");
                 var self = this;
-                var record = self.model.get(event.data.record.id);
+                var record = self.model.get(event.data.record.data.id);
                 console.log("RECORD ID: " + record.id);
                 self.task = record
                 /* var def = this._rpc({
