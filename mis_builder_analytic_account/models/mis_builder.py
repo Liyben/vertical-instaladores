@@ -42,3 +42,29 @@ class MisReport(models.Model):
 			line.analytic_account_id = False
 			for query in line.query_ids:
 				query.domain = ""
+
+
+	def btn_set_domain(self, analytic_account):
+		for line in self:
+			for query in line.query_ids:
+				res=""
+				if query.base_domain and query.name_analytic_account:
+					res = "[" + query.base_domain + ", ('" + query.name_analytic_account + "', '=', " + str(analytic_account) +")]"
+				elif query.base_domain:
+					res = "[" + query.base_domain + "]"
+				elif query.name_analytic_account:
+					res = "[('" + query.name_analytic_account + "', '=', " + str(analytic_account) +")]"
+
+				query.domain = res
+
+class MisReportInstance(models.Model):
+	_inherit = 'mis.report.instance'
+
+	def btn_set_domain(self):
+		for line in self:
+			line.report_id.btn_set_domain(line.analytic_account_id.id)
+
+	def btn_reset_domain(self):
+		for line in self:
+			line.analytic_account_id = False
+			line.report_id.btn_reset_domain()

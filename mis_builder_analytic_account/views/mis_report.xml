@@ -16,7 +16,7 @@
                 </div>
             </xpath>
             <xpath expr="//field[@name='style_id']" position="after">
-                <field name="analytic_account_id" groups="analytic.group_analytic_accounting"/>
+                <field name="analytic_account_id" groups="analytic.group_analytic_accounting" invisible="1"/>
             </xpath>
             <xpath expr="//field[@name='query_ids']/tree/field[@name='domain']" position="after">
                 <field name="base_domain" groups="base.group_system"/>
@@ -35,6 +35,10 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='report_id']" position="attributes">
                 <attribute name="domain">[('active', '=', True)]</attribute>
+            </xpath>
+            <xpath expr="//group[@name='filters']" position="after">
+                <button name="btn_set_domain" type="object" string="Crear informe" groups="analytic.group_analytic_accounting"/>
+                <button name="btn_reset_domain" type="object" string="Resetear informe" groups="analytic.group_analytic_accounting"/>
             </xpath>
         </field>
     </record>
