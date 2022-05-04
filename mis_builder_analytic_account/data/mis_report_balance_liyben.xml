@@ -15,7 +15,7 @@
             <field name="name">b_real</field>
             <field name="report_id" ref="mis_report_es_balance_liyben"/>
         </record>
-        <!--
+        
         <record id="mis_report_es_balance_liyben_0000" model="mis.report.kpi">
             <field name="description">TOTAL</field>
             <field name="name">total</field>
@@ -25,211 +25,238 @@
             <field name="accumulation_method">sum</field>
             <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l1"/>
             <field name="multi" eval="True"/>
-            <field name="expression"> +trabajos_so +materiales_so</field>
             <field name="sequence">0</field>
+        </record>
+        <record id="mis_report_es_balance_liyben_0000_real" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="mis_report_es_balance_liyben_0000"/>
+            <field name="subkpi_id" ref="mis_report_es_balance_liyben_subkpi_001"/>
+            <field name="name">+trabajos.b_real +materiales.b_real</field>
+            <field name="sequence">1</field>
+        </record>
+        <record id="mis_report_es_balance_liyben_0000_budget" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="mis_report_es_balance_liyben_0000"/>
+            <field name="subkpi_id" ref="mis_report_es_balance_liyben_subkpi_000"/>
+            <field name="name">+trabajos.b_del_presupuesto +materiales.b_del_presupuesto</field>
+            <field name="sequence">1</field>
         </record>
         
         <record id="mis_report_es_balance_liyben_0001" model="mis.report.kpi">
             <field name="description"></field>
-            <field name="name">presupuestos_percent</field>
+            <field name="name">total_percent</field>
             <field name="report_id" ref="mis_report_es_balance_liyben"/>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
             <field name="accumulation_method">sum</field>
             <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l1i"/>
-            <field name="expression"> (1 -(-(coste_mat_so +coste_tra_so) /(venta_mat_so +venta_tra_so))) *100</field>
+            <field name="multi" eval="True"/>
             <field name="sequence">1</field>
         </record>
+        <record id="mis_report_es_balance_liyben_0001_real" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="mis_report_es_balance_liyben_0001"/>
+            <field name="subkpi_id" ref="mis_report_es_balance_liyben_subkpi_001"/>
+            <field name="name">(1 -(-(coste_mat.b_real +coste_tra.b_real) /(venta_mat.b_real +venta_tra.b_real))) *100</field>
+            <field name="sequence">1</field>
+        </record>
+        <record id="mis_report_es_balance_liyben_0001_budget" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="mis_report_es_balance_liyben_0001"/>
+            <field name="subkpi_id" ref="mis_report_es_balance_liyben_subkpi_000"/>
+            <field name="name">(1 -(-(coste_mat.b_del_presupuesto +coste_tra.b_del_presupuesto) /(venta_mat.b_del_presupuesto +venta_tra.b_del_presupuesto))) *100</field>
+            <field name="sequence">1</field>
+        </record>
+
         <record id="mis_report_es_balance_liyben_0002" model="mis.report.kpi">
             <field name="description">Bº Materiales</field>
-            <field name="name">materiales_so</field>
+            <field name="name">materiales</field>
             <field name="report_id" ref="mis_report_es_balance_liyben"/>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
             <field name="accumulation_method">sum</field>
             <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l2"/>
-            <field name="expression"> +venta_mat_so +coste_mat_so</field>
+            <field name="multi" eval="True"/>
             <field name="sequence">2</field>
         </record>
+        <record id="mis_report_es_balance_liyben_0002_real" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="mis_report_es_balance_liyben_0002"/>
+            <field name="subkpi_id" ref="mis_report_es_balance_liyben_subkpi_001"/>
+            <field name="name">+venta_mat.b_real +coste_mat.b_real</field>
+            <field name="sequence">1</field>
+        </record>
+        <record id="mis_report_es_balance_liyben_0002_budget" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="mis_report_es_balance_liyben_0002"/>
+            <field name="subkpi_id" ref="mis_report_es_balance_liyben_subkpi_000"/>
+            <field name="name">+venta_mat.b_del_presupuesto +coste_mat.b_del_presupuesto</field>
+            <field name="sequence">1</field>
+        </record>
+
         <record id="mis_report_es_balance_liyben_0003" model="mis.report.kpi">
             <field name="description"></field>
-            <field name="name">materiales_percent_so</field>
+            <field name="name">materiales_percent</field>
             <field name="report_id" ref="mis_report_es_balance_liyben"/>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
             <field name="accumulation_method">sum</field>
             <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l2i"/>
-            <field name="expression"> (1 -(-coste_mat_so /venta_mat_so)) *100</field>
+            <field name="multi" eval="True"/>
             <field name="sequence">3</field>
         </record>
+        <record id="mis_report_es_balance_liyben_0003_real" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="mis_report_es_balance_liyben_0003"/>
+            <field name="subkpi_id" ref="mis_report_es_balance_liyben_subkpi_001"/>
+            <field name="name">(1 -(-coste_mat.b_real /venta_mat.b_real)) *100</field>
+            <field name="sequence">1</field>
+        </record>
+        <record id="mis_report_es_balance_liyben_0003_budget" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="mis_report_es_balance_liyben_0003"/>
+            <field name="subkpi_id" ref="mis_report_es_balance_liyben_subkpi_000"/>
+            <field name="name">(1 -(-coste_mat.b_del_presupuesto /venta_mat.b_del_presupuesto)) *100</field>
+            <field name="sequence">1</field>
+        </record>
+
         <record id="mis_report_es_balance_liyben_0004" model="mis.report.kpi">
             <field name="description">Venta</field>
-            <field name="name">venta_mat_so</field>
+            <field name="name">venta_mat</field>
             <field name="report_id" ref="mis_report_es_balance_liyben"/>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
             <field name="accumulation_method">sum</field>
             <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l4i"/>
-            <field name="expression"> salemat.total_sp_material</field>
+            <field name="multi" eval="True"/>
             <field name="sequence">4</field>
         </record>
+        <record id="mis_report_es_balance_liyben_0004_budget" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="mis_report_es_balance_liyben_0004"/>
+            <field name="subkpi_id" ref="mis_report_es_balance_liyben_subkpi_000"/>
+            <field name="name">salemat.total_sp_material</field>
+            <field name="sequence">1</field>
+        </record>
+        <record id="mis_report_es_balance_liyben_0004_real" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="mis_report_es_balance_liyben_0004"/>
+            <field name="subkpi_id" ref="mis_report_es_balance_liyben_subkpi_001"/>
+            <field name="name">salemat.total_sp_material</field>
+            <field name="sequence">1</field>
+        </record>
+
         <record id="mis_report_es_balance_liyben_0005" model="mis.report.kpi">
             <field name="description">Coste</field>
-            <field name="name">coste_mat_so</field>
+            <field name="name">coste_mat</field>
             <field name="report_id" ref="mis_report_es_balance_liyben"/>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
             <field name="accumulation_method">sum</field>
             <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l4i"/>
-            <field name="expression"> -costmat.total_cp_material</field>
+            <field name="multi" eval="True"/>
             <field name="sequence">5</field>
         </record>
+        <record id="mis_report_es_balance_liyben_0005_budget" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="mis_report_es_balance_liyben_0005"/>
+            <field name="subkpi_id" ref="mis_report_es_balance_liyben_subkpi_000"/>
+            <field name="name">-costmat.total_cp_material</field>
+            <field name="sequence">1</field>
+        </record>
+        <record id="mis_report_es_balance_liyben_0005_real" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="mis_report_es_balance_liyben_0005"/>
+            <field name="subkpi_id" ref="mis_report_es_balance_liyben_subkpi_001"/>
+            <field name="name">-bale[300%]</field>
+            <field name="sequence">1</field>
+        </record>
+
         <record id="mis_report_es_balance_liyben_0006" model="mis.report.kpi">
-            <field name="description">Bº Trabajos</field>
-            <field name="name">trabajos_so</field>
+            <field name="description">Bº Horas</field>
+            <field name="name">trabajos</field>
             <field name="report_id" ref="mis_report_es_balance_liyben"/>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
             <field name="accumulation_method">sum</field>
             <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l2"/>
-            <field name="expression"> +venta_tra_so +coste_tra_so</field>
+            <field name="multi" eval="True"/>
             <field name="sequence">6</field>
         </record>
+        <record id="mis_report_es_balance_liyben_0006_budget" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="mis_report_es_balance_liyben_0006"/>
+            <field name="subkpi_id" ref="mis_report_es_balance_liyben_subkpi_000"/>
+            <field name="name">+venta_tra.b_del_presupuesto +coste_tra.b_del_presupuesto</field>
+            <field name="sequence">1</field>
+        </record>
+        <record id="mis_report_es_balance_liyben_0006_real" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="mis_report_es_balance_liyben_0006"/>
+            <field name="subkpi_id" ref="mis_report_es_balance_liyben_subkpi_001"/>
+            <field name="name">+venta_tra.b_real +coste_tra.b_real</field>
+            <field name="sequence">1</field>
+        </record>
+
         <record id="mis_report_es_balance_liyben_0007" model="mis.report.kpi">
             <field name="description"></field>
-            <field name="name">trabajos_percent_so</field>
+            <field name="name">trabajos_percent</field>
             <field name="report_id" ref="mis_report_es_balance_liyben"/>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
             <field name="accumulation_method">sum</field>
             <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l2i"/>
-            <field name="expression"> (1 -(-coste_tra_so /venta_tra_so)) *100</field>
+            <field name="multi" eval="True"/>
             <field name="sequence">7</field>
         </record>
+        <record id="mis_report_es_balance_liyben_0007_budget" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="mis_report_es_balance_liyben_0007"/>
+            <field name="subkpi_id" ref="mis_report_es_balance_liyben_subkpi_000"/>
+            <field name="name">(1 -(-coste_tra.b_del_presupuesto /venta_tra.b_del_presupuesto)) *100</field>
+            <field name="sequence">1</field>
+        </record>
+        <record id="mis_report_es_balance_liyben_0007_real" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="mis_report_es_balance_liyben_0007"/>
+            <field name="subkpi_id" ref="mis_report_es_balance_liyben_subkpi_001"/>
+            <field name="name">(1 -(-coste_tra.b_real /venta_tra.b_real)) *100</field>
+            <field name="sequence">1</field>
+        </record>
+
         <record id="mis_report_es_balance_liyben_0008" model="mis.report.kpi">
             <field name="description">Venta</field>
-            <field name="name">venta_tra_so</field>
+            <field name="name">venta_tra</field>
             <field name="report_id" ref="mis_report_es_balance_liyben"/>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
             <field name="accumulation_method">sum</field>
             <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l4i"/>
-            <field name="expression"> salehoras.total_sp_work</field>
+            <field name="multi" eval="True"/>
             <field name="sequence">8</field>
         </record>
+        <record id="mis_report_es_balance_liyben_0008_budget" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="mis_report_es_balance_liyben_0008"/>
+            <field name="subkpi_id" ref="mis_report_es_balance_liyben_subkpi_000"/>
+            <field name="name">salehoras.total_sp_work</field>
+            <field name="sequence">1</field>
+        </record>
+        <record id="mis_report_es_balance_liyben_0008_real" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="mis_report_es_balance_liyben_0008"/>
+            <field name="subkpi_id" ref="mis_report_es_balance_liyben_subkpi_001"/>
+            <field name="name">salehoras.total_sp_work</field>
+            <field name="sequence">1</field>
+        </record>
+
         <record id="mis_report_es_balance_liyben_0009" model="mis.report.kpi">
             <field name="description">Coste</field>
-            <field name="name">coste_tra_so</field>
+            <field name="name">coste_tra</field>
             <field name="report_id" ref="mis_report_es_balance_liyben"/>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
             <field name="accumulation_method">sum</field>
             <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l4i"/>
-            <field name="expression"> -costhoras.total_cp_work</field>
+            <field name="multi" eval="True"/>
             <field name="sequence">9</field>
         </record>
-        <record id="mis_report_es_balance_liyben_0010" model="mis.report.kpi">
-            <field name="description">Bº OBRAS EN CURSO</field>
-            <field name="name">obras_en_curso</field>
-            <field name="report_id" ref="mis_report_es_balance_liyben"/>
-            <field name="type">num</field>
-            <field name="compare_method">pct</field>
-            <field name="accumulation_method">sum</field>
-            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l1"/>
-            <field name="expression"> +materiales_obra +trabajos_obra</field>
-            <field name="sequence">10</field>
+        <record id="mis_report_es_balance_liyben_0009_budget" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="mis_report_es_balance_liyben_0009"/>
+            <field name="subkpi_id" ref="mis_report_es_balance_liyben_subkpi_000"/>
+            <field name="name">-costhoras.total_cp_work</field>
+            <field name="sequence">1</field>
         </record>
-        <record id="mis_report_es_balance_liyben_0011" model="mis.report.kpi">
-            <field name="description"></field>
-            <field name="name">obras_en_curso_percent</field>
-            <field name="report_id" ref="mis_report_es_balance_liyben"/>
-            <field name="type">num</field>
-            <field name="compare_method">pct</field>
-            <field name="accumulation_method">sum</field>
-            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l1i"/>
-            <field name="expression"> (1 -(-(coste_mat_obra +coste_tra_obra) /(venta_mat_obra +venta_tra_obra))) *100</field>
-            <field name="sequence">11</field>
+        <record id="mis_report_es_balance_liyben_0009_real" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="mis_report_es_balance_liyben_0009"/>
+            <field name="subkpi_id" ref="mis_report_es_balance_liyben_subkpi_001"/>
+            <field name="name">accanltline.amount</field>
+            <field name="sequence">1</field>
         </record>
-        <record id="mis_report_es_balance_liyben_0012" model="mis.report.kpi">
-            <field name="description">Bº Materiales</field>
-            <field name="name">materiales_obra</field>
-            <field name="report_id" ref="mis_report_es_balance_liyben"/>
-            <field name="type">num</field>
-            <field name="compare_method">pct</field>
-            <field name="accumulation_method">sum</field>
-            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l2"/>
-            <field name="expression"> +venta_mat_obra +coste_mat_obra</field>
-            <field name="sequence">12</field>
-        </record>
-        <record id="mis_report_es_balance_liyben_0013" model="mis.report.kpi">
-            <field name="description"></field>
-            <field name="name">materiales_percent_obra</field>
-            <field name="report_id" ref="mis_report_es_balance_liyben"/>
-            <field name="type">num</field>
-            <field name="compare_method">pct</field>
-            <field name="accumulation_method">sum</field>
-            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l2i"/>
-            <field name="expression"> (1 -(-coste_mat_obra /venta_mat_obra)) *100</field>
-            <field name="sequence">13</field>
-        </record>
-        <record id="mis_report_es_balance_liyben_0014" model="mis.report.kpi">
-            <field name="description">Venta</field>
-            <field name="name">venta_mat_obra</field>
-            <field name="report_id" ref="mis_report_es_balance_liyben"/>
-            <field name="type">num</field>
-            <field name="compare_method">pct</field>
-            <field name="accumulation_method">sum</field>
-            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l4i"/>
-            <field name="expression"> venta_mat_so</field>
-            <field name="sequence">14</field>
-        </record>
-        <record id="mis_report_es_balance_liyben_0015" model="mis.report.kpi">
-            <field name="description">Coste</field>
-            <field name="name">coste_mat_obra</field>
-            <field name="report_id" ref="mis_report_es_balance_liyben"/>
-            <field name="type">num</field>
-            <field name="compare_method">pct</field>
-            <field name="accumulation_method">sum</field>
-            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l4i"/>
-            <field name="expression"> -bale[300%]</field>
-            <field name="sequence">15</field>
-        </record>
-        <record id="mis_report_es_balance_liyben_0016" model="mis.report.kpi">
-            <field name="description">Bº Trabajos</field>
-            <field name="name">trabajos_obra</field>
-            <field name="report_id" ref="mis_report_es_balance_liyben"/>
-            <field name="type">num</field>
-            <field name="compare_method">pct</field>
-            <field name="accumulation_method">sum</field>
-            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l2"/>
-            <field name="expression"> +venta_tra_obra +coste_tra_obra</field>
-            <field name="sequence">16</field>
-        </record>
-        <record id="mis_report_es_balance_liyben_0017" model="mis.report.kpi">
-            <field name="description"></field>
-            <field name="name">trabajos_percent_obra</field>
-            <field name="report_id" ref="mis_report_es_balance_liyben"/>
-            <field name="type">num</field>
-            <field name="compare_method">pct</field>
-            <field name="accumulation_method">sum</field>
-            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l2i"/>
-            <field name="expression"> (1 -(-coste_tra_obra /venta_tra_obra)) *100</field>
-            <field name="sequence">17</field>
-        </record>
-        <record id="mis_report_es_balance_liyben_0018" model="mis.report.kpi">
-            <field name="description">Venta</field>
-            <field name="name">venta_tra_obra</field>
-            <field name="report_id" ref="mis_report_es_balance_liyben"/>
-            <field name="type">num</field>
-            <field name="compare_method">pct</field>
-            <field name="accumulation_method">sum</field>
-            <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l4i"/>
-            <field name="expression"> venta_tra_so</field>
-            <field name="sequence">18</field>
-        </record>
-        -->
         
-        <record id="mis_report_es_balance_liyben_0011" model="mis.report.kpi">
+        <record id="mis_report_es_balance_liyben_0010" model="mis.report.kpi">
             <field name="description">Nº de horas</field>
             <field name="name">n_de_horas</field>
             <field name="report_id" ref="mis_report_es_balance_liyben"/>
@@ -240,14 +267,14 @@
             <field name="multi" eval="True"/>
             <field name="sequence">11</field>
         </record>
-        <record id="mis_report_es_balance_liyben_0011_real" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="mis_report_es_balance_liyben_0011"/>
+        <record id="mis_report_es_balance_liyben_0010_real" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="mis_report_es_balance_liyben_0010"/>
             <field name="subkpi_id" ref="mis_report_es_balance_liyben_subkpi_001"/>
             <field name="name">accanltline.unit_amount</field>
             <field name="sequence">1</field>
         </record>
-        <record id="mis_report_es_balance_liyben_0011_budget" model="mis.report.kpi.expression">
-            <field name="kpi_id" ref="mis_report_es_balance_liyben_0011"/>
+        <record id="mis_report_es_balance_liyben_0010_budget" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="mis_report_es_balance_liyben_0010"/>
             <field name="subkpi_id" ref="mis_report_es_balance_liyben_subkpi_000"/>
             <field name="name">salehoras.total_hours</field>
             <field name="sequence">1</field>
