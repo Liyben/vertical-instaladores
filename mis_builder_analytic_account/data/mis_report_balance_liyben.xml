@@ -228,16 +228,7 @@
             <field name="sequence">18</field>
         </record>
         -->
-        <record id="mis_report_es_balance_liyben_0011_real" model="mis.report.kpi.expression">
-            <field name="subkpi_id" ref="mis_report_es_balance_liyben_subkpi_001"/>
-            <field name="name">accanltline.unit_amount</field>
-            <field name="sequence">1</field>
-        </record>
-        <record id="mis_report_es_balance_liyben_0011_budget" model="mis.report.kpi.expression">
-            <field name="subkpi_id" ref="mis_report_es_balance_liyben_subkpi_000"/>
-            <field name="name">salehoras.total_hours</field>
-            <field name="sequence">1</field>
-        </record>
+        
         <record id="mis_report_es_balance_liyben_0011" model="mis.report.kpi">
             <field name="description">Nº de horas</field>
             <field name="name">n_de_horas</field>
@@ -247,8 +238,19 @@
             <field name="accumulation_method">sum</field>
             <field name="style_id" ref="l10n_es_mis_report.mis_report_style_l10n_es_l3i"/>
             <field name="multi" eval="True"/>
-            <field name="expression_ids" eval="[(4, ref('mis_report_es_balance_liyben_0011_real')),(4, ref('mis_report_es_balance_liyben_0011_budget'))]"/>
             <field name="sequence">11</field>
+        </record>
+        <record id="mis_report_es_balance_liyben_0011_real" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="mis_report_es_balance_liyben_0011"/>
+            <field name="subkpi_id" ref="mis_report_es_balance_liyben_subkpi_001"/>
+            <field name="name">accanltline.unit_amount</field>
+            <field name="sequence">1</field>
+        </record>
+        <record id="mis_report_es_balance_liyben_0011_budget" model="mis.report.kpi.expression">
+            <field name="kpi_id" ref="mis_report_es_balance_liyben_0011"/>
+            <field name="subkpi_id" ref="mis_report_es_balance_liyben_subkpi_000"/>
+            <field name="name">salehoras.total_hours</field>
+            <field name="sequence">1</field>
         </record>
         
         <record id="mis_report_query_0000" model="mis.report.query">
