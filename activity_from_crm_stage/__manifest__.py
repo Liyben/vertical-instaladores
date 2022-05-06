@@ -12,7 +12,7 @@
             
         """,
     'author': 'Liyben',
-    'depends': ['lyb_avisos','mail','crm'],
+    'depends': ['mail','crm'],
     'data': [
         'views/crm_stage_view.xml',
     ],
