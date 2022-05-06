@@ -117,8 +117,8 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="view_sale_order_comparations2_form">
-        <field name="name">sale.order.comparations.form.inherit</field>
+    <record model="ir.ui.view" id="view_sale_order_analytic_account_form">
+        <field name="name">sale.order.analytic.account.form.inherit</field>
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="product_task_material_work.view_sale_order_comparations_form"/>
         <field name="arch" type="xml">
@@ -126,6 +126,16 @@
                 <field name="visible_project" invisible="1"/>
                 <field name="project_id" options="{'no_create': True}" attrs="{'invisible': [('visible_project', '=', False)]}"/>
             </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_sale_order_project_form">
+        <field name="name">sale.order.project.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale_project.view_order_form_inherit_sale_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='visible_project']" position="replace"/>
+            <xpath expr="//field[@name='project_id']" position="replace"/>
         </field>
     </record>
 
