@@ -50,6 +50,9 @@ class SaleOrder(models.Model):
 	#Lista de trabajos usados en los compuestos
 	works_ids = fields.One2many(comodel_name='sale.order.task.work',  inverse_name='order_id', string='Trabajos')
 
+	#Grupo cuenta analitica
+	account_analytic_group_id = fields.Many2one('account.analytic.group', string='Grupo', check_company=True) 
+
 	#Calculo de la lista de materiales
 	
 	@api.onchange('order_line')
@@ -278,6 +281,15 @@ class SaleOrder(models.Model):
 			if (record.total_cp_ideal_work != 0) and (record.total_sp_ideal_work != 0):
 				record.benefit_ideal_work = (1-(record.total_cp_ideal_work/record.total_sp_ideal_work))
 
+	#Método para los datos de la cuenta analitica
+	def _prepare_analytic_account_data(self, prefix=None):
+		analytic_account_vals = super(SaleOrder, self)._prepare_analytic_account_data(prefix)
+
+		for order in self: 
+			if order.account_analytic_group_id:
+				analytic_account_vals.update({'group_id': order.account_analytic_group_id.id})
+
+		return analytic_account_vals
 
 	#Añadimos al origen las tareas asociadas al presupuesto
 	"""

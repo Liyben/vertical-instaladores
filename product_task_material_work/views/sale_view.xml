@@ -18,12 +18,20 @@
                 <field name="client_order_ref"/>
             </xpath>
 
+            <xpath expr="//field[@name='partner_invoice_id']" position="after">
+                <field name="account_analytic_group_id"/>
+            </xpath>
+
             <xpath expr="//field[@name='opportunity_id']" position="replace">
 
             </xpath>
 
             <xpath expr="//field[@name='validity_date']" position="before">
                 <field name="opportunity_id" options="{'no_create': True}" help="Log in the chatter from which opportunity the order originates" string="Oportunidad / Aviso"/>
+            </xpath>
+
+            <xpath expr="//field[@name='analytic_account_id']" position="attributes">
+                <attribute name="context">{'default_partner_id':partner_invoice_id, 'default_name':name, 'default_group_id':account_analytic_group_id}</attribute>
             </xpath>
 
             <xpath expr="//notebook[last()]" position="inside">
