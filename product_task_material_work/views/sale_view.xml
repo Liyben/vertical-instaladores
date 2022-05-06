@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <!-- CAMBIAMOS LO REAL POR LO IDEAL EN LA VISTA A PETICION DEL CLIENTE -->
+   
     <record model="ir.ui.view" id="view_sale_order_comparations_form">
         <field name="name">sale.order.comparations.form.inherit</field>
         <field name="model">sale.order</field>
@@ -113,6 +113,18 @@
                             </field>
                     </group>
                 </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_sale_order_comparations2_form">
+        <field name="name">sale.order.comparations.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="product_task_material_work.view_sale_order_comparations_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='analytic_account_id']" position="after">
+                <field name="visible_project" invisible="1"/>
+                <field name="project_id" options="{'no_create': True}" attrs="{'invisible': [('visible_project', '=', False)]}"/>
             </xpath>
         </field>
     </record>
