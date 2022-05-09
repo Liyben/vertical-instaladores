@@ -13,7 +13,8 @@
     'author': 'Liyben',
     'depends': ["mis_builder", "account", "sale", "sale_crm", "analytic", "product_task_material_work","l10n_es_mis_report"],
     'data': ["views/mis_report.xml",
-            "data/mis_report_balance_liyben.xml",],
+            "data/mis_report_balance_liyben.xml",
+            "data/mis_report_styles.xml",],
     'qweb': [],
     'images': [
     ],
