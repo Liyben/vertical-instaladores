@@ -50,9 +50,10 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
                 }).then(function (res) {
                         self.task = res.length && res[0];
                         console.log("RECORD ID: " + self.task.id);
+                        this.update_task();
                     });
                 
-                this.update_task();
+                
             }
             if(event.data.attrs.name === "get_check_out_geolocation"){
                 var self = this;
