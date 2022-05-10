@@ -23,7 +23,7 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
             this._rpc({
                 model: "project.task",
                 method: "get_current_geolocation",
-                args: [[self.task.id], [position.coords.latitude, position.coords.longitude]],
+                args: [[self.task_id], [position.coords.latitude, position.coords.longitude]],
             }).then(function () {         
                 console.log('https://maps.google.com/?q='+ position.coords.latitude+','+ position.coords.longitude);
                 
@@ -43,22 +43,26 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
             if(event.data.attrs.name === "get_check_in_geolocation"){
                 var self = this;
                 var id = event.data.record.data.id;
-                var def = this._rpc({
+                console.log("RECORD ID: " + id);
+                self.task_id = id
+                /* var def = this._rpc({
                     model: 'project.task',
                     method: 'search_read',
                     args: [[['id', '=', id]]],
                 }).then(function (res) {
                         self.task = res.length && res[0];
                         console.log("RECORD ID: " + self.task.id);
-                        this.update_task();
-                    });
-                
+                        
+                    }); */
+                this.update_task();
                 
             }
             if(event.data.attrs.name === "get_check_out_geolocation"){
                 var self = this;
                 var id = event.data.record.data.id;
-                var def = this._rpc({
+                console.log("RECORD ID: " + id);
+                self.task_id = id
+                /* var def = this._rpc({
                     model: 'project.task',
                     method: 'search_read',
                     args: [[['id', '=', id]]],
@@ -66,7 +70,7 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
                         self.task = res.length && res[0];
                         console.log("RECORD ID: " + self.task.id);
                     });
-                
+                 */
                 this.update_task();
             }
             this._super(event);
