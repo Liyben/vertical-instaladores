@@ -25,6 +25,7 @@ odoo.define('project_task_geolocation.task_geolocation', function (require) {
                 method: "get_current_geolocation",
                 args: [[self.task_id], [position.coords.latitude, position.coords.longitude]],
             }).then(function () {         
+                console.log("RECORD ID: " + self.task_id);
                 console.log('https://maps.google.com/?q='+ position.coords.latitude+','+ position.coords.longitude);
                 
             });
