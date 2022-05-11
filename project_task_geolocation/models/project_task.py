@@ -48,5 +48,6 @@ class ProjectTask(models.Model):
 		for task in self:
 			if task.show_time_control == 'start' and task.show_geolocation_control == 'check-out':
 				task.show_geolocation_control = 'start'
-			if not task.timesheet_ids:
-				task.show_geolocation_control = 'check-in'
+			""" if not task.timesheet_ids:
+				task.show_geolocation_control = 'check-in' """
+		return result
