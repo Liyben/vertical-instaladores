@@ -6,15 +6,11 @@
         <field name="model">hr.timesheet.switch</field>
         <field name="inherit_id" ref="project_timesheet_time_control.hr_timesheet_switch_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//footer" position="replace">
-                <button
-                        name="action_switch"
-                        type="object"
-                        attrs="{'invisible': [('running_timer_id', '!=', False)]}"
-                        string="Comenzar nuevo cronómetro"
-                        class="oe_highlight"
-                />
-                <button special="cancel" string="Cancelar" />
+            <xpath expr="//button[@class='btn-warning']" position="attributes">
+                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
+            </xpath>
+            <xpath expr="//button[@class='oe_highlight']" position="attributes">
+                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
             </xpath>
 
         </field>
