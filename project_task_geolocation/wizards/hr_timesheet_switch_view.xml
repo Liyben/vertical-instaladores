@@ -6,10 +6,10 @@
         <field name="model">hr.timesheet.switch</field>
         <field name="inherit_id" ref="project_timesheet_time_control.hr_timesheet_switch_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//button[@class='btn-warning']" position="attributes">
+            <xpath expr="//button[@name='action_switch'][2]" position="attributes">
                 <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
             </xpath>
-            <xpath expr="//button[@class='oe_highlight']" position="attributes">
+            <xpath expr="//button[@name='action_switch'][3]" position="attributes">
                 <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
             </xpath>
 
