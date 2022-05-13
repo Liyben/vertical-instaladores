@@ -12,6 +12,8 @@
                 <field name="start_longitude" invisible="1"/>
                 <field name="end_latitude" invisible="1"/>
                 <field name="end_longitude" invisible="1"/>
+                <field name="zero_start_control" invisible="1"/>
+                <field name="zero_end_control" invisible="1"/>
             </xpath>
             <div name="button_box" position="inside">
                 <button
@@ -21,6 +23,7 @@
                     icon="fa-map-marker text-success"
                     class="oe_stat_button"
                     title="Comienzo"
+                    attrs="{'invisible': [('zero_start_control', '=', True)]}"
                 />
                 <button
                     name="button_stop_geolocation"
@@ -29,6 +32,7 @@
                     icon="fa-map-marker text-warning"
                     class="oe_stat_button"
                     title="Fin"
+                    attrs="{'invisible': [('zero_end_control', '=', True)]}"
                 />
             </div>
 
@@ -47,6 +51,9 @@
                 <field name="start_longitude" invisible="1"/>
                 <field name="end_latitude" invisible="1"/>
                 <field name="end_longitude" invisible="1"/>
+                <field name="zero_start_control" invisible="1"/>
+                <field name="zero_end_control" invisible="1"/>
+                
                 <button
                     name="button_start_geolocation"
                     string="Comienzo"
@@ -55,6 +62,7 @@
                     icon="fa-map-marker text-success"
                     class="oe_stat_button"
                     title="Comienzo"
+                    attrs="{'invisible': [('zero_start_control', '=', True)]}"
                 />
                 <button
                     name="button_stop_geolocation"
@@ -64,6 +72,7 @@
                     icon="fa-map-marker text-warning"
                     class="oe_stat_button"
                     title="Fin"
+                    attrs="{'invisible': [('zero_end_control', '=', True)]}"
                 />
             </field>
         </field>
@@ -77,7 +86,8 @@
         <field name="arch" type="xml">
             <!--Botones geolocalización-->
             <xpath expr="//templates//field[@name='unit_amount']" position="after">
-                <field name="show_time_control" invisible="1" />
+                <field name="zero_start_control" invisible="1"/>
+                <field name="zero_end_control" invisible="1"/>
                 <a
                     name="button_start_geolocation"
                     string="Comienzo"
@@ -85,6 +95,7 @@
                     type="object"
                     class="o_kanban_inline_block fa fa-lg fa-map-marker text-success"
                     title="Comienzo"
+                    attrs="{'invisible': [('zero_start_control', '=', True)]}"
                 />
                 <a
                     name="button_stop_geolocation"
@@ -93,6 +104,7 @@
                     type="object"
                     class="o_kanban_inline_block fa fa-lg fa-map-marker text-warning"
                     title="Fin"
+                    attrs="{'invisible': [('zero_end_control', '=', True)]}"
                 />
             </xpath>
         </field>

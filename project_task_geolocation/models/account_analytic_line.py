@@ -1,6 +1,7 @@
 # © 2022 Liyben
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
+import re
 from odoo import api, fields, models, exceptions, _
 
 
@@ -27,6 +28,20 @@ class AccountAnalyticLine(models.Model):
 		digits='Geolocalización',
 		readonly=True,
 	)
+
+	#Control de los botones para mostrar la geolocalización
+	zero_end_control = fields.Boolean(compute='_compute_show_end_geolocation')
+	zero_start_control = fields.Boolean(compute='_compute_show_start_geolocation')
+
+	@api.depends('start_latitude','start_longitude')
+	def _compute_show_start_geolocation(self):
+		for record in self:
+			record.zero_start_control = (record.start_latitude == 0.0) and (record.start_longitude == 0.0)
+
+	@api.depends('end_latitude','end_longitude')
+	def _compute_show_end_geolocation(self):
+		for record in self:
+			record.zero_end_control = (record.end_latitude == 0.0) and (record.end_longitude == 0.0)
 
 	def button_start_geolocation(self):
 		location = ""  
