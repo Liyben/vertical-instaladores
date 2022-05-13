@@ -74,3 +74,10 @@ class AccountAnalyticLine(models.Model):
 				line.end_latitude = line.task_id.latitude
 				line.end_longitude = line.task_id.longitude
 		return True
+
+	def unlink(self):
+		for record in self:
+			if record.task_id:
+				record.task_id.show_geolocation_control = 'check-in'
+
+		return super().unlink()
