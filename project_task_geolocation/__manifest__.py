@@ -23,6 +23,7 @@
         "views/project_project_view.xml",
         "views/account_analytic_line_view.xml",
         "data/geolocation_data.xml",
+        "wizards/hr_timesheet_switch_view.xml",
     ],
     'demo': [
     ],

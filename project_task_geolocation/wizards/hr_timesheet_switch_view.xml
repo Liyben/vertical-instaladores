@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+    
+    <record model="ir.ui.view" id="hr_timesheet_switch_form_inherited">
+        <field name="name">hr.timesheet.switch.form.inherited</field>
+        <field name="model">hr.timesheet.switch</field>
+        <field name="inherit_id" ref="project_timesheet_time_control.hr_timesheet_switch_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//footer" position="replace">
+                <button
+                        name="action_switch"
+                        type="object"
+                        attrs="{'invisible': [('running_timer_id', '!=', False)]}"
+                        string="Comenzar nuevo cronómetro"
+                        class="oe_highlight"
+                />
+                <button special="cancel" string="Cancelar" />
+            </xpath>
+
+        </field>
+    </record>
+
+</data>
