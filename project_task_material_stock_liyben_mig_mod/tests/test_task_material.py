@@ -70,7 +70,7 @@ class TestTaskMaterial(common.SavepointCase):
             result_onchange["domain"]["product_uom_id"],
             [("category_id", "=", self.product1_uom.id)],
         )
-        self.assertEqual(self.task.stock_state, "pending")
+        self.assertEqual(self.task.stock_state, "waiting")
         self.task.stage_id = self.env.ref("project.project_stage_0").id
         self.assertEqual(len(self.task.stock_move_ids), 0)
         self.assertEqual(len(self.task.analytic_line_ids), 0)

@@ -37,10 +37,10 @@ class Task(models.Model):
     def _compute_stock_state(self):
         for task in self:
             if not task.stock_move_ids:
-                task.stock_state = "pending"
+                task.stock_state = "waiting"
             else:
                 states = task.mapped("stock_move_ids.state")
-                for state in ("confirmed", "assigned", "done"):
+                for state in ("confirmed", "assigned", "done", "draft", "cancel"):
                     if state in states:
                         task.stock_state = state
                         break
@@ -76,10 +76,12 @@ class Task(models.Model):
     )
     stock_state = fields.Selection(
         selection=[
-            ("pending", "Pending"),
+            ("draft", "Draft"),
+            ("waiting", "Waiting Another Operation"),
             ("confirmed", "Confirmed"),
             ("assigned", "Assigned"),
             ("done", "Done"),
+            ("cancel", "Cancelled"),
         ],
         compute="_compute_stock_state",
     )

@@ -101,7 +101,17 @@ msgstr ""
 
 #. module: project_task_material_stock
 #: selection:project.task,stock_state:0
-msgid "Pending"
+msgid "Waiting Another Operation"
+msgstr ""
+
+#. module: project_task_material_stock
+#: selection:project.task,stock_state:0
+msgid "Draft"
+msgstr ""
+
+#. module: project_task_material_stock
+#: selection:project.task,stock_state:0
+msgid "Cancelled"
 msgstr ""
 
 #. module: project_task_material_stock
