@@ -63,7 +63,7 @@ class StockRule(models.Model):
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
-    @api.depends('procurement_group_id')
+    @api.depends('group_id')
     def _compute_purchase_order_count(self):
         for pick in self:
             pick.purchase_order_count = len(pick._get_purchase_orders())
