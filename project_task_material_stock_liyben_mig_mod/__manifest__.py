@@ -16,5 +16,5 @@
     "installable": True,
     "application": False,
     "depends": ["stock_account", "project_task_material", "sale_purchase"],
-    "data": ["data/data.xml", "views/project_view.xml", "views/project_task_view.xml"],
+    "data": ["data/data.xml", "views/project_view.xml", "views/project_task_view.xml", "views/stock_picking_view.xml"],
 }

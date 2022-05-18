@@ -63,9 +63,45 @@ class StockRule(models.Model):
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
-    task_id = fields.Many2one(related="group_id.task_id", string="Partes de trabajo", store=True)
+    @api.depends('procurement_group_id')
+    def _compute_purchase_order_count(self):
+        for pick in self:
+            pick.purchase_order_count = len(pick._get_purchase_orders())
+
+    task_id = fields.Many2one(related="group_id.task_id", 
+    string="Partes de trabajo", 
+    store=True
+    )
+    purchase_order_count = fields.Integer(
+        "Number of Purchase Order Generated",
+        compute='_compute_purchase_order_count',
+        groups='purchase.group_purchase_user'
+    )
 
     def _auto_init(self):
         if not column_exists(self.env.cr, 'stock_picking', 'task_id'):
             create_column(self.env.cr, 'stock_picking', 'task_id', 'int4')
         return super()._auto_init()
+
+    def _get_purchase_orders(self):
+        return self.env['purchase.order'].search([('group_id', '=', self.group_id.id)])
+
+    def action_view_purchase_orders(self):
+        self.ensure_one()
+        purchase_order_ids = self._get_purchase_orders().ids
+        action = {
+            'res_model': 'purchase.order',
+            'type': 'ir.actions.act_window',
+        }
+        if len(purchase_order_ids) == 1:
+            action.update({
+                'view_mode': 'form',
+                'res_id': purchase_order_ids[0],
+            })
+        else:
+            action.update({
+                'name': _("Purchase Order generated from %s", self.name),
+                'domain': [('id', 'in', purchase_order_ids)],
+                'view_mode': 'tree,form',
+            })
+        return action

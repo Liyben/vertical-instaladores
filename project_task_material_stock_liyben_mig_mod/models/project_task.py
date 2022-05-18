@@ -122,7 +122,8 @@ class Task(models.Model):
     purchase_order_count = fields.Integer(
         "Number of Purchase Order Generated",
         compute='_compute_purchase_order_count',
-        groups='purchase.group_purchase_user')
+        groups='purchase.group_purchase_user'
+    )
 
     def _get_purchase_orders(self):
         return self.env['purchase.order'].search([('group_id', '=', self.procurement_group_id.id)])
