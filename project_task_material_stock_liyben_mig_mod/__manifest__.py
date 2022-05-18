@@ -15,6 +15,6 @@
     "license": "AGPL-3",
     "installable": True,
     "application": False,
-    "depends": ["stock_account", "project_task_material"],
+    "depends": ["stock_account", "project_task_material", "sale_purchase"],
     "data": ["data/data.xml", "views/project_view.xml", "views/project_task_view.xml"],
 }
