@@ -225,7 +225,7 @@ class ProjectTaskMaterial(models.Model):
         res = {
             "product_id": product.id,
             "name": product.partner_ref,
-            "state": "confirmed",
+            "state": "draft",
             "product_uom": self.product_uom_id.id or product.uom_id.id,
             "product_uom_qty": self.quantity,
             "origin": self.task_id.sale_line_id.order_id.name +' ('+ self.task_id.code + ')',
