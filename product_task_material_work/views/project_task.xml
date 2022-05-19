@@ -35,16 +35,6 @@
         <field name="model">project.task</field>
         <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited"/>
         <field name="arch" type="xml">
-            <xpath expr="//page[@id='timesheets_tab']" position="after">
-                <page name="material_used" string="Material" groups="project.group_project_user">
-                    <field name="material_ids">
-                        <tree string="Material Used" editable="top">
-                            <field name="product_id"/>
-                            <field name="quantity"/>
-                        </tree>
-                    </field>
-                </page>
-            </xpath>
             <xpath expr="//field[@name='timesheet_ids']" position='before'>
                 <separator string="Trabajo realizado"/>
             </xpath>
@@ -67,12 +57,20 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="project_task_digitized_signature_form_view">
-        <field name="name">project.task.digitized.signature.form</field>
+    <record model="ir.ui.view" id="project_task_digitized_signature_material_inherited_form_view">
+        <field name="name">project.task.digitized.signature.material.inherited.form</field>
         <field name="model">project.task</field>
         <field name="inherit_id" ref="project.view_task_form2"/>
         <field name="arch" type="xml">
             <xpath expr="//page[@name='extra_info']" position="before">
+                <page name="material_used" string="Material" groups="project.group_project_user">
+                    <field name="material_ids">
+                        <tree string="Material Used" editable="top">
+                            <field name="product_id"/>
+                            <field name="quantity"/>
+                        </tree>
+                    </field>
+                </page>
                 <page string="Firma">
                     <group>
                         <field name="signature" widget="signature" />
