@@ -22,7 +22,7 @@
         <field name="model">project.task</field>
         <field
             name="inherit_id"
-            ref="project_task_material.view_project_task_form_material"
+            ref="product_task_material_work.view_project_task_work_form"
         />
         <field name="arch" type="xml">
             <xpath expr="//div[@name='button_box']" position="inside">
