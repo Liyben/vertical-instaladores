@@ -126,7 +126,7 @@ class Task(models.Model):
     )
 
     def _get_purchase_orders(self):
-        return self.env['purchase.order'].search([('group_id', '=', self.procurement_group_id.id)])
+        return self.env['purchase.order'].search([('group_id', '!=', False),('group_id', '=', self.procurement_group_id.id)])
 
     def action_view_purchase_orders(self):
         self.ensure_one()
