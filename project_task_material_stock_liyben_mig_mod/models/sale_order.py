@@ -14,7 +14,7 @@ class SaleOrder(models.Model):
 	def _get_purchase_orders(self):
 		purchases = []
 		result = super(SaleOrder, self)._get_purchase_orders()
-		tasks = self.mappped('tasks_ids')
+		tasks = self.mapped('tasks_ids')
 		if len(tasks) >= 1:
 			purchases = self.env['purchase.order'].search([('group_id', 'in', tasks.procurement_group_id.id)])
 		
