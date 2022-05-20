@@ -16,7 +16,7 @@ class SaleOrder(models.Model):
 		result = super(SaleOrder, self)._get_purchase_orders()
 		tasks = self.mapped('tasks_ids')
 		if len(tasks) >= 1:
-			purchases = self.env['purchase.order'].search([('group_id', 'in', tasks.procurement_group_id.id)])
+			purchases = self.env['purchase.order'].search([('group_id', 'in', tasks.mapped('procurement_group_id'))])
 		
 		
 		_logger.debug('\n\n\n\nRESULT OF SUPER %s\n\n\n\n', purchases)
