@@ -8,5 +8,5 @@ class SaleOrder(models.Model):
 	_inherit='sale.order'
 
 	def _get_purchase_orders(self):
-		return self.env['purchase.order'].search(['|', ('group_id', 'in', self.tasks_ids.procurement_group_id.id), ('id', 'in', self.order_line.purchase_line_ids.order_id)])
+		return self.env['purchase.order'].search(['|', ('group_id', 'in', self.tasks_ids.procurement_group_id.id)])
 		
