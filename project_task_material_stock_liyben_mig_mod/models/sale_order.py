@@ -13,7 +13,7 @@ class SaleOrder(models.Model):
 
 	def _get_purchase_orders(self):
 		result = super(SaleOrder, self)._get_purchase_orders()
-		_logger.debug('RESULT OF SUPER %s', result)
+		_logger.debug('\n\n\n\nRESULT OF SUPER %s\n\n\n\n', result)
 		return result
 		""" tasks = self.mappped('tasks_ids')
 		if len(tasks) >= 1:
