@@ -15,8 +15,7 @@ class SaleOrder(models.Model):
 			purchases = self.env['purchase.order'].search([('group_id', 'in', tasks.mapped('procurement_group_id').ids)])
 		if result and purchases:
 			return result | purchases
-		elif result:
-			return result
 		elif purchases:
 			return purchases
-		
+		else:
+			return result
