@@ -13,6 +13,10 @@ class SaleOrder(models.Model):
 		tasks = self.mapped('tasks_ids')
 		if len(tasks) >= 1:
 			purchases = self.env['purchase.order'].search([('group_id', 'in', tasks.mapped('procurement_group_id').ids)])
-
-		return result | purchases
+		if result and purchases:
+			return result | purchases
+		elif result:
+			return result
+		elif purchases:
+			return purchases
 		
