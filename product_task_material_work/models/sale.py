@@ -950,17 +950,17 @@ class SaleOrderLineTaskWork(models.Model):
 	@api.onchange('hours','cost_price_unit')
 	def _onchange_hours(self):
 		for record in self:
-			#Guardamos los precios de la ficha de producto
-			product_lst_price = record.work_id.lst_price
-			product_standard_price = record.work_id.standard_price
-
-			#Actualizamos los precios de la ficha de producto con los precios de la linea de pedido
-			record.work_id.write({
-				'lst_price' : record.sale_price_unit,
-				'standard_price' : record.cost_price_unit,
-			})
-
 			if record.work_id:
+				#Guardamos los precios de la ficha de producto
+				product_lst_price = record.work_id.lst_price
+				product_standard_price = record.work_id.standard_price
+
+				#Actualizamos los precios de la ficha de producto con los precios de la linea de pedido
+				record.work_id.write({
+					'lst_price' : record.sale_price_unit,
+					'standard_price' : record.cost_price_unit,
+				})
+
 				workforce = record.work_id.with_context(
 					lang=record.order_line_id.order_id.partner_id.lang,
 					partner=record.order_line_id.order_id.partner_id.id,
@@ -973,11 +973,11 @@ class SaleOrderLineTaskWork(models.Model):
 				#record.cost_price_unit = record.work_id.standard_price
 				#record.name = record.work_id.name
 
-			#Recuperamos los precios de la ficha producto previamente guardado
-			record.work_id.write({
-				'lst_price' : product_lst_price,
-				'standard_price' : product_standard_price,
-			})
+				#Recuperamos los precios de la ficha producto previamente guardado
+				record.work_id.write({
+					'lst_price' : product_lst_price,
+					'standard_price' : product_standard_price,
+				})
 	
 	#Carga de los valores en la linea de la mano de obra seleccionada
 	
@@ -1124,6 +1124,16 @@ class SaleOrderLineTaskMaterial(models.Model):
 	def _onchange_quantity(self):
 		for record in self:
 			if record.material_id:
+				#Guardamos los precios de la ficha de producto
+				product_lst_price = record.material_id.lst_price
+				product_standard_price = record.material_id.standard_price
+
+				#Actualizamos los precios de la ficha de producto con los precios de la linea de pedido
+				record.material_id.write({
+					'lst_price' : record.sale_price_unit,
+					'standard_price' : record.cost_price_unit,
+				})
+
 				material = record.material_id.with_context(
 					lang=record.order_line_id.order_id.partner_id.lang,
 					partner=record.order_line_id.order_id.partner_id.id,
@@ -1134,6 +1144,12 @@ class SaleOrderLineTaskMaterial(models.Model):
 			
 				record.sale_price_unit = record.order_line_id.env['account.tax']._fix_tax_included_price_company(self._get_display_price_material(material), material.taxes_id, self.order_line_id.tax_id, self.order_line_id.company_id)
 				#record.cost_price_unit = record.material_id.standard_price
+
+				#Recuperamos los precios de la ficha producto previamente guardado
+				record.material_id.write({
+					'lst_price' : product_lst_price,
+					'standard_price' : product_standard_price,
+				})
 
 	#Calculo del descuento según la tarifa
 	@api.onchange('material_id','quantity')
