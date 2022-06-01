@@ -947,7 +947,7 @@ class SaleOrderLineTaskWork(models.Model):
 
 	#Calculo del precio de venta y coste unitario segun tarifa al cambiar las horas
 	
-	@api.onchange('hours')
+	@api.onchange('hours','cost_price_unit')
 	def _onchange_hours(self):
 		for record in self:
 			if record.work_id:
@@ -960,8 +960,8 @@ class SaleOrderLineTaskWork(models.Model):
 					uom=record.work_id.uom_id.id)
 
 				record.sale_price_unit = record.order_line_id.env['account.tax']._fix_tax_included_price_company(self._get_display_price_workforce(workforce), workforce.taxes_id, self.order_line_id.tax_id, self.order_line_id.company_id)
-				record.cost_price_unit = record.work_id.standard_price
-				record.name = record.work_id.name
+				#record.cost_price_unit = record.work_id.standard_price
+				#record.name = record.work_id.name
 	
 	#Carga de los valores en la linea de la mano de obra seleccionada
 	
@@ -1104,7 +1104,7 @@ class SaleOrderLineTaskMaterial(models.Model):
 
 	#Calculo del precio de venta y coste unitario segun tarifa al cambiar la cantidad
 	
-	@api.onchange('quantity')
+	@api.onchange('quantity','cost_price_unit')
 	def _onchange_quantity(self):
 		for record in self:
 			if record.material_id:
@@ -1117,7 +1117,7 @@ class SaleOrderLineTaskMaterial(models.Model):
 					uom=record.material_id.uom_id.id)
 			
 				record.sale_price_unit = record.order_line_id.env['account.tax']._fix_tax_included_price_company(self._get_display_price_material(material), material.taxes_id, self.order_line_id.tax_id, self.order_line_id.company_id)
-				record.cost_price_unit = record.material_id.standard_price
+				#record.cost_price_unit = record.material_id.standard_price
 
 	#Calculo del descuento según la tarifa
 	@api.onchange('material_id','quantity')
