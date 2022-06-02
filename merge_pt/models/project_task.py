@@ -12,3 +12,10 @@ class Task(models.Model):
 	merged_child_ids = fields.One2many('project.task', 'merged_parent_id', string="Tareas origen", context={'active_test': False})
 
 
+	def unlink(self):
+		for task in self.merged_child_ids:
+			if task.sale_line_id:
+				task.sale_line_id = False
+			task.unlink()
+			
+		return super(Task, self).unlink()
