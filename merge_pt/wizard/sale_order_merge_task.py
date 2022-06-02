@@ -35,6 +35,10 @@ class SaleOrderMergeTaskWizard(models.TransientModel):
 		#Creamos un PT nuevo 
 		self.target_task_id = self.env['project.task'].create(values)
 
+		#Asignamos a las tareas del presupuesto la tarea destino
+		for task in (order_selected.tasks_ids - self.target_task_id):
+			task.merged_parent_id = self.target_task_id.id
+
 		#Combina los seguidores de los PTs seleccionados en el nuevo PT	
 		self.target_task_id.message_subscribe(
 			partner_ids=(order_selected.tasks_ids - self.target_task_id).mapped('message_partner_ids').ids,
