@@ -39,6 +39,10 @@ class ProjectTaskMergeWizard(models.TransientModel):
 			self.target_task_id.task_works_ids = False
 			self.target_task_id.write(values)
 
+		#Asignamos a las tareas seleccionadas en el wizard la tarea destino
+		for task in (self.tasks_ids - self.target_task_id):
+			task.merged_parent_id = self.target_task_id.id
+
 		#Combina los seguidores de los PTs seleccionados en el PT resultante
 		self.merge_followers()
 
