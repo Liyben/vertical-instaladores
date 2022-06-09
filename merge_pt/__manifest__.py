@@ -12,7 +12,7 @@
         
         """,
     'author': 'Liyben',
-    'depends': ['project','project_task_material','sale'],
+    'depends': ['project','project_task_material','sale','sale_stock'],
     'data': [ 'security/ir.model.access.csv',
             'security/sale_security.xml',
             'data/project_data.xml', 
