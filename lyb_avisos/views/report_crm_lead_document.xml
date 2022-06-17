@@ -72,7 +72,7 @@
                             </tbody>
                         </table>
 <!--===================CROQUIS=========================-->
-                        <table class="table table-sm o_main_table">
+                        <table class="table table-sm o_main_table" id="croquis">
                             <tbody>
                                 <tr>
                                     <td style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:1px solid #238AA9;">Croquis</td>
@@ -84,7 +84,7 @@
                         </table>
 
 <!--===================OBSERVACIONES=========================--> 
-                        <table class="table table-sm o_main_table">
+                        <table class="table table-sm o_main_table" id="note">
                             <tbody>
                                 <tr>
                                     <td style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:1px solid #238AA9;">OBSERVACIONES</td>
