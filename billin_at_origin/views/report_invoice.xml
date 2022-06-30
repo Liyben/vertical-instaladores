@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        
+    
+    <template id="report_invoice_document_with_retention" inherit_id="account.report_invoice_document">
+
+        <xpath expr="//div[@id='total']/div/table" position="inside">
+            <t t-if="o.percent_retention > 0.0">
+                <tr>
+                    <td>
+                        <i class="oe_form_field text-right oe_payment_label">Retención </i>
+                        <span t-esc="o.percent_retention" class="oe_form_field text-right oe_payment_label"/>
+                        <i class="oe_form_field text-right oe_payment_label">% </i>
+                    </td>
+                    <td class="text-right">
+                        <span t-esc="o.amount_retention" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                    </td>
+                </tr>
+                <tr class="border-black">
+                    <td><strong>Total a pagar </strong></td>
+                    <td class="text-right">
+                        <span t-esc="o.amount_to_pay" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                    </td>
+                </tr>
+            </t>
+        </xpath>
+
+    </template>
+</odoo>
