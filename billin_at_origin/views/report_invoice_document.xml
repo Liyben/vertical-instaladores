@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
+    
     <template id="report_invoice_document_billin_at_origin" inherit_id="account.report_invoice_document">
         <xpath expr="//div[@class='page']" position="inside">
-            <link rel="stylesheet" href="/billin_at_origin/static/src/css/report.css"/>
+            <link rel="stylesheet" href="/billin_at_origin/static/css/report.css" type="text/css"/>
         </xpath>
             
         <xpath expr="//span[@t-field='line.name']/../.." position="inside">
@@ -22,7 +22,6 @@
                     <span> A ORIGEN </span>
                 </td>
                 <td class="billin_line_qty">
-                    <span>-</span>
                     <span t-field="line.quantity"/>
                     <span t-field="line.product_uom_id" groups="uom.group_uom"/>
                 </td>
@@ -33,7 +32,6 @@
                     <span t-field="line.discount"/>
                 </td>
                 <td class="billin_price">
-                    <span>-</span>
                     <span t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
                     <span t-field="line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
                 </td>
@@ -65,8 +63,7 @@
                 <td class="billin_price">
                     <span t-esc="billin_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
                 </td>
-            </t>
-            <t t-if="is_billin_at_origin and line.invoice_line_ids">
+            
                 <t t-foreach="line.invoice_line_ids.sorted(key=lambda x: x.date)" t-as="billin">
                     <t t-raw="'&lt;/tr&gt;&lt;tr class=\'billin_line\'&gt;'"/>
                     <td class="billin_line_name">
