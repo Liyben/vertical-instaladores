@@ -18,8 +18,7 @@
             <t t-if="is_billin_at_origin and not line.invoice_line_ids">
                 <t t-raw="'&lt;/tr&gt;&lt;tr class=\'billin_line\'&gt;'"/>
                 <td class="billin_line_name">
-                    <span t-field="line.name"/>
-                    <span> A ORIGEN </span>
+                    <span>A Origen: Facturado hasta el momento incluyendo esta Factura</span>
                 </td>
                 <td class="billin_line_qty">
                     <span t-field="line.quantity"/>
@@ -47,8 +46,7 @@
                 </t>
                 <t t-raw="'&lt;/tr&gt;&lt;tr class=\'billin_line\'&gt;'"/>
                 <td class="billin_line_name">
-                    <span t-field="line.name"/>
-                    <span> A ORIGEN </span>
+                    <span>A Origen: Facturado hasta el momento incluyendo esta Factura</span>
                 </td>
                 <td class="billin_line_qty">
                     <span t-esc="total_qty"/>
@@ -67,8 +65,7 @@
                 <t t-foreach="line.invoice_line_ids.sorted(key=lambda x: x.date)" t-as="billin">
                     <t t-raw="'&lt;/tr&gt;&lt;tr class=\'billin_line\'&gt;'"/>
                     <td class="billin_line_name">
-                        <span t-field="billin.name"/>
-                        <span> </span>
+                        <span>Cargado en Factura: </span>
                         <span t-field="billin.move_id.name"/>
                         <span> </span>
                         <span t-field="billin.date"/>
