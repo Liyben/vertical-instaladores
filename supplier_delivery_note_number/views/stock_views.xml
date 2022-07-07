@@ -34,9 +34,9 @@
             <field name="partner_id" position="before">
                 <field name="supplier_pick_number"/>
             </field>
-            <xpath expr="//filter[@name='origin']" position="before">
+            <!-- <xpath expr="//filter[@name='origin']" position="before">
                 <filter string="Nº. albarán proveedor" context="{'group_by':'supplier_pick_number'}"/>
-            </xpath>
+            </xpath> -->
         </field>
     </record>
     
