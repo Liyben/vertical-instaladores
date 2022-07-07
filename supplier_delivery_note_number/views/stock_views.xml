@@ -23,10 +23,10 @@
         </field>
     </record>
 
-    <record id="inherited_stock_picking_internal_search" model="ir.ui.view">
-        <field name="name">inherited.stock.picking.search.inherit</field>
+    <record id="view_picking_invoicing_internal_search" model="ir.ui.view">
+        <field name="name">stock.picking.search.inherit</field>
         <field name="model">stock.picking</field>
-        <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+        <field name="inherit_id" ref="stock.view_picking_internal_search" />
         <field name="arch" type="xml">
             <field name="name" position="attributes">
                 <attribute name="filter_domain">['|','|',('name','ilike', self),('origin','ilike',self),('supplier_pick_number','ilike',self)]</attribute>
