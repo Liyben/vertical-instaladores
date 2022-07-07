@@ -38,6 +38,14 @@ class StockInvoiceOnshipping(models.TransientModel):
                         moves, invoice_values, invoice
                     )
                     if line_values:
+                        if moves.picking_id.picking_type_code == 'incoming':
+                            lines.append((0,0,
+                                {
+                                    "name": moves.picking_id.supplier_pick_number,
+                                    "display_type": "line_section",
+                                    "account_id": False,
+                                    "currency_id": invoice.currency_id.id,
+                                }))
                         lines.append((0, 0, line_values))
                 if line_values:  # Only create the invoice if it has lines
                     invoice_values["invoice_line_ids"] = lines
