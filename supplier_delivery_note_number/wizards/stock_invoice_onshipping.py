@@ -19,8 +19,8 @@ class StockInvoiceOnshipping(models.TransientModel):
         pick_list = self._group_pickings(pickings)
         invoices = self.env["account.move"].browse()
         for pickings in pick_list:
-            parts = pickings.mapped("move_lines")
-            #grouped_moves_list = self._group_moves(moves)
+            moves = pickings.mapped("move_lines")
+            parts = self._group_moves(moves)
             #parts = self.ungroup_moves(grouped_moves_list)
             for moves_list in parts:
                 invoice, invoice_values = self._build_invoice_values_from_pickings(
