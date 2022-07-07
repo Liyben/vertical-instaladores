@@ -41,7 +41,7 @@ class StockInvoiceOnshipping(models.TransientModel):
                         if moves.picking_id.picking_type_code == 'incoming':
                             lines.append((0,0,
                                 {
-                                    "name": moves.picking_id.supplier_pick_number,
+                                    "name": "Nº. albarán proveedor: " + moves.picking_id.supplier_pick_number,
                                     "display_type": "line_section",
                                     "account_id": False,
                                     "currency_id": invoice.currency_id.id,
