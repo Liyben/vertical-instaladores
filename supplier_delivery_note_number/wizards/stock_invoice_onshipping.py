@@ -4,6 +4,9 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
+import logging
+_logger = logging.getLogger(__name__)
+
 class StockInvoiceOnshipping(models.TransientModel):
     _inherit = "stock.invoice.onshipping"
 
@@ -20,15 +23,17 @@ class StockInvoiceOnshipping(models.TransientModel):
         invoices = self.env["account.move"].browse()
         for pickings in pick_list:
             moves = pickings.mapped("move_lines")
-            parts = self._group_moves(moves)
-            #parts = self.ungroup_moves(grouped_moves_list)
+            grouped_moves_list = self._group_moves(moves)
+            parts = self.ungroup_moves(grouped_moves_list)
             for moves_list in parts:
+                _logger.debug('Parts: %s',moves_list)
                 invoice, invoice_values = self._build_invoice_values_from_pickings(
                     pickings
                 )
                 lines = [(5, 0, {})]
                 line_values = False
                 for moves in moves_list:
+                    _logger.debug('Mvees: %s',moves)
                     line_values = self._get_invoice_line_values(
                         moves, invoice_values, invoice
                     )
