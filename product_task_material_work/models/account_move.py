@@ -167,7 +167,16 @@ class AccountMoveLine(models.Model):
 			line.price_unit = (line.total_sp_material + line.total_sp_work)
 			#line.purchase_price = (line.total_cp_material + line.total_cp_work)
 
-
+	#Abre la linea de factura en un formulario en primer plano
+	def action_invoice_line_open(self):
+		return {
+				'type': 'ir.actions.act_window',
+				'name': _('Linea de factura'),
+				'res_model': 'account.move.line',
+				'res_id': self.id,
+				'view_type': 'form',
+				'view_mode': 'form',
+				'target': 'current',}
 
 class AccountMoveLineTaskWork(models.Model):
 	"""Modelo para almacenar los trabajos del producto partida en la linea de factura"""
