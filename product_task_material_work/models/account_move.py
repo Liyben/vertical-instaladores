@@ -176,6 +176,7 @@ class AccountMoveLine(models.Model):
 				'res_id': self.id,
 				'view_type': 'form',
 				'view_mode': 'form',
+				'view_id': self.env.ref('product_task_material_work.view_invoice_line_form', False),
 				'target': 'current',}
 
 class AccountMoveLineTaskWork(models.Model):
