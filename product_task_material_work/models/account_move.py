@@ -169,8 +169,6 @@ class AccountMoveLine(models.Model):
 
 	#Abre la linea de factura en un formulario en primer plano
 	def action_invoice_line_open(self):
-		self.env.context = dict(self.env.context)
-		self.env.context.update({'check_move_validity': False,})
 		invoice_line_form = self.env.ref('product_task_material_work.view_invoice_line_form', False)
 		return {
 				'type': 'ir.actions.act_window',
@@ -181,7 +179,8 @@ class AccountMoveLine(models.Model):
 				'view_mode': 'form',
 				'views': [(invoice_line_form.id, 'form')],
             	'view_id': invoice_line_form.id,
-				'target': 'current',}
+				'target': 'current',
+				'context': '{"check_move_validity": False,}'}
 
 class AccountMoveLineTaskWork(models.Model):
 	"""Modelo para almacenar los trabajos del producto partida en la linea de factura"""
