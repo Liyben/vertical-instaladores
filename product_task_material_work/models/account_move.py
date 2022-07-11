@@ -169,7 +169,7 @@ class AccountMoveLine(models.Model):
 
 	#Abre la linea de factura en un formulario en primer plano
 	def action_invoice_line_open(self):
-		self = self.with_context(check_move_validity=False)
+		self.env.context.update({'check_move_validity': False,})
 		invoice_line_form = self.env.ref('product_task_material_work.view_invoice_line_form', False)
 		return {
 				'type': 'ir.actions.act_window',
