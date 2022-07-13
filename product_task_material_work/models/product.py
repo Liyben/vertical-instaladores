@@ -32,7 +32,6 @@ class ProductTemplate(models.Model):
 	product_compound_count = fields.Integer(string='Partidas', compute='_compute_product_compound_count')
 
 	#Calcula el numero de productos compuestos en los que se encuentra
-	@api.multi
 	def _compute_product_compound_count(self):
 		for record in self:
 			count = 0
