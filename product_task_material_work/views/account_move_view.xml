@@ -39,6 +39,7 @@
                 <field name="detailed_subtotal_price_materials" attrs="{'invisible': [('detailed_materials','=', False)]}" invisible="1"/>
                 <field name="detailed_price_materials" attrs="{'invisible': [('detailed_materials','=', False)]}" invisible="1"/>
                 <!-- Buttons -->
+                <field name="parent_state" invisible="1"/>
                 <button name="action_invoice_line_open"
                         type="object"
                         icon="fa-pencil-square-o"
