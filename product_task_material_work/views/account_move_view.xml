@@ -43,7 +43,8 @@
                         type="object"
                         icon="fa-pencil-square-o"
                         string="Editar"
-                        class="float-right"/>
+                        class="float-right" 
+                        attrs="{'invisible' : [('parent_state', '!=', 'draft')]}"/>
             </xpath>
 
             <xpath expr="//field[@name='line_ids']/tree/field[@name='product_id']" position="before">

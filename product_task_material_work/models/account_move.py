@@ -182,6 +182,9 @@ class AccountMoveLine(models.Model):
 				'target': 'current',
 				'context': '{"check_move_validity": False,}'}
 
+	def public_recompute_dynamic_lines(self):
+		self._recompute_dynamic_lines()
+
 class AccountMoveLineTaskWork(models.Model):
 	"""Modelo para almacenar los trabajos del producto partida en la linea de factura"""
 
