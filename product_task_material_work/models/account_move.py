@@ -12,7 +12,7 @@ class AccountMove(models.Model):
 	customer_code = fields.Char(related='partner_id.ref', readonly=True, string='Nº. Cliente')
 
 	def public_recompute_dynamic_lines(self):
-		self._recompute_dynamic_lines()
+		self._onchange_invoice_line_ids()
 
 class AccountMoveLine(models.Model):
 
