@@ -3,6 +3,7 @@
 
 from odoo import api, fields, models, exceptions, _
 from odoo.addons import decimal_precision as dp
+from odoo.exceptions import ValidationError
 
 class ProductTemplate(models.Model):
 
@@ -27,6 +28,22 @@ class ProductTemplate(models.Model):
 	#Campo boolean para saber si crear o no una tarea de forma automatica
 	auto_create_task = fields.Boolean(string='Tarea automática', compute='_compute_auto_create_task')
 	apply_pricelist = fields.Boolean(string='Aplicar tarifa')
+	#Campo para calcular el numero de productos compuestos en los que se encuentra
+	product_compound_count = fields.Integer(string='Partidas', compute='_compute_product_compound_count')
+
+	#Calcula el numero de productos compuestos en los que se encuentra
+	@api.multi
+	def _compute_product_compound_count(self):
+		for record in self:
+			count = 0
+			if record.type == 'service':
+				work_ids = self.env["product.task.work"].search([("work_id.product_tmpl_id", "=", record.id)])
+				count = len(work_ids)
+			else: 
+				material_ids = self.env["product.task.material"].search([("material_id.product_tmpl_id", "=", record.id)])
+				count = len(material_ids)
+
+			record.product_compound_count = count
 
 	#Calcula el total de horas del campo Trabajos
 	
@@ -119,6 +136,40 @@ class ProductTemplate(models.Model):
 	#		for record in self.task_works_ids:
 	#			record.sale_price = (record.hours * record.product_id.workforce_id.list_price)
 	#			record.cost_price = (record.hours * record.product_id.workforce_id.standard_price)
+
+	#Comprobación de los productos que se encuentran en compuestos
+	@api.constrains("active")
+	def _check_archive(self):
+		if (self.env["product.task.material"].with_context(active_test=False).search([("material_id.product_tmpl_id", "=", self.id)]) or 
+		self.env["product.task.work"].with_context(active_test=False).search([("work_id.product_tmpl_id", "=", self.id)])):
+
+			raise ValidationError(
+				_(
+					"Este producto se encuentra al menos en un producto tipo partida."
+				)
+			)
+
+	#Devuelve los valores para la acción de ventana al pulsar en Productos Compuestos
+	def action_view_product_compound(self):
+
+		action = self.env.ref('sale.product_template_action').read()[0]
+
+		products_compound = []
+		if self.type == 'service':
+			works = self.env["product.task.work"].search([("work_id.product_tmpl_id", "=", self.id)])
+			products_compound = works.mapped('product_id')
+		else: 
+			materials = self.env["product.task.material"].search([("material_id.product_tmpl_id", "=", self.id)])
+			products_compound = materials.mapped('product_id')
+
+		if len(products_compound) > 1:
+			action['views'] = [(self.env.ref('product.product_template_tree_view').id, 'tree'),(self.env.ref('product.product_template_form_view').id, 'form')]
+			action['domain'] = [('id', 'in', products_compound.ids)]
+		elif products_compound:
+			action['views'] = [(self.env.ref('product.product_template_form_view').id, 'form')]
+			action['res_id'] = products_compound.id
+		return action
+			
 
 class ProductProduct(models.Model):
 

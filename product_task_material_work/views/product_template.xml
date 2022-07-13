@@ -84,4 +84,39 @@
         </field>
     </record>
 
+    <record model="ir.ui.view" id="product_template_only_form_view">
+        <field name="name">product.task.material.work.form.default.code</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='default_code']" position="attributes">
+                <attribute name="required">True</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_product_template_product_task_buttons_from" model="ir.ui.view">
+        <field name="name">product.template.product.task.button.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+
+                <button type="object"
+                    name="action_view_product_compound"
+                    class="oe_stat_button"
+                    icon="fa-product-hunt"
+                    attrs="{'invisible': [('product_compound_count', '=', 0)]}" groups="base.group_user">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="product_compound_count" widget="statinfo" nolabel="1" class="mr4"/>
+                        </span>
+                        <span class="o_stat_text">Partidas</span>
+                    </div>
+                </button>
+
+            </xpath>
+        </field>
+    </record>
+
 </odoo>

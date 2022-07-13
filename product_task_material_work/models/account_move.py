@@ -11,9 +11,6 @@ class AccountMove(models.Model):
 	#Numero de cliente
 	customer_code = fields.Char(related='partner_id.ref', readonly=True, string='Nº. Cliente')
 
-	def public_recompute_dynamic_lines(self):
-		self._recompute_dynamic_lines().with_context(check_move_validity=False)
-
 class AccountMoveLine(models.Model):
 
 	_inherit='account.move.line'
