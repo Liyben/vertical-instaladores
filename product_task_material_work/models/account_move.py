@@ -11,6 +11,8 @@ class AccountMove(models.Model):
 	#Numero de cliente
 	customer_code = fields.Char(related='partner_id.ref', readonly=True, string='Nº. Cliente')
 
+	def public_recompute_dynamic_lines(self):
+		self._recompute_dynamic_lines()
 
 class AccountMoveLine(models.Model):
 
@@ -181,9 +183,6 @@ class AccountMoveLine(models.Model):
             	'view_id': invoice_line_form.id,
 				'target': 'current',
 				'context': '{"check_move_validity": False,}'}
-
-	def public_recompute_dynamic_lines(self):
-		self._recompute_dynamic_lines()
 
 class AccountMoveLineTaskWork(models.Model):
 	"""Modelo para almacenar los trabajos del producto partida en la linea de factura"""
