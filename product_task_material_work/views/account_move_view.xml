@@ -194,6 +194,10 @@
                     <group>
                         <field name="price_subtotal" string="Subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
                         <field name="price_total" string="Total" groups="account.group_show_line_subtotals_tax_included"/>
+                        <button name="recompute_balance"
+                        type="object"
+                        icon="fa-pencil-square-o"
+                        string="Actualizar"/>
                     </group>
                     <field name="auto_create_task" invisible="1"/>
                     <div name="partida" attrs="{'invisible':[('auto_create_task','!=',True)]}">
