@@ -183,7 +183,7 @@ class AccountMoveLine(models.Model):
 
 	#Balancea las lineas de la factura asociada
 	@api.depends('price_subtotal','price_total')
-	def _recompute_balance(self):
+	def _recompute_balance(self,recompute_all_taxes=False, recompute_tax_base_amount=False):
 		for invoice in self.move_id:
 			# Dispatch lines and pre-compute some aggregated values like taxes.
 			expected_tax_rep_lines = set()
