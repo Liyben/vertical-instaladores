@@ -183,52 +183,9 @@ class AccountMoveLine(models.Model):
 
 	#Balancea las lineas de la factura asociada
 	@api.depends('price_subtotal','price_total')
-	def _recompute_balance(self,recompute_all_taxes=False, recompute_tax_base_amount=False):
+	def _recompute_balance(self):
 		for invoice in self.move_id:
-			# Dispatch lines and pre-compute some aggregated values like taxes.
-			expected_tax_rep_lines = set()
-			current_tax_rep_lines = set()
-			inv_recompute_all_taxes = recompute_all_taxes
-			for line in invoice.line_ids:
-				if line.recompute_tax_line:
-					inv_recompute_all_taxes = True
-					line.recompute_tax_line = False
-				if line.tax_repartition_line_id:
-					current_tax_rep_lines.add(line.tax_repartition_line_id._origin)
-				elif line.tax_ids:
-					if invoice.is_invoice(include_receipts=True):
-						is_refund = invoice.move_type in ('out_refund', 'in_refund')
-					else:
-						tax_type = line.tax_ids[0].type_tax_use
-						is_refund = (tax_type == 'sale' and line.debit) or (tax_type == 'purchase' and line.credit)
-					taxes = line.tax_ids.flatten_taxes_hierarchy()
-					if is_refund:
-						tax_rep_lines = taxes.refund_repartition_line_ids._origin.filtered(lambda x: x.repartition_type == "tax")
-					else:
-						tax_rep_lines = taxes.invoice_repartition_line_ids._origin.filtered(lambda x: x.repartition_type == "tax")
-					for tax_rep_line in tax_rep_lines:
-						expected_tax_rep_lines.add(tax_rep_line)
-			delta_tax_rep_lines = expected_tax_rep_lines - current_tax_rep_lines
-
-			# Compute taxes.
-			if inv_recompute_all_taxes:
-				invoice._recompute_tax_lines()
-			elif recompute_tax_base_amount:
-				invoice._recompute_tax_lines(recompute_tax_base_amount=True)
-			elif delta_tax_rep_lines and not self._context.get('move_reverse_cancel'):
-				invoice._recompute_tax_lines(tax_rep_lines_to_recompute=delta_tax_rep_lines)
-
-			if invoice.is_invoice(include_receipts=True):
-
-				# Compute cash rounding.
-				invoice._recompute_cash_rounding_lines()
-
-				# Compute payment terms.
-				invoice._recompute_payment_terms_lines()
-
-				# Only synchronize one2many in onchange.
-				if invoice != invoice._origin:
-					invoice.invoice_line_ids = invoice.line_ids.filtered(lambda line: not line.exclude_from_invoice_tab)
+			invoice._recompute_dynamic_lines(recompute_all_taxes=True)
 
 class AccountMoveLineTaskWork(models.Model):
 	"""Modelo para almacenar los trabajos del producto partida en la linea de factura"""
