@@ -186,7 +186,7 @@ class AccountMoveLine(models.Model):
 	#Balancea las lineas de la factura asociada
 	@api.onchange('price_subtotal','price_total')
 	def _recompute_balance(self):
-		for move in self:
+		for move in self.move_id:
 
 			# Not working on something else than invoices.
 			if not move.is_invoice(include_receipts=True):
