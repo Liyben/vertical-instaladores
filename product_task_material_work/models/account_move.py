@@ -185,7 +185,7 @@ class AccountMoveLine(models.Model):
 	@api.depends('price_subtotal','price_total')
 	def _recompute_balance(self):
 		for invoice in self.move_id:
-			invoice._recompute_dynamic_lines(recompute_all_taxes=True)
+			invoice._compute_invoice_taxes_by_group()
 
 class AccountMoveLineTaskWork(models.Model):
 	"""Modelo para almacenar los trabajos del producto partida en la linea de factura"""
