@@ -10,6 +10,13 @@
                 <field name="customer_code"/>
             </xpath>
 
+            <xpath expr="//field[@name='amount_total']" position="after">
+                <button name="recompute_balance"
+                        type="object"
+                        string="Actualizar"
+                        class="oe_link" />
+            </xpath>
+
             <!--
             <xpath expr="//page[@name='other_info']//field[@name='name']" position="replace">
                 
@@ -194,10 +201,6 @@
                     <group>
                         <field name="price_subtotal" string="Subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
                         <field name="price_total" string="Total" groups="account.group_show_line_subtotals_tax_included"/>
-                        <button name="recompute_balance"
-                        type="object"
-                        icon="fa-pencil-square-o"
-                        string="Actualizar"/>
                     </group>
                     <field name="auto_create_task" invisible="1"/>
                     <div name="partida" attrs="{'invisible':[('auto_create_task','!=',True)]}">
