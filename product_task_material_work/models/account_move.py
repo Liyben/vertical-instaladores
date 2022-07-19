@@ -20,7 +20,7 @@ class AccountMove(models.Model):
 		others_lines = self.line_ids - current_invoice_lines
 		others_lines[0].recompute_tax_line = True
 		self.line_ids = others_lines + self.invoice_line_ids
-		self._onchange_recompute_dynamic_lines()
+		#self._onchange_recompute_dynamic_lines()
 			
 
 class AccountMoveLine(models.Model):
