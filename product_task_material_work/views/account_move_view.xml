@@ -8,13 +8,7 @@
         <field name="arch" type="xml">
            <xpath expr="//field[@name='payment_reference']" position="before">
                 <field name="customer_code"/>
-            </xpath>
-
-            <xpath expr="//field[@name='amount_total']" position="after">
-                <button name="recompute_balance"
-                        type="object"
-                        string="Actualizar"
-                        class="oe_link" />
+                <button name="recompute_balance" type="object" string="Actualizar" class="oe_highlight"/>
             </xpath>
 
             <!--
