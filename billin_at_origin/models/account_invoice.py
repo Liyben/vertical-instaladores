@@ -3,6 +3,9 @@
 
 from odoo import api, fields, models, exceptions, _
 
+import logging
+_logger = logging.getLogger(__name__)
+
 class AccountMoveLine(models.Model):
 	_inherit = 'account.move.line'
 
@@ -10,4 +13,10 @@ class AccountMoveLine(models.Model):
 		'account.move.line',
 		'invoice_line_origin_rel',
 		'invoice_line_id', 'invoice_line_origin_id',
-		string='Facturación a origen', readonly=True, copy=False)
+		string='Facturación a origen', readonly=True, copy=False,
+		compute='_compute_invoice_line_ids')
+
+	def _compute_invoice_line_ids(self):
+		for line in self.invoice_line_ids:
+			invoice_lines = line.sale_line_ids.mapped(invoice_lines)
+			_logger.debug("\n\n\nINVOICE LINES: %s",invoice_lines)
