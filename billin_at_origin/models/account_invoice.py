@@ -18,5 +18,5 @@ class AccountMoveLine(models.Model):
 
 	def _compute_invoice_line_ids(self):
 		for line in self.invoice_line_ids:
-			invoice_lines = line.sale_line_ids.mapped(invoice_lines)
-			_logger.debug("\n\n\nINVOICE LINES: %s",invoice_lines)
+			lines_ids = line.sale_line_ids.mapped(invoice_lines)
+			line.write({'invoice_line_ids': [(6,0,lines_ids)]})
