@@ -41,7 +41,7 @@
                     <t t-set="billin_subtotal" t-value="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
                     <t t-set="billin_subtotal" t-value="line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
                     <t t-foreach="line.invoice_line_ids" t-as="billin">
-                        <t t-if="billin.move_id.state == 'posted'">
+                        <t t-if="billin.move_id.state == 'posted' and line.date >= billin.date">
                             <t t-set="total_qty" t-value="total_qty + billin.quantity"/>
                             <t t-set="billin_subtotal" t-value="billin_subtotal + billin.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
                             <t t-set="billin_subtotal" t-value="billin_subtotal + billin.price_total" groups="account.group_show_line_subtotals_tax_included"/>
@@ -66,7 +66,7 @@
                     </td>
                 
                     <t t-foreach="line.invoice_line_ids.sorted(key=lambda x: x.date)" t-as="billin">
-                        <t t-if="billin.move_id.state == 'posted'">
+                        <t t-if="billin.move_id.state == 'posted' and line.date >= billin.date">
                             <t t-raw="'&lt;/tr&gt;&lt;tr class=\'billin_line\'&gt;'"/>
                             <td class="billin_line_name">
                                 <span>Cargado en Factura: </span>
