@@ -19,4 +19,4 @@ class AccountMoveLine(models.Model):
 	@api.depends('sale_line_ids.invoice_lines')
 	def _compute_invoice_line_ids(self):
 		for line in self:
-			line.invoice_line_ids = self.mapped('sale_line_ids').mapped('invoice_lines') - line.id
+			line.invoice_line_ids = self.mapped('sale_line_ids').mapped('invoice_lines') - line
