@@ -19,4 +19,4 @@ class AccountMoveLine(models.Model):
 	def _compute_invoice_line_ids(self):
 		for line in self.invoice_line_ids:
 			#lines_ids = line.sale_line_ids.invoice_lines
-			line.write({'invoice_line_ids': [(6, 0, line.sale_line_ids.invoice_lines)]})
+			line.write({'invoice_line_ids': [(6, 0, line.sale_line_ids[0].invoice_lines)]})
