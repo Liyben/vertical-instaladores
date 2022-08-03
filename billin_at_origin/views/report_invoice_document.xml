@@ -68,12 +68,14 @@
                     <t t-foreach="line.invoice_line_ids.sorted(key=lambda x: x.date)" t-as="billin">
                         <t t-if="billin.move_id.state == 'posted' and line.date >= billin.date">
                             <t t-raw="'&lt;/tr&gt;&lt;tr class=\'billin_line\'&gt;'"/>
+                            
                             <td class="billin_line_name">
                                 <span>Cargado en Factura: </span>
                                 <span t-field="billin.move_id.name"/>
                                 <span> </span>
                                 <span t-field="billin.date"/>
                             </td>
+
                             <td class="billin_line_qty">
                                 <span>-</span>
                                 <span t-field="billin.quantity"/>
