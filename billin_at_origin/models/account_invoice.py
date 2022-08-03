@@ -6,6 +6,23 @@ from odoo import api, fields, models, exceptions, _
 import logging
 _logger = logging.getLogger(__name__)
 
+class AccountMove(models.Model):
+	_inherit = "account.move"
+
+	invoice_ids = fields.Many2many(
+		'account.move',
+		'invoice_origin_rel',
+		'invoice_id', 'invoice_origin_id',
+		string='Facturación a origen', readonly=True, copy=False,
+		compute='_compute_invoice_ids')
+
+	@api.depends('invoice_line_ids.sale_line_ids.invoice_lines')
+	def _compute_invoice_ids(self):
+		SaleOrder = self.env["sale.order"]
+		for invoice in self:
+			sale_orders = SaleOrder.search([("invoice_ids", "in", invoice.id)])
+			invoice.invoice_ids = sale_orders.mapped('invoice_ids') - invoice
+
 class AccountMoveLine(models.Model):
 	_inherit = 'account.move.line'
 
