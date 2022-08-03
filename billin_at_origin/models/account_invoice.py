@@ -20,7 +20,7 @@ class AccountMove(models.Model):
 	def _compute_invoice_ids(self):
 		SaleOrder = self.env["sale.order"]
 		for invoice in self:
-			sale_orders = SaleOrder.search([("invoice_ids", "in", invoice.id)])
+			sale_orders = SaleOrder.search([("invoice_ids", "=", invoice.id)])
 			invoice.invoice_ids = sale_orders.mapped('invoice_ids') - invoice
 
 class AccountMoveLine(models.Model):
