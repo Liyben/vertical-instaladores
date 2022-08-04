@@ -100,14 +100,14 @@
 
     </template>
 
-    <!-- <template id="report_invoice_document_billin_at_origin" inherit_id="account.report_invoice_document">
+    <template id="report_invoice_document_billin_at_origin" inherit_id="account.report_invoice_document">
         <xpath expr="//div[@class='page']" position="inside">
             <link rel="stylesheet" href="/billin_at_origin/static/css/report.css" type="text/css"/>
         </xpath>
 
         <xpath expr="//t[@t-foreach='lines']" position="after">
             <t t-if="o.state == 'posted'">
-                <t t-if="is_billin_at_origin">
+                <!-- <t t-if="is_billin_at_origin">
                     <t t-raw="'&lt;/tr&gt;&lt;tr class=\'billin_title\'&gt;'"/>
                     <td class="billin_lbl">RESUMEN FACTURACION A ORIGEN</td>
                     <td></td>
@@ -183,11 +183,11 @@
                             </td>
                         </t>
                     </t>
-                </t>
+                </t> -->
             </t>
         </xpath>
 
-    </template> -->
+    </template>
 
     <template id="report_invoice_billin_at_origin_by_line">
         <t t-call="web.html_container">
@@ -199,7 +199,7 @@
         </t>
     </template>
 
-    <!-- <template id="report_invoice_billin_at_origin">
+    <template id="report_invoice_billin_at_origin">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
                 <t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.move_type in ('in_invoice', 'in_refund') else o.partner_id.lang"/>
@@ -207,6 +207,6 @@
                 <t t-if="o._get_name_invoice_report() == 'account.report_invoice_document'" t-call="account.report_invoice_document" t-lang="lang"/>
             </t>
         </t>
-    </template> -->
+    </template>
 
 </odoo>
