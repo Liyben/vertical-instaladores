@@ -115,7 +115,7 @@
                     <td t-if="display_discount" class="text-right" groups="product.group_discount_per_so_line"></td>
                     <td></td>
                 </t>
-                <!-- <t t-if="is_billin_at_origin and not o.invoice_ids">
+                <t t-if="is_billin_at_origin and not o.invoice_ids">
                     <t t-raw="'&lt;/tr&gt;&lt;tr class=\'billin_line\'&gt;'"/>
                     <td class="billin_line_name">
                         <span>A Origen: Facturado hasta el momento incluyendo esta Factura</span>
@@ -137,7 +137,7 @@
                     <t t-set="billin_subtotal" t-value="o.amount_untaxed"/>
                     <t t-foreach="o.invoice_ids" t-as="billin">
                         <t t-if="billin.state == 'posted' and o.date >= billin.date">
-                            <t t-set="billin_subtotal" t-value="billin_subtotal + billin.amount_untaxed" >
+                            <t t-set="billin_subtotal" t-value="billin_subtotal + billin.amount_untaxed" />
                         </t>
                     </t>
                     <t t-raw="'&lt;/tr&gt;&lt;tr class=\'billin_line\'&gt;'"/>
@@ -183,7 +183,7 @@
                             </td>
                         </t>
                     </t>
-                </t> -->
+                </t>
             </t>
         </xpath>
 
