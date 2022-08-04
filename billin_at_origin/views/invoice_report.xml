@@ -12,7 +12,7 @@
             <field name="binding_type">report</field>
         </record>
 
-        <record id="action_report_invoice_billin_at_origin" model="ir.actions.report">
+        <!-- <record id="action_report_invoice_billin_at_origin" model="ir.actions.report">
             <field name="name">Facturación a origen</field>
             <field name="model">account.move</field>
             <field name="report_type">qweb-pdf</field>
@@ -21,6 +21,6 @@
             <field name="print_report_name">'Facturación a origen - %s' % (object.name)</field>
             <field name="binding_model_id" ref="account.model_account_move"/>
             <field name="binding_type">report</field>
-        </record>
+        </record> -->
     </data>
 </odoo>
