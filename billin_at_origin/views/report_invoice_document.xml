@@ -8,7 +8,93 @@
             
         <xpath expr="//span[@t-field='line.name']/../.." position="inside">
             <t t-if="o.state == 'posted'">
+                <t t-if="is_billin_at_origin_by_line">
+                    <t t-raw="'&lt;/tr&gt;&lt;tr class=\'billin_title\'&gt;'"/>
+                    <td class="billin_lbl">RESUMEN FACTURACION A ORIGEN</td>
+                    <td></td>
+                    <td></td>
+                    <td t-if="display_discount" class="text-right" groups="product.group_discount_per_so_line"></td>
+                    <td></td>
+                </t>
+                <t t-if="is_billin_at_origin_by_line and not line.invoice_line_ids">
+                    <t t-raw="'&lt;/tr&gt;&lt;tr class=\'billin_line\'&gt;'"/>
+                    <td class="billin_line_name">
+                        <span>A Origen: Facturado hasta el momento incluyendo esta Factura</span>
+                    </td>
+                    <td class="billin_line_qty">
+                        <span t-field="line.quantity"/>
+                        <span t-field="line.product_uom_id" groups="uom.group_uom"/>
+                    </td>
+                    <td class="billin_price">
+                        <span t-field="line.price_unit"/>
+                    </td>
+                    <td class="billin_price" t-if="display_discount" groups="product.group_discount_per_so_line">
+                        <span t-field="line.discount"/>
+                    </td>
+                    <td class="billin_price">
+                        <span t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                        <span t-field="line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+                    </td>
+                </t>
+                <t t-if="is_billin_at_origin_by_line and line.invoice_line_ids">
+                    <t t-set="total_qty" t-value="line.quantity"/>
+                    <t t-set="billin_subtotal" t-value="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                    <t t-set="billin_subtotal" t-value="line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+                    <t t-foreach="line.invoice_line_ids" t-as="billin">
+                        <t t-if="billin.move_id.state == 'posted' and line.date >= billin.date">
+                            <t t-set="total_qty" t-value="total_qty + billin.quantity"/>
+                            <t t-set="billin_subtotal" t-value="billin_subtotal + billin.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                            <t t-set="billin_subtotal" t-value="billin_subtotal + billin.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+                        </t>
+                    </t>
+                    <t t-raw="'&lt;/tr&gt;&lt;tr class=\'billin_line\'&gt;'"/>
+                    <td class="billin_line_name">
+                        <span>A Origen: Facturado hasta el momento incluyendo esta Factura</span>
+                    </td>
+                    <td class="billin_line_qty">
+                        <span t-esc="total_qty"/>
+                        <span t-field="line.product_uom_id" groups="uom.group_uom"/>
+                    </td>
+                    <td class="billin_price">
+                        <span t-field="line.price_unit"/>
+                    </td>
+                    <td class="billin_price" t-if="display_discount" groups="product.group_discount_per_so_line">
+                        <span t-field="line.discount"/>
+                    </td>
+                    <td class="billin_price">
+                        <span t-esc="billin_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+                    </td>
                 
+                    <t t-foreach="line.invoice_line_ids.sorted(key=lambda x: x.date)" t-as="billin">
+                        <t t-if="billin.move_id.state == 'posted' and line.date >= billin.date">
+                            <t t-raw="'&lt;/tr&gt;&lt;tr class=\'billin_line\'&gt;'"/>
+
+                            <td class="billin_line_name">
+                                <span>Cargado en Factura: </span>
+                                <span t-field="billin.move_id.name"/>
+                                <span> </span>
+                                <span t-field="billin.date"/>
+                            </td>
+
+                            <td class="billin_line_qty">
+                                <span>-</span>
+                                <span t-field="billin.quantity"/>
+                                <span t-field="billin.product_uom_id" groups="uom.group_uom"/>
+                            </td>
+                            <td class="billin_price">
+                                <span t-field="billin.price_unit"/>
+                            </td>
+                            <td class="billin_price" t-if="display_discount" groups="product.group_discount_per_so_line">
+                                <span t-field="billin.discount"/>
+                            </td>
+                            <td class="billin_price">
+                                <span>-</span>
+                                <span t-field="billin.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                                <span t-field="billin.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+                            </td>
+                        </t>
+                    </t>
+                </t>
             </t>
         </xpath>
 
@@ -21,83 +107,7 @@
 
         <xpath expr="//t[@t-foreach='lines']" position="after">
             <t t-if="o.state == 'posted'">
-                <t t-if="is_billin_at_origin">
-                    <t t-raw="'&lt;/tr&gt;&lt;tr class=\'billin_title\'&gt;'"/>
-                    <td class="billin_lbl">RESUMEN FACTURACION A ORIGEN</td>
-                    <td></td>
-                    <td></td>
-                    <td t-if="display_discount" class="text-right" groups="product.group_discount_per_so_line"></td>
-                    <td></td>
-                </t>
-                <t t-if="is_billin_at_origin and not o.invoice_ids">
-                    <t t-raw="'&lt;/tr&gt;&lt;tr class=\'billin_line\'&gt;'"/>
-                    <td class="billin_line_name">
-                        <span>A Origen: Facturado hasta el momento incluyendo esta Factura</span>
-                    </td>
-                    <td class="billin_line_qty">
-                        
-                    </td>
-                    <td class="billin_price">
-                        
-                    </td>
-                    <td class="billin_price" t-if="display_discount" groups="product.group_discount_per_so_line">
-                        
-                    </td>
-                    <td class="billin_price">
-                        <span t-field="o.amount_untaxed" />
-                    </td>
-                </t>
-                <t t-if="is_billin_at_origin and o.invoice_ids">
-                    <t t-set="billin_subtotal" t-value="o.amount_untaxed"/>
-                    <t t-foreach="o.invoice_ids" t-as="billin">
-                        <t t-if="billin.state == 'posted' and o.date >= billin.date">
-                            <t t-set="billin_subtotal" t-value="billin_subtotal + billin.amount_untaxed" >
-                        </t>
-                    </t>
-                    <t t-raw="'&lt;/tr&gt;&lt;tr class=\'billin_line\'&gt;'"/>
-                    <td class="billin_line_name">
-                        <span>A Origen: Facturado hasta el momento incluyendo esta Factura</span>
-                    </td>
-                    <td class="billin_line_qty">
-                        
-                    </td>
-                    <td class="billin_price">
-                        
-                    </td>
-                    <td class="billin_price" t-if="display_discount" groups="product.group_discount_per_so_line">
-                        
-                    </td>
-                    <td class="billin_price">
-                        <span t-esc="billin_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
-                    </td>
                 
-                    <t t-foreach="o.invoice_ids.sorted(key=lambda x: x.date)" t-as="billin">
-                        <t t-if="billin.state == 'posted' and line.date >= billin.date">
-                            <t t-raw="'&lt;/tr&gt;&lt;tr class=\'billin_line\'&gt;'"/>
-                            
-                            <td class="billin_line_name">
-                                <span>Cargado en Factura: </span>
-                                <span t-field="billin.name"/>
-                                <span> </span>
-                                <span t-field="billin.date"/>
-                            </td>
-
-                            <td class="billin_line_qty">
-                                
-                            </td>
-                            <td class="billin_price">
-                                
-                            </td>
-                            <td class="billin_price" t-if="display_discount" groups="product.group_discount_per_so_line">
-                                
-                            </td>
-                            <td class="billin_price">
-                                <span>-</span>
-                                <span t-field="billin.amount_untaxed"/>
-                            </td>
-                        </t>
-                    </t>
-                </t>
             </t>
         </xpath>
 
