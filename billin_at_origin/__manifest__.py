@@ -19,8 +19,8 @@
     'data': [
     ],
     'demo': [
-        'views/invoice_report.xml',
         'views/report_invoice_document.xml',
+        'views/invoice_report.xml',
     ],
     'installable': True,
     'auto_install': False,
