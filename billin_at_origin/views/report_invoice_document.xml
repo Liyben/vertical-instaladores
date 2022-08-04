@@ -130,7 +130,7 @@
                         
                     </td>
                     <td class="billin_price">
-                        <span t-field="o.amount_untaxed" >
+                        <span t-field="o.amount_untaxed" />
                     </td>
                 </t>
                 <t t-if="is_billin_at_origin and o.invoice_ids">
