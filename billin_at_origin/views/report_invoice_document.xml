@@ -134,7 +134,7 @@
                     </td>
                 </t>
                 <t t-if="is_billin_at_origin and o.invoice_ids">
-                    <t t-set="billin_subtotal" t-value="o.amount_untaxed">
+                    <t t-set="billin_subtotal" t-value="o.amount_untaxed"/>
                     <t t-foreach="o.invoice_ids" t-as="billin">
                         <t t-if="billin.state == 'posted' and o.date >= billin.date">
                             <t t-set="billin_subtotal" t-value="billin_subtotal + billin.amount_untaxed" >
