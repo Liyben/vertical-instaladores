@@ -17,10 +17,18 @@ class AccountMove(models.Model):
 	#Balancea las lineas de la factura asociada
 	def recompute_balance(self):
 		for line in self.line_ids:
-			if line.move_id.is_invoice(include_receipts=True):
+			price_subtotal = line._get_price_total_and_subtotal().get('price_subtotal', 0.0)
+			to_write = line._get_fields_onchange_balance(price_subtotal=price_subtotal)
+			to_write.update(line._get_price_total_and_subtotal(
+				price_unit=to_write.get('price_unit', line.price_unit),
+				quantity=to_write.get('quantity', line.quantity),
+				discount=to_write.get('discount', line.discount),
+			))
+			super(AccountMoveLine, line).write(to_write)
+			""" if line.move_id.is_invoice(include_receipts=True):
 				line.update(line._get_fields_onchange_balance())
 				line.update(line._get_price_total_and_subtotal())
-				line.update(line._get_fields_onchange_subtotal())
+				line.update(line._get_fields_onchange_subtotal()) """
 			
 
 class AccountMoveLine(models.Model):
@@ -193,12 +201,6 @@ class AccountMoveLine(models.Model):
 				'target': 'current',
 				'context': '{"check_move_validity": False,}'}
 
-	#Balancea las lineas de la factura 
-	def recompute_line_balance(self):
-		for line in self:
-			if line.move_id.is_invoice(include_receipts=True):
-				line.update(line._get_price_total_and_subtotal())
-				line.update(line._get_fields_onchange_subtotal())
 
 class AccountMoveLineTaskWork(models.Model):
 	"""Modelo para almacenar los trabajos del producto partida en la linea de factura"""
