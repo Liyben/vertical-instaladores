@@ -16,10 +16,9 @@ class AccountMove(models.Model):
 	 
 	#Balancea las lineas de la factura asociada
 	def recompute_balance(self):
-		for invoice in self:
-			invoice_lines = invoice.mapped('invoice_line_ids')
-			invoice.invoice_line_ids.unlink()
-			invoice.invoice_line_ids = invoice_lines
+		for line in self.invoice_line_ids:
+			invoice_line_vals = line._get_fields_onchange_subtotal()
+			line.write(invoice_line_vals)
 			
 
 class AccountMoveLine(models.Model):
@@ -190,8 +189,7 @@ class AccountMoveLine(models.Model):
 				'views': [(invoice_line_form.id, 'form')],
 				'view_id': invoice_line_form.id,
 				'target': 'current',
-				#'context': '{"check_move_validity": False,}'}
-				'context': '{"force_computation": True,}'}
+				'context': '{"check_move_validity": False,}'}
 
 
 class AccountMoveLineTaskWork(models.Model):
