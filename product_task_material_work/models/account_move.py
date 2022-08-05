@@ -16,10 +16,10 @@ class AccountMove(models.Model):
 	 
 	#Balancea las lineas de la factura asociada
 	def recompute_balance(self):
-		for line in self.invoice_line_ids:
-			temp = line.price_unit
-			line.price_unit = 0.0
-			line.price_unit = temp
+		for invoice in self:
+			invoice_lines = invoice.mapped('invoice_line_ids')
+			invoice.invoice_line_ids.unlink()
+			invoice.invoice_line_ids = invoice_lines
 			
 
 class AccountMoveLine(models.Model):
