@@ -19,7 +19,8 @@ class AccountMove(models.Model):
 		for invoice in self:
 			invoice_lines = invoice.mapped('invoice_line_ids')
 			invoice.invoice_line_ids.unlink()
-			invoice.invoice_line_ids.write(invoice_lines)
+			invoice.line_ids.unlink()
+			invoice.invoice_line_ids = invoice_lines
 			
 
 class AccountMoveLine(models.Model):
