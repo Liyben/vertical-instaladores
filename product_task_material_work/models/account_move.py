@@ -190,7 +190,8 @@ class AccountMoveLine(models.Model):
 				'views': [(invoice_line_form.id, 'form')],
 				'view_id': invoice_line_form.id,
 				'target': 'current',
-				'context': '{"check_move_validity": False,}'}
+				#'context': '{"check_move_validity": False,}'}
+				'context': '{"force_computation": True,}'}
 
 
 class AccountMoveLineTaskWork(models.Model):
