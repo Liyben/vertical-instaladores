@@ -16,11 +16,10 @@ class AccountMove(models.Model):
 	 
 	#Balancea las lineas de la factura asociada
 	def recompute_balance(self):
-		for invoice in self:
-			invoice_lines = invoice.mapped('invoice_line_ids')
-			invoice.invoice_line_ids.unlink()
-			invoice.line_ids.unlink()
-			invoice.invoice_line_ids = invoice_lines
+		for line in self.invoice_line_ids:
+			if line.move_id.is_invoice(include_receipts=True):
+				line.update(line._get_price_total_and_subtotal())
+				line.update(line._get_fields_onchange_subtotal())
 			
 
 class AccountMoveLine(models.Model):
@@ -193,13 +192,12 @@ class AccountMoveLine(models.Model):
 				'target': 'current',
 				'context': '{"check_move_validity": False,}'}
 
-	#Balancea las lineas de la factura asociada
-	def recompute_balance(self):
+	#Balancea las lineas de la factura 
+	def recompute_line_balance(self):
 		for line in self:
-			move = self.env['account.move'].browse(line.move_id)
-			if move.is_invoice(include_receipts=True):
-				line.update(self._get_price_total_and_subtotal())
-				line.update(self._get_fields_onchange_subtotal())
+			if line.move_id.is_invoice(include_receipts=True):
+				line.update(line._get_price_total_and_subtotal())
+				line.update(line._get_fields_onchange_subtotal())
 
 class AccountMoveLineTaskWork(models.Model):
 	"""Modelo para almacenar los trabajos del producto partida en la linea de factura"""
