@@ -180,6 +180,7 @@
                         <field name="product_uom_id" groups="uom.group_uom"/>
                         <field name="price_unit"/>
                         <field name="discount" string="Desc.%" groups="product.group_discount_per_so_line"/>
+                        <button name="recompute_line_balance" type="object" string="Actualizar" class="oe_highlight"/>
                         <field name="currency_id" invisible="1"/>
                     </group>
                     <group>

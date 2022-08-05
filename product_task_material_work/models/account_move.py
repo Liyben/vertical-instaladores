@@ -193,6 +193,13 @@ class AccountMoveLine(models.Model):
 				'target': 'current',
 				'context': '{"check_move_validity": False,}'}
 
+	#Balancea las lineas de la factura asociada
+	def recompute_balance(self):
+		for line in self:
+			move = self.env['account.move'].browse(line.move_id)
+			if move.is_invoice(include_receipts=True):
+				line.update(self._get_price_total_and_subtotal())
+				line.update(self._get_fields_onchange_subtotal())
 
 class AccountMoveLineTaskWork(models.Model):
 	"""Modelo para almacenar los trabajos del producto partida en la linea de factura"""
