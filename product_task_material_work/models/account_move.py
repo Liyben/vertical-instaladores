@@ -16,8 +16,9 @@ class AccountMove(models.Model):
 	 
 	#Balancea las lineas de la factura asociada
 	def recompute_balance(self):
-		for line in self.invoice_line_ids:
+		for line in self.line_ids:
 			if line.move_id.is_invoice(include_receipts=True):
+				line.update(line._get_fields_onchange_balance())
 				line.update(line._get_price_total_and_subtotal())
 				line.update(line._get_fields_onchange_subtotal())
 			
