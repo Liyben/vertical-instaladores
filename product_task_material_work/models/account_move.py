@@ -24,7 +24,7 @@ class AccountMove(models.Model):
 				quantity=to_write.get('quantity', line.quantity),
 				discount=to_write.get('discount', line.discount),
 			))
-			super(AccountMoveLine, line).write(to_write)
+			super(AccountMoveLine, line).with_context(check_move_validity=False).write(to_write)
 			""" if line.move_id.is_invoice(include_receipts=True):
 				line.update(line._get_fields_onchange_balance())
 				line.update(line._get_price_total_and_subtotal())
