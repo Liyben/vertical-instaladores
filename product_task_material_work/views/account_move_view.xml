@@ -60,7 +60,8 @@
 
             <xpath expr="//group[@class='oe_subtotal_footer oe_right']" position="after">
                 <group class="oe_subtotal_footer oe_right">
-                    <button name="action_invoice_line_open"
+                    <field name="has_compound_product" invisible="1"/>
+                    <button name="recompute_balance"
                         type="object"
                         icon="fa-refresh"
                         string="Actualizar"
