@@ -16,19 +16,9 @@ class AccountMove(models.Model):
 	 
 	#Balancea las lineas de la factura asociada
 	def recompute_balance(self):
-		for line in self.line_ids:
-			price_subtotal = line._get_price_total_and_subtotal().get('price_subtotal', 0.0)
-			to_write = line._get_fields_onchange_balance(price_subtotal=price_subtotal)
-			to_write.update(line._get_price_total_and_subtotal(
-				price_unit=to_write.get('price_unit', line.price_unit),
-				quantity=to_write.get('quantity', line.quantity),
-				discount=to_write.get('discount', line.discount),
-			))
-			super(AccountMoveLine, line).with_context(check_move_validity=False).write(to_write)
-			""" if line.move_id.is_invoice(include_receipts=True):
-				line.update(line._get_fields_onchange_balance())
-				line.update(line._get_price_total_and_subtotal())
-				line.update(line._get_fields_onchange_subtotal()) """
+		for line in self.with_context(check_move_validity=False):
+			line.line_ids._onchange_price_subtotal()
+			line._recompute_dynamic_lines(recompute_all_taxes=True)
 			
 
 class AccountMoveLine(models.Model):
