@@ -12,13 +12,19 @@ class AccountMove(models.Model):
 
 	#Numero de cliente
 	customer_code = fields.Char(related='partner_id.ref', readonly=True, string='Nº. Cliente')
-
-	 
+	#Linea de factura con algun producto tipo compuesto
+	has_compound_product = fields.Boolean(string='Tiene productos compuestos', compute='_compute_has_compound_product')
+	
+	#Calcula si la factura tiene algun producto tipo compuesto
+	def _compute_has_compound_product(self):
+		for invoice in self:
+			invoice.has_compound_product = invoice.invoice_line_ids.mapped('auto_create_task')
+	
 	#Balancea las lineas de la factura asociada
 	def recompute_balance(self):
-		for line in self.with_context(check_move_validity=False):
-			line.line_ids._onchange_price_subtotal()
-			line._recompute_dynamic_lines(recompute_all_taxes=True)
+		for invoice in self.with_context(check_move_validity=False):
+			invoice.line_ids._onchange_price_subtotal()
+			invoice._recompute_dynamic_lines(recompute_all_taxes=True)
 			
 
 class AccountMoveLine(models.Model):
