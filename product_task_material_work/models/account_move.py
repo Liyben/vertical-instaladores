@@ -19,7 +19,10 @@ class AccountMove(models.Model):
 	@api.depends('invoice_line_ids', 'invoice_line_ids.auto_create_task')
 	def _compute_has_compound_product(self):
 		for invoice in self:
-			invoice.has_compound_product = invoice.invoice_line_ids.mapped('auto_create_task')
+			invoice.has_compound_product = False
+			for line in invoice.invoice_line_ids:
+				if line.auto_create_task:
+					invoice.has_compound_product = True
 	
 	#Balancea las lineas de la factura asociada
 	def recompute_balance(self):
