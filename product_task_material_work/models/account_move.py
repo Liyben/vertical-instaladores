@@ -16,6 +16,7 @@ class AccountMove(models.Model):
 	has_compound_product = fields.Boolean(string='Tiene productos compuestos', compute='_compute_has_compound_product')
 	
 	#Calcula si la factura tiene algun producto tipo compuesto
+	@api.depends('invoice_line_ids', 'invoice_line_ids.auto_create_task')
 	def _compute_has_compound_product(self):
 		for invoice in self:
 			invoice.has_compound_product = invoice.invoice_line_ids.mapped('auto_create_task')
