@@ -28,7 +28,7 @@ class AccountMove(models.Model):
 	def recompute_balance(self):
 		for invoice in self.with_context(check_move_validity=False):
 			invoice.line_ids._onchange_price_subtotal()
-			invoice._recompute_dynamic_lines()
+			invoice._recompute_dynamic_lines(recompute_all_taxes=True)
 			
 
 class AccountMoveLine(models.Model):
