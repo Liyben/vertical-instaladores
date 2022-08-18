@@ -72,7 +72,7 @@ class StockInvoiceOnshipping(models.TransientModel):
 
 		taxes = moves._get_taxes(fiscal_position, inv_type)
 		price = moves._get_price_unit_invoice(inv_type, partner_id, quantity)
-		discount = moves._get_discount(inv_type)
+		#discount = moves._get_discount(inv_type)
 		line_obj = self.env["account.move.line"]
 		values = line_obj.default_get(line_obj.fields_get().keys())
 		values.update(
