@@ -12,7 +12,7 @@
         
         """,
     'author': 'Liyben',
-    'depends': ['stock','account','sale','stock_picking_invoicing'],
+    'depends': ['stock','account','sale','stock_picking_invoicing','purchase_discount'],
     'data': [
             'views/stock_picking.xml',
     ],
