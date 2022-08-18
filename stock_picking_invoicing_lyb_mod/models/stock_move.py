@@ -12,6 +12,7 @@ class StockMove(models.Model):
     ]
  
     currency_id = fields.Many2one(
+        'res.currency',
         compute='_compute_currency_id',
         string='Moneda',
         compute_sudo=True,

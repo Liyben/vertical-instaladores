@@ -3,7 +3,7 @@
 
 from odoo import api, fields, models, exceptions, _
 
-class AccountMove(models.Model):
+class AccountInvoice(models.Model):
 	_inherit = "account.move"
 
 	def button_cancel(self):
