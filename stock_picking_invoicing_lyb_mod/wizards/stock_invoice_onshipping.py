@@ -86,7 +86,7 @@ class StockInvoiceOnshipping(models.TransientModel):
 				"tax_ids": [(6, 0, taxes.ids)],
 				"move_line_ids": move_line_ids,
 				"move_id": invoice.id,
-				'discount': discount,
+				#'discount': discount,
 				'sale_line_ids' : sale_line_ids,
 				'purchase_line_id' : purchase_line_id,
 			}
