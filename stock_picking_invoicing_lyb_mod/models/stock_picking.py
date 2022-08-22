@@ -13,6 +13,10 @@ class StockPicking(models.Model):
 
 	invoice_state = fields.Selection(readonly=True, states={'done': [('readonly', False)]})
 
+	def button_validate(self):
+		self.set_to_be_invoiced()
+		return super(StockPicking, self).button_validate()
+		
 	def set_sale_to_invoiced(self):
 		for line in self:
 			if line.sale_id:
