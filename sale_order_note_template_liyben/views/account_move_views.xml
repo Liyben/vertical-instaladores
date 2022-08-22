@@ -7,6 +7,12 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='narration']" position="replace">
                 <group class="mt-2 mt-md-0">
+                    <field
+                    name="terms_template_id"
+                    placeholder="Terms and conditions template"
+                    nolabel="1"
+                    colspan="4"
+                    />
                     <field name="narration" nolabel="1" placeholder="Terms and conditions..."/>
                 </group>
             </xpath>
