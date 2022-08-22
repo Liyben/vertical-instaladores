@@ -105,7 +105,7 @@ class StockMove(models.Model):
                 if sale_line.product_uom_qty else sale_line.price_reduce)
             taxes = line.sale_tax_id.compute_all(
                 price_unit=price_unit,
-                currency=line.currency_id,
+                currency=sale_line.currency_id,
                 quantity=line.quantity_done or line.product_qty,
                 product=line.product_id,
                 partner=sale_line.order_id.partner_shipping_id)
@@ -134,7 +134,7 @@ class StockMove(models.Model):
                     if purchase_line.product_qty else purchase_line.price_unit)
             taxes = line.sale_tax_id.compute_all(
                 price_unit=price_unit,
-                currency=line.currency_id,
+                currency=purchase_line.currency_id,
                 quantity=line.quantity_done or line.product_qty,
                 product=line.product_id,
                 partner=purchase_line.order_id.partner_id)
