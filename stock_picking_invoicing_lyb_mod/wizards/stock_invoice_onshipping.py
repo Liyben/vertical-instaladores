@@ -11,7 +11,7 @@ class StockInvoiceOnshipping(models.TransientModel):
 	
 	def _load_pickings(self):
 		pickings = super()._load_pickings()
-		if pickings.mapped("state") in ("draft", "cancel", "assigned", "waiting", "confirmed"):
+		if 'assigned' in pickings.mapped("state") or 'cancel' in pickings.mapped("state") or 'draft' in pickings.mapped("state") or 'waiting' in pickings.mapped("state") or 'confirmed' in pickings.mapped("state"):
 			raise UserError(_("¡Todos los albaranes deben estar en estado Hecho!"))
 		pickings.set_sale_to_invoiced()
 		pickings.set_purchase_to_invoiced()
