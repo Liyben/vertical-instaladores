@@ -1,7 +1,7 @@
 # © 2022 Liyben
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import models, api
+from odoo import models, api, fields
 
 
 class StockPicking(models.Model):
@@ -10,6 +10,8 @@ class StockPicking(models.Model):
 		_name,
 		"stock.invoice.state.mixin",
 	]
+
+	invoice_state = fields.Selection(readonly=True, states={'done': [('readonly', False)]})
 
 	def set_sale_to_invoiced(self):
 		for line in self:
