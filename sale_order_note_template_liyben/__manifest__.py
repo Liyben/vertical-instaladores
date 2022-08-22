@@ -16,6 +16,7 @@
     """,
     'depends': ['account','sale_order_note_template'],
     'data': [
+        'views/account_move_views.xml',
     ],
     'demo': [
     ],
