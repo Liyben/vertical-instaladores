@@ -15,7 +15,7 @@ class StockPicking(models.Model):
 
 	def button_validate(self):
 		result = super(StockPicking, self).button_validate()
-		result.set_to_be_invoiced()
+		self.set_to_be_invoiced()
 		return result
 
 	def set_sale_to_invoiced(self):
