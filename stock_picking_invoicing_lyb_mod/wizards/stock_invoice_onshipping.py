@@ -1,7 +1,8 @@
 # © 2022 Liyben
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, fields, models, exceptions, _
+from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 
 
 class StockInvoiceOnshipping(models.TransientModel):
@@ -10,6 +11,9 @@ class StockInvoiceOnshipping(models.TransientModel):
 	
 	def _load_pickings(self):
 		pickings = super()._load_pickings()
+		state = pickings.mapped("state")
+		if state and state != 'done':
+			raise UserError(_("¡Todos los albaranes deben estar en estado Hecho!"))
 		pickings.set_sale_to_invoiced()
 		pickings.set_purchase_to_invoiced()
 		return pickings
