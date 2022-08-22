@@ -11,9 +11,8 @@ class StockInvoiceOnshipping(models.TransientModel):
 	
 	def _load_pickings(self):
 		pickings = super()._load_pickings()
-		state = pickings.mapped("state")
-		if state and state != 'done':
-			raise UserError(_("¡Todos los albaranes deben estar en estado Hecho!\n"+ "\n".join(state)))
+		if 'done' not in pickings.mapped("state"):
+			raise UserError(_("¡Todos los albaranes deben estar en estado Hecho!"))
 		pickings.set_sale_to_invoiced()
 		pickings.set_purchase_to_invoiced()
 		return pickings
