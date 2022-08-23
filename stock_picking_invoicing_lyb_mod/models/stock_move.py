@@ -16,6 +16,7 @@ class StockMove(models.Model):
         compute='_compute_currency_id',
         string='Moneda',
         compute_sudo=True,
+        store=True
     )
     
     #Campos para modelo sale.order.line 
