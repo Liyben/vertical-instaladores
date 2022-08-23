@@ -11,12 +11,12 @@ class StockMove(models.Model):
         "stock.invoice.state.mixin",
     ]
  
-    currency_id = fields.Many2one(
+    """ currency_id = fields.Many2one(
         'res.currency',
         compute='_compute_currency_id',
         string='Moneda',
         compute_sudo=True,
-    )
+    ) """
     
     #Campos para modelo sale.order.line 
     sale_tax_id = fields.Many2many(
@@ -82,7 +82,7 @@ class StockMove(models.Model):
         compute_sudo=True,
     )
 
-    @api.depends('sale_line_id','purchase_line_id')
+    """ @api.depends('sale_line_id','purchase_line_id')
     def _compute_currency_id(self):
         res={}
         for line in self:
@@ -90,7 +90,7 @@ class StockMove(models.Model):
                 res = line.sale_line_id.currency_id
             if line.purchase_line_id:
                 res = line.purchase_line_id.currency_id
-        return res
+        return res """
 
     @api.depends('sale_line_id')
     def _compute_sale_order_line_fields(self):
