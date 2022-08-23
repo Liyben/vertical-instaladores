@@ -75,7 +75,7 @@ class StockInvoiceOnshipping(models.TransientModel):
 
 		taxes = moves._get_taxes(fiscal_position, inv_type)
 		price = moves._get_price_unit_invoice(inv_type, partner_id, quantity)
-		#discount = moves._get_discount(inv_type)
+		discount = moves._get_discount(inv_type)
 		line_obj = self.env["account.move.line"]
 		values = line_obj.default_get(line_obj.fields_get().keys())
 		values.update(
@@ -89,7 +89,7 @@ class StockInvoiceOnshipping(models.TransientModel):
 				"tax_ids": [(6, 0, taxes.ids)],
 				"move_line_ids": move_line_ids,
 				"move_id": invoice.id,
-				#'discount': discount,
+				'discount': discount,
 				'sale_line_ids' : sale_line_ids,
 				'purchase_line_id' : purchase_line_id,
 			}
