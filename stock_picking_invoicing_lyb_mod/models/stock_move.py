@@ -11,12 +11,12 @@ class StockMove(models.Model):
         "stock.invoice.state.mixin",
     ]
  
-    """ currency_id = fields.Many2one(
+    currency_id = fields.Many2one(
         'res.currency',
         compute='_compute_currency_id',
         string='Moneda',
         compute_sudo=True,
-    ) """
+    )
     
     #Campos para modelo sale.order.line 
     sale_tax_id = fields.Many2many(
@@ -82,7 +82,7 @@ class StockMove(models.Model):
         compute_sudo=True,
     )
 
-    """ @api.depends('sale_line_id','purchase_line_id')
+    #@api.depends('sale_line_id','purchase_line_id')
     def _compute_currency_id(self):
         res={}
         for line in self:
@@ -90,9 +90,9 @@ class StockMove(models.Model):
                 res = line.sale_line_id.currency_id
             if line.purchase_line_id:
                 res = line.purchase_line_id.currency_id
-        return res """
+        return res
 
-    @api.depends('sale_line_id')
+    #@api.depends('sale_line_id')
     def _compute_sale_order_line_fields(self):
         """This is computed with sudo for avoiding problems if you don't have
         access to sales orders (stricter warehouse users, inter-company
@@ -105,7 +105,7 @@ class StockMove(models.Model):
                 if sale_line.product_uom_qty else sale_line.price_reduce)
             taxes = line.sale_tax_id.compute_all(
                 price_unit=price_unit,
-                currency=sale_line.currency_id,
+                currency=line.currency_id,
                 quantity=line.quantity_done or line.product_qty,
                 product=line.product_id,
                 partner=sale_line.order_id.partner_shipping_id)
@@ -121,7 +121,7 @@ class StockMove(models.Model):
                 'sale_price_total': taxes['total_included'],
             })
 
-    @api.depends('purchase_line_id')
+    #@api.depends('purchase_line_id')
     def _compute_purchase_order_line_fields(self):
         """This is computed with sudo for avoiding problems if you don't have
         access to purchase orders (stricter warehouse users, inter-company
@@ -134,7 +134,7 @@ class StockMove(models.Model):
                     if purchase_line.product_qty else purchase_line.price_unit)
             taxes = line.sale_tax_id.compute_all(
                 price_unit=price_unit,
-                currency=purchase_line.currency_id,
+                currency=line.currency_id,
                 quantity=line.quantity_done or line.product_qty,
                 product=line.product_id,
                 partner=purchase_line.order_id.partner_id)
