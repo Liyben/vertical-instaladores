@@ -4,7 +4,7 @@
 {
     'name': 'Número de albarán de proveedor',
     'category': "Stock",
-    'summary': 'Añade el número de albarán de los proveedores en los albaranes de compra y lo hace visible en la linea de facturas de compra',
+    'summary': 'Añade el número de albarán de los proveedores en los albaranes de compra',
     'website': 'https://liyben.com/',
     'version': '14.0.1.0.0',
     'license': 'AGPL-3',
@@ -12,7 +12,7 @@
         
         """,
     'author': 'Liyben',
-    'depends': ['stock','account','stock_picking_invoicing'],
+    'depends': ['stock'],
     'data': [
             'views/stock_views.xml',
     ],
