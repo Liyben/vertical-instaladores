@@ -13,9 +13,11 @@ class StockPicking(models.Model):
 
 	invoice_state = fields.Selection(readonly=True, states={'done': [('readonly', False)]})
 
-	def action_assign(self):
-		self.set_to_be_invoiced()
-		return super().action_assign()
+	def button_validate(self):
+		result = super().button_validate()
+		if result and self.state == 'done':
+			self.set_to_be_invoiced()
+		return result
 
 	def set_sale_to_invoiced(self):
 		for line in self:

@@ -6,7 +6,9 @@
         <field name="model">stock.picking</field>
         <field name="inherit_id" ref="stock_picking_invoicing.view_picking_form"/>
         <field name="arch" type="xml">
-            
+            <xpath expr="//button[@name='set_to_be_invoiced']" position="attributes">
+                <attribute name="invisible" >True</attribute>
+            </xpath>
             <xpath expr="//field[@name='is_locked']" position="before">
                 <field name="sale_id" invisible="1"/>
                 <field name="purchase_id" invisible="1"/>
