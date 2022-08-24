@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="stock.view_picking_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='partner_id']" position="after">
-                <field name="supplier_pick_number" attrs="{'invisible': [('picking_type_code', '!=', 'incoming')], 'required': [('picking_type_code', '=', 'incoming')]}"/>
+                <field name="supplier_pick_number" attrs="{'invisible': [('use_supplier_pick_number', '!=', True)], 'required': [('use_supplier_pick_number', '=', True)]}"/>
             </xpath>
         </field>
     </record>
@@ -18,7 +18,7 @@
         <field name="arch" type="xml">
             <field name="partner_id" position="after">
                 <field name="picking_type_code" invisible="1"/>
-                <field name="supplier_pick_number" optional="show" attrs="{'invisible': [('picking_type_code', '!=', 'incoming')]}"/>
+                <field name="supplier_pick_number" optional="show" attrs="{'invisible': [('use_supplier_pick_number', '!=', True)]}"/>
             </field>
         </field>
     </record>
@@ -37,6 +37,21 @@
             <xpath expr="//filter[@name='origin']" position="before">
                 <filter string="Nº. albarán proveedor" name="supplier_pick_number" domain="[]" context="{'group_by':'supplier_pick_number'}"/>
             </xpath> 
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="inherited_stock_picking_type_form">
+        <field name="name">inherited.stock.picking.type.form</field>
+        <field name="model">stock.picking.type</field>
+        <field name="inherit_id" ref="stock.view_picking_type_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group>
+                    <group string="Proveedor">
+                        <field name="use_supplier_pick_number"/>
+                    </group>
+                </group>
+            </xpath>
         </field>
     </record>
     
