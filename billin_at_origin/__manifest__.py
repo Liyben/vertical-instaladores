@@ -17,10 +17,11 @@
     """,
     'depends': ['sale', 'account'],
     'data': [
-    ],
-    'demo': [
         'views/report_invoice_document.xml',
         'views/invoice_report.xml',
+    ],
+    'demo': [
+        
     ],
     'installable': True,
     'auto_install': False,
