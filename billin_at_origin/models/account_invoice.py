@@ -13,7 +13,7 @@ class AccountMove(models.Model):
 		'account.move',
 		'invoice_origin_rel',
 		'invoice_id', 'invoice_origin_id',
-		string='Facturación a origen', readonly=True, copy=False,
+		string='Facturación a origen', readonly=True, copy=False, store=True,
 		compute='_compute_invoice_ids')
 
 	@api.depends('invoice_line_ids.sale_line_ids.invoice_lines')
@@ -30,7 +30,7 @@ class AccountMoveLine(models.Model):
 		'account.move.line',
 		'invoice_line_origin_rel',
 		'invoice_line_id', 'invoice_line_origin_id',
-		string='Facturación a origen', readonly=True, copy=False,
+		string='Facturación a origen', readonly=True, copy=False, store=True,
 		compute='_compute_invoice_line_ids')
 
 	@api.depends('sale_line_ids.invoice_lines')
