@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 
 
 class SaleOrderMergeTaskWizard(models.TransientModel):
@@ -16,6 +17,14 @@ class SaleOrderMergeTaskWizard(models.TransientModel):
 		#Obtenemos el presupuesto activo
 		order_ids = self.env['sale.order'].browse(self.env.context.get('active_ids', False))
 		order_selected = order_ids[0]
+		#Comprobamos el control de facturación de los productos compuestos
+		list_bool = []
+		for line in order_selected.order_line:
+			if line.auto_create_task:
+				list_bool.append(line.product_id.invoicing_finished_task)
+		if any(list_bool) == True and all(list_bool) == False:
+			raise UserError(_('Para combinar partes de trabajo todos deben de tener el mismo control de facturas.'))
+
 		#Obtenemos los valores para el PT resultante
 		task_name = order_selected.name + ':'
 		for task in order_selected.tasks_ids:
