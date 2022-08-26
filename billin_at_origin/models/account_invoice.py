@@ -4,6 +4,8 @@
 from odoo import api, fields, models, exceptions, _
 
 import logging
+
+from stock_picking_invoicing_lyb_mod.models.sale import SaleOrder
 _logger = logging.getLogger(__name__)
 
 class AccountMove(models.Model):
@@ -35,5 +37,8 @@ class AccountMoveLine(models.Model):
 
 	@api.depends('sale_line_ids.invoice_lines')
 	def _compute_invoice_line_ids(self):
+		SaleOrderLine = self.env["sale.order.line"]
 		for line in self:
-			line.invoice_line_ids = self.mapped('sale_line_ids').mapped('invoice_lines') - line
+			sale_lines = SaleOrderLine.search([("invoice_lines", "=", line.id)])
+			line.invoice_line_ids = sale_lines.mapped('invoice_lines') - line
+			#line.invoice_line_ids = self.mapped('sale_line_ids').mapped('invoice_lines') - line
