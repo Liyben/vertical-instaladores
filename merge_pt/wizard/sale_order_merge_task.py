@@ -24,7 +24,7 @@ class SaleOrderMergeTaskWizard(models.TransientModel):
 				list_bool.append(line.product_id.invoicing_finished_task)
 		if any(list_bool) == True and all(list_bool) == False:
 			raise UserError(_('Para combinar partes de trabajo todos deben de tener el mismo control de facturas.\n'+
-			'Atención: ¡El sistema ha creado las tareas correspondientes a cada linea de presuesto. Si desea unificar todas las tareas, siga estos pasos:\n'+
+			'Atención: ¡¡El sistema ha creado las tareas correspondientes a cada linea de presuesto!! Si desea unificar todas las tareas, siga estos pasos:\n'+
 			'1. Cancelar presupuesto.\n'+
 			'2. Configurar todos los productos con el mismo control de factura.\n'+
 			'3. Vuelva al prespuesto, conviertalo a presupuesto y confirmelo.\n'))
