@@ -3,10 +3,10 @@
 
 from odoo import api, fields, models, exceptions, _
 
-import logging
+""" import logging
 
 from stock_picking_invoicing_lyb_mod.models.sale import SaleOrder
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger(__name__) """
 
 class AccountMove(models.Model):
 	_inherit = "account.move"
