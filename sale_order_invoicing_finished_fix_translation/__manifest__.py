@@ -2,9 +2,8 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 {
-    "name": "Sale Order Invoicing Finished Merged Task",
-    "summary": "Control invoice order lines if their related task has been "
-    "set to invoiceable",
+    "name": "Sale Order Invoicing Finished fix translation",
+    "summary": "Fix translation from OCA's module sale_order_invoicing_finished_task",
     'category': "Project",
     'website': 'https://liyben.com/',
     'version': '14.0.1.0.0',
@@ -13,7 +12,7 @@
         
         """,
     'author': 'Liyben',
-    'depends': ['sale_order_invoicing_finished_fix_translation','merge_pt'],
+    'depends': ['sale_order_invoicing_finished_task',],
     'data': [
     ],
     'qweb': [],
