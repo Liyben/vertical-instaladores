@@ -5,5 +5,10 @@
         <field name="name">Fusionar partes de trabajo al confirmar presupuesto.</field>
         <field name="category_id" ref="base.module_category_hidden"/>
     </record>
+
+    <record id="base.default_user" model="res.users">
+        <field name="groups_id" eval="[(4,ref('base.group_user')),(4,ref('merge_pt.group_sales_merge_task_to_confirm'))]"/>
+    </record>
+
 </data>
 </odoo>
