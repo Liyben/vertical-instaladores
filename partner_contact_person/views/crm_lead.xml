@@ -17,7 +17,7 @@
 
         </field>
     </record>
-
+<!--
     <record model="ir.ui.view" id="partner_contact_person_view_create_aviso_simplified">
         <field name="name">partner.contact.person.view.create.aviso.simplified</field>
         <field name="model">crm.lead</field>
@@ -33,7 +33,7 @@
 
         </field>
     </record>
-
+-->
     <record model="ir.ui.view" id="partner_contact_person_quick_create_opportunity_form">
         <field name="name">partner.contact.person.quick.create.opportunity.form</field>
         <field name="model">crm.lead</field>
