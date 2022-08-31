@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="product_price_with_waste_form_view">
+        <field name="name">product.price.with.waste.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='pricing']" position="after">
+                <separator string="Precio Compra" groups="base.group_user" attrs="{'invisible': ['|', ('type', '=', 'service'), ('product_variant_count', '&gt;', 1), ('is_product_variant', '=', False)]}"/>
+                <field name="without_waste_price" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}" groups="base.group_user" attrs="{'invisible': ['|', ('type', '=', 'service'), ('product_variant_count', '&gt;', 1), ('is_product_variant', '=', False)]}"/>
+                <field name="percent_waste" groups="base.group_user" attrs="{'invisible': ['|', ('type', '=', 'service'), ('product_variant_count', '&gt;', 1), ('is_product_variant', '=', False)]}" class="oe_inline"/> %  
+            </xpath>
+
+        </field>
+    </record>
+    
+</odoo>
