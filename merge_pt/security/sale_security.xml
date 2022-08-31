@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-<data noupdate="1">
+<data>
     <record id="group_sales_merge_task_to_confirm" model="res.groups">
         <field name="name">Fusionar partes de trabajo al confirmar presupuesto.</field>
         <field name="category_id" ref="base.module_category_hidden"/>
