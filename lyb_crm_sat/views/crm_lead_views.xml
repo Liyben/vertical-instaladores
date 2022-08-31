@@ -31,6 +31,9 @@
             <field name="name" position="before">
                 <field name="sequence_code" />
             </field>
+            <field name="user_id" position="before">
+                <field name="worker_one" widget="many2one_avatar_user" optional="show" domain="[('share', '=', False)]"/>
+            </field>
         </field>
     </record>
 
