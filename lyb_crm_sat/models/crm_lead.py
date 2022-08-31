@@ -59,7 +59,7 @@ class CrmLead(models.Model):
 		#Asignamos la secuencia correcta 
 		if (record.sub_type == 'opportunity'):
 			record.sequence_code = self.env.ref(
-					"lyb_avisos.sequence_opportunity", raise_if_not_found=False
+					"lyb_crm_sat.sequence_opportunity", raise_if_not_found=False
 				).next_by_id()
 
 		#Lista de seguidores
