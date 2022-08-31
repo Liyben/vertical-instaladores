@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <template id="report_crm_lead_notice" inherit_id="lyb_crm_sat.report_crm_lead_notice">
+    <template id="report_crm_lead_notice" inherit_id="lyb_avisos.report_crm_lead_notice">
 
         <xpath expr="//tr[@id='contact_person']" position="replace">
             <tr id="contact_person">

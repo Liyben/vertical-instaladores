@@ -2,8 +2,8 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 {
-    'name': 'Parte de Trabajo a Aviso',
-    'summary': 'Crear un Aviso desde el Parte de Trabajo',
+    'name': 'Parte de Trabajo a CRM-SAT',
+    'summary': 'Crear un CRM-SAT desde el Parte de Trabajo',
     'website': 'https://liyben.com',
     'author': 'Liyben',
     'version': '14.0.1.0.0',

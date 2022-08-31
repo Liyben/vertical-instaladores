@@ -12,7 +12,7 @@ class ProjectTask(models.Model):
         # Creamos un nuevo aviso
         vals = {
             "name": '[' + self.code + ']: ' + self.name,
-            "description": self.work_to_do,
+            "note": self.work_to_do,
             "email_from": self.email_from,
             "project_id": self.project_id.id,
             "partner_id": self.partner_id.id,
