@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        
+        <!-- Vistas heredadas -->
+    <record model="ir.ui.view" id="crm_sat_quick_create_opportunity_form">
+        <field name="name">crm.sat.quick.create.opportunity.form</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.quick_create_opportunity_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='mobile']" position="replace"></xpath>
+
+            <xpath expr="//field[@name='phone']" position="replace"></xpath>
+
+            <xpath expr="//field[@name='email_from']" position="after">
+                <field name="mobile" string="Móvil" />
+            </xpath>
+
+            <xpath expr="//field[@name='zip']" position="after">
+                <field name="phone" invisible="1" />
+            </xpath>
+
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="crm_sat_code_tree_view">
+        <field name="name">crm.sat.code.tree</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_oppor" />
+        <field name="arch" type="xml">
+            <field name="name" position="before">
+                <field name="sequence_code" />
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="crm_sat_search_view">
+        <field name="name">crm.sat.code.search</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.view_crm_case_opportunities_filter" />
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='assigned_to_me']" position="before">
+                <filter string="Oportunidades" name="oportunidades"
+                        domain="[('type','=','opportunity'),('sub_type','=','opportunity')]"
+                        help="Oportunidades"/>
+            </xpath>
+            <field name="name" position="attributes">
+                <attribute name="filter_domain">['|', ('name', 'ilike', self), ('sequence_code', 'ilike', self)]</attribute>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="crm_lead_code_kanban_view">
+        <field name="name">crm.lead.code.kanban</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_kanban_view_leads" />
+        <field name="arch" type="xml">
+            <field name="name" position="before">
+                <field name="sequence_code" />
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="crm_sat_form_view3">
+        <field name="name">crm.sat.form3</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="sale_crm.crm_case_form_view_oppor" />
+        <field name="arch" type="xml">
+        
+            <xpath expr="//button[@name='action_sale_quotations_new']" position="attributes">
+                <attribute name="context">{'search_default_partner_id': partner_id, 'default_partner_id': partner_id, 'default_team_id': team_id, 'default_campaign_id': campaign_id, 'default_medium_id': medium_id, 'default_source_id': source_id, 'default_project_id': project_id}
+                </attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="crm_sat_form_view_avisos">
+        <field name="name">lyb.avisos.form.avisos</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//group[@name='opportunity_partner']" position="inside">
+                <label for="mobile" class="oe_inline"/>
+                <div class="o_row o_row_readonly">
+                    <button name="phone_action_blacklist_remove" class="fa fa-ban text-danger" title="This phone number is blacklisted for SMS Marketing. Click to unblacklist." type="object" context="{'default_phone': mobile}" groups="base.group_user" attrs="{'invisible': [('mobile_blacklisted', '=', False)]}"/>
+                    <field name="mobile" widget="phone" string="Móvil"/>
+                </div>
+            </xpath>
+
+            <xpath expr="//field[@id='mobile_page_lead']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+
+            <xpath expr="//label[@for='mobile_page_lead']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+        <!--
+            <xpath expr="//form/sheet/div[@class='oe_title']/h2[@class='o_row no-gutters align-items-end']" position="attributes">
+                <attribute name="attrs">{'invisible': [('sub_type','=','notice')]}</attribute>
+            </xpath>
+
+            <xpath expr="//label[@for='name'][2]" position="replace">
+                <label for="name" string="Aviso" class="oe_edit_only" attrs="{'invisible': [('sub_type','=','opportunity')]}"/>
+                <label for="name" string="Oportunidad" class="oe_edit_only" attrs="{'invisible': [('sub_type','=','notice')]}"/>
+            </xpath>
+        -->
+
+            <field name="name" position="before">
+                <field name="sequence_code" class="oe_inline" />
+                <label for="sequence_code" string="  " class="oe_inline" />
+            </field>
+
+            <field name="date_deadline" position="before">
+                <field name="date_creation" />
+            </field>
+
+            <field name="user_id" position="before">
+                <field name="sub_type" invisible="1"/>
+                <field name="worker_one" />
+                <field name="helpers" />
+            </field>
+
+            <field name="description" position="before">
+                <field name="note"/>
+            </field>
+            <field name="description" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            
+        </field>
+    </record>
+
+        <!-- Acciones de Ventana -->
+        <record id="crm.crm_lead_action_pipeline" model="ir.actions.act_window">
+            <field name="domain" eval="[]"/>
+            <field name="context">{'default_type': 'opportunity', 'default_sub_type': 'opportunity', 'default_user_id': uid, 'search_default_oportunidades': 1}</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="crm.crm_lead_opportunities">
+            <field name="domain" eval="[('type','=','opportunity'),('sub_type','=','opportunity')]"/>
+            <field name="context">{'default_type': 'opportunity','default_sub_type': 'opportunity'}</field>
+        </record>
+
+</odoo>
