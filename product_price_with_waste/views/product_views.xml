@@ -9,7 +9,10 @@
             <xpath expr="//div[@name='pricing']" position="after">
                 <separator string="Precio Compra" groups="base.group_user" attrs="{'invisible': ['|', ('type', '=', 'service'), ('product_variant_count', '&gt;', 1), ('is_product_variant', '=', False)]}"/>
                 <field name="without_waste_price" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}" groups="base.group_user" attrs="{'invisible': ['|', ('type', '=', 'service'), ('product_variant_count', '&gt;', 1), ('is_product_variant', '=', False)]}"/>
-                <field name="percent_waste" groups="base.group_user" attrs="{'invisible': ['|', ('type', '=', 'service'), ('product_variant_count', '&gt;', 1), ('is_product_variant', '=', False)]}" class="oe_inline"/> %  
+                <label for="percent_waste"/>
+                <div name="waste">
+                    <field name="percent_waste" groups="base.group_user" attrs="{'invisible': ['|', ('type', '=', 'service'), ('product_variant_count', '&gt;', 1), ('is_product_variant', '=', False)]}" class="oe_inline"/> %  
+                </div>
             </xpath>
 
         </field>
