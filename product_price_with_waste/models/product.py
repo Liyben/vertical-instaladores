@@ -8,7 +8,7 @@ class ProductTemplate(models.Model):
 	_inherit='product.template'
 
 	#Precio sin desperdicio y % desperdicio
-	without_waste_price = fields.Float(string='Precio Coste sin desp.', digits='Product Price')
+	without_waste_price = fields.Float(string='Coste sin Desperdicio', digits='Product Price')
 	percent_waste = fields.Float(string='% Desperdicio', digits='Discount')
 	
 	@api.onchange('without_waste_price')

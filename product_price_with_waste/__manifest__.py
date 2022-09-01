@@ -12,7 +12,7 @@
         
         """,
     'author': 'Liyben',
-    'depends': ['product'],
+    'depends': ['product','account'],
     'data': ['views/product_views.xml',
     ],
     'qweb': [],
