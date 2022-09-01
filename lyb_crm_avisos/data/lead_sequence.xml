@@ -1,0 +1,9 @@
+<odoo noupdate="1">
+    <record id="sequence_notice" model="ir.sequence">
+        <field name="name">Notice Code</field>
+        <field name="code">notice.code</field>
+        <field eval="4" name="padding" />
+        <field name="prefix">AV-</field>
+    </record>
+
+</odoo>

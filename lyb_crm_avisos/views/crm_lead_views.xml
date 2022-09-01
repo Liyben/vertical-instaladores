@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+       <record id="view_lyb_avisos_filter_avisos" model="ir.ui.view">
+            <field name="name">lyb.avisos.search.avisos</field>
+            <field name="model">crm.lead</field>
+            <field name="priority">15</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Avisos">
+                    <field name="name" string="Avisos" filter_domain="[
+                        '|', '|', '|', '|','|',
+                        ('partner_id', 'ilike', self),
+                        ('partner_name', 'ilike', self),
+                        ('email_from', 'ilike', self),
+                        ('name', 'ilike', self),
+                        ('contact_name', 'ilike', self),
+                        ('sequence_code', 'ilike', self)]"/>
+                    <field name="partner_id" operator="child_of" string="Cliente" filter_domain="[
+                        '|', '|', '|',
+                        ('partner_id', 'ilike', self),
+                        ('partner_name', 'ilike', self),
+                        ('email_from', 'ilike', self),
+                        ('contact_name', 'ilike', self)]"/>
+                    <field name="tag_ids" string="Etiqueta" filter_domain="[('tag_ids', 'ilike', self)]"/>
+                    <field name="team_id"/>
+                    <field name="worker_one" string="Oficial 1"/>
+                    <field name="phone_mobile_search"/>
+                    <field name="stage_id" domain="[]"/>
+                    
+                    <separator/>
+                    <filter string="Archivados" name="inact" domain="[('active', '=', False)]"/>
+                    <separator/>
+                    <filter string="Avisos" name="avisos"
+                            domain="['&amp;',('type','=','opportunity'),('sub_type','=','notice')]"
+                            help="Avisos"/>
+                    <filter string="Mis avisos" name="asignado_a_mi"
+                            domain="['&amp;','&amp;',('worker_one', '=', uid),('type','=','opportunity'),('sub_type','=','notice')]"
+                            help="Avisos que son asignados a mi"/>
+                    <filter string="Sin asignar" name="sinasignar"
+                            domain="['&amp;','&amp;',('worker_one','=', False),('type','=','opportunity'),('sub_type','=','notice')]" help="Sin oficial"/>
+                    <separator/>
+                    <filter string="Actividades tardías" name="act_overdue"
+                            domain="['&amp;','&amp;',('activity_ids.date_deadline', '&lt;', context_today().strftime('%Y-%m-%d')),('type','=','opportunity'),('sub_type','=','notice')]"/>
+                    <filter string="Actividades de Hoy" name="act_today"
+                            domain="['&amp;','&amp;',('activity_ids.date_deadline', '=', context_today().strftime('%Y-%m-%d')),('type','=','opportunity'),('sub_type','=','notice')]"/>
+                    <filter string="Actividades futuras" name="act_upcoming_all"
+                            domain="['&amp;','&amp;',('activity_ids.date_deadline', '&gt;', context_today().strftime('%Y-%m-%d')),('type','=','opportunity'),('sub_type','=','notice')]"/>
+
+                    <separator/>
+                    <filter string="Avisos atrasados" name="overdue_avv"
+                            domain="['&amp;',('date_deadline', '&lt;', context_today().strftime('%Y-%m-%d')), ('date_closed', '=', False)]"
+                            help="Muestra todos los avisos con un plazo para el cual la próxima fecha de la acción es antes de hoy."/>
+                    <separator/>
+                    <filter string="Perdido" name="won_avv" domain="['&amp;', ('active', '=', False), ('probability', '=', 0)]"/>
+                    <filter string="Ganados" name="lost_avv" domain="['&amp;', ('active', '=', True), ('stage_id.is_won', '=', True)]"/>
+                    <group expand="0" string="Group By" colspan="16">
+                        <filter string="Oficial 1" name="worker" context="{'group_by':'worker_one'}"/>
+                        <filter string="Canal de Ventas" name="saleschanel_avv" context="{'group_by':'team_id'}"/>
+                        <filter string="País" name="coutry_avv" context="{'group_by':'country_id'}" />
+                        <filter string="Compañia" name="company_avv" context="{'group_by':'company_id'}" groups="base.group_multi_company"/>
+                        <filter name="stage_avv" string="Etapa" context="{'group_by':'stage_id'}"/>
+                        <filter string="Campaña" name="compaign" domain="[]" context="{'group_by':'campaign_id'}"/>
+                        <filter string="Medio" name="medium_avv" domain="[]" context="{'group_by':'medium_id'}"/>
+                        <filter string="Origen" name="source_avv" domain="[]" context="{'group_by':'source_id'}"/>
+                        <separator orientation="vertical" />
+                        <filter string="Mes de creación" context="{'group_by':'create_date:month'}" name="month_avv"/>
+                        <filter string="Fecha de cierre prevista" name="date_deadline_avv" context="{'group_by':'date_deadline'}"/>
+                        <filter string="Motivo de la perdida" name="lost_reason_avv" context="{'group_by':'lost_reason'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Vistas heredadas -->
+
+        <record model="ir.ui.view" id="lyb_avisos_form_view_avisos">
+            <field name="name">lyb.avisos.form.avisos</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_lead_view_form" />
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='stage_id']" position="attributes">
+                    <attribute name="domain">[('team_id', 'in', [team_id, False]), ('crm_sub_type', 'in', [sub_type, 'both'])]</attribute>
+                </xpath>
+
+                <xpath expr="//label[@for='name'][2]" position="replace">
+                    <label for="name" string="Aviso" class="oe_edit_only" attrs="{'invisible': [('sub_type','=','opportunity')]}"/>
+                    <label for="name" string="Oportunidad" class="oe_edit_only" attrs="{'invisible': [('sub_type','=','notice')]}"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <!-- Acciones de Ventana -->
+
+        <record model="ir.actions.act_window" id="lyb_avisos_action_your_avisos">
+            <field name="name">Avisos</field>
+            <field name="res_model">crm.lead</field>
+            <field name="view_mode">tree,calendar,kanban,form,graph,pivot</field>
+            <!--<field name="domain" eval="[('type','=','opportunity'),('sub_type','=','notice')]"/>-->
+            <field name="domain" eval="[]"/>
+            <field name="context" eval="{'default_type': 'opportunity', 'default_sub_type': 'notice','search_default_avisos': 1}"/>
+            <field name="view_ids"
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('crm.crm_case_tree_view_oppor'),'sequence': 2}),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('crm.crm_lead_view_form'),'sequence': 3}),
+                          (0, 0, {'view_mode': 'kanban', 'view_id': ref('crm.crm_case_kanban_view_leads'),'sequence': 1}),
+                          (0, 0, {'view_mode': 'calendar', 
+                          'view_id': ref('crm.crm_case_calendar_view_leads'),'sequence': 4}),
+                          (0, 0, {'view_mode': 'pivot', 'view_id': ref('crm.crm_lead_view_pivot'), 'sequence': 5}),
+                          (0, 0, {'view_mode': 'graph', 'view_id': ref('crm.crm_lead_view_graph'), 'sequence': 6})]"/>
+            <field name="search_view_id" ref="view_lyb_avisos_filter_avisos"/>
+            <field name="help" type="html">
+                <p>
+                
+                </p>
+            </field>
+        </record>   
+        
+        <!-- Menu padre -->
+        <menuitem
+            id="lyb_avisos_menu_root"
+            name="Avisos"
+            web_icon="lyb_avisos,static/description/instalaciones_ico.jpg"
+            groups="base.group_no_one,project.group_project_user"
+            action="lyb_avisos_action_your_avisos"
+            sequence="4"/>
+
+        <menuitem
+            id="lyb_avisos_menu_root_avisos"
+            name="Avisos"
+            parent="lyb_avisos_menu_root"
+            sequence="1"/>
+        
+        <menuitem
+            id="lyb_avisos_menu_avisos"
+            action="lyb_avisos_action_your_avisos"
+            name="Avisos"
+            parent="lyb_avisos_menu_root_avisos"
+            sequence="1"/>
+
+        <menuitem
+            id="lyb_avisos_menu_presupuestos"
+            action="sale.action_quotations"
+            name="Presupuestos"
+            parent="lyb_avisos_menu_root_avisos"
+            sequence="2"/>    
+
+        <menuitem
+            id="lyb_avisos_menu_root_clientes"
+            action="base.action_partner_form"
+            name="Clientes"
+            parent="lyb_avisos_menu_root"
+            sequence="2"/>
+
+        <menuitem
+            id="lyb_avisos_menu_root_informes"
+            name="Informes"
+            parent="lyb_avisos_menu_root"
+            sequence="3"/>
+
+        <menuitem
+            id="lyb_avisos_menu_informes_actividades"
+            action="crm.crm_activity_report_action"
+            name="Actividades"
+            parent="lyb_avisos_menu_root_informes"
+            sequence="1"/>
+
+        <menuitem
+            id="lyb_avisos_menu_informes_canales_venta"
+            action="sales_team.crm_team_salesteams_act"
+            name="Canales de venta"
+            parent="lyb_avisos_menu_root_informes"
+            sequence="2"/>
+
+        <menuitem
+            id="lyb_avisos_menu_root_configuracion"
+            name="Configuración"
+            parent="lyb_avisos_menu_root"
+            sequence="4"/>
+
+        <menuitem
+            id="lyb_avisos_menu_etapas"
+            action="crm.crm_stage_action"
+            name="Etapas"
+            parent="lyb_avisos_menu_root_configuracion"
+            sequence="1"/>
+
+        <menuitem
+            id="lyb_avisos_menu_etiquetas_avisos"
+            action="sales_team.sales_team_crm_tag_action"
+            name="Categorias de avisos"
+            parent="lyb_avisos_menu_root_configuracion"
+            sequence="2"/>
+
+        <menuitem
+            id="lyb_avisos_menu_canales_venta"
+            action="sales_team.sales_team_config_action"
+            name="Canales de venta"
+            parent="lyb_avisos_menu_root_configuracion"
+            sequence="3"/>
+
+        <menuitem
+            id="lyb_avisos_menu_tipo_actividad"
+            action="sales_team.mail_activity_type_action_config_sales"
+            name="Tipos de actividad"
+            parent="lyb_avisos_menu_root_configuracion"
+            sequence="4"/>
+
+        <menuitem
+            id="lyb_avisos_menu_motivo_perdida"
+            action="crm.crm_lost_reason_action"
+            name="Motivo de pérdida"
+            parent="lyb_avisos_menu_root_configuracion"
+            sequence="5"/>
+
+</odoo>
