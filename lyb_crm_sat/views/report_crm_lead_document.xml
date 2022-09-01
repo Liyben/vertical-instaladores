@@ -29,9 +29,9 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="font-weight:bold;border:0;">Téc. Medición </td>
+                                    <td style="font-weight:bold;border:0;">Téc. Medición</td>
                                     <td style="font-weight:normal;border: 1px solid #238AA9;"><span t-field="o.worker_one" /></td>
-                                    <td style="font-weight:bold;border:0;">Téc. Ppto.</td>
+                                    <td style="font-weight:bold;border:0;">Comercial</td>
                                     <td colspan="3" style="font-weight:normal;border:1px solid #238AA9;"><span t-field="o.user_id" /></td></tr>
                                 <tr>
                                     <td style="font-weight:normal;border:0;">
@@ -50,7 +50,7 @@
                                     </td>
                                 </tr>
                                 <tr id="contact_person">
-                                    <td style="font-weight:bold;">Sr/a.</td>
+                                    <td style="font-weight:bold;">Nombre:</td>
                                     <td colspan="3" style="font-weight:normal;"><span t-field="o.partner_id"/></td>
                                 </tr>
                                 <tr>
