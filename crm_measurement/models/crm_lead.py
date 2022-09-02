@@ -10,7 +10,7 @@ class CrmLeadSections(models.Model):
 
 	crm_lead_id = fields.Many2one(
 		comodel_name = 'crm.lead',
-		string = 'Op')
+		)
 
 	sequence = fields.Integer()
 
@@ -102,21 +102,21 @@ class CrmLead(models.Model):
 
 	last_seccion_name = fields.Char(string="Ultima sección",compute = '_compute_last_seccion_name',store=True)
 	
-	@api.depends('secciones_ids', 'secciones_ids.ancho', 
-				'secciones_ids.alto', 'secciones_ids.mts_cuadrados',
-				'secciones_ids.unidades', 'secciones_ids.mts_cuadrados_sub')
+	@api.depends('section_ids', 'section_ids.ancho', 
+				'section_ids.alto', 'section_ids.mts_cuadrados',
+				'section_ids.unidades', 'section_ids.mts_cuadrados_sub')
 	def _compute_total_secciones(self):
 		for line in self:
-			line.total_lineales = sum(line.secciones_ids.mapped('mts_lineales_sub'))
-			line.total_cuadrados = sum(line.secciones_ids.mapped('mts_cuadrados_sub'))
+			line.total_lineales = sum(line.section_ids.mapped('mts_lineales_sub'))
+			line.total_cuadrados = sum(line.section_ids.mapped('mts_cuadrados_sub'))
 
-	@api.depends('secciones_ids','secciones_ids.seccion_name')
+	@api.depends('section_ids','section_ids.seccion_name')
 	def _compute_last_seccion_name(self):
 		for line in self:
-			if len(line.secciones_ids) == 0:
+			if len(line.section_ids) == 0:
 				line.last_seccion_name = 'A'
 			else:
-				s_name = line.secciones_ids[len(line.secciones_ids)-1].seccion_name
+				s_name = line.section_ids[len(line.section_ids)-1].seccion_name
 				
 				if s_name == 'A':
 					line.last_seccion_name = 'B'
