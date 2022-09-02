@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        
+        <!-- Vistas heredadas -->
+    
+    <record model="ir.ui.view" id="crm_measurement_form_view">
+        <field name="name">crm.measurement.form.view</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form" />
+        <field name="arch" type="xml">
+            <page name="lead" position="after">
+                <page string="Mediciones">
+                    <group string="Secciones">
+                        <field name="last_seccion_name" invisible="1"/>
+                        <field name="secciones_ids" nolabel="1" context="{'default_seccion_name': last_seccion_name}">
+                            <tree string="Secciones" editable="bottom" >
+                                <field name="sequence" widget="handle"/>
+                                <field name="seccion_name"/>
+                                <field name="unidades"/>
+                                <field name="ancho"/>
+                                <field name="alto"/>
+                                <field name="mts_cuadrados" string="Mts^2 Und."/>
+                                <field name="mts_cuadrados_sub"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="total_lineales" attrs="{'invisible': [('manual_mode','=',True)]}"/>
+                            <field name="total_lineales_manual" attrs="{'invisible': [('manual_mode','=',False)]}"/>
+                        </group>
+                        <group>
+                            <field name="total_cuadrados" attrs="{'invisible': [('manual_mode','=',True)]}"/>
+                            <field name="total_cuadrados_manual" attrs="{'invisible': [('manual_mode','=',False)]}"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="manual_mode" />
+                    </group>
+                </page>
+            </page>
+        </field>
+    </record>
+
+</odoo>
