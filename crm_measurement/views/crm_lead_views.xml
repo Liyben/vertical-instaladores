@@ -11,11 +11,11 @@
             <page name="lead" position="after">
                 <page string="Mediciones">
                     <group string="Secciones">
-                        <field name="last_seccion_name" invisible="1"/>
-                        <field name="secciones_ids" nolabel="1" context="{'default_seccion_name': last_seccion_name}">
+                        <field name="last_section_name" invisible="1"/>
+                        <field name="section_ids" nolabel="1" context="{'default_section_name': last_section_name}">
                             <tree string="Secciones" editable="bottom" >
                                 <field name="sequence" widget="handle"/>
-                                <field name="seccion_name"/>
+                                <field name="section_name"/>
                                 <field name="unidades"/>
                                 <field name="ancho"/>
                                 <field name="alto"/>

@@ -28,7 +28,7 @@ class CrmLeadSections(models.Model):
 		readonly = True,
 		digits="Product Unit Of Measure")
 
-	seccion_name = fields.Selection(
+	section_name = fields.Selection(
 		[('A','A'),
 		('B','B'),
 		('C','C'),
@@ -100,7 +100,7 @@ class CrmLead(models.Model):
 		string = "T-mts. cuadrados",
 		digits="Product Unit Of Measure")
 
-	last_seccion_name = fields.Char(string="Ultima sección",compute = '_compute_last_seccion_name',store=True)
+	last_section_name = fields.Char(string="Ultima sección",compute = '_compute_last_section_name',store=True)
 	
 	@api.depends('section_ids', 'section_ids.ancho', 
 				'section_ids.alto', 'section_ids.mts_cuadrados',
@@ -110,36 +110,36 @@ class CrmLead(models.Model):
 			line.total_lineales = sum(line.section_ids.mapped('mts_lineales_sub'))
 			line.total_cuadrados = sum(line.section_ids.mapped('mts_cuadrados_sub'))
 
-	@api.depends('section_ids','section_ids.seccion_name')
-	def _compute_last_seccion_name(self):
+	@api.depends('section_ids','section_ids.section_name')
+	def _compute_last_section_name(self):
 		for line in self:
 			if len(line.section_ids) == 0:
-				line.last_seccion_name = 'A'
+				line.last_section_name = 'A'
 			else:
-				s_name = line.section_ids[len(line.section_ids)-1].seccion_name
+				s_name = line.section_ids[len(line.section_ids)-1].section_name
 				
 				if s_name == 'A':
-					line.last_seccion_name = 'B'
+					line.last_section_name = 'B'
 				elif s_name == 'B':
-					line.last_seccion_name = 'C'
+					line.last_section_name = 'C'
 				elif s_name == 'C':
-					line.last_seccion_name = 'D'
+					line.last_section_name = 'D'
 				elif s_name == 'D':
-					line.last_seccion_name = 'E'
+					line.last_section_name = 'E'
 				elif s_name == 'E':
-					line.last_seccion_name = 'F'
+					line.last_section_name = 'F'
 				elif s_name == 'F':
-					line.last_seccion_name = 'G'
+					line.last_section_name = 'G'
 				elif s_name == 'G':
-					line.last_seccion_name = 'H'
+					line.last_section_name = 'H'
 				elif s_name == 'H':
-					line.last_seccion_name = 'I'
+					line.last_section_name = 'I'
 				elif s_name == 'I':
-					line.last_seccion_name = 'J'
+					line.last_section_name = 'J'
 				elif s_name == 'J':
-					line.last_seccion_name = 'K'
+					line.last_section_name = 'K'
 				elif s_name == 'K':
-					line.last_seccion_name = 'A'
+					line.last_section_name = 'A'
 				else: 
-					line.last_seccion_name = 'A'
+					line.last_section_name = 'A'
 			
