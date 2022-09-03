@@ -10,20 +10,19 @@
         <field name="arch" type="xml">
             <page name="lead" position="after">
                 <page string="Mediciones">
-                    <group string="Secciones">
-                        <field name="last_section_name" invisible="1"/>
-                        <field name="section_ids" nolabel="1" context="{'default_section_name': last_section_name}">
-                            <tree string="Secciones" editable="bottom" >
-                                <field name="sequence" widget="handle"/>
-                                <field name="section_name"/>
-                                <field name="unidades"/>
-                                <field name="ancho"/>
-                                <field name="alto"/>
-                                <field name="mts_cuadrados" string="Mts^2 Und."/>
-                                <field name="mts_cuadrados_sub"/>
-                            </tree>
-                        </field>
-                    </group>
+                    <separator string="Secciones"/>
+                    <field name="last_section_name" invisible="1"/>
+                    <field name="section_ids" nolabel="1" context="{'default_section_name': last_section_name}">
+                        <tree string="Secciones" editable="bottom" >
+                            <field name="sequence" widget="handle"/>
+                            <field name="section_name"/>
+                            <field name="unidades"/>
+                            <field name="ancho"/>
+                            <field name="alto"/>
+                            <field name="mts_cuadrados" string="Mts^2 Und."/>
+                            <field name="mts_cuadrados_sub"/>
+                        </tree>
+                    </field>
                     <group>
                         <group>
                             <field name="total_lineales" attrs="{'invisible': [('manual_mode','=',True)]}"/>
@@ -33,10 +32,23 @@
                             <field name="total_cuadrados" attrs="{'invisible': [('manual_mode','=',True)]}"/>
                             <field name="total_cuadrados_manual" attrs="{'invisible': [('manual_mode','=',False)]}"/>
                         </group>
+                        <group>
+                            <field name="manual_mode" />
+                        </group>
                     </group>
-                    <group>
-                        <field name="manual_mode" />
-                    </group>
+                    <separator string="Productos"/>
+                    <field name="product_ids" nolabel="1" >
+                        <tree string="Productos" editable="bottom" >
+                            <field name="sequence" widget="handle"/>
+                            <field name="product_id"/>
+                            <field name="name"/>
+                            <field name="product_uom_qty"/>
+                            <field name="product_uom"/>
+                            <field name="product_uom_category_id" invisible="1"/>
+                            <field name="price_unit" invisible="1"/>
+                            <field name="tax_id" invisible="1"/>
+                        </tree>
+                    </field>
                 </page>
             </page>
         </field>

@@ -3,6 +3,31 @@
 
 from odoo import api, fields, models, _
 
+class CrmLeadProductLine(models.Model):
+	
+	_name = 'crm.lead.product.line'
+	_order = 'crm_lead_id, sequence, id'
+	
+	sequence = fields.Integer()
+	product_id = fields.Many2one(
+		'product.product', string='Producto', domain="[('sale_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', company_id)]",
+		change_default=True, ondelete='restrict', check_company=True)
+	name = fields.Text(string='Descripción', required=True)
+	product_uom_qty = fields.Float(string='Cantidad', digits='Product Unit of Measure', required=True, default=1.0)
+	product_uom = fields.Many2one('uom.uom', string='Unidad de medida', domain="[('category_id', '=', product_uom_category_id)]")
+	product_uom_category_id = fields.Many2one(related='product_id.uom_id.category_id', readonly=True)
+	price_unit = fields.Float('Precio unidad', required=True, digits='Product Price', default=0.0)
+	tax_id = fields.Many2many('account.tax', string='Impuestos', context={'active_test': False})
+	crm_lead_id = fields.Many2one('crm.lead')
+	
+	@api.onchange('product_id')
+	def onchange_product_id(self):
+		if self.product_id:
+			self.name = self.product_id.get_product_multiline_description_sale()
+			self.price_unit = self.product_id.lst_price
+			self.product_uom = self.product_id.uom_id.id
+			self.tax_id = self.product_id.taxes_id.ids
+
 class CrmLeadSections(models.Model):
 	
 	_name = 'crm.lead.section.line'
@@ -101,6 +126,11 @@ class CrmLead(models.Model):
 		digits="Product Unit Of Measure")
 
 	last_section_name = fields.Char(string="Ultima sección",compute = '_compute_last_section_name',store=True)
+
+	product_ids = fields.One2many(
+		comodel_name = 'crm.lead.product.line',
+		inverse_name = 'crm_lead_id',
+		string = 'Productos')
 	
 	@api.depends('section_ids', 'section_ids.ancho', 
 				'section_ids.alto', 'section_ids.mts_cuadrados',
