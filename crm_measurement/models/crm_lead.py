@@ -189,7 +189,7 @@ class CrmLead(models.Model):
 				'manual_mode':line.crm_lead_id.manual_mode,
 				'total_lineales_manual':line.crm_lead_id.total_lineales_manual,
 				'total_cuadrados_manual':line.crm_lead_id.total_cuadrados_manual,
-				'last_seccion_name':line.crm_lead_id.last_seccion_name
+				'last_seccion_name':line.crm_lead_id.last_section_name
 				}))
 
 			if order_lines:
