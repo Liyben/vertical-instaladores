@@ -11,7 +11,7 @@ class CrmLeadProductLine(models.Model):
 	sequence = fields.Integer()
 	product_id = fields.Many2one(
 		'product.product', string='Producto', domain="[('sale_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', company_id)]",
-		change_default=True, ondelete='restrict', check_company=True)
+		required=True, change_default=True, ondelete='restrict', check_company=True)
 	name = fields.Text(string='Descripción', required=True)
 	product_uom_qty = fields.Float(string='Cantidad', digits='Product Unit of Measure', required=True, default=1.0)
 	product_uom = fields.Many2one('uom.uom', string='Unidad de medida', domain="[('category_id', '=', product_uom_category_id)]")
@@ -174,3 +174,25 @@ class CrmLead(models.Model):
 				else: 
 					line.last_section_name = 'A'
 			
+	def action_new_quotation(self):
+		action = super(CrmLead, self).action_new_quotation()
+		if self.product_ids:
+			order_lines = []
+			for line in self.product_ids:
+				order_lines.append((0,0,{'product_id': line.product_id.id,
+				'name': line.name,
+				'product_uom_qty':line.product_uom_qty,
+				'product_uom': line.product_uom.id,
+				'price_unit': line.price_unit,
+				'tax_id':[(6, 0, line.tax_id.ids)],
+				'secciones_ids':[(6, 0, line.crm_lead_id.section_ids.ids)],
+				'manual_mode':line.crm_lead_id.manual_mode,
+				'total_lineales_manual':line.crm_lead_id.total_lineales_manual,
+				'total_cuadrados_manual':line.crm_lead_id.total_cuadrados_manual,
+				'last_seccion_name':line.crm_lead_id.last_seccion_name
+				}))
+
+			if order_lines:
+				action['context']['default_order_line'] = self.order_lines
+			
+		return action	
