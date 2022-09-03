@@ -193,6 +193,6 @@ class CrmLead(models.Model):
 				}))
 
 			if order_lines:
-				action['context']['default_order_line'] = self.order_lines
+				action['context']['default_order_line'] = order_lines
 			
 		return action	
