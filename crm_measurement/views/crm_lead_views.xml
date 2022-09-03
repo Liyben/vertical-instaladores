@@ -47,6 +47,7 @@
                             <field name="product_uom_category_id" invisible="1"/>
                             <field name="price_unit" invisible="1"/>
                             <field name="tax_id" invisible="1"/>
+                            <field name="company_id" invisible="1"/>
                         </tree>
                     </field>
                 </page>

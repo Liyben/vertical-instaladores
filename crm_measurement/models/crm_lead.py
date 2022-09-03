@@ -4,7 +4,7 @@
 from odoo import api, fields, models, _
 
 class CrmLeadProductLine(models.Model):
-	
+
 	_name = 'crm.lead.product.line'
 	_order = 'crm_lead_id, sequence, id'
 	
@@ -18,6 +18,7 @@ class CrmLeadProductLine(models.Model):
 	product_uom_category_id = fields.Many2one(related='product_id.uom_id.category_id', readonly=True)
 	price_unit = fields.Float('Precio unidad', required=True, digits='Product Price', default=0.0)
 	tax_id = fields.Many2many('account.tax', string='Impuestos', context={'active_test': False})
+	company_id = fields.Many2one('res.company', 'Compañia', required=True, index=True, default=lambda self: self.env.company)
 	crm_lead_id = fields.Many2one('crm.lead')
 	
 	@api.onchange('product_id')
