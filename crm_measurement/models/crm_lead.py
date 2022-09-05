@@ -178,6 +178,15 @@ class CrmLead(models.Model):
 		action = super(CrmLead, self).action_new_quotation()
 		if self.product_ids:
 			order_lines = []
+			section_lines = []
+			if self.section_ids:
+				for line in self.section_ids:
+					order_lines.append((0,0,{'sequence': line.sequence,
+					'ancho': line.ancho,
+					'alto': line.alto,
+					'section_name': line.section_name,
+					'unidades': line.unidades,
+					}))
 			for line in self.product_ids:
 				order_lines.append((0,0,{'product_id': line.product_id.id,
 				'name': line.name,
@@ -185,7 +194,7 @@ class CrmLead(models.Model):
 				'product_uom': line.product_uom.id,
 				'price_unit': line.price_unit,
 				'tax_id':[(6, 0, line.tax_id.ids)],
-				'secciones_ids':[(0, 0, line.crm_lead_id.section_ids.ids)],
+				'secciones_ids':section_lines,
 				'manual_mode':line.crm_lead_id.manual_mode,
 				'total_lineales_manual':line.crm_lead_id.total_lineales_manual,
 				'total_cuadrados_manual':line.crm_lead_id.total_cuadrados_manual,
