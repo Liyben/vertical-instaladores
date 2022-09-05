@@ -185,7 +185,7 @@ class CrmLead(models.Model):
 				'product_uom': line.product_uom.id,
 				'price_unit': line.price_unit,
 				'tax_id':[(6, 0, line.tax_id.ids)],
-				'secciones_ids':[(6, 0, line.crm_lead_id.section_ids.ids)],
+				'secciones_ids':[(0, 0, line.crm_lead_id.section_ids.ids)],
 				'manual_mode':line.crm_lead_id.manual_mode,
 				'total_lineales_manual':line.crm_lead_id.total_lineales_manual,
 				'total_cuadrados_manual':line.crm_lead_id.total_cuadrados_manual,
