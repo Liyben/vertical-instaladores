@@ -185,7 +185,7 @@ class CrmLead(models.Model):
 					section_lines.append((0,0,{'sequence': line.sequence,
 					'ancho': line.ancho,
 					'alto': line.alto,
-					'section_name': line.section_name,
+					'seccion_name': line.section_name,
 					'unidades': line.unidades,
 					}))
 			for line in self.product_ids:
