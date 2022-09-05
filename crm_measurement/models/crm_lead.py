@@ -1,6 +1,7 @@
 # © 2022 Liyben
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
+
 from odoo import api, fields, models, _
 
 class CrmLeadProductLine(models.Model):
@@ -181,20 +182,50 @@ class CrmLead(models.Model):
 			section_lines = []
 			if self.section_ids:
 				for line in self.section_ids:
-					order_lines.append((0,0,{'sequence': line.sequence,
+					section_lines.append((0,0,{'sequence': line.sequence,
 					'ancho': line.ancho,
 					'alto': line.alto,
 					'section_name': line.section_name,
 					'unidades': line.unidades,
 					}))
 			for line in self.product_ids:
+				auto_create_task = False
+				work_list = []
+				material_list = []
+
+				product = line.product_id
+				if product:
+					auto_create_task = (product.service_tracking == 'task_global_project') or (product.service_tracking == 'task_in_project')
+				
+				if auto_create_task:
+					for work in product.task_works_ids:
+						work_list.append((0,0, {
+							'name' : work.name,
+							'work_id': work.work_id.id,
+							'sale_price_unit' : work.sale_price_unit,
+							'cost_price_unit' : work.cost_price_unit,
+							'hours' : work.hours,
+							}))
+					
+					for material in product.task_materials_ids:
+						material_list.append((0,0, {
+							'material_id' : material.material_id.id,
+							'name' : material.name,
+							'sale_price_unit' : material.sale_price_unit,
+							'cost_price_unit' : material.cost_price_unit,
+							'quantity' : material.quantity,
+							}))
+
 				order_lines.append((0,0,{'product_id': line.product_id.id,
 				'name': line.name,
 				'product_uom_qty':line.product_uom_qty,
 				'product_uom': line.product_uom.id,
 				'price_unit': line.price_unit,
 				'tax_id':[(6, 0, line.tax_id.ids)],
-				'secciones_ids':section_lines,
+				'task_works_ids' : work_list,
+				'task_materials_ids' : material_list,
+				'auto_create_task' : auto_create_task, 
+				'secciones_ids': section_lines,
 				'manual_mode':line.crm_lead_id.manual_mode,
 				'total_lineales_manual':line.crm_lead_id.total_lineales_manual,
 				'total_cuadrados_manual':line.crm_lead_id.total_cuadrados_manual,
