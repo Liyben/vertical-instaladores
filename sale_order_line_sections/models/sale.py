@@ -37,6 +37,7 @@ class SaleOrderLine(models.Model):
 
 	last_seccion_name = fields.Char(string="Ultima sección",compute = '_compute_last_seccion_name',store=True)
 	
+	""" 
 	@api.onchange('total_lineales','total_cuadrados','manual_mode')
 	def _onchange_metros(self):
 		# Obtenemos el id de la unidad de medida ml y m2
@@ -65,7 +66,8 @@ class SaleOrderLine(models.Model):
 			# Comparamos el id de la unidad de medida del producto con m2_id
 			elif (material.material_id.uom_id.id == m2_id):
 				material.quantity = self.total_cuadrados_manual
-
+ """
+ 
 	@api.depends('secciones_ids', 'secciones_ids.ancho', 
 				'secciones_ids.alto', 'secciones_ids.mts_cuadrados',
 				'secciones_ids.unidades', 'secciones_ids.mts_cuadrados_sub')
