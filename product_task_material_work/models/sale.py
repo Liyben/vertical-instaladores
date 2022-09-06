@@ -5,6 +5,9 @@ from odoo import api, fields, models, exceptions, _
 from odoo.addons import decimal_precision as dp
 from odoo.tools import float_is_zero, float_compare
 
+import logging
+_logger = logging.getLogger(__name__)
+
 class SaleOrder(models.Model):
 	"""docstring for SaleOrder"""
 	_inherit='sale.order'
@@ -631,6 +634,10 @@ class SaleOrderLine(models.Model):
 					'task_materials_ids' : False,
 					'auto_create_task' : False,
 					'first_onchange' : False})
+		
+		if self.first_onchange:
+			_logger.debug('\n\nproduct_id_change\n\n')
+
 		return result
 
 	#Calculo del precio de venta y coste del prodcuto tipo partida en la linea de pedido
@@ -674,6 +681,7 @@ class SaleOrderLine(models.Model):
 					line.price_unit = line.total_sp_material + line.total_sp_work
 
 				if line.first_onchange:
+					_logger.debug('\n\n_onchange_task_materials_works_workforce\n\n')
 					line.purchase_price = product_standard_price
 					line.first_onchange = False
 				else:
@@ -723,11 +731,12 @@ class SaleOrderLine(models.Model):
 					line.price_unit = line.total_sp_material + line.total_sp_work
 				
 				if line.first_onchange:
+					_logger.debug('\n\nproduct_uom_change\n\n')
 					line.purchase_price = product_standard_price
 					line.first_onchange = False
 				else:
 					line.purchase_price = (line.total_cp_material + line.total_cp_work)
-					
+
 				#Recuperamos los precios de la ficha producto previamente guardado
 				line.product_id.write({
 					'lst_price' : product_lst_price,
