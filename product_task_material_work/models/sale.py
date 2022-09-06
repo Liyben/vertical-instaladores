@@ -677,7 +677,7 @@ class SaleOrderLine(models.Model):
 				else:
 					line.price_unit = line.total_sp_material + line.total_sp_work
 
-				if line.compound_onchange_count < 5	:
+				if line.compound_onchange_count < 4	:
 					line.compound_onchange_count = line.compound_onchange_count + 1
 					line.purchase_price = product_standard_price
 				else:
@@ -728,7 +728,7 @@ class SaleOrderLine(models.Model):
 				else:
 					line.price_unit = line.total_sp_material + line.total_sp_work
 				
-				if line.compound_onchange_count < 5	:
+				if line.compound_onchange_count < 4	:
 					line.compound_onchange_count = line.compound_onchange_count + 1
 					line.purchase_price = product_standard_price
 				else:
