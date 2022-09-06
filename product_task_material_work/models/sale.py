@@ -404,8 +404,8 @@ class SaleOrderLine(models.Model):
 	benefit_material_amount = fields.Float(string='Beneficio (€)', digits='Product Price', compute='_compute_benefit_material')
 	#Campo boolean para saber si crear o no una tarea de forma automatica
 	auto_create_task = fields.Boolean(string='Tarea automática', copy=True)
-	#Campo boolean para controlar el cambio del coste en la carga del producto
-	first_onchange = fields.Boolean()
+	#Campo para controlar el cambio del coste en la carga del producto
+	compound_onchange_count = fields.Integer()
 	#Opciones de impresión por linea de pedido
 	detailed_time = fields.Boolean(string='Imp. horas')
 	detailed_price_time = fields.Boolean(string='Imp. precio Hr.')
@@ -624,7 +624,7 @@ class SaleOrderLine(models.Model):
 			self.update({'task_works_ids' : work_list,
 					'task_materials_ids' : material_list,
 					'auto_create_task' : True,
-					'first_onchange' : True})
+					'compound_onchange_count' : 1})
 
 			#for line in self:
 			#	line.price_unit = (line.total_sp_material + line.total_sp_work)
@@ -633,13 +633,8 @@ class SaleOrderLine(models.Model):
 			self.update({'task_works_ids' : False,
 					'task_materials_ids' : False,
 					'auto_create_task' : False,
-					'first_onchange' : False})
-		
-		if self.first_onchange:
-			_logger.debug('\n\nproduct_id_change\n\n')
-		else:
-			_logger.debug('\n\nFALSEEEEEEEEEEEEEEEEEEEEEEEEEEEe\n\n')
-			
+					'compound_onchange_count' : 0})
+
 		return result
 
 	#Calculo del precio de venta y coste del prodcuto tipo partida en la linea de pedido
@@ -682,10 +677,9 @@ class SaleOrderLine(models.Model):
 				else:
 					line.price_unit = line.total_sp_material + line.total_sp_work
 
-				if line.first_onchange:
-					_logger.debug('\n\n_onchange_task_materials_works_workforce\n\n')
+				if line.compound_onchange_count < 3:
 					line.purchase_price = product_standard_price
-					line.first_onchange = False
+					line.compound_onchange_count = line.compound_onchange_count + 1
 				else:
 					line.purchase_price = (line.total_cp_material + line.total_cp_work)
 
@@ -732,10 +726,9 @@ class SaleOrderLine(models.Model):
 				else:
 					line.price_unit = line.total_sp_material + line.total_sp_work
 				
-				if line.first_onchange:
-					_logger.debug('\n\nproduct_uom_change\n\n')
+				if line.compound_onchange_count < 3:
 					line.purchase_price = product_standard_price
-					line.first_onchange = False
+					line.compound_onchange_count = line.compound_onchange_count + 1
 				else:
 					line.purchase_price = (line.total_cp_material + line.total_cp_work)
 
