@@ -721,8 +721,13 @@ class SaleOrderLine(models.Model):
 					line.price_unit = self.env['account.tax']._fix_tax_included_price_company(self._get_display_price(product), product.taxes_id, self.tax_id, self.company_id)
 				else:
 					line.price_unit = line.total_sp_material + line.total_sp_work
-				line.purchase_price = (line.total_cp_material + line.total_cp_work)
-
+				
+				if line.first_onchange:
+					line.purchase_price = product_standard_price
+					line.first_onchange = False
+				else:
+					line.purchase_price = (line.total_cp_material + line.total_cp_work)
+					
 				#Recuperamos los precios de la ficha producto previamente guardado
 				line.product_id.write({
 					'lst_price' : product_lst_price,
