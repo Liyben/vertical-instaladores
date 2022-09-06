@@ -637,7 +637,9 @@ class SaleOrderLine(models.Model):
 		
 		if self.first_onchange:
 			_logger.debug('\n\nproduct_id_change\n\n')
-
+		else:
+			_logger.debug('\n\nFALSEEEEEEEEEEEEEEEEEEEEEEEEEEEe\n\n')
+			
 		return result
 
 	#Calculo del precio de venta y coste del prodcuto tipo partida en la linea de pedido
