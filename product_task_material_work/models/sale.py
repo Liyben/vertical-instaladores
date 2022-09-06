@@ -678,9 +678,7 @@ class SaleOrderLine(models.Model):
 					line.price_unit = line.total_sp_material + line.total_sp_work
 
 				if line.compound_onchange_count < 3:
-					_logger.debug('\n\n%d\n\n', product_standard_price)
 					line.purchase_price = product_standard_price
-					line.compound_onchange_count = line.compound_onchange_count + 1
 				else:
 					line.purchase_price = (line.total_cp_material + line.total_cp_work)
 
@@ -689,6 +687,8 @@ class SaleOrderLine(models.Model):
 					'lst_price' : product_lst_price,
 					'standard_price' : product_standard_price,
 				})
+
+				line.compound_onchange_count = line.compound_onchange_count + 1
 			
 
 	#Cuando se cambie la cantida o las unidades del producto aplique la tarifa a los trabajos y
@@ -739,6 +739,8 @@ class SaleOrderLine(models.Model):
 					'lst_price' : product_lst_price,
 					'standard_price' : product_standard_price,
 				})
+
+				line.compound_onchange_count = line.compound_onchange_count + 1
 
 		return result
 
