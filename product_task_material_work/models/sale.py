@@ -404,8 +404,6 @@ class SaleOrderLine(models.Model):
 	benefit_material_amount = fields.Float(string='Beneficio (€)', digits='Product Price', compute='_compute_benefit_material')
 	#Campo boolean para saber si crear o no una tarea de forma automatica
 	auto_create_task = fields.Boolean(string='Tarea automática', copy=True)
-	#Campo para controlar el cambio del coste en la carga del producto
-	compound_onchange_count = fields.Integer()
 	#Opciones de impresión por linea de pedido
 	detailed_time = fields.Boolean(string='Imp. horas')
 	detailed_price_time = fields.Boolean(string='Imp. precio Hr.')
@@ -623,8 +621,7 @@ class SaleOrderLine(models.Model):
 
 			self.update({'task_works_ids' : work_list,
 					'task_materials_ids' : material_list,
-					'auto_create_task' : True,
-					'compound_onchange_count' : 1})
+					'auto_create_task' : True,})
 
 			#for line in self:
 			#	line.price_unit = (line.total_sp_material + line.total_sp_work)
@@ -632,14 +629,12 @@ class SaleOrderLine(models.Model):
 		else:
 			self.update({'task_works_ids' : False,
 					'task_materials_ids' : False,
-					'auto_create_task' : False,
-					'compound_onchange_count' : 0})
+					'auto_create_task' : False,})
 
 		return result
 
 	#Calculo del precio de venta y coste del prodcuto tipo partida en la linea de pedido
 	#al producirse algun cambio en los materiales, trabajos o mano de obra
-	
 	@api.onchange('task_materials_ids', 'task_works_ids')
 	def _onchange_task_materials_works_workforce(self):
 		product = self.product_id
@@ -677,11 +672,7 @@ class SaleOrderLine(models.Model):
 				else:
 					line.price_unit = line.total_sp_material + line.total_sp_work
 
-				if line.compound_onchange_count < 4	:
-					line.compound_onchange_count = line.compound_onchange_count + 1
-					line.purchase_price = product_standard_price
-				else:
-					line.purchase_price = (line.total_cp_material + line.total_cp_work)
+				line.purchase_price = (line.total_cp_material + line.total_cp_work)
 
 				#Recuperamos los precios de la ficha producto previamente guardado
 				line.product_id.write({
@@ -690,8 +681,6 @@ class SaleOrderLine(models.Model):
 				})
 
 				
-			
-
 	#Cuando se cambie la cantida o las unidades del producto aplique la tarifa a los trabajos y
 	#materiales si es de tipo partida el producto
 	@api.onchange('product_uom', 'product_uom_qty')
@@ -728,11 +717,7 @@ class SaleOrderLine(models.Model):
 				else:
 					line.price_unit = line.total_sp_material + line.total_sp_work
 				
-				if line.compound_onchange_count < 4	:
-					line.compound_onchange_count = line.compound_onchange_count + 1
-					line.purchase_price = product_standard_price
-				else:
-					line.purchase_price = (line.total_cp_material + line.total_cp_work)
+				line.purchase_price = (line.total_cp_material + line.total_cp_work)
 
 				#Recuperamos los precios de la ficha producto previamente guardado
 				line.product_id.write({
@@ -743,6 +728,44 @@ class SaleOrderLine(models.Model):
 				
 
 		return result
+
+	#Función que recalcula el precio de venta y coste del compuesto
+	def product_action_recalculate(self):
+		if self.auto_create_task and self.order_id.pricelist_id and self.order_id.partner_id:
+			for line in self:
+				#Guardamos los precios de la ficha de producto
+				product_lst_price = line.product_id.lst_price
+				product_standard_price = line.product_id.standard_price
+
+				#Actualizamos los precios de la ficha de producto con los precios de la linea de pedido
+				line.product_id.write({
+					'lst_price' : (line.total_sp_material + line.total_sp_work),
+					'standard_price' : (line.total_cp_material + line.total_cp_work),
+				})
+
+				#Aplicamos la tarifa
+				product = line.product_id.with_context(
+					lang=line.order_id.partner_id.lang,
+					partner=line.order_id.partner_id.id,
+					quantity=line.product_uom_qty,
+					date=line.order_id.date_order,
+					pricelist=line.order_id.pricelist_id.id,
+					uom=line.product_uom.id,
+					fiscal_position=self.env.context.get('fiscal_position')
+				)
+
+				if line.product_id.apply_pricelist:
+					line.price_unit = self.env['account.tax']._fix_tax_included_price_company(self._get_display_price(product), product.taxes_id, self.tax_id, self.company_id)
+				else:
+					line.price_unit = line.total_sp_material + line.total_sp_work
+
+				line.purchase_price = (line.total_cp_material + line.total_cp_work)
+
+				#Recuperamos los precios de la ficha producto previamente guardado
+				line.product_id.write({
+					'lst_price' : product_lst_price,
+					'standard_price' : product_standard_price,
+				})
 
 	#Calculo de las horas estimadas al crear el parte de trabajo correspondiente a la linea de pedido
 	def _convert_qty_company_hours(self,dest_company):
