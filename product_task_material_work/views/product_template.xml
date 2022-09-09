@@ -15,7 +15,13 @@
             <xpath expr="//page[@name='sales']" position="after">
                 <page string ="Partida" name="partida" attrs="{'invisible':[('auto_create_task','!=',True)]}">
                         <group>
-                            <field name="apply_pricelist"/>
+                            <group>
+                                <field name="apply_pricelist"/>
+                            </group>
+                            <group>
+                            <!-- Recacula el precio de venta y coste del producto con los materiales y trabajos, si el usuario requiere hacerlo sino se podria modificar manualmente -->
+                                <button string="Recalcular" name="product_action_recalculate" type="object" class="oe_highlight"/>
+                            </group>
                         </group>    
                         <group string="Trabajos">
                             <group>
@@ -74,10 +80,7 @@
                                 </div>
                             </group>
                         </group>
-                        <group>
-                            <!-- Recacula el precio de venta y coste del producto con los materiales y trabajos, si el usuario requiere hacerlo sino se podria modificar manualmente -->
-                            <button string="Recalcular" name="product_action_recalculate" type="object" class="oe_highlight"/>
-                        </group>
+                        
                 </page>
                 
             </xpath>
