@@ -18,6 +18,7 @@ class CrmLeadProductLine(models.Model):
 	product_uom = fields.Many2one('uom.uom', string='Unidad de medida', domain="[('category_id', '=', product_uom_category_id)]")
 	product_uom_category_id = fields.Many2one(related='product_id.uom_id.category_id', readonly=True)
 	price_unit = fields.Float('Precio unidad', required=True, digits='Product Price', default=0.0)
+	cost_unit = fields.Float('Coste unidad', required=True, digits='Product Price', default=0.0)
 	tax_id = fields.Many2many('account.tax', string='Impuestos', context={'active_test': False})
 	company_id = fields.Many2one('res.company', 'Compañia', required=True, index=True, default=lambda self: self.env.company)
 	crm_lead_id = fields.Many2one('crm.lead')
@@ -26,7 +27,12 @@ class CrmLeadProductLine(models.Model):
 	def onchange_product_id(self):
 		if self.product_id:
 			self.name = self.product_id.get_product_multiline_description_sale()
-			self.price_unit = self.product_id.lst_price
+			if self.product_id.auto_create_task:
+				self.price_unit = self.product_id.total_sp_work + self.product_id.total_sp_material
+				self.cost_unit = self.product_id.total_cp_work + self.product_id.total_cp_material
+			else:
+				self.price_unit = self.product_id.lst_price
+				self.cost_unit = self.product_id.standard_price
 			self.product_uom = self.product_id.uom_id.id
 			self.tax_id = self.product_id.taxes_id.ids
 
@@ -221,6 +227,7 @@ class CrmLead(models.Model):
 				'product_uom_qty':line.product_uom_qty,
 				'product_uom': line.product_uom.id,
 				'price_unit': line.price_unit,
+				'purchase_price': line.cost_unit,
 				'tax_id':[(6, 0, line.tax_id.ids)],
 				'task_works_ids' : work_list,
 				'task_materials_ids' : material_list,
