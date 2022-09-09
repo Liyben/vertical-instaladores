@@ -185,7 +185,9 @@
             </xpath>-->
 
             <xpath expr="//field[@name='order_line']/form//field[@name='display_type']" position="before">
-                <button string="Recalcular" name="product_action_recalculate" type="object" class="oe_highlight" attrs="{'invisible':[('auto_create_task','!=',True)]}"/>
+                <header>
+                    <button string="Recalcular" name="product_action_recalculate" type="object" class="oe_highlight" attrs="{'invisible':[('auto_create_task','!=',True)]}"/>
+                </header> 
             </xpath>
 
             <xpath expr="//field[@name='order_line']/form//field[@name='name']" position="after">
