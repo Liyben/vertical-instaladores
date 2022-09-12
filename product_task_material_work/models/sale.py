@@ -725,9 +725,25 @@ class SaleOrderLine(models.Model):
 					'standard_price' : product_standard_price,
 				})
 
-				
-
 		return result
+
+	def update_prices(self):
+		self.ensure_one()
+		for line in self._get_update_prices_lines():
+			
+			if line.auto_create_task:
+				for works in line.task_works_ids:
+					works._onchange_hours()
+					works._onchange_discount()
+				for materials in line.task_materials_ids:
+					materials._onchange_quantity()
+					materials._onchange_discount()
+
+			line.product_uom_change()
+			line.discount = 0  # Force 0 as discount for the cases when _onchange_discount directly returns
+			line._onchange_discount()
+		self.show_update_pricelist = False
+		self.message_post(body=_("Product prices have been recomputed according to pricelist <b>%s<b> ", self.pricelist_id.display_name))
 
 	#Función que recalcula el precio de venta y coste del compuesto
 	def product_action_recalculate(self):
