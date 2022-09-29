@@ -85,7 +85,8 @@ class SaleOrder(models.Model):
 								sale_price = item[2]["sale_price_unit"]
 								cost_price = item[2]["cost_price_unit"]
 								discount = item[2]["discount"]
-								if material_id == material.material_id.id and sale_price == material.sale_price_unit and cost_price == material.cost_price_unit and discount == material.discount:
+								name = item[2]["name"]
+								if material_id == material.material_id.id and sale_price == material.sale_price_unit and cost_price == material.cost_price_unit and discount == material.discount and name.upper() == material.name.upper():
 									item[2]["quantity"] = item[2]["quantity"] + (material.quantity * line.product_uom_qty)
 									encontrado = True
 							if not encontrado:	
@@ -117,7 +118,8 @@ class SaleOrder(models.Model):
 								sale_price = item[2]["sale_price_unit"]
 								cost_price = item[2]["cost_price_unit"]
 								discount = item[2]["discount"]
-								if work_id == work.work_id.id and sale_price == work.sale_price_unit and cost_price == work.cost_price_unit and discount == work.discount:
+								name = item[2]["name"]
+								if work_id == work.work_id.id and sale_price == work.sale_price_unit and cost_price == work.cost_price_unit and discount == work.discount and name.upper() == work.name.upper():
 									item[2]["hours"] = item[2]["hours"] + (work.hours * line.product_uom_qty)
 									encontrado = True
 							if not encontrado:	
