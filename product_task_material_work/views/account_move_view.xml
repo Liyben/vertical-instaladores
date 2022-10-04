@@ -45,6 +45,7 @@
                         icon="fa-pencil-square-o"
                         string="Editar"
                         class="float-right" 
+                        groups="product_task_material_work.group_account_move_line_edit" 
                         attrs="{'invisible' : ['|', ('parent_state', '!=', 'draft'),('auto_create_task', '=', False)]}"/>
             </xpath>
 
@@ -65,6 +66,7 @@
                     icon="fa-refresh"
                     string="Actualizar"
                     class="float-right" 
+                    groups="product_task_material_work.group_account_move_line_edit" 
                     attrs="{'invisible' : ['|', ('state', '!=', 'draft'),('has_compound_product', '=', False)]}"/>
             
             </xpath>
