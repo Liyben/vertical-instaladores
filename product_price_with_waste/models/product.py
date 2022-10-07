@@ -7,29 +7,26 @@ class ProductTemplate(models.Model):
 
 	_inherit='product.template'
 
-	#Precio sin desperdicio y % desperdicio
-	without_waste_price = fields.Float(string='Coste sin Desperdicio', digits='Product Price')
+	# % desperdicio
 	percent_waste = fields.Float(string='% Desperdicio', digits='Discount')
 	
-	@api.onchange('without_waste_price')
-	def _get_standard_price_without_waste_price(self):
+	#Función que recalcula el precio de venta y coste del articulo partida a partir de los totales de venta y coste
+	
+	def product_action_recalculate(self):
+		self.list_price = 0.0
+		self.standard_price = 0.0
 		for record in self:
-			record.standard_price = record.without_waste_price + (record.without_waste_price * record.percent_waste / 100)
-
-	@api.onchange('percent_waste')
-	def _get_standard_price_percent_waste(self):
-		for record in self:
-			record.standard_price = record.without_waste_price + (record.without_waste_price * record.percent_waste / 100)
+			record.list_price = record.total_sp_work + record.total_sp_material
+			record.standard_price = record.total_cp_work + record.total_cp_material + (((record.total_cp_work + record.total_cp_material) * record.percent_waste) / 100)
 
 class ProductProduct(models.Model):
 	_inherit = "product.product"
 	
-	@api.onchange('without_waste_price')
-	def _get_standard_price_without_waste_price(self):
+	#Función que recalcula el precio de venta y coste del articulo partida a partir de los totales de venta y coste
+	
+	def product_action_recalculate(self):
+		self.list_price = 0.0
+		self.standard_price = 0.0
 		for record in self:
-			record.standard_price = record.without_waste_price + (record.without_waste_price * record.percent_waste / 100)
-
-	@api.onchange('percent_waste')
-	def _get_standard_price_percent_waste(self):
-		for record in self:
-			record.standard_price = record.without_waste_price + (record.without_waste_price * record.percent_waste / 100)
+			record.list_price = record.total_sp_work + record.total_sp_material
+			record.standard_price = record.total_cp_work + record.total_cp_material + (((record.total_cp_work + record.total_cp_material) * record.percent_waste) / 100)

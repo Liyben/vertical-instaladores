@@ -12,8 +12,9 @@
         
         """,
     'author': 'Liyben',
-    'depends': ['product','account'],
+    'depends': ['product_task_material_work','sale_margin'],
     'data': ['views/product_views.xml',
+            'sale_views.xml',
     ],
     'qweb': [],
     'images': [
