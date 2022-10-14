@@ -407,7 +407,7 @@ class SaleOrderLine(models.Model):
 	#Campo boolean para saber si crear o no una tarea de forma automatica
 	auto_create_task = fields.Boolean(string='Tarea automática', copy=True)
 	#Opciones de impresión por linea de pedido
-	detailed_time = fields.Boolean(string='Imp. horas')
+	detailed_time = fields.Boolean(string='Imp. trabajos')
 	detailed_price_time = fields.Boolean(string='Imp. precio Hr.')
 	detailed_materials = fields.Boolean(string='Imp.materiales')
 	detailed_price_materials = fields.Boolean(string='Imp. precio Mat.')
