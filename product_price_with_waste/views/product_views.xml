@@ -9,7 +9,7 @@
             <xpath expr="//field[@name='apply_pricelist']" position="after">
                 <label for="percent_waste"/>
                 <div name="waste">
-                    <field name="percent_waste" groups="base.group_user" attrs="{'invisible': ['|', ('type', '=', 'service'), ('product_variant_count', '&gt;', 1), ('is_product_variant', '=', False)]}" class="oe_inline"/> %  
+                    <field name="percent_waste" groups="base.group_user" attrs="{'invisible': ['|', ('type', '!=', 'service'), ('product_variant_count', '&gt;', 1), ('is_product_variant', '=', False)]}" class="oe_inline"/> %  
                 </div>
             </xpath>
 
