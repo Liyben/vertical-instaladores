@@ -13,7 +13,7 @@ class SaleOrder(models.Model):
 
 
 	@api.depends('order_line','order_line.product_id')
-	def _compute_total_secciones(self):
+	def _compute_can_be_confirmed(self):
 		for record in self:
 			record.can_be_confirmed = False
 			for line in record.order_line:
