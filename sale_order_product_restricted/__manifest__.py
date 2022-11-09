@@ -12,7 +12,7 @@
         
         """,
     'author': 'Liyben',
-    'depends': ['product','sale'],
+    'depends': ['product','sale','merge_pt'],
     'data': ['views/product_views.xml',
             'views/sale_views.xml',
     ],
