@@ -62,3 +62,17 @@ class AccountAnalyticLine(models.Model):
 		self.total_cost_produced_unit = 0.0
 		for record in self:
 			record.total_cost_produced_unit = record.produced_unit * record.cost_produced_unit 
+
+	def _timesheet_postprocess_values(self, values):
+		result = super()._timesheet_postprocess_values(values)
+		sudo_self = self.sudo()
+		if any(field_name in values for field_name in ['produced_unit', 'product_produced_unit_id', 'cost_produced_unit']):
+			for timesheet in sudo_self:
+				cost = timesheet.cost_produced_unit or 0.0
+				amount = -timesheet.produced_unit * cost
+				amount_converted = timesheet.product_produced_unit_id.currency_id._convert(
+					amount, timesheet.account_id.currency_id or timesheet.currency_id, self.env.company, timesheet.date)
+				result[timesheet.id].update({
+					'amount': amount_converted,
+				})
+		return result
