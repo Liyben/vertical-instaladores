@@ -24,10 +24,9 @@ class AccountAnalyticLine(models.Model):
 		check_company=True
 	)
 	cost_produced_unit = fields.Float(
-		fields.Float(
 		string='Coste Unidades Producidas', compute="_compute_cost_produced_unit",
 		digits='Product Price', store=True, readonly=False,
-		groups="base.group_user")
+		groups="base.group_user"
 	)
 	total_cost_produced_unit = fields.Float(
 		string='Coste Total Unidades Producidas', 
