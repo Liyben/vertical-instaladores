@@ -66,7 +66,7 @@ class AccountAnalyticLine(models.Model):
 	def _timesheet_postprocess_values(self, values):
 		result = super()._timesheet_postprocess_values(values)
 		sudo_self = self.sudo()
-		if any(field_name in values for field_name in ['produced_unit', 'product_produced_unit_id', 'cost_produced_unit']):
+		if any(field_name in values for field_name in ['product_produced_unit_id']):
 			for timesheet in sudo_self:
 				cost = timesheet.cost_produced_unit or 0.0
 				amount = -timesheet.produced_unit * cost
