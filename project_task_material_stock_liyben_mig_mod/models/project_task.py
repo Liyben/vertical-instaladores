@@ -199,7 +199,7 @@ class Task(models.Model):
                     )
                     if todo_lines:
                         todo_lines.create_stock_move()
-                        todo_lines.create_analytic_line()
+                        # todo_lines.create_analytic_line()
                 else:
                     if task.unlink_stock_move() and task.material_ids.mapped(
                         "analytic_line_id"
@@ -283,7 +283,7 @@ class ProjectTaskMaterial(models.Model):
                     'name': task.sale_line_id.order_id.name +' ('+ task.code + ')', 
                     'move_type': task.sale_line_id.order_id.picking_policy or 'direct',
                     'task_id': task.id,
-                    'sale_id': task.sale_line_id.order_id.id or False,
+                    # 'sale_id': task.sale_line_id.order_id.id or False,
                     'partner_id': task.partner_id.id,
                 }
             )

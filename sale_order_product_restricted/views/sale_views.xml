@@ -19,10 +19,10 @@
         <field name="inherit_id" ref="merge_pt.view_sale_order_merge_task_action_confirm"/>
         <field name="arch" type="xml">
             <xpath expr="//button[@id='merge_task_action_confirm_not_sent']" position="attributes">
-                <attribute name="invisible">['|',('state', 'not in', ['sent']),('can_be_confirmed','=',True)]</attribute>
+                <attribute name="attrs">{'invisible': ['|',('state', 'not in', ['sent']),('can_be_confirmed','=',True)]}</attribute>
             </xpath>
             <xpath expr="//button[@id='merge_task_action_confirm_not_draft']" position="attributes">
-                <attribute name="invisible">['|',('state', 'not in', ['draft']),('can_be_confirmed','=',True)]</attribute>
+                <attribute name="attrs">{'invisible': ['|',('state', 'not in', ['draft']),('can_be_confirmed','=',True)]}</attribute>
             </xpath>
 
         </field>
