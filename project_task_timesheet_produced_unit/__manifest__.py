@@ -12,7 +12,8 @@
     'description': """
         """,
     'data': [
+        'views/product_views.xml',
         'views/project_task_views.xml',
     ],
-    'depends': ['hr_timesheet',],
+    'depends': ['hr_timesheet', 'uom','product',],
 }

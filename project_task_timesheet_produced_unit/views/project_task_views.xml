@@ -8,12 +8,20 @@
         <field name="arch" type="xml">
             <!-- Sub-tree view for timesheet_ids -->
             <xpath expr="//field[@name='timesheet_ids']/tree//field[@name='unit_amount']" position='after'>
-                <field name="produced_unit" string="Und-P"/>
+                <field name="product_produced_unit_id" string="Producto Und-P" optional="show"/>
+                <field name="produced_unit" string="Und-P" optional="show"/>
+                <field name="cost_produced_unit" string="Coste Und-P" widget="monetary" optional="show"/>
+                <field name="total_cost_produced_unit" string="T. Coste Und-P" sum="Total Coste Und-P" widget="monetary" optional="show"/>
             </xpath>
 
             <!-- Sub-form view for timesheet_ids -->
-            <xpath expr="//field[@name='timesheet_ids']/form//field[@name='unit_amount']" position='after'>
-                <field name="produced_unit" />
+            <xpath expr="//field[@name='timesheet_ids']/form//group" position='after'> 
+                <group string="Unidades Producidas">
+                    <field name="product_produced_unit_id" />
+                    <field name="produced_unit"/>
+                    <field name="cost_produced_unit" widget="monetary"/>
+                    <field name="total_cost_produced_unit" widget="monetary"/>
+                </group>
             </xpath>
 
         </field>

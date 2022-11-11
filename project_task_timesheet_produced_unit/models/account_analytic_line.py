@@ -7,8 +7,59 @@ from odoo import api, fields, models, exceptions, _
 class AccountAnalyticLine(models.Model):
 	_inherit = "account.analytic.line"
 
+	#Dominio para el campo mano de obra
+	@api.model
+	def _get_product_produced_unit_id_domain(self):
+		uom_categ_id = self.env.ref('uom.uom_categ_wtime').id
+		return [('uom_id.category_id', '=', uom_categ_id)]
+
 	produced_unit = fields.Float(
 		"Unidades producidas",
 		digits='Product Unit of Measure',
 	)
-	
+	product_produced_unit_id = fields.Many2one(
+		'product.product', 
+		string='Producto Unidades Producidas',  
+		domain=_get_product_produced_unit_id_domain, 
+		check_company=True
+	)
+	cost_produced_unit = fields.Float(
+		fields.Float(
+		string='Coste Unidades Producidas', compute="_compute_cost_produced_unit",
+		digits='Product Price', store=True, readonly=False,
+		groups="base.group_user")
+	)
+	total_cost_produced_unit = fields.Float(
+		string='Coste Total Unidades Producidas', 
+		digits='Product Price', 
+		compute="_compute_total_cost_produced_unit"
+	)
+
+	@api.depends('product_produced_unit_id', 'company_id', 'currency_id')
+	def _compute_cost_produced_unit(self):
+		for record in self:
+			if not record.product_produced_unit_id:
+				record.cost_produced_unit = 0.0
+				continue
+			record = record.with_company(record.company_id)
+			product = record.product_produced_unit_id
+			product_cost = product.cost_produced_unit
+			if not product_cost:
+				if not record.cost_produced_unit:
+					record.cost_produced_unit = 0.0
+				continue
+			fro_cur = product.cost_currency_id
+			to_cur = record.currency_id 
+			record.cost_produced_unit = fro_cur._convert(
+				from_amount=product_cost,
+				to_currency=to_cur,
+				company=record.company_id or self.env.company,
+				date=fields.Date.today(),
+				round=False,
+			) if to_cur and product_cost else product_cost
+
+	@api.depends('cost_produced_unit','produced_unit')
+	def _compute_total_cost_produced_unit(self):
+		self.total_cost_produced_unit = 0.0
+		for record in self:
+			record.total_cost_produced_unit = record.produced_unit * record.cost_produced_unit 
