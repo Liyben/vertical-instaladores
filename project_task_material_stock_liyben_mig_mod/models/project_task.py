@@ -199,7 +199,7 @@ class Task(models.Model):
                     )
                     if todo_lines:
                         todo_lines.create_stock_move()
-                        # todo_lines.create_analytic_line()
+                        todo_lines.create_analytic_line()
                 else:
                     if task.unlink_stock_move() and task.material_ids.mapped(
                         "analytic_line_id"
@@ -343,7 +343,7 @@ class ProjectTaskMaterial(models.Model):
             uom=self.product_uom_id.id
         ).price_compute("standard_price")[self.product_id.id]
         amount = amount_unit * self.quantity or 0.0
-        result = round(amount, company_id.currency_id.decimal_places) * -1
+        result = round(amount, company_id.currency_id.decimal_places) #* -1
         vals = {"amount": result}
         if "employee_id" in self.env["account.analytic.line"]._fields:
             vals["employee_id"] = (
