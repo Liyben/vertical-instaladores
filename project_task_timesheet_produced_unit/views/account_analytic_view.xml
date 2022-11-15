@@ -17,5 +17,19 @@
             </group>
         </field>
     </record>
+
+    <record model="ir.ui.view" id="view_account_analytic_line_tree">
+        <field name="name">Add cost unit</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="analytic.view_account_analytic_line_tree"/>
+        <field name="arch" type="xml">
+            <field name="company_id" position="after">
+                <field name="product_produced_unit_id" optional="show"/>
+                <field name="produced_unit" optional="show"/>
+                <field name="cost_produced_unit" widget="monetary" optional="show"/>
+                <field name="total_cost_produced_unit" widget="monetary" optional="show"/>
+            </field>
+        </field>
+    </record>
     
 </odoo>
