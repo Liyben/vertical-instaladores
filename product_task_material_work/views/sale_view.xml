@@ -41,7 +41,7 @@
                         <group>
                             <group string="Según Presupuesto">
                                 <field name="total_hours" widget="float_time"/>
-                                <field name="cost_price_work_hour" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="cost_price_work_hour" widget="monetary" options="{'currency_field': 'currency_id'}" groups="product_task_material_work.group_sales_product_cost"/>
                                 <field name="sale_price_work_hour" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                 <field name="total_cp_work" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                 <field name="total_sp_work" widget="monetary" options="{'currency_field': 'currency_id'}"/>
@@ -49,8 +49,8 @@
                             </group>
                             <group string="Presupuesto Real">
                                 <field name="total_ideal_hours" widget="float_time"/>
-                                <field name="cost_price_ideal_work_hour" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                                <field name="sale_price_ideal_work_hour" readonly="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="cost_price_ideal_work_hour" widget="monetary" options="{'currency_field': 'currency_id'}" groups="product_task_material_work.group_sales_product_cost"/>
+                                <field name="sale_price_ideal_work_hour" readonly="1" widget="monetary" options="{'currency_field': 'currency_id'}" />
                                 <field name="total_cp_ideal_work" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                 <field name="total_sp_ideal_work" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                 <field name="benefit_ideal_work" widget="percentage"/>
@@ -93,10 +93,10 @@
                                     <field name="name"/>
                                     <field name="quantity"/>
                                     <field name="sale_price_unit"/>
-                                    <field name="cost_price_unit"/>
+                                    <field name="cost_price_unit" groups="product_task_material_work.group_sales_product_cost"/>
                                     <field name="discount" groups="product.group_discount_per_so_line"/>
                                     <field name="sale_price" sum="Total P.V."/>
-                                    <field name="cost_price" sum="Total P.C."/>
+                                    <field name="cost_price" sum="Total P.C." groups="product_task_material_work.group_sales_product_cost"/>
                                 </tree>
                             </field>
                     </group>
@@ -107,10 +107,10 @@
                                     <field name="name"/>
                                     <field name="hours"/>
                                     <field name="sale_price_unit"/>
-                                    <field name="cost_price_unit"/>
+                                    <field name="cost_price_unit" groups="product_task_material_work.group_sales_product_cost"/>
                                     <field name="discount" groups="product.group_discount_per_so_line"/>
                                     <field name="sale_price" sum="Total P.V."/>
-                                    <field name="cost_price" sum="Total P.C."/>
+                                    <field name="cost_price" sum="Total P.C." groups="product_task_material_work.group_sales_product_cost"/>
                                 </tree>
                             </field>
                     </group>
@@ -208,10 +208,10 @@
                                     <field name="work_id"/>
                                     <field name="name"/>
                                     <field name="hours" sum="Horas totales" widget="float_time"/>
-                                    <field name="cost_price_unit" optional="show"/>
+                                    <field name="cost_price_unit" optional="show" groups="product_task_material_work.group_sales_product_cost"/>
                                     <field name="sale_price_unit" optional="show"/>
                                     <field name="discount" groups="product.group_discount_per_so_line" optional="show"/>
-                                    <field name="cost_price" sum="Total P.C." optional="hide"/>
+                                    <field name="cost_price" sum="Total P.C." optional="hide" groups="product_task_material_work.group_sales_product_cost"/>
                                     <field name="sale_price" sum="Total P.V." optional="show"/>
                                     <field name="work_margin" groups="product_task_material_work.group_sales_margin" optional="hide"/>
                                     <field name="work_margin_percent" optional="show" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
@@ -237,10 +237,10 @@
                                     <field name="material_id"/>
                                     <field name="name"/>
                                     <field name="quantity"/>
-                                    <field name="cost_price_unit" optional="show"/>
+                                    <field name="cost_price_unit" optional="show" groups="product_task_material_work.group_sales_product_cost"/>
                                     <field name="sale_price_unit" optional="show"/>
                                     <field name="discount" groups="product.group_discount_per_so_line" optional="show"/>
-                                    <field name="cost_price" sum="Total P.C." optional="hide"/>
+                                    <field name="cost_price" sum="Total P.C." optional="hide" groups="product_task_material_work.group_sales_product_cost"/>
                                     <field name="sale_price" sum="Total P.V." optional="show"/>
                                     <field name="material_margin" groups="product_task_material_work.group_sales_margin" optional="hide"/>
                                     <field name="material_margin_percent" optional="show" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
@@ -289,4 +289,27 @@
             </xpath>
         </field>
     </record>
+
+    <record model="ir.ui.view" id="sale_margin_sale_order_line">
+        <field name="name">sale.order.line.purchase.view.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale_margin.sale_margin_sale_order_line"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']/form//field[@name='purchase_price']" position="attributes">
+                <attribute name="groups">product_task_material_work.group_sales_product_cost</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sale_margin_sale_order_line_form">
+        <field name="name">sale.order.line.tree.purchase.view.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale_margin.sale_margin_sale_order_line_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']/tree//field[@name='purchase_price']" position="attributes">
+                <attribute name="groups">product_task_material_work.group_sales_product_cost</attribute>
+            </xpath>
+        </field>
+    </record>
+
 </odoo>
