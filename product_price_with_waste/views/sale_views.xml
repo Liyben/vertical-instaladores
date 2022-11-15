@@ -6,7 +6,7 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale_margin.sale_margin_sale_order_line"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='purchase_price']" position="after">
+            <xpath expr="//field[@name='order_line']/form//field[@name='price_unit']" position="after">
                 <field name="percent_waste" groups="base.group_user" attrs="{'invisible':[('auto_create_task','!=',True)]}"/> 
             </xpath>
 
