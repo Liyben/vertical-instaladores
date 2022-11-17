@@ -583,6 +583,9 @@ class SaleOrderLine(models.Model):
 			self.auto_create_task = (product.service_tracking == 'task_global_project') or (product.service_tracking == 'task_in_project')
 
 		if self.auto_create_task:
+			self.update({'task_works_ids' : False,
+					'task_materials_ids' : False,})
+
 			work_list = []
 			for work in product.task_works_ids:
 				workforce = work.work_id.with_context(
