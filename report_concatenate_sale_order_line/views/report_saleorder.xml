@@ -9,7 +9,7 @@
                 <t t-foreach="line.task_materials_ids" t-as="material">
                     <t t-if="material.material_id.concatenate_description">
                         <span t-field="material.material_id.description_sale"/>
-                        </br>
+                        <br/>
                     </t>
                 </t>
             </t>
