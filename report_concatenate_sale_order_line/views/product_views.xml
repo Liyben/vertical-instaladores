@@ -9,7 +9,7 @@
             <xpath expr="//div[@name='options']" position="inside">
                 <div groups="base.group_user" attrs="{'invisible': [('product_compound_count','=',0)]}">
                     <field name="concatenate_description"/>
-                    <label for="salconcatenate_descriptione_ok"/>
+                    <label for="concatenate_description"/>
                 </div>
             </xpath>
         </field>
