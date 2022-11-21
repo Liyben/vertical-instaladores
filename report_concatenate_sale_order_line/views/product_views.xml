@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="product.product_template_form_view"/>
         <field name="arch" type="xml">
             <xpath expr="//div[@name='options']" position="inside">
-                <div groups="base.group_user" attrs="{'invisible': [('product_compound_count','=',0)]}">
+                <div groups="base.group_user" attrs="{'invisible': [('type','=','service')]}">
                     <field name="concatenate_description"/>
                     <label for="concatenate_description"/>
                 </div>
