@@ -53,15 +53,16 @@ class CrmLead(models.Model):
 
 	@api.model_create_multi
 	def create(self, vals_list):
-		# Creamos el aviso para cambiar los seguidores del documento
-		record = super(CrmLead,self.with_context(mail_create_nosubscribe=True)).create(vals_list)
 
 		#Asignamos la secuencia correcta 
 		for vals in vals_list:
-			if (vals.get("code", "/") == "/" and record.sub_type == 'opportunity'):
-				record.sequence_code = self.env.ref(
+			if (vals.get("sequence_code", "/") == "/" and vals.get("sub_type") == 'opportunity'):
+				vals["sequence_code"] = self.env.ref(
 						"lyb_crm_sat.sequence_opportunity", raise_if_not_found=False
 					).next_by_id()
+
+		# Creamos el aviso para cambiar los seguidores del documento
+		record = super(CrmLead,self.with_context(mail_create_nosubscribe=True)).create(vals_list)
 
 		#Lista de seguidores
 		follower_ids = []
