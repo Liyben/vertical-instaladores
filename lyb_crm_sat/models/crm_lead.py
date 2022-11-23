@@ -73,7 +73,7 @@ class CrmLead(models.Model):
 
 		#Añadimos la lista de seguidores al aviso
 		if follower_ids:
-			record.message_subscribe_users(user_ids= follower_ids)
+			record.message_subscribe(partner_ids=follower_ids)
 
 		#Mandamos el correo a los seguidores del aviso con los datos de este. También se envia otro correo al comercial
 		if record.worker_one:
