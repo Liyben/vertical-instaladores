@@ -57,10 +57,11 @@ class CrmLead(models.Model):
 		record = super(CrmLead,self.with_context(mail_create_nosubscribe=True)).create(vals_list)
 
 		#Asignamos la secuencia correcta 
-		if (record.sub_type == 'opportunity'):
-			record.sequence_code = self.env.ref(
-					"lyb_crm_sat.sequence_opportunity", raise_if_not_found=False
-				).next_by_id()
+		for vals in vals_list:
+			if (vals.get("code", "/") == "/" and record.sub_type == 'opportunity'):
+				record.sequence_code = self.env.ref(
+						"lyb_crm_sat.sequence_opportunity", raise_if_not_found=False
+					).next_by_id()
 
 		#Lista de seguidores
 		follower_ids = []
