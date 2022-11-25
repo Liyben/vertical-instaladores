@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+        <record id="action_report_stock_picking_deliveryslip" model="ir.actions.report">
+            <field name="name">Albarán valorizado</field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">stock_picking_add_2_report_valued.report_stock_picking_deliveryslip</field>
+            <field name="report_file">stock_picking_add_2_report_valued.report_stockpicking</field>
+            <field name="print_report_name">'Albarán de entrega - %s - %s' % (object.partner_id.name or '', object.name)</field>
+            <field name="binding_model_id" ref="model_stock_picking"/>
+            <field name="binding_type">report</field>
+        </record>
+<!--
+        <record id="action_report_picking" model="ir.actions.report">
+            <field name="name">Operaciones de albarán valorizado</field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">stock_picking_add_2_report_valued.report_picking</field>
+            <field name="report_file">stock_picking_add_2_report_valued.report_stockpicking</field>
+            <field name="print_report_name">'Operaciones de albarán - %s - %s' % (object.partner_id.name or '', object.name)</field>
+            <field name="binding_model_id" ref="model_stock_picking"/>
+            <field name="binding_type">report</field>
+        </record>
+-->
+    </data>
+
+</odoo>
