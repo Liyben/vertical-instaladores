@@ -1142,7 +1142,7 @@ class SaleOrderLineTaskMaterial(models.Model):
 	sale_price_unit = fields.Float(string='P.V.U.', digits='Product Price')
 	cost_price_unit = fields.Float(string='P.C.U.', digits='Product Price')
 	#Cantidad de cada material
-	quantity = fields.Float(string='Und.', digits=dp.get_precision('Product Unit of Measure'))
+	quantity = fields.Float(string='Und.', digits=dp.get_precision('Product Unit of Measure'), default=1.0)
 	#Descuento aplicado al precio del material
 	discount = fields.Float(string='Des. (%)', digits=dp.get_precision('Discount'), default=0.0)
 	sequence = fields.Integer()
@@ -1183,7 +1183,7 @@ class SaleOrderLineTaskMaterial(models.Model):
 			
 				record.sale_price_unit = record.order_line_id.env['account.tax']._fix_tax_included_price_company(self._get_display_price_material(material), material.taxes_id, self.order_line_id.tax_id, self.order_line_id.company_id)
 				record.cost_price_unit = record.material_id.standard_price
-				record.quantity = 1.0
+				#record.quantity = 1.0
 				record.name = record.material_id.name
 
 	#Calculo del precio de venta y coste unitario segun tarifa al cambiar la cantidad
