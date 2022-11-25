@@ -7,6 +7,14 @@
         <field name="model">crm.lead</field>
         <field name="inherit_id" ref="crm.quick_create_opportunity_form" />
         <field name="arch" type="xml">
+            <xpath expr="//field[@name='type']" position="after">
+                <field name="sub_type" invisible="1"/>
+            </xpath>
+
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="context">{'res_partner_search_mode': sub_type == 'opportunity' and 'customer' or False, 'default_name': contact_name or partner_name, 'default_is_company': sub_type == 'opportunity' and contact_name == False, 'default_company_name': sub_type == 'opportunity' and partner_name, 'default_phone': phone, 'default_email': email_from, 'show_vat': True}
+                </attribute>
+            </xpath>
 
             <xpath expr="//field[@name='mobile']" position="replace"></xpath>
 
@@ -94,6 +102,10 @@
 
             <xpath expr="//field[@id='mobile_page_lead']" position="attributes">
                 <attribute name="invisible">True</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='team_id']" position="attributes">
+                <attribute name="required">True</attribute>
             </xpath>
 
             <xpath expr="//label[@for='mobile_page_lead']" position="attributes">
