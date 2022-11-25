@@ -18,5 +18,5 @@ class SaleOrder(models.Model):
 			record.can_be_confirmed = False
 			for line in record.order_line:
 				record.can_be_confirmed = record.can_be_confirmed or line.product_id.is_template
-				for material in line.task_material_ids:
+				for material in line.task_materials_ids:
 					record.can_be_confirmed = record.can_be_confirmed or material.material_id.is_template
