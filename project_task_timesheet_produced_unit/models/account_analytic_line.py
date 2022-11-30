@@ -13,7 +13,9 @@ class AccountAnalyticLine(models.Model):
 	@api.model
 	def _get_product_produced_unit_id_domain(self):
 		ids=[]
+		_logger.debug("TASK_ID OK\n")
 		for record in self:
+			_logger.debug("TASK_ID OK\n")
 			if record.task_id:
 				_logger.debug("TASK_ID OK\n")
 				if record.task_id.material_ids:
