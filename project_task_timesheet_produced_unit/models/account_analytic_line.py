@@ -4,6 +4,11 @@
 from odoo import api, fields, models, exceptions, _
 
 
+import logging
+
+_logger = logging.getLogger(__name__)
+
+
 class AccountAnalyticLine(models.Model):
 	_inherit = "account.analytic.line"
 
@@ -11,10 +16,14 @@ class AccountAnalyticLine(models.Model):
 	@api.model
 	def _get_product_produced_unit_id_domain(self):
 		product_list_ids = []
+		ids = [51054, 51051]
 		for line in self.task_id.material_ids:
 			if line.material_id.cost_produced_unit > 0.0:
 				product_list_ids.append(line.material_id.id)
-		return ('id', 'in', product_list_ids)
+		_logger.debug(" my log in terminal\n")
+		_logger.debug(product_list_ids)
+		_logger.debug(ids)
+		return ('id', 'in', ids)
 
 	produced_unit = fields.Float(
 		"Unidades producidas",
@@ -23,6 +32,7 @@ class AccountAnalyticLine(models.Model):
 	product_produced_unit_id = fields.Many2one(
 		'product.product', 
 		string='Producto Unidades Producidas',  
+		domain=_get_product_produced_unit_id_domain, 
 		check_company=True
 	)
 	cost_produced_unit = fields.Float(
