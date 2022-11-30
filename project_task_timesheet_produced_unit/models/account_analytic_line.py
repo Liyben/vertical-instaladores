@@ -13,7 +13,7 @@ class AccountAnalyticLine(models.Model):
 	@api.model
 	def _get_product_produced_unit_id_domain(self):
 		materials = self.env['project.task.material'].search([('task_id', '=', self.task_id.id)])
-		ids = materials.ids
+		ids = materials.mapped('product_id').ids
 		return [('id', 'in', ids), ('cost_produced_unit', '>', 0)]
 
 	produced_unit = fields.Float(
