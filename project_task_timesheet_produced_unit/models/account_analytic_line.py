@@ -10,8 +10,9 @@ class AccountAnalyticLine(models.Model):
 	#Dominio para el campo mano de obra
 	@api.model
 	def _get_product_produced_unit_id_domain(self):
-		uom_categ_id = self.env.ref('uom.uom_categ_wtime').id
-		return [('uom_id.category_id', '=', uom_categ_id)]
+		materials = self.task_id.material_ids.search([('cost_produced_unit', '>', 0)])
+		product_list_ids = [line.material_id.id for line in materials]
+		return [('id', 'in', product_list_ids)]
 
 	produced_unit = fields.Float(
 		"Unidades producidas",

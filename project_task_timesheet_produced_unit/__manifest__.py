@@ -16,5 +16,5 @@
         'views/project_task_views.xml',
         'views/account_analytic_view.xml',
     ],
-    'depends': ['hr_timesheet', 'uom','product',],
+    'depends': ['hr_timesheet', 'uom','product','project_task_material'],
 }
