@@ -14,7 +14,7 @@ class AccountAnalyticLine(models.Model):
 		for record in self:
 			if record.task_id.material_ids:
 				ids = self.task_id.material_ids.mapped('material_id').ids
-		return [('id', 'in', ids)]
+		return [('cost_produced_unit', '>', 0)]
 
 	produced_unit = fields.Float(
 		"Unidades producidas",
