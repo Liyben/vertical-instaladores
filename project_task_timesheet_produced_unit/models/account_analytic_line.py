@@ -3,6 +3,8 @@
 
 from odoo import api, fields, models, exceptions, _
 
+import logging
+_logger = logging.getLogger(__name__)
 
 class AccountAnalyticLine(models.Model):
 	_inherit = "account.analytic.line"
@@ -10,7 +12,13 @@ class AccountAnalyticLine(models.Model):
 	#Dominio para el campo mano de obra
 	@api.model
 	def _get_product_produced_unit_id_domain(self):
-		ids = self.task_id.material_ids.mapped('product_id').ids
+		ids=[]
+		for record in self:
+			if record.task_id:
+				_logger.debug("TASK_ID OK\n")
+				if record.task_id.material_ids:
+					_logger.debug("MATERIAL_IDS OK\n")
+					ids = self.task_id.material_ids.mapped('product_id').ids
 		return [('id', 'in', ids), ('cost_produced_unit', '>', 0)]
 
 	produced_unit = fields.Float(
