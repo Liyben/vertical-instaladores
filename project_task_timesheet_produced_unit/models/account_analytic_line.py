@@ -10,11 +10,10 @@ class AccountAnalyticLine(models.Model):
 	#Dominio para el campo mano de obra
 	@api.model
 	def _get_product_produced_unit_id_domain(self):
+		ids = []
 		for record in self:
 			if record.task_id.material_ids:
 				ids = self.task_id.material_ids.mapped('material_id').ids
-			else:
-				ids = False
 		return [('id', 'in', ids)]
 
 	produced_unit = fields.Float(
