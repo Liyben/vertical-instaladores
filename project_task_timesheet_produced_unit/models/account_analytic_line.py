@@ -14,7 +14,7 @@ class AccountAnalyticLine(models.Model):
 	def _get_product_produced_unit_id_domain(self):
 		ids = []
 		if self.task_id:
-			tasks = self.env['project.task'].search(['id', '=', self.task_id.id]).mapped('id').ids
+			tasks = self.env['project.task'].search(['id', '=', 12]).mapped('id').ids
 			ids = self.env['project.task.material'].search(['task_id', 'in', tasks]).mapped('product_id').ids
 		return [('id', 'in', ids), ('cost_produced_unit', '>', 0)]
 
