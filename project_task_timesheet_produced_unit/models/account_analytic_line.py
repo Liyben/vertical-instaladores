@@ -12,15 +12,8 @@ class AccountAnalyticLine(models.Model):
 	#Dominio para el campo mano de obra
 	@api.model
 	def _get_product_produced_unit_id_domain(self):
-		ids=[]
-		_logger.debug("TASK_ID OK\n")
-		for record in self:
-			_logger.debug("TASK_ID OK\n")
-			if record.task_id:
-				_logger.debug("TASK_ID OK\n")
-				if record.task_id.material_ids:
-					_logger.debug("MATERIAL_IDS OK\n")
-					ids = self.task_id.material_ids.mapped('product_id').ids
+		materials = self.env['project.task.material'].search([('task_id', '=', self.task_id.id)])
+		ids = materials.ids
 		return [('id', 'in', ids), ('cost_produced_unit', '>', 0)]
 
 	produced_unit = fields.Float(
