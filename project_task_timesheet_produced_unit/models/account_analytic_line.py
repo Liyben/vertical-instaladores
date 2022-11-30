@@ -13,7 +13,7 @@ class AccountAnalyticLine(models.Model):
 		product_list_ids = []
 		for line in self.task_id.material_ids:
 			if line.material_id.cost_produced_unit > 0.0:
-				product_list_ids.append((0,0,line.product_id.id))
+				product_list_ids.append((0,0,line.material_id.id))
 		return [('id', 'in', product_list_ids)]
 
 	produced_unit = fields.Float(
