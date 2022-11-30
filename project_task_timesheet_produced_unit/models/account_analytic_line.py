@@ -3,16 +3,16 @@
 
 from odoo import api, fields, models, exceptions, _
 
+
 class AccountAnalyticLine(models.Model):
 	_inherit = "account.analytic.line"
 
 	#Dominio para el campo mano de obra
 	@api.model
-	def _get_product_produced_unit_id(self):
+	def _get_product_produced_unit_id_domain(self):
 		ids = self.task_id.material_ids.mapped('material_id').ids
-		domain = [ ('id', 'in', ids) ]
-		return self.env['product.product'].search(domain)
-		
+		return [('id', 'in', ids)]
+
 	produced_unit = fields.Float(
 		"Unidades producidas",
 		digits='Product Unit of Measure',
@@ -20,7 +20,7 @@ class AccountAnalyticLine(models.Model):
 	product_produced_unit_id = fields.Many2one(
 		'product.product', 
 		string='Producto Unidades Producidas',  
-		default=_get_product_produced_unit_id, 
+		domain=_get_product_produced_unit_id_domain, 
 		check_company=True
 	)
 	cost_produced_unit = fields.Float(
