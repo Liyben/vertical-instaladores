@@ -16,9 +16,9 @@ class AccountAnalyticLine(models.Model):
 		""" for record in self:
 			if record.task_id:
 				ids = record.task_id.material_ids.mapped('product_id').ids """
-		if self.task_id:
-			ids = self.env['project.task.material'].search([('task_id.id', '=', self.x_test)]).mapped('product_id').ids
-		return [('id', 'in', ids), ('cost_produced_unit', '>', 0)]
+		
+		return self.env['project.task.material'].search([('task_id.id', '=',12)]).mapped('product_id').ids
+		#return [('id', 'in', ids), ('cost_produced_unit', '>', 0)]
 
 	produced_unit = fields.Float(
 		"Unidades producidas",
@@ -27,7 +27,7 @@ class AccountAnalyticLine(models.Model):
 	product_produced_unit_id = fields.Many2one(
 		'product.product', 
 		string='Producto Unidades Producidas',  
-		domain=_get_product_produced_unit_id_domain, 
+		default=_get_product_produced_unit_id_domain, 
 		check_company=True
 	)
 	cost_produced_unit = fields.Float(
