@@ -28,7 +28,7 @@ class AccountAnalyticLine(models.Model):
 		'product.product', 
 		string='Producto Unidades Producidas',  
 		default=_get_product_produced_unit_id_domain, 
-		check_company=True
+		#check_company=True
 	)
 	cost_produced_unit = fields.Float(
 		string='Coste Unidades Producidas', compute="_compute_cost_produced_unit",
