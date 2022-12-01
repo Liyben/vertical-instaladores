@@ -12,7 +12,7 @@ class AccountAnalyticLine(models.Model):
 	#Dominio para el campo mano de obra
 	@api.model
 	def _get_product_produced_unit_id_domain(self):
-		task = self.task_id[0]
+		task = self.task_id
 		ids = self.env['project.task.material'].sudo().search([('task_id.id', '=', task)]).mapped('product_id').ids
 		return [('id', 'in', ids), ('cost_produced_unit', '>', 0)]
 
