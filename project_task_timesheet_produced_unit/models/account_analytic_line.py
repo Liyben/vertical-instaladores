@@ -12,7 +12,8 @@ class AccountAnalyticLine(models.Model):
 	#Dominio para el campo mano de obra
 	@api.model
 	def _get_product_produced_unit_id_domain(self):
-		task = self.task_id
+		sudo_self = self.sudo()
+		task = sudo_self.task_id.id
 		ids = self.env['project.task.material'].sudo().search([('task_id.id', '=', task)]).mapped('product_id').ids
 		return [('id', 'in', ids), ('cost_produced_unit', '>', 0)]
 
@@ -36,9 +37,6 @@ class AccountAnalyticLine(models.Model):
 		digits='Product Price', 
 		compute="_compute_total_cost_produced_unit"
 	)
-
-	id_task = fields.Integer(string="Id tarea relacionada",
-		related="task_id.id", store=True)
 
 	@api.depends('product_produced_unit_id', 'company_id', 'currency_id')
 	def _compute_cost_produced_unit(self):
