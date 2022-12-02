@@ -19,10 +19,11 @@
         <field name="inherit_id" ref="product_task_material_work.view_sale_order_line_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='task_materials_ids']/tree//field[@name='material_id']" position="before">
-                <field name="have_to_check" optional="show"/> 
+                <field name="have_to_check" string="Revisar" optional="show"/> 
             </xpath>
             <xpath expr="//field[@name='task_materials_ids']/tree//field[@name='name']" position="attributes">
                 <attribute name="attrs">{'readonly': [('have_to_check','=',True)]}</attribute>
+                <attribute name="force_save">1</attribute>
             </xpath>
 
         </field>
