@@ -8,7 +8,6 @@ class SaleOrder(models.Model):
 	_inherit='sale.order'
 
 
-	# % desperdicio
 	can_be_confirmed = fields.Boolean(compute = '_compute_can_be_confirmed')
 
 
@@ -19,4 +18,10 @@ class SaleOrder(models.Model):
 			for line in record.order_line:
 				record.can_be_confirmed = record.can_be_confirmed or line.product_id.is_template
 				for material in line.task_materials_ids:
-					record.can_be_confirmed = record.can_be_confirmed or material.material_id.is_template
+					record.can_be_confirmed = record.can_be_confirmed or material.material_id.is_template or material.have_to_check
+
+class SaleOrderLineTaskMaterial(models.Model):
+	
+	_inherit = 'sale.order.line.task.material'
+
+	have_to_check = fields.Boolean(String="Revisar")
