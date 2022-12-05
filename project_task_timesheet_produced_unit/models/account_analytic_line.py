@@ -24,7 +24,7 @@ class AccountAnalyticLine(models.Model):
 	product_produced_unit_id = fields.Many2one(
 		'product.product', 
 		string='Producto Unidades Producidas',  
-		domain=_get_product_produced_unit_id_domain, 
+		#domain=_get_product_produced_unit_id_domain, 
 		check_company=True
 	)
 	cost_produced_unit = fields.Float(
