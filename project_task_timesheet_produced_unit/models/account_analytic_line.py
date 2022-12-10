@@ -4,9 +4,6 @@
 from odoo import api, fields, models, exceptions, _
 import json
 
-import logging
-_logger = logging.getLogger(__name__)
-
 class AccountAnalyticLine(models.Model):
 	_inherit = "account.analytic.line"
 
@@ -16,8 +13,7 @@ class AccountAnalyticLine(models.Model):
 	)
 	product_produced_unit_id = fields.Many2one(
 		'product.product', 
-		string='Producto Unidades Producidas',  
-		#default=_default_product_produced_unit_id, 
+		string='Producto Unidades Producidas',   
 		check_company=True
 	)
 	cost_produced_unit = fields.Float(
@@ -39,9 +35,10 @@ class AccountAnalyticLine(models.Model):
 	@api.depends('task_id')
 	def _compute_product_id_domain(self):
 		for record in self:
+			record.product_id_domain = json.dumps([('cost_produced_unit', '>', 0.0)])
 			if record.task_id.material_ids:
 				ids = record.task_id.material_ids.mapped('product_id').ids
-				record.product_id_domain = json.dumps([('id', 'in', ids)])
+				record.product_id_domain = json.dumps([('id', 'in', ids),('cost_produced_unit', '>', 0.0)])
 
 	@api.depends('product_produced_unit_id', 'company_id', 'currency_id')
 	def _compute_cost_produced_unit(self):
