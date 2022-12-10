@@ -40,16 +40,6 @@ class AccountAnalyticLine(models.Model):
 		compute="_compute_total_cost_produced_unit"
 	)
 
-	@api.model_create_multi
-	def create(self, vals_list):
-		task_model = self.env["project.task"]
-		for vals in vals_list:
-			if vals.get("task_id") :
-				task = task_model.browse(vals.get("task_id")).sudo()
-				if task:
-					vals["id_task"] = task.id
-		return super().create(vals_list)
-
 	@api.depends('product_produced_unit_id', 'company_id', 'currency_id')
 	def _compute_cost_produced_unit(self):
 		for record in self:
