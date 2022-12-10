@@ -13,10 +13,10 @@ class AccountAnalyticLine(models.Model):
 	@api.model
 	def _get_product_produced_unit_id_domain(self):
 		ids = []
-		if self._context.get('active_model') == 'project.task':
+		print(".....................context", self.env.context)
+		if self.env.context.get('active_model') == 'project.task':
 			active_id = self.env.context.get('active_id')
-			if active_id:
-				ids = self.env['project.task.material'].sudo().search([('task_id', '=', active_id)]).mapped('product_id').ids
+			ids = self.env['project.task.material'].sudo().search([('task_id.id', '=', active_id)]).mapped('product_id').ids
 		return [('id', 'in', ids), ('cost_produced_unit', '>', 0)]
 
 	produced_unit = fields.Float(
