@@ -11,9 +11,9 @@ class AccountAnalyticLine(models.Model):
 
 	#Dominio para el campo mano de obra
 	@api.model
-	def _get_product_produced_unit_id_domain(self):
-		ids = []
-		print(".....................context", self.env.context)
+	def _default_product_produced_unit_id(self):
+		_logger.debug(".....................context", self.env.context)
+		
 		if self.env.context.get('active_model') == 'project.task':
 			active_id = self.env.context.get('active_id')
 			ids = self.env['project.task.material'].sudo().search([('task_id.id', '=', active_id)]).mapped('product_id').ids
@@ -26,7 +26,7 @@ class AccountAnalyticLine(models.Model):
 	product_produced_unit_id = fields.Many2one(
 		'product.product', 
 		string='Producto Unidades Producidas',  
-		domain=_get_product_produced_unit_id_domain, 
+		#default=_default_product_produced_unit_id, 
 		check_company=True
 	)
 	cost_produced_unit = fields.Float(

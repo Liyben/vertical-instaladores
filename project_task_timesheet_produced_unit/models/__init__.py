@@ -3,3 +3,4 @@
 
 from . import account_analytic_line
 from . import product
+from . import project_task
