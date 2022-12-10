@@ -2,22 +2,13 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import api, fields, models, exceptions, _
+import json
 
 import logging
 _logger = logging.getLogger(__name__)
 
 class AccountAnalyticLine(models.Model):
 	_inherit = "account.analytic.line"
-
-	#Dominio para el campo mano de obra
-	@api.model
-	def _default_product_produced_unit_id(self):
-		_logger.debug(".....................context", self.env.context)
-		
-		if self.env.context.get('active_model') == 'project.task':
-			active_id = self.env.context.get('active_id')
-			ids = self.env['project.task.material'].sudo().search([('task_id.id', '=', active_id)]).mapped('product_id').ids
-		return [('id', 'in', ids), ('cost_produced_unit', '>', 0)]
 
 	produced_unit = fields.Float(
 		"Unidades producidas",
@@ -39,6 +30,18 @@ class AccountAnalyticLine(models.Model):
 		digits='Product Price', 
 		compute="_compute_total_cost_produced_unit"
 	)
+	product_id_domain = fields.Char(
+	compute="_compute_product_id_domain",
+	readonly=True,
+	store=False,
+	)
+
+	@api.depends('task_id')
+	def _compute_product_id_domain(self):
+		for record in self:
+			if record.task_id.material_ids:
+				ids = record.material_ids.mapped('product_id').ids
+				record.product_id_domain = json.dumps([('id', 'in', ids)])
 
 	@api.depends('product_produced_unit_id', 'company_id', 'currency_id')
 	def _compute_cost_produced_unit(self):
