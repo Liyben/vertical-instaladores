@@ -21,8 +21,9 @@
             <xpath expr="//field[@name='phone']" position="replace"></xpath>
 
             <xpath expr="//field[@name='email_from']" position="after">
-                <field name="team_id" string="Equipo de venta" required="1"/>
                 <field name="mobile" string="Móvil" />
+                <field name="team_id" string="Equipo de venta" required="1"/>
+                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}" required="1"/>
             </xpath>
 
             <xpath expr="//field[@name='zip']" position="after">
@@ -106,6 +107,10 @@
             </xpath>
 
             <xpath expr="//field[@name='team_id']" position="attributes">
+                <attribute name="required">True</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='tag_ids']" position="attributes">
                 <attribute name="required">True</attribute>
             </xpath>
 
