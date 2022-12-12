@@ -21,6 +21,7 @@
             <xpath expr="//field[@name='phone']" position="replace"></xpath>
 
             <xpath expr="//field[@name='email_from']" position="after">
+                <field name="team_id" string="Equipo de venta" required="1"/>
                 <field name="mobile" string="Móvil" />
             </xpath>
 
