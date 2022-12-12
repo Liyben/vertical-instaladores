@@ -22,7 +22,7 @@
                 <field name="have_to_check" string="Revisar" optional="show"/> 
             </xpath>
             <xpath expr="//field[@name='task_materials_ids']/tree//field[@name='name']" position="attributes">
-                <attribute name="attrs">{'readonly': [('have_to_check','=',True)]}</attribute>
+                <attribute name="attrs">{'readonly': [('have_to_check','!=',True)]}</attribute>
                 <attribute name="force_save">1</attribute>
             </xpath>
 
