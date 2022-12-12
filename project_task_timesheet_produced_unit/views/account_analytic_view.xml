@@ -11,9 +11,9 @@
                 <group name="cost_produced_unit" string="Unidades Producidas">
                     <field name="product_produced_unit_id" domain="product_id_domain"/>
                     <field name="product_id_domain" invisible="1"/>
-                    <field name="produced_unit"/>
-                    <field name="cost_produced_unit" widget="monetary"/>
-                    <field name="total_cost_produced_unit" widget="monetary"/>
+                    <field name="produced_unit" attrs="{'invisible': [('product_produced_unit_id', '=', False)]}"/>
+                    <field name="cost_produced_unit" widget="monetary" attrs="{'invisible': [('product_produced_unit_id', '=', False)]}"/>
+                    <field name="total_cost_produced_unit" widget="monetary" attrs="{'invisible': [('product_produced_unit_id', '=', False)]}"/>
                 </group>
             </group>
         </field>

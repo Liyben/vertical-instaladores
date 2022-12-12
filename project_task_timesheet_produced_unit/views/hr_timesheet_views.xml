@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <record id="timesheet_view_form_user" model="ir.ui.view">
+    <record id="account_analytic_line_form" model="ir.ui.view">
         <field name="name">Add cost unit</field>
         <field name="model">account.analytic.line</field>
         <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_form"/>
-        <field name="mode">primary</field>
-        <field name="priority">10</field>
         <field name="arch" type="xml">
             <xpath expr="//sheet/group" position="after">
                 <group name="cost_produced_unit" string="Unidades Producidas">
@@ -19,12 +17,10 @@
         </field>
     </record>
 
-    <record id="timesheet_view_tree_user" model="ir.ui.view">
+    <record id="account_analytic_line_tree" model="ir.ui.view">
             <field name="name">Add cost unit</field>
             <field name="model">account.analytic.line</field>
             <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_tree"/>
-            <field name="mode">primary</field>
-            <field name="priority">10</field>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='unit_amount']" position="before">
                     <field name="product_produced_unit_id" optional="show" domain="product_id_domain"/>
