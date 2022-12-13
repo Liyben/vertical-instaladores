@@ -127,7 +127,7 @@ class CrmTeam(models.Model):
 		user_id = user_id or self.env.uid
 		user_salesteam_id = self.env['res.users'].browse(user_id).sale_team_id.id
 		if not user_salesteam_id:
-			return None
+			return False
 		# Avoid searching on member_ids (+1 query) when we may have the user salesteam already in cache.
 		team = self.env['crm.team'].search([
 			('company_id', 'in', [False, self.env.company.id]),
