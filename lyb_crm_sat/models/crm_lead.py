@@ -7,8 +7,7 @@ from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models, _, SUPERUSER_ID
 from lxml import etree
 
-import logging
-_logger = logging.getLogger(__name__)
+from odoo.tools.safe_eval import safe_eval
 
 class CrmLead(models.Model):
 	_inherit = 'crm.lead'
@@ -122,39 +121,15 @@ class CrmLead(models.Model):
 			
 		return super(CrmLead,self).copy(default=default)
 
-	@api.depends('user_id', 'type')
-	def _compute_team_id(self):
-		""" When changing the user, also set a team_id or restrict team id
-		to the ones user_id is member of. """
-		for lead in self:
-			# setting user as void should not trigger a new team computation
-			if not lead.user_id:
-				continue
-			user = lead.user_id
-			if lead.team_id and user in lead.team_id.member_ids | lead.team_id.user_id:
-				continue
-			team_domain = [('use_leads', '=', True)] if lead.type == 'lead' else [('use_opportunities', '=', True)]
-			team = self.env['crm.team']._get_default_team_id(user_id=user.id, domain=team_domain)
-			user_salesteam_id = self.env['res.users'].browse(user.id).sale_team_id.id
-			if not user_salesteam_id:
-				_logger.debug(".........................NOT TEAM_ID\n")
-				lead.team_id = False
-			else:	
-				lead.team_id = team.id
-
-""" class CrmTeam(models.Model):
+class CrmTeam(models.Model):
 	_inherit = 'crm.team'
 
-	def _get_default_team_id(self, user_id=None, domain=None):
-		user_id = user_id or self.env.uid
-		user_salesteam_id = self.env['res.users'].browse(user_id).sale_team_id.id
-		if not user_salesteam_id:
-			return False
-		# Avoid searching on member_ids (+1 query) when we may have the user salesteam already in cache.
-		team = self.env['crm.team'].search([
-			('company_id', 'in', [False, self.env.company.id]),
-			'|', ('user_id', '=', user_id), ('id', '=', user_salesteam_id),
-		], limit=1)
-		if not team and 'default_team_id' in self.env.context:
-			team = self.env['crm.team'].browse(self.env.context.get('default_team_id'))
-		return team or self.env['crm.team'].search(domain or [], limit=1) """
+	@api.model
+	def action_your_pipeline(self):
+		action = super(CrmTeam,self).action_your_pipeline()
+		user_team_id = self.env.user.sale_team_id.id
+		if not user_team_id:
+			action_context = safe_eval(action['context'], {'uid': self.env.uid})
+			action_context['default_team_id'] = False
+			action['context'] = action_context
+		return action
