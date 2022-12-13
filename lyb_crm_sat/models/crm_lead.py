@@ -126,10 +126,23 @@ class CrmTeam(models.Model):
 
 	@api.model
 	def action_your_pipeline(self):
-		action = super(CrmTeam,self).action_your_pipeline()
+		action = self.env["ir.actions.actions"]._for_xml_id("crm.crm_lead_action_pipeline")
 		user_team_id = self.env.user.sale_team_id.id
-		if not user_team_id:
-			action_context = safe_eval(action['context'], {'uid': self.env.uid})
-			action_context['default_team_id'] = False
-			action['context'] = action_context
+		if user_team_id:
+			# To ensure that the team is readable in multi company
+			user_team_id = self.search([('id', '=', user_team_id)], limit=1).id
+		else:
+			user_team_id = False
+			action['help'] = _("""<p class='o_view_nocontent_smiling_face'>Add new opportunities</p><p>
+	Looks like you are not a member of a Sales Team. You should add yourself
+	as a member of one of the Sales Team.
+</p>""")
+			if user_team_id:
+				action['help'] += _("<p>As you don't belong to any Sales Team, Odoo opens the first one by default.</p>")
+
+		action_context = safe_eval(action['context'], {'uid': self.env.uid})
+		if user_team_id:
+			action_context['default_team_id'] = user_team_id
+
+		action['context'] = action_context
 		return action
