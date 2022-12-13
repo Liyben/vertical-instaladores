@@ -156,7 +156,7 @@
         <!-- Acciones de Ventana -->
         <record id="crm.crm_lead_action_pipeline" model="ir.actions.act_window">
             <field name="domain" eval="[]"/>
-            <field name="context">{'default_team_id': False, 'default_type': 'opportunity', 'default_sub_type': 'opportunity', 'default_user_id': uid, 'search_default_oportunidades': 1}</field>
+            <field name="context">{'default_type': 'opportunity', 'default_sub_type': 'opportunity', 'default_user_id': uid, 'search_default_oportunidades': 1}</field>
         </record>
 
         <record model="ir.actions.act_window" id="crm.crm_lead_opportunities">

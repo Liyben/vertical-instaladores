@@ -15,6 +15,7 @@
     'depends': ['crm','project','sale','sales_team','sale_crm','crm_timesheet'],
     'data': ['data/lead_sequence.xml',
             'views/crm_lead_views.xml',
+            'views/sale_views.xml',
             'views/crm_lead_report.xml',
             'views/report_crm_lead_document.xml',
     ],

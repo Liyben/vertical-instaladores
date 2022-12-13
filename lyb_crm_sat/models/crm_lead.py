@@ -120,3 +120,20 @@ class CrmLead(models.Model):
 		return super(CrmLead,self).copy(default=default)
 
 
+class CrmTeam(models.Model):
+	_inherit = 'crm.team'
+
+	def _get_default_team_id(self, user_id=None, domain=None):
+		user_id = user_id or self.env.uid
+		user_salesteam_id = self.env['res.users'].browse(user_id).sale_team_id.id
+		# Avoid searching on member_ids (+1 query) when we may have the user salesteam already in cache.
+		team = self.env['crm.team'].search([
+			('company_id', 'in', [False, self.env.company.id]),
+			'|', ('user_id', '=', user_id), ('id', '=', user_salesteam_id),
+		], limit=1)
+		if not team:
+			if 'default_team_id' in self.env.context:
+				team = self.env['crm.team'].browse(self.env.context.get('default_team_id'))
+			elif not user_salesteam_id:
+				return False
+		return team or self.env['crm.team'].search(domain or [], limit=1)
