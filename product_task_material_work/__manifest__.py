@@ -8,7 +8,8 @@
     'category': 'Sales',
     'summary': 'Trabajos y Materiales en producto',
     'description': """
-Este módulo contiene los mecanismos necesarios para manejar un producto como una partida.
+Este módulo contiene los mecanismos necesarios para manejar un producto como una partida. Tambien añade la impresión de facturas agrupadas por albaran
+basada en el módulo de la OCA 'account_invoice_report_grouped_by_picking'.
 
     """,
     'author': 'Liyben',
@@ -29,7 +30,8 @@ Este módulo contiene los mecanismos necesarios para manejar un producto como un
             'views/project_task_report.xml',
             'views/report_saleorder.xml',
             'views/report_projecttask.xml',
-            'views/report_invoice.xml',],
+            'views/report_invoice.xml',
+            "views/invoice_report.xml",],
     'qweb': [],
     'images': [
     ],
