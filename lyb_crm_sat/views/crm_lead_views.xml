@@ -22,9 +22,9 @@
 
             <xpath expr="//field[@name='email_from']" position="after">
                 <field name="mobile" string="Móvil" />
-                <field name="empty_tags" invisible="1"/>
+                <field name="has_tags" invisible="0"/>
                 <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}" required="1"/>
-                <field name="team_id" string="Equipo de venta" attrs="{'invisible': [('empty_tags', '=', True)], 'required': [('empty_tags', '=', False)]}"/>
+                <field name="team_id" string="Equipo de venta" attrs="{'invisible': [('has_tags', '=', False)], 'required': [('has_tags', '=', True)]}"/>
             </xpath>
 
             <xpath expr="//field[@name='zip']" position="after">

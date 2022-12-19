@@ -12,12 +12,13 @@ class CrmLead(models.Model):
 	_inherit = 'crm.lead'
 
 	@api.depends('tag_ids')
-	def _compute_empty_tags(self):
+	def _compute_has_tags(self):
 		for record in self:
-			record.empty_tags = bool(record.tag_ids)
+			record.has_tags = bool(record.tag_ids)
+			record.team_id = False
 
 	#Campo boolean para saber si hay o no etiquetas
-	empty_tags = fields.Boolean(compute="_compute_empty_tags")
+	has_tags = fields.Boolean(compute="_compute_has_tags")
 
 	date_creation = fields.Datetime(string='Fecha creación', default=fields.Datetime.now, readonly=True, store=True)
 
