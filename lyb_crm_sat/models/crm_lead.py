@@ -7,10 +7,19 @@ from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models, _, SUPERUSER_ID
 from lxml import etree
 
-from odoo.tools.safe_eval import safe_eval
 
 class CrmLead(models.Model):
 	_inherit = 'crm.lead'
+
+	def _compute_empty_tags(self):
+		for record in self:
+			if not record.tags_ids:
+				record.empty_tags = True
+			else:
+				record.empty_tags = False
+
+	#Campo boolean para saber si hay o no etiquetas
+	empty_tags = fields.Boolean(compute="_compute_empty_tags")
 
 	date_creation = fields.Datetime(string='Fecha creación', default=fields.Datetime.now, readonly=True, store=True)
 
@@ -121,28 +130,3 @@ class CrmLead(models.Model):
 			
 		return super(CrmLead,self).copy(default=default)
 
-class CrmTeam(models.Model):
-	_inherit = 'crm.team'
-
-	@api.model
-	def action_your_pipeline(self):
-		action = self.env["ir.actions.actions"]._for_xml_id("crm.crm_lead_action_pipeline")
-		user_team_id = self.env.user.sale_team_id.id
-		if user_team_id:
-			# To ensure that the team is readable in multi company
-			user_team_id = self.search([('id', '=', user_team_id)], limit=1).id
-		else:
-			user_team_id = False
-			action['help'] = _("""<p class='o_view_nocontent_smiling_face'>Add new opportunities</p><p>
-	Looks like you are not a member of a Sales Team. You should add yourself
-	as a member of one of the Sales Team.
-</p>""")
-			if user_team_id:
-				action['help'] += _("<p>As you don't belong to any Sales Team, Odoo opens the first one by default.</p>")
-
-		action_context = safe_eval(action['context'], {'uid': self.env.uid})
-		if user_team_id:
-			action_context['default_team_id'] = user_team_id
-
-		action['context'] = action_context
-		return action
