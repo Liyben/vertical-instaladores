@@ -15,7 +15,6 @@ class CrmLead(models.Model):
 	def _compute_has_tags(self):
 		for record in self:
 			record.has_tags = bool(record.tag_ids)
-			record.team_id = False
 
 	#Campo boolean para saber si hay o no etiquetas
 	has_tags = fields.Boolean(compute="_compute_has_tags")
@@ -36,7 +35,13 @@ class CrmLead(models.Model):
 
 	#Subtipo para la oportunidad
 	sub_type = fields.Selection([('opportunity', 'Oportunidad')], index=True)
-			   
+
+	#Cada vez qeu se produce un cambio en las etiquetas se pone vacio el equipo de ventas
+	@api.onchange('tag_ids')
+	def _onchange_tag_ids_to_false_team_id(self):
+		for record in self:
+			record.team_id = False
+
 	#Calendariza el aviso con el oficial de 1ª
 	def action_schedule_meeting(self):
 
