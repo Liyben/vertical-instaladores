@@ -11,10 +11,10 @@ from lxml import etree
 class CrmLead(models.Model):
 	_inherit = 'crm.lead'
 
-	@api.depends('tags_ids')
+	@api.depends('tag_ids')
 	def _compute_empty_tags(self):
 		for record in self:
-			record.empty_tags = bool(record.tags_ids)
+			record.empty_tags = bool(record.tag_ids)
 
 	#Campo boolean para saber si hay o no etiquetas
 	empty_tags = fields.Boolean(compute="_compute_empty_tags")
