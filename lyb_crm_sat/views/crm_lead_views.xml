@@ -108,7 +108,7 @@
             </xpath>
 
             <xpath expr="//field[@name='team_id']" position="before">
-                <field name="has_tags" invisible="0"/>
+                <field name="has_tags" invisible="1"/>
             </xpath>
             
             <xpath expr="//field[@name='team_id']" position="attributes">
