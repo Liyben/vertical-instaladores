@@ -36,8 +36,12 @@ class AccountAnalyticLine(models.Model):
 	def _compute_product_id_domain(self):
 		for record in self:
 			record.product_id_domain = json.dumps([('cost_produced_unit', '>', 0.0)])
-			if record.task_id.material_ids:
-				ids = record.task_id.material_ids.mapped('product_id').ids
+			if record.task_id.material_ids or record.task_id.task_works_ids:
+				ids = []
+				if record.task_id.material_ids:
+					ids += record.task_id.material_ids.mapped('product_id').ids
+				if record.task_id.task_works_ids:
+					ids += record.task_id.task_works_ids.mapped('work_id').ids
 				record.product_id_domain = json.dumps([('id', 'in', ids),('cost_produced_unit', '>', 0.0)])
 
 	@api.depends('product_produced_unit_id', 'company_id', 'currency_id')
