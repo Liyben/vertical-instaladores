@@ -111,8 +111,8 @@
                 <field name="has_tags" invisible="1"/>
             </xpath>
 
-            <xpath expr="//field[@name='partner_id']" position="before">
-                <field name="partner_shipping_id" />
+            <xpath expr="//field[@name='is_blacklisted']" position="before">
+                <field name="partner_shipping_id" attrs="{'invisible': [('partner_id', '=', False)]}" options="{'no_create': True, 'no_create_edit': True}"/>
             </xpath>
             
             <xpath expr="//field[@name='team_id']" position="attributes">

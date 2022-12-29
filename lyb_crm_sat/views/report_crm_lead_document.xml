@@ -80,7 +80,7 @@
                                 </tr>
                                 <tr id="shipping_contact_person">
                                     <td style="font-weight:bold;">Nombre:</td>
-                                    <td colspan="3" style="font-weight:normal;"><span t-field="o.partner_shipping_id"/></td>
+                                    <td colspan="3" style="font-weight:normal;"><span t-field="o.partner_shipping_id.name"/></td>
                                 </tr>
                                 <tr>
                                     <td style="font-weight:bold;">Dirección:</td>
