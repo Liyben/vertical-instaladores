@@ -36,6 +36,10 @@ class CrmLead(models.Model):
 	#Subtipo para la oportunidad
 	sub_type = fields.Selection([('opportunity', 'Oportunidad')], index=True)
 
+	#Dirección de entrega
+	partner_shipping_id = fields.Many2one(
+		'res.partner', string='Dirección de entrega', domain="[('parent_id', '=', partner_id), '|', ('company_id', '=', False), ('company_id', '=', company_id)]",)
+
 	#Cada vez qeu se produce un cambio en las etiquetas se pone vacio el equipo de ventas
 	@api.onchange('tag_ids')
 	def _onchange_tag_ids_to_false_team_id(self):

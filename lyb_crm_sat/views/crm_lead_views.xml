@@ -110,6 +110,10 @@
             <xpath expr="//field[@name='team_id']" position="before">
                 <field name="has_tags" invisible="1"/>
             </xpath>
+
+            <xpath expr="//field[@name='partner_id']" position="before">
+                <field name="partner_shipping_id" />
+            </xpath>
             
             <xpath expr="//field[@name='team_id']" position="attributes">
                 <attribute name="attrs">{'invisible': [('has_tags', '=', False)], 'required': [('has_tags', '=', True)]}</attribute>
