@@ -53,7 +53,7 @@
                         </table>                             
 <!--===================DATOS DEL CLIENTE=======================-->                             
                         <table class="table table-sm o_main_table">
-                            <tbody>
+                            <tbody t-if="not o.sale_order_id">
                                 <tr>
                                     <td colspan="4" style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:0;">CLIENTE</td>
                                 </tr>
@@ -80,6 +80,35 @@
                                     <td style="font-weight:normal;"><span t-field="o.partner_id.phone"/><span t-if="o.partner_id.phone and o.partner_id.mobile"> / </span><span t-field="o.partner_id.mobile"/></td>
                                     <td style="font-weight:bold;">E-Mail:</td>
                                     <td style="font-weight:normal;min-width:50px;"><span t-field="o.partner_id.email"/></td>
+                                </tr>
+                            </tbody>
+                            <tbody t-if="o.sale_order_id">
+                                <tr>
+                                    <td colspan="4" style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:0;">CLIENTE</td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:normal;border:0;">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:bold;">Sr/a.</td>
+                                    <td colspan="3" style="font-weight:normal;"><span t-field="o.sale_order_id.partner_shipping_id"/></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:bold;">Dirección:</td>
+                                    <td colspan="3" style="font-weight:normal;"><span t-field="o.sale_order_id.partner_shipping_id.street"/><t t-if="o.sale_order_id.partner_shipping_id.street2">, </t><span t-field="o.sale_order_id.partner_shipping_id.street2"/></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:bold;width: 150px;">Población / Zona:</td>
+                                    <td style="font-weight:normal;"><span t-field="o.sale_order_id.partner_shipping_id.city"/></td>
+                                    <td style="font-weight:bold;">Provincia:</td>
+                                    <td style="font-weight:normal;min-width:50px;"><span t-field="o.sale_order_id.partner_shipping_id.state_id"/></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:bold;">Telf:</td>
+                                    <td style="font-weight:normal;"><span t-field="o.sale_order_id.partner_shipping_id.phone"/><span t-if="o.sale_order_id.partner_shipping_id.phone and o.sale_order_id.partner_shipping_id.mobile"> / </span><span t-field="o.sale_order_id.partner_shipping_id.mobile"/></td>
+                                    <td style="font-weight:bold;">E-Mail:</td>
+                                    <td style="font-weight:normal;min-width:50px;"><span t-field="o.sale_order_id.partner_shipping_id.email"/></td>
                                 </tr>
                             </tbody>
                         </table>
