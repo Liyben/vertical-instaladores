@@ -31,6 +31,10 @@
             </h2>
         </xpath>
 
+        <xpath expr="//p[@t-if='doc.payment_term_id.note']" position="replace">
+
+        </xpath>
+
         <xpath expr="//div[@id='informations']" position="replace">
             <div class="row mt32 mb32" id="informations">
                 <!--<div t-if="doc.confirmation_date and doc.state not in ['draft','sent']" class="col-xs-3">
@@ -58,7 +62,7 @@
                     <p class="m-0" t-field="doc.client_order_ref"/>
                 </div>
                 <div name="payment_term" t-if="doc.payment_term_id" class="col-auto col-3 mw-100 mb-2">
-                    <strong>Payment Terms:</strong>
+                    <strong>Plazo de pago:</strong>
                     <p class="m-0" t-field="doc.payment_term_id"/>
                 </div>
                 <div t-if="doc.validity_date and doc.state in ['draft', 'sent']" class="col-auto col-3 mw-100 mb-2" name="expiration_date">
