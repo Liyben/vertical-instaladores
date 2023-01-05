@@ -35,6 +35,12 @@
 
         </xpath>
 
+        <xpath expr="//div[@name='so_total_summary']" position="after">
+            <p t-if="doc.payment_term_id.note">
+                <span t-field="doc.payment_term_id.note"/>
+            </p>
+        </xpath>
+
         <xpath expr="//div[@id='informations']" position="replace">
             <div class="row mt32 mb32" id="informations">
                 <!--<div t-if="doc.confirmation_date and doc.state not in ['draft','sent']" class="col-xs-3">
@@ -61,10 +67,10 @@
                     <strong>Ref. del cliente:</strong>
                     <p class="m-0" t-field="doc.client_order_ref"/>
                 </div>
-                <div name="payment_term" t-if="doc.payment_term_id" class="col-auto col-3 mw-100 mb-2">
+                <!--<div name="payment_term" t-if="doc.payment_term_id" class="col-auto col-3 mw-100 mb-2">
                     <strong>Plazo de pago:</strong>
                     <p class="m-0" t-field="doc.payment_term_id"/>
-                </div>
+                </div>-->
                 <div t-if="doc.validity_date and doc.state in ['draft', 'sent']" class="col-auto col-3 mw-100 mb-2" name="expiration_date">
                     <strong>Fecha de caducidad:</strong>
                     <p class="m-0" t-field="doc.validity_date"/>

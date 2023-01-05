@@ -17,11 +17,11 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2" style="font-weight:bold;border:0;">Presupuesto</td>
-                                    <td colspan="4" style="font-weight:normal;border:1px solid #238AA9;width: 275px;"></td>
-                                    <!--<td style="font-weight:bold;border:0;">Fecha </td>
-                                    <td style="font-weight:normal;border: 1px solid #238AA9;width: 125px;"><span t-field="o.date_begin" t-options="{&quot;widget&quot;: &quot;date&quot;}"/></td>
-                                    <td style="font-weight:bold;border:0;">Hora </td>
+                                    <td colspan="1" style="font-weight:bold;border:0;">Presupuesto</td>
+                                    <td colspan="3" style="font-weight:normal;border:1px solid #238AA9;width: 275px;"/>
+                                    <td colspan="1" style="font-weight:bold;border:0;">Fecha </td>
+                                    <td colspan="1" style="font-weight:normal;border: 1px solid #238AA9;width: 125px;"><span t-field="o.date_creation" t-options="{&quot;widget&quot;: &quot;date&quot;}"/></td>
+                                    <!--<td style="font-weight:bold;border:0;">Hora </td>
                                     <td style="font-weight:normal;border: 1px solid #238AA9;width: 125px;"><span t-esc="datetime.datetime.strftime(o.date_begin, '%H:%M:%S')"/></td>-->
                                 </tr>
                                 <tr>
@@ -29,10 +29,10 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="font-weight:bold;border:0;">Téc. Medición</td>
-                                    <td style="font-weight:normal;border: 1px solid #238AA9;"><span t-field="o.worker_one" /></td>
-                                    <td style="font-weight:bold;border:0;">Comercial</td>
-                                    <td colspan="3" style="font-weight:normal;border:1px solid #238AA9;"><span t-field="o.user_id" /></td></tr>
+                                    <td colspan="1" style="font-weight:bold;border:0;">Téc. Medición</td>
+                                    <td colspan="2" style="font-weight:normal;border: 1px solid #238AA9;"><span t-field="o.worker_one"/></td>
+                                    <td colspan="1" style="font-weight:bold;border:0;">Comercial</td>
+                                    <td colspan="3" style="font-weight:normal;border:1px solid #238AA9;"><span t-field="o.user_id"/></td></tr>
                                 <tr>
                                     <td style="font-weight:normal;border:0;">
                                     </td>
