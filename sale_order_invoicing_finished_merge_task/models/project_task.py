@@ -12,5 +12,6 @@ class Task(models.Model):
 	def toggle_invoiceable(self):
 		for task in self.merged_child_ids:
 			task.toggle_invoiceable()
+			task.mapped("sale_line_id")._compute_qty_delivered()
 		
 		return super(Task, self).toggle_invoiceable()
