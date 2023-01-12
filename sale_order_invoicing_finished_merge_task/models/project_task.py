@@ -20,5 +20,6 @@ class Task(models.Model):
 				and not task.invoiceable
 			):
 				line.update({"qty_to_invoice": 0.0})
-			line._get_to_invoice_qty()
+			else:
+				line._get_to_invoice_qty()
 		return super(Task, self).toggle_invoiceable()
