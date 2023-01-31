@@ -118,3 +118,58 @@ class SaleOrderLine(models.Model):
 			if (discount > 0):
 				return discount
 
+
+class SaleOrderLineTaskWork(models.Model):
+	"""Modelo para almacenar los trabajos del producto partida en la linea de pedido"""
+
+	_name = 'sale.order.line.task.work'
+
+	#Calculo del precio de venta y coste unitario segun tarifa al cambiar las horas
+	
+	@api.onchange('hours','cost_price_unit')
+	def _onchange_hours(self):
+		for record in self:
+			if record.work_id:
+				#Guardamos los precios de la ficha de producto
+				product_lst_price = record.work_id.lst_price
+				product_standard_price = record.work_id.standard_price
+
+				#Actualizamos los precios de la ficha de producto con los precios de la linea de pedido
+				record.work_id.write({
+					'lst_price' : record.sale_price_unit,
+					'standard_price' : record.cost_price_unit,
+				})
+
+				#Se guarda la categoria de la mano de obra y se le asigna la categoria del compuesto
+				category = False
+				if record.order_line_id.product_id.apply_category:
+					category = record.work_id.categ_id.id
+					record.work_id.write({
+						'categ_id' : record.order_line_id.product_id.categ_id.id
+					})
+
+				workforce = record.work_id.with_context(
+					lang=record.order_line_id.order_id.partner_id.lang,
+					partner=record.order_line_id.order_id.partner_id.id,
+					quantity=record.hours,
+					date=record.order_line_id.order_id.date_order,
+					pricelist=record.order_line_id.order_id.pricelist_id.id,
+					uom=record.work_id.uom_id.id)
+
+				record.sale_price_unit = record.order_line_id.env['account.tax']._fix_tax_included_price_company(self._get_display_price_workforce(workforce), workforce.taxes_id, self.order_line_id.tax_id, self.order_line_id.company_id)
+				#record.cost_price_unit = record.work_id.standard_price
+				#record.name = record.work_id.name
+
+				#Recuperamos los precios de la ficha producto previamente guardado
+				record.work_id.write({
+					'lst_price' : product_lst_price,
+					'standard_price' : product_standard_price,
+				})
+
+				#Se recupera la categoria de la mano de obra
+				if record.order_line_id.product_id.apply_category:
+					record.work_id.write({
+						'categ_id' : category
+					})
+	
+	
