@@ -141,12 +141,12 @@ class SaleOrderLineTaskWork(models.Model):
 				})
 
 				#Se guarda la categoria de la mano de obra y se le asigna la categoria del compuesto
-				category = False
+				""" category = False
 				if record.order_line_id.product_id.apply_category:
 					category = record.work_id.categ_id.id
 					record.work_id.write({
 						'categ_id' : record.order_line_id.product_id.categ_id.id
-					})
+					}) """
 
 				workforce = record.work_id.with_context(
 					lang=record.order_line_id.order_id.partner_id.lang,
@@ -167,9 +167,9 @@ class SaleOrderLineTaskWork(models.Model):
 				})
 
 				#Se recupera la categoria de la mano de obra
-				if record.order_line_id.product_id.apply_category:
+				""" if record.order_line_id.product_id.apply_category:
 					record.work_id.write({
 						'categ_id' : category
-					})
+					}) """
 	
 	
