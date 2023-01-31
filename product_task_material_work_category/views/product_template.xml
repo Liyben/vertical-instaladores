@@ -7,8 +7,8 @@
         <field name="inherit_id" ref="product_task_material_work.product_task_material_work_form_view"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='apply_pricelist']" position="replace">
-                <field name="apply_pricelist" string="Aplicar tarifa en el compuesto" attrs="{'invisible':[('apply_category','=',True)]"/>
-                <field name="apply_category" attrs="{'invisible':[('apply_pricelist','=',True)]"/>
+                <field name="apply_pricelist" string="Aplicar tarifa en el compuesto" attrs="{'invisible':[('apply_category','=',True)]}"/>
+                <field name="apply_category" attrs="{'invisible':[('apply_pricelist','=',True)]}"/>
             </xpath>
         </field>
     </record>
