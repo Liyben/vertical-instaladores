@@ -10,63 +10,102 @@ class SaleOrderLine(models.Model):
 
 	_inherit='sale.order.line'
 
-	#Obtiene el precio del material o mano de obra segun tarifa
+	#Carga de los datos del producto en la linea de pedido al seleccionar dicho producto
 	
-	def _get_display_price_line(self, product, product_id, quantity):
+	@api.onchange('product_id')
+	def product_id_change(self):
+		result = super(SaleOrderLine, self).product_id_change()
+		product = self.product_id
+		if product:
+			self.auto_create_task = (product.service_tracking == 'task_global_project') or (product.service_tracking == 'task_in_project')
 
-		#Se guarda la categoria de la mano de obra y se le asigna la categoria del compuesto
-		category = False
-		if self.product_id.apply_category:
-			category = product_id.categ_id.id
-			product_id.write({
-				'categ_id' : self.product_id.categ_id.id
-			})
-			product = product_id.with_context(
-				lang=self.order_id.partner_id.lang,
-				partner=self.order_id.partner_id.id,
-				quantity=quantity,
-				date=self.order_id.date_order,
-				pricelist=self.order_id.pricelist_id.id,
-				uom=product_id.uom_id.id)
-		
-		no_variant_attributes_price_extra = [
-			ptav.price_extra for ptav in self.product_no_variant_attribute_value_ids.filtered(
-				lambda ptav:
-					ptav.price_extra and
-					ptav not in product.product_template_attribute_value_ids
-			)
-		]
-		if no_variant_attributes_price_extra:
-			product = product.with_context(
-				no_variant_attributes_price_extra=tuple(no_variant_attributes_price_extra)
-			)
+		if self.auto_create_task:
+			self.update({'task_works_ids' : False,
+					'task_materials_ids' : False,})
 
+			work_list = []
+			for work in product.task_works_ids:
+				#Se guarda la categoria de la mano de obra y se le asigna la categoria del compuesto
+				category_work = False
+				hours = work.hours
+				if self.product_id.apply_category:
+					category_work = work.work_id.categ_id.id
+					hours = self.product_uom_qty
+					work.work_id.write({
+						'categ_id' : self.product_id.categ_id.id
+					})
 
-		if self.order_id.pricelist_id.discount_policy == 'with_discount':
-			#Se recupera la categoria del material
-			if self.product_id.apply_category:
-				product_id.write({
-					'categ_id' : category
-				})
+				workforce = work.work_id.with_context(
+					lang=self.order_id.partner_id.lang,
+					partner=self.order_id.partner_id.id,
+					quantity=hours,
+					date=self.order_id.date_order,
+					pricelist=self.order_id.pricelist_id.id,
+					uom=work.work_id.uom_id.id)
 
-			return product.with_context(pricelist=self.order_id.pricelist_id.id).price
+				work_list.append((0,0, {
+					'name' : work.name,
+					'work_id': work.work_id.id,
+					'sale_price_unit' : self.env['account.tax']._fix_tax_included_price_company(self._get_display_price_line(workforce, work.work_id, hours), workforce.taxes_id, self.tax_id, self.company_id),
+					'cost_price_unit' : work.cost_price_unit,
+					'hours' : work.hours,
+					'discount' : self._get_discount_line(work.work_id, work.hours) or 0.0
+					}))
 
-		product_context = dict(self.env.context, partner_id=self.order_id.partner_id.id, date=self.order_id.date_order, uom=product_id.uom_id.id)
-		final_price, rule_id = self.order_id.pricelist_id.with_context(product_context).get_product_price_rule(product_id, quantity or 1.0, self.order_id.partner_id)
-		base_price, currency = self.with_context(product_context)._get_real_price_currency(product, rule_id, quantity, product_id.uom_id, self.order_id.pricelist_id.id)
+				#Se recupera la categoria
+				if self.product_id.apply_category:
+					work.work_id.write({
+						'categ_id' : category_work
+					})
 
-		if currency != self.order_id.pricelist_id.currency_id:
-			base_price = currency._convert(
-				base_price, self.order_id.pricelist_id.currency_id,
-				self.order_id.company_id or self.env.company, self.order_id.date_order or fields.Date.today())
+			material_list = []
+			for material in product.task_materials_ids:
+				#Se guarda la categoria del material y se le asigna la categoria del compuesto
+				category_material = False
+				quantity = material.quantity
+				if self.product_id.apply_category:
+					category_material = material.material_id.categ_id.id
+					quantity = self.product_uom_qty
+					material.material_id.write({
+						'categ_id' : self.product_id.categ_id.id
+					})
 
-		#Se recupera la categoria del material
-		if self.product_id.apply_category:
-			product_id.write({
-				'categ_id' : category
-			})
+				mat = material.material_id.with_context(
+						lang=self.order_id.partner_id.lang,
+						partner=self.order_id.partner_id.id,
+						quantity=quantity,
+						date=self.order_id.date_order,
+						pricelist=self.order_id.pricelist_id.id,
+						uom=material.material_id.uom_id.id)
 
-		return max(base_price, final_price)
+				material_list.append((0,0, {
+					'material_id' : material.material_id.id,
+					'name' : material.name,
+					'sale_price_unit' : self.env['account.tax']._fix_tax_included_price_company(self._get_display_price_line(mat, material.material_id, quantity), mat.taxes_id, self.tax_id, self.company_id),
+					'cost_price_unit' : material.cost_price_unit,
+					'quantity' : material.quantity,
+					'discount' : self._get_discount_line(material.material_id, material.quantity) or 0.0
+					}))
+
+				#Se recupera la categoria
+				if self.product_id.apply_category:
+					material.material_id.write({
+						'categ_id' : category_material
+					})
+
+			self.update({'task_works_ids' : work_list,
+					'task_materials_ids' : material_list,
+					'auto_create_task' : True,})
+
+			#for line in self:
+			#	line.price_unit = (line.total_sp_material + line.total_sp_work)
+
+		else:
+			self.update({'task_works_ids' : False,
+					'task_materials_ids' : False,
+					'auto_create_task' : False,})
+
+		return result
 
 	#Calculo del descuento según la tarifa
 	
@@ -78,10 +117,11 @@ class SaleOrderLine(models.Model):
 				self.env.user.has_group('product.group_discount_per_so_line')):
 			return
 
-		#Se guarda la categoria de la mano de obra y se le asigna la categoria del compuesto
+		#Se guarda la categoria y se le asigna la categoria del compuesto
 		category = False
 		if self.product_id.apply_category:
 			category = product_id.categ_id.id
+			quantity = self.product_uom_qty
 			product_id.write({
 				'categ_id' : self.product_id.categ_id.id
 			})
@@ -100,7 +140,7 @@ class SaleOrderLine(models.Model):
 		price, rule_id = self.order_id.pricelist_id.with_context(product_context).get_product_price_rule(product_id, quantity or 1.0, self.order_id.partner_id)
 		new_list_price, currency = self.with_context(product_context)._get_real_price_currency(product, rule_id, quantity, product_id.uom_id, self.order_id.pricelist_id.id)
 
-		#Se recupera la categoria del material
+		#Se recupera la categoria
 		if self.product_id.apply_category:
 			product_id.write({
 				'categ_id' : category
@@ -124,6 +164,27 @@ class SaleOrderLineTaskWork(models.Model):
 
 	_inherit = 'sale.order.line.task.work'
 
+	#Obtiene el precio de la mano de obra segun tarifa
+	
+	def _get_display_price_workforce(self, workforce):
+		if self.order_line_id.order_id.pricelist_id.discount_policy == 'with_discount':
+			return workforce.with_context(pricelist=self.order_line_id.order_id.pricelist_id.id).price
+
+		hours = self.hours
+		if self.order_line_id.product_id.apply_category:
+			hours = self.order_line_id.product_uom_qty
+
+		workforce_context = dict(self.env.context, partner_id=self.order_line_id.order_id.partner_id.id, date=self.order_line_id.order_id.date_order, uom=self.work_id.uom_id.id)
+		final_price, rule_id = self.order_line_id.order_id.pricelist_id.with_context(workforce_context).get_product_price_rule(self.work_id, hours or 1.0, self.order_line_id.order_id.partner_id)
+		base_price, currency = self.order_line_id.with_context(workforce_context)._get_real_price_currency(workforce, rule_id, hours, self.work_id.uom_id, self.order_line_id.order_id.pricelist_id.id)
+
+		if currency != self.order_line_id.order_id.pricelist_id.currency_id:
+			base_price = currency._convert(
+				base_price, self.order_line_id.order_id.pricelist_id.currency_id,
+				self.order_line_id.order_id.company_id or self.env.company, self.order_line_id.order_id.date_order or fields.Date.today())
+
+		return max(base_price, final_price)
+
 	#Calculo del precio de venta y coste unitario segun tarifa al cambiar las horas
 	
 	@api.onchange('hours','cost_price_unit')
@@ -142,8 +203,10 @@ class SaleOrderLineTaskWork(models.Model):
 
 				#Se guarda la categoria de la mano de obra y se le asigna la categoria del compuesto
 				category = False
+				hours = record.hours
 				if record.order_line_id.product_id.apply_category:
 					category = record.work_id.categ_id.id
+					hours = record.order_line_id.product_uom_qty
 					record.work_id.write({
 						'categ_id' : record.order_line_id.product_id.categ_id.id
 					})
@@ -151,7 +214,7 @@ class SaleOrderLineTaskWork(models.Model):
 				workforce = record.work_id.with_context(
 					lang=record.order_line_id.order_id.partner_id.lang,
 					partner=record.order_line_id.order_id.partner_id.id,
-					quantity=record.hours,
+					quantity=hours,
 					date=record.order_line_id.order_id.date_order,
 					pricelist=record.order_line_id.order_id.pricelist_id.id,
 					uom=record.work_id.uom_id.id)
@@ -180,8 +243,10 @@ class SaleOrderLineTaskWork(models.Model):
 			if record.work_id:
 				#Se guarda la categoria de la mano de obra y se le asigna la categoria del compuesto
 				category = False
+				hours = record.hours
 				if record.order_line_id.product_id.apply_category:
 					category = record.work_id.categ_id.id
+					hours = record.order_line_id.product_uom_qty
 					record.work_id.write({
 						'categ_id' : record.order_line_id.product_id.categ_id.id
 					})
@@ -189,7 +254,7 @@ class SaleOrderLineTaskWork(models.Model):
 				workforce = record.work_id.with_context(
 					lang=record.order_line_id.order_id.partner_id.lang,
 					partner=record.order_line_id.order_id.partner_id.id,
-					quantity=record.hours,
+					quantity=hours,
 					date=record.order_line_id.order_id.date_order,
 					pricelist=record.order_line_id.order_id.pricelist_id.id,
 					uom=record.work_id.uom_id.id)
@@ -216,8 +281,10 @@ class SaleOrderLineTaskWork(models.Model):
 		self.discount = 0.0
 		#Se guarda la categoria de la mano de obra y se le asigna la categoria del compuesto
 		category = False
+		hours = self.hours
 		if self.order_line_id.product_id.apply_category:
 			category = self.work_id.categ_id.id
+			hours = self.order_line_id.product_uom_qty
 			self.work_id.write({
 				'categ_id' : self.order_line_id.product_id.categ_id.id
 			})
@@ -225,7 +292,7 @@ class SaleOrderLineTaskWork(models.Model):
 		workforce = self.work_id.with_context(
 			lang=self.order_line_id.order_id.partner_id.lang,
 			partner=self.order_line_id.order_id.partner_id.id,
-			quantity=self.hours,
+			quantity=hours,
 			date=self.order_line_id.order_id.date_order,
 			pricelist=self.order_line_id.order_id.pricelist_id.id,
 			uom=self.work_id.uom_id.id,
@@ -233,8 +300,8 @@ class SaleOrderLineTaskWork(models.Model):
 
 		workforce_context = dict(self.env.context, partner_id=self.order_line_id.order_id.partner_id.id, date=self.order_line_id.order_id.date_order, uom=self.work_id.uom_id.id)
 
-		price, rule_id = self.order_line_id.order_id.pricelist_id.with_context(workforce_context).get_product_price_rule(self.work_id, self.hours or 1.0, self.order_line_id.order_id.partner_id)
-		new_list_price, currency = self.order_line_id.with_context(workforce_context)._get_real_price_currency(workforce, rule_id, self.hours, self.work_id.uom_id, self.order_line_id.order_id.pricelist_id.id)
+		price, rule_id = self.order_line_id.order_id.pricelist_id.with_context(workforce_context).get_product_price_rule(self.work_id, hours or 1.0, self.order_line_id.order_id.partner_id)
+		new_list_price, currency = self.order_line_id.with_context(workforce_context)._get_real_price_currency(workforce, rule_id, hours, self.work_id.uom_id, self.order_line_id.order_id.pricelist_id.id)
 
 		#Se recupera la categoria del material
 		if self.order_line_id.product_id.apply_category:
@@ -259,6 +326,26 @@ class SaleOrderLineTaskMaterial(models.Model):
 	
 	_inherit = 'sale.order.line.task.material'
 
+	#Obtiene el precio del material segun tarifa
+	
+	def _get_display_price_material(self, material):
+		if self.order_line_id.order_id.pricelist_id.discount_policy == 'with_discount':
+			return material.with_context(pricelist=self.order_line_id.order_id.pricelist_id.id).price
+
+		quantity = self.quantity
+		if self.order_line_id.product_id.apply_category:
+			quantity = self.order_line_id.product_uom_qty
+
+		material_context = dict(self.env.context, partner_id=self.order_line_id.order_id.partner_id.id, date=self.order_line_id.order_id.date_order, uom=self.material_id.uom_id.id)
+		final_price, rule_id = self.order_line_id.order_id.pricelist_id.with_context(material_context).get_product_price_rule(self.material_id, quantity or 1.0, self.order_line_id.order_id.partner_id)
+		base_price, currency = self.order_line_id.with_context(material_context)._get_real_price_currency(material, rule_id, quantity, self.material_id.uom_id, self.order_line_id.order_id.pricelist_id.id)
+
+		if currency != self.order_line_id.order_id.pricelist_id.currency_id:
+			base_price = currency._convert(
+				base_price, self.order_line_id.order_id.pricelist_id.currency_id,
+				self.order_line_id.order_id.company_id or self.env.company, self.order_line_id.order_id.date_order or fields.Date.today())
+
+		return max(base_price, final_price)
 
 	#Carga de los valores en la linea del material seleccionado
 	
@@ -268,8 +355,10 @@ class SaleOrderLineTaskMaterial(models.Model):
 			if record.material_id:
 				#Se guarda la categoria del material y se le asigna la categoria del compuesto
 				category = False
+				quantity = record.quantity
 				if record.order_line_id.product_id.apply_category:
 					category = record.material_id.categ_id.id
+					quantity = record.order_line_id.product_uom_qty
 					record.material_id.write({
 						'categ_id' : record.order_line_id.product_id.categ_id.id
 					})
@@ -277,7 +366,7 @@ class SaleOrderLineTaskMaterial(models.Model):
 				material = record.material_id.with_context(
 					lang=record.order_line_id.order_id.partner_id.lang,
 					partner=record.order_line_id.order_id.partner_id.id,
-					quantity=record.quantity,
+					quantity=quantity,
 					date=record.order_line_id.order_id.date_order,
 					pricelist=record.order_line_id.order_id.pricelist_id.id,
 					uom=record.material_id.uom_id.id)
@@ -311,8 +400,10 @@ class SaleOrderLineTaskMaterial(models.Model):
 
 				#Se guarda la categoria del material y se le asigna la categoria del compuesto
 				category = False
+				quantity = record.quantity
 				if record.order_line_id.product_id.apply_category:
 					category = record.material_id.categ_id.id
+					quantity = record.order_line_id.product_uom_qty
 					record.material_id.write({
 						'categ_id' : record.order_line_id.product_id.categ_id.id
 					})
@@ -320,7 +411,7 @@ class SaleOrderLineTaskMaterial(models.Model):
 				material = record.material_id.with_context(
 					lang=record.order_line_id.order_id.partner_id.lang,
 					partner=record.order_line_id.order_id.partner_id.id,
-					quantity=record.quantity,
+					quantity=quantity,
 					date=record.order_line_id.order_id.date_order,
 					pricelist=record.order_line_id.order_id.pricelist_id.id,
 					uom=record.material_id.uom_id.id)
@@ -353,8 +444,10 @@ class SaleOrderLineTaskMaterial(models.Model):
 		self.discount = 0.0
 		#Se guarda la categoria del material y se le asigna la categoria del compuesto
 		category = False
+		quantity = self.quantity
 		if self.order_line_id.product_id.apply_category:
 			category = self.material_id.categ_id.id
+			quantity = self.order_line_id.product_uom_qty
 			self.material_id.write({
 				'categ_id' : self.order_line_id.product_id.categ_id.id
 			})
@@ -363,7 +456,7 @@ class SaleOrderLineTaskMaterial(models.Model):
 		mat = self.material_id.with_context(
 			lang=self.order_line_id.order_id.partner_id.lang,
 			partner=self.order_line_id.order_id.partner_id.id,
-			quantity=self.quantity,
+			quantity=quantity,
 			date=self.order_line_id.order_id.date_order,
 			pricelist=self.order_line_id.order_id.pricelist_id.id,
 			uom=self.material_id.uom_id.id,
@@ -371,8 +464,8 @@ class SaleOrderLineTaskMaterial(models.Model):
 
 		mat_context = dict(self.env.context, partner_id=self.order_line_id.order_id.partner_id.id, date=self.order_line_id.order_id.date_order, uom=self.material_id.uom_id.id)
 
-		price, rule_id = self.order_line_id.order_id.pricelist_id.with_context(mat_context).get_product_price_rule(self.material_id, self.quantity or 1.0, self.order_line_id.order_id.partner_id)
-		new_list_price, currency = self.order_line_id.with_context(mat_context)._get_real_price_currency(mat, rule_id, self.quantity, self.material_id.uom_id, self.order_line_id.order_id.pricelist_id.id)
+		price, rule_id = self.order_line_id.order_id.pricelist_id.with_context(mat_context).get_product_price_rule(self.material_id, quantity or 1.0, self.order_line_id.order_id.partner_id)
+		new_list_price, currency = self.order_line_id.with_context(mat_context)._get_real_price_currency(mat, rule_id, quantity, self.material_id.uom_id, self.order_line_id.order_id.pricelist_id.id)
 
 		#Se recupera la categoria del material
 		if self.order_line_id.product_id.apply_category:
