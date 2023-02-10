@@ -9,6 +9,10 @@
             <xpath expr="//field[@name='apply_pricelist']" position="replace">
                 <field name="apply_pricelist" string="Aplicar tarifa en el compuesto" attrs="{'invisible':[('apply_category','=',True)]}"/>
                 <field name="apply_category" attrs="{'invisible':[('apply_pricelist','=',True)]}"/>
+                <label for="percent_waste"/>
+                <div name="waste">
+                    <field name="percent_waste" groups="base.group_user" attrs="{'invisible': ['|', ('type', '!=', 'service'), ('product_variant_count', '&gt;', 1), ('is_product_variant', '=', False)]}" class="oe_inline"/> %  
+                </div>
             </xpath>
         </field>
     </record>

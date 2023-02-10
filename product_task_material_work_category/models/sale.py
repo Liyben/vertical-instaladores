@@ -10,6 +10,56 @@ class SaleOrderLine(models.Model):
 
 	_inherit='sale.order.line'
 
+	# % desperdicio
+	percent_waste = fields.Float(string='% Desperdicio', digits='Discount')
+	
+	#Calculo del precio de venta y coste del prodcuto tipo partida en la linea de pedido
+	#al producirse algun cambio en los materiales, trabajos o mano de obra
+	@api.onchange('task_materials_ids', 'task_works_ids')
+	def _onchange_task_materials_works_workforce(self):
+		product = self.product_id
+		if product:
+			self.auto_create_task = (product.service_tracking == 'task_global_project') or (product.service_tracking == 'task_in_project')
+		else:
+			self.price_unit = 0.0
+			return
+			
+		if self.auto_create_task and self.order_id.pricelist_id and self.order_id.partner_id:
+			for line in self:
+				#Guardamos los precios de la ficha de producto
+				product_lst_price = line.product_id.lst_price
+				product_standard_price = line.product_id.standard_price
+
+				#Actualizamos los precios de la ficha de producto con los precios de la linea de pedido
+				line.product_id.write({
+					'lst_price' : (line.total_sp_material + line.total_sp_work),
+					'standard_price' : (line.total_cp_material + line.total_cp_work) + ((line.total_cp_material + line.total_cp_work) * (line.percent_waste / 100)),
+				})
+
+				#Aplicamos la tarifa
+				product = line.product_id.with_context(
+					lang=line.order_id.partner_id.lang,
+					partner=line.order_id.partner_id.id,
+					quantity=line.product_uom_qty,
+					date=line.order_id.date_order,
+					pricelist=line.order_id.pricelist_id.id,
+					uom=line.product_uom.id,
+					fiscal_position=self.env.context.get('fiscal_position')
+				)
+
+				if line.product_id.apply_pricelist:
+					line.price_unit = self.env['account.tax']._fix_tax_included_price_company(self._get_display_price(product), product.taxes_id, self.tax_id, self.company_id)
+				else:
+					line.price_unit = line.total_sp_material + line.total_sp_work
+
+				line.purchase_price = (line.total_cp_material + line.total_cp_work) + ((line.total_cp_material + line.total_cp_work) * (line.percent_waste / 100))
+
+				#Recuperamos los precios de la ficha producto previamente guardado
+				line.product_id.write({
+					'lst_price' : product_lst_price,
+					'standard_price' : product_standard_price,
+				})
+
 	#Cuando se cambie la cantida o las unidades del producto aplique la tarifa a los trabajos y
 	#materiales si es de tipo partida el producto
 	@api.onchange('product_uom', 'product_uom_qty')
@@ -25,10 +75,18 @@ class SaleOrderLine(models.Model):
 				product_lst_price = line.product_id.lst_price
 				product_standard_price = line.product_id.standard_price
 
+				#Calculamos los precios y descuentos correctos de los materiales y mano de obra
+				for works in line.task_works_ids:
+					works._onchange_hours()
+					works._onchange_discount()
+				for materials in line.task_materials_ids:
+					materials._onchange_quantity()
+					materials._onchange_discount()
+
 				#Actualizamos los precios de la ficha de producto con los precios de la linea de pedido
 				line.product_id.write({
 					'lst_price' : (line.total_sp_material + line.total_sp_work),
-					'standard_price' : (line.total_cp_material + line.total_cp_work),
+					'standard_price' : (line.total_cp_material + line.total_cp_work) + ((line.total_cp_material + line.total_cp_work) * (line.percent_waste / 100)),
 				})
 
 				#Aplicamos la tarifa
@@ -44,16 +102,9 @@ class SaleOrderLine(models.Model):
 				if line.product_id.apply_pricelist:
 					line.price_unit = self.env['account.tax']._fix_tax_included_price_company(self._get_display_price(product), product.taxes_id, self.tax_id, self.company_id)
 				else:
-					if line.product_id.apply_category:
-						for works in line.task_works_ids:
-							works._onchange_hours()
-							works._onchange_discount()
-						for materials in line.task_materials_ids:
-							materials._onchange_quantity()
-							materials._onchange_discount()
 					line.price_unit = line.total_sp_material + line.total_sp_work
 				
-				line.purchase_price = (line.total_cp_material + line.total_cp_work)
+				line.purchase_price = (line.total_cp_material + line.total_cp_work) + ((line.total_cp_material + line.total_cp_work) * (line.percent_waste / 100))
 
 				#Recuperamos los precios de la ficha producto previamente guardado
 				line.product_id.write({
@@ -71,10 +122,18 @@ class SaleOrderLine(models.Model):
 				product_lst_price = line.product_id.lst_price
 				product_standard_price = line.product_id.standard_price
 
+				#Calculamos los precios y descuentos correctos de los materiales y mano de obra
+				for works in line.task_works_ids:
+					works._onchange_hours()
+					works._onchange_discount()
+				for materials in line.task_materials_ids:
+					materials._onchange_quantity()
+					materials._onchange_discount()
+
 				#Actualizamos los precios de la ficha de producto con los precios de la linea de pedido
 				line.product_id.write({
 					'lst_price' : (line.total_sp_material + line.total_sp_work),
-					'standard_price' : (line.total_cp_material + line.total_cp_work),
+					'standard_price' : (line.total_cp_material + line.total_cp_work) + ((line.total_cp_material + line.total_cp_work) * (line.percent_waste / 100)),
 				})
 
 				#Aplicamos la tarifa
@@ -91,16 +150,9 @@ class SaleOrderLine(models.Model):
 				if line.product_id.apply_pricelist:
 					line.price_unit = self.env['account.tax']._fix_tax_included_price_company(self._get_display_price(product), product.taxes_id, self.tax_id, self.company_id)
 				else:
-					if line.product_id.apply_category:
-						for works in line.task_works_ids:
-							works._onchange_hours()
-							works._onchange_discount()
-						for materials in line.task_materials_ids:
-							materials._onchange_quantity()
-							materials._onchange_discount()
 					line.price_unit = line.total_sp_material + line.total_sp_work
 
-				line.purchase_price = (line.total_cp_material + line.total_cp_work)
+				line.purchase_price = (line.total_cp_material + line.total_cp_work) + ((line.total_cp_material + line.total_cp_work) * (line.percent_waste / 100))
 
 				#Recuperamos los precios de la ficha producto previamente guardado
 				line.product_id.write({
@@ -116,6 +168,7 @@ class SaleOrderLine(models.Model):
 		product = self.product_id
 		if product:
 			self.auto_create_task = (product.service_tracking == 'task_global_project') or (product.service_tracking == 'task_in_project')
+			self.percent_waste = product.percent_waste
 
 		if self.auto_create_task:
 			self.update({'task_works_ids' : False,
@@ -132,6 +185,28 @@ class SaleOrderLine(models.Model):
 					work.work_id.write({
 						'categ_id' : self.product_id.categ_id.id
 					})
+				
+				#Calculo del coste de la mano de obra
+				cost_price_unit = work.cost_price_unit
+				product_context = dict(self.env.context, partner_id=self.order_id.partner_id.id, date=self.order_id.date_order, uom=work.work_id.uom_id.id)
+				final_price, rule_id = self.order_id.pricelist_id.with_context(product_context).get_product_price_rule(work.work_id, hours or 1.0, self.order_id.partner_id)
+				PricelistItem = self.env['product.pricelist.item']
+				if rule_id:
+					pricelist_item = PricelistItem.browse(rule_id)
+					if pricelist_item.base == "supplierinfo":
+						cost_price_unit = work.work_id.sudo()._get_supplierinfo_pricelist_price(
+						pricelist_item,
+						date=self.order_id.date_order or fields.Date.today(),
+						quantity=hours,
+						)
+
+				cost_price_unit_percent_waste = cost_price_unit + (cost_price_unit * (product.percent_waste / 100))
+
+				#Se guarda el coste de la mano de obra y se le asigna el nuevo coste
+				cost_work = work.work_id.standard_price
+				work.work_id.write({
+						'standard_price' : cost_price_unit_percent_waste,
+				})
 
 				workforce = work.work_id.with_context(
 					lang=self.order_id.partner_id.lang,
@@ -145,9 +220,9 @@ class SaleOrderLine(models.Model):
 					'name' : work.name,
 					'work_id': work.work_id.id,
 					'sale_price_unit' : self.env['account.tax']._fix_tax_included_price_company(self._get_display_price_line(workforce, work.work_id, hours), workforce.taxes_id, self.tax_id, self.company_id),
-					'cost_price_unit' : work.cost_price_unit,
+					'cost_price_unit' : cost_price_unit,
 					'hours' : work.hours,
-					'discount' : self._get_discount_line(work.work_id, work.hours) or 0.0
+					'discount' : self._get_discount_line(work.work_id, hours) or 0.0
 					}))
 
 				#Se recupera la categoria
@@ -155,6 +230,10 @@ class SaleOrderLine(models.Model):
 					work.work_id.write({
 						'categ_id' : category_work
 					})
+				#Se recupera el precio de coste
+				work.work_id.write({
+						'standard_price' : cost_work,
+				})
 
 			material_list = []
 			for material in product.task_materials_ids:
@@ -168,6 +247,28 @@ class SaleOrderLine(models.Model):
 						'categ_id' : self.product_id.categ_id.id
 					})
 
+				#Calculo del coste del material
+				cost_price_unit = material.cost_price_unit
+				product_context = dict(self.env.context, partner_id=self.order_id.partner_id.id, date=self.order_id.date_order, uom=material.material_id.uom_id.id)
+				final_price, rule_id = self.order_id.pricelist_id.with_context(product_context).get_product_price_rule(material.material_id, quantity or 1.0, self.order_id.partner_id)
+				PricelistItem = self.env['product.pricelist.item']
+				if rule_id:
+					pricelist_item = PricelistItem.browse(rule_id)
+					if pricelist_item.base == "supplierinfo":
+						cost_price_unit = material.material_id.sudo()._get_supplierinfo_pricelist_price(
+						pricelist_item,
+						date=self.order_id.date_order or fields.Date.today(),
+						quantity=quantity,
+						)
+
+				cost_price_unit_percent_waste = cost_price_unit + (cost_price_unit * (product.percent_waste / 100))
+
+				#Se guarda el coste del material y se le asigna el nuevo coste
+				cost_material = material.material_id.standard_price
+				material.material_id.write({
+						'standard_price' : cost_price_unit_percent_waste,
+				})
+
 				mat = material.material_id.with_context(
 						lang=self.order_id.partner_id.lang,
 						partner=self.order_id.partner_id.id,
@@ -180,9 +281,9 @@ class SaleOrderLine(models.Model):
 					'material_id' : material.material_id.id,
 					'name' : material.name,
 					'sale_price_unit' : self.env['account.tax']._fix_tax_included_price_company(self._get_display_price_line(mat, material.material_id, quantity), mat.taxes_id, self.tax_id, self.company_id),
-					'cost_price_unit' : material.cost_price_unit,
+					'cost_price_unit' : cost_price_unit,
 					'quantity' : material.quantity,
-					'discount' : self._get_discount_line(material.material_id, material.quantity) or 0.0
+					'discount' : self._get_discount_line(material.material_id, quantity) or 0.0
 					}))
 
 				#Se recupera la categoria
@@ -190,6 +291,10 @@ class SaleOrderLine(models.Model):
 					material.material_id.write({
 						'categ_id' : category_material
 					})
+				#Se recupera el precio de coste
+				material.material_id.write({
+						'standard_price' : cost_material,
+				})
 
 			self.update({'task_works_ids' : work_list,
 					'task_materials_ids' : material_list,
@@ -256,6 +361,57 @@ class SaleOrderLine(models.Model):
 			if (discount > 0):
 				return discount
 
+	#Calculo del precio de venta y coste del prodcuto tipo partida en la linea de pedido
+	#al producirse algun cambio en el % de desperdicio
+	@api.onchange('percent_waste')
+	def _onchange_percent_waste(self):
+		product = self.product_id
+		if product:
+			self.auto_create_task = (product.service_tracking == 'task_global_project') or (product.service_tracking == 'task_in_project')
+			
+		if self.auto_create_task and self.order_id.pricelist_id and self.order_id.partner_id:
+			for line in self:
+				#Guardamos los precios de la ficha de producto
+				product_lst_price = line.product_id.lst_price
+				product_standard_price = line.product_id.standard_price
+
+				#Calculamos los precios y descuentos correctos de los materiales y mano de obra
+				for works in line.task_works_ids:
+					works._onchange_hours()
+					works._onchange_discount()
+				for materials in line.task_materials_ids:
+					materials._onchange_quantity()
+					materials._onchange_discount()
+
+				#Actualizamos los precios de la ficha de producto con los precios de la linea de pedido
+				line.product_id.write({
+					'lst_price' : (line.total_sp_material + line.total_sp_work),
+					'standard_price' : (line.total_cp_material + line.total_cp_work) + ((line.total_cp_material + line.total_cp_work) * (line.percent_waste / 100)),
+				})
+
+				#Aplicamos la tarifa
+				product = line.product_id.with_context(
+					lang=line.order_id.partner_id.lang,
+					partner=line.order_id.partner_id.id,
+					quantity=line.product_uom_qty,
+					date=line.order_id.date_order,
+					pricelist=line.order_id.pricelist_id.id,
+					uom=line.product_uom.id,
+					fiscal_position=self.env.context.get('fiscal_position')
+				)
+
+				if line.product_id.apply_pricelist:
+					line.price_unit = self.env['account.tax']._fix_tax_included_price_company(self._get_display_price(product), product.taxes_id, self.tax_id, self.company_id)
+				else:
+					line.price_unit = line.total_sp_material + line.total_sp_work
+
+				line.purchase_price = (line.total_cp_material + line.total_cp_work) + ((line.total_cp_material + line.total_cp_work) * (line.percent_waste / 100))
+
+				#Recuperamos los precios de la ficha producto previamente guardado
+				line.product_id.write({
+					'lst_price' : product_lst_price,
+					'standard_price' : product_standard_price,
+				})
 
 class SaleOrderLineTaskWork(models.Model):
 	"""Modelo para almacenar los trabajos del producto partida en la linea de pedido"""
@@ -349,6 +505,28 @@ class SaleOrderLineTaskWork(models.Model):
 						'categ_id' : record.order_line_id.product_id.categ_id.id
 					})
 
+				#Calculo del coste de la mano de obra
+				cost_price_unit = record.work_id.standard_price
+				product_context = dict(self.env.context, partner_id=record.order_line_id.order_id.partner_id.id, date=record.order_line_id.order_id.date_order, uom=record.work_id.uom_id.id)
+				final_price, rule_id = record.order_line_id.order_id.pricelist_id.with_context(product_context).get_product_price_rule(record.work_id, hours or 1.0, record.order_line_id.order_id.partner_id)
+				PricelistItem = self.env['product.pricelist.item']
+				if rule_id:
+					pricelist_item = PricelistItem.browse(rule_id)
+					if pricelist_item.base == "supplierinfo":
+						cost_price_unit = record.work_id.sudo()._get_supplierinfo_pricelist_price(
+						pricelist_item,
+						date=record.order_line_id.order_id.date_order or fields.Date.today(),
+						quantity=hours,
+						)
+
+				cost_price_unit_percent_waste = cost_price_unit + (cost_price_unit * (record.order_line_id.percent_waste / 100))
+
+				#Se guarda el coste de la mano de obra y se le asigna el nuevo coste
+				cost_work = record.work_id.standard_price
+				record.work_id.write({
+						'standard_price' : cost_price_unit_percent_waste,
+				})
+
 				workforce = record.work_id.with_context(
 					lang=record.order_line_id.order_id.partner_id.lang,
 					partner=record.order_line_id.order_id.partner_id.id,
@@ -358,12 +536,19 @@ class SaleOrderLineTaskWork(models.Model):
 					uom=record.work_id.uom_id.id)
 
 				record.sale_price_unit = record.order_line_id.env['account.tax']._fix_tax_included_price_company(self._get_display_price_workforce(workforce), workforce.taxes_id, self.order_line_id.tax_id, self.order_line_id.company_id)
-				record.cost_price_unit = record.work_id.standard_price
+				record.cost_price_unit = cost_price_unit
+				
 				#Se recupera la categoria de la mano de obra
 				if record.order_line_id.product_id.apply_category:
 					record.work_id.write({
 						'categ_id' : category
 					})
+
+				#Se recupera el precio de coste
+				record.work_id.write({
+						'standard_price' : cost_work,
+				})
+
 				record.name = record.work_id.name
 
 	#Calculo del descuento según la tarifa
@@ -460,6 +645,28 @@ class SaleOrderLineTaskMaterial(models.Model):
 					record.material_id.write({
 						'categ_id' : record.order_line_id.product_id.categ_id.id
 					})
+				
+				#Calculo del coste de la mano de obra
+				cost_price_unit = record.material_id.standard_price
+				product_context = dict(self.env.context, partner_id=record.order_line_id.order_id.partner_id.id, date=record.order_line_id.order_id.date_order, uom=record.material_id.uom_id.id)
+				final_price, rule_id = record.order_line_id.order_id.pricelist_id.with_context(product_context).get_product_price_rule(record.material_id, quantity or 1.0, record.order_line_id.order_id.partner_id)
+				PricelistItem = self.env['product.pricelist.item']
+				if rule_id:
+					pricelist_item = PricelistItem.browse(rule_id)
+					if pricelist_item.base == "supplierinfo":
+						cost_price_unit = record.material_id.sudo()._get_supplierinfo_pricelist_price(
+						pricelist_item,
+						date=record.order_line_id.order_id.date_order or fields.Date.today(),
+						quantity=quantity,
+						)
+
+				cost_price_unit_percent_waste = cost_price_unit + (cost_price_unit * (record.order_line_id.percent_waste / 100))
+
+				#Se guarda el coste de la mano de obra y se le asigna el nuevo coste
+				cost_material = record.material_id.standard_price
+				record.material_id.write({
+						'standard_price' : cost_price_unit_percent_waste,
+				})
 
 				material = record.material_id.with_context(
 					lang=record.order_line_id.order_id.partner_id.lang,
@@ -470,13 +677,19 @@ class SaleOrderLineTaskMaterial(models.Model):
 					uom=record.material_id.uom_id.id)
 			
 				record.sale_price_unit = record.order_line_id.env['account.tax']._fix_tax_included_price_company(self._get_display_price_material(material), material.taxes_id, self.order_line_id.tax_id, self.order_line_id.company_id)
-				record.cost_price_unit = record.material_id.standard_price
+				record.cost_price_unit = cost_price_unit
 
 				#Se recupera la categoria del material
 				if record.order_line_id.product_id.apply_category:
 					record.material_id.write({
 						'categ_id' : category
 					})
+
+				#Se recupera el precio de coste
+				record.work_id.write({
+						'standard_price' : cost_material,
+				})
+
 				#record.quantity = 1.0
 				record.name = record.material_id.name
 

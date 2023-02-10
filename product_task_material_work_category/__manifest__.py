@@ -12,9 +12,10 @@ Este módulo añade la funcionalidad de poder aplicar la tarifa del compuesto, s
 
     """,
     'author': 'Liyben',
-    'depends': ['product_task_material_work'],
+    'depends': ['product_task_material_work','product_pricelist_supplierinfo','sale_margin'],
     'data': [
-            'views/product_template.xml',],
+            'views/product_template.xml',
+            'views/sale_views.xml',],
     'qweb': [],
     'images': [
     ],
