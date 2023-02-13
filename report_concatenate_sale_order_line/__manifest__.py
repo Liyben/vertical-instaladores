@@ -15,6 +15,7 @@
     'depends': ['product','product_task_material_work',],
     'data': ['views/product_views.xml',
             'views/report_saleorder.xml',
+            'views/report_invoice.xml'
     ],
     'qweb': [],
     'images': [
