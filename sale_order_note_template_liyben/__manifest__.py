@@ -6,7 +6,8 @@
     'version': '14.0.1.0.0',
     'category': 'Sales Management',
     'sequence': 6,
-    'summary': "Cambia el tipo de campo 'narration' de Text a Html.",
+    'summary': """Cambia el tipo de campo 'narration' de Text a Html. Ademas si el presupuesto tiene condiciones seleccionadas no se las lleva a la factura.
+        En caso de que el presupuesto no tenga condiciones seleccionadas y tenga datos introducitos en el campo nota, estos si iran a la factura.""",
     'author': 'Liyben Team',
     'company': 'Liyben Team',
     'website': 'http://www.liyben.com',
