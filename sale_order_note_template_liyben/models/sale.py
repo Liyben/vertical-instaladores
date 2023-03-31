@@ -10,6 +10,6 @@ class SaleOrder(models.Model):
 		invoice_vals = super(SaleOrder, self)._prepare_invoice()
 
 		if self.terms_template_id:
-			invoice_vals.update({'terms_template_id': self.terms_template_id.id})
+			invoice_vals['narration'] = ''
 
 		return invoice_vals
