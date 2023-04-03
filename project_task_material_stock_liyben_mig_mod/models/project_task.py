@@ -40,7 +40,7 @@ class Task(models.Model):
                 task.stock_state = "pending"
             else:
                 states = task.mapped("stock_move_ids.state")
-                for state in ("confirmed", "assigned", "done", "draft", "cancel", "waiting"):
+                for state in ("confirmed", "assigned", "done", "draft", "cancel", "waiting","partially_available"):
                     if state in states:
                         task.stock_state = state
                         break
@@ -83,6 +83,7 @@ class Task(models.Model):
             ("pending", "Pending"),
             ("draft", "Draft"),
             ("waiting", "Waiting Another Operation"),
+            ('partially_available', 'Partially Available'),
             ("confirmed", "Confirmed"),
             ("assigned", "Assigned"),
             ("done", "Done"),
