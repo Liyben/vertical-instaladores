@@ -686,7 +686,7 @@ class SaleOrderLineTaskMaterial(models.Model):
 					})
 
 				#Se recupera el precio de coste
-				record.work_id.write({
+				record.material_id.write({
 						'standard_price' : cost_material,
 				})
 
