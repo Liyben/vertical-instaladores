@@ -16,6 +16,6 @@ class AccountMove(models.Model):
 	
 	percent_retention = fields.Float(string='Retención (%)', digits='Discount', default=0.0, readonly=True,
 									  states={'draft': [('readonly', False)], 'sent': [('readonly', False)]})
-	amount_retention = fields.Monetary(string='Retención', store=True, readonly=True, compute='_amount_all_retention')
+	amount_retention = fields.Monetary(string='Retención por obra', store=True, readonly=True, compute='_amount_all_retention')
 	amount_to_pay = fields.Monetary(string='Total a pagar', store=True, readonly=True, compute='_amount_all_retention')
 	
