@@ -18,6 +18,6 @@ class Meeting(models.Model):
             desc = self.description + '\n' + url
             _logger.debug('%s\n', desc)
             _logger.debug('%s\n', url)
-            values['description'] = url
+            values['description'] = desc
         return super(Meeting, self).write(values)
     
