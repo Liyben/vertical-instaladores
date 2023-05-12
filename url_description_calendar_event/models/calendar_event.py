@@ -14,6 +14,6 @@ class Meeting(models.Model):
         url = self.env['ir.config_parameter'].get_param('web.base.url')
         if self.res_model and self.res_id:
             action = self.env[self.res_model].browse(self.res_id).get_formview_action()
-            url = url + '/web#id=' + str(self.res_id) + '&action=' + str(action.id) + '&model=' + self.res_model + '&view_type=form'
+            url = url + '/web#id=' + str(self.res_id) + '&action=' + str(action[id]) + '&model=' + self.res_model + '&view_type=form'
             _logger.debug('%s\n', url)
         return res
