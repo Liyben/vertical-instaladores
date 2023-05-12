@@ -17,6 +17,6 @@ class Meeting(models.Model):
             desc = self.description + '\n' + url
             _logger.debug('%s\n', desc)
             _logger.debug('%s\n', url)
-            #self.description = desc
+            self.description = desc
         return res
     
