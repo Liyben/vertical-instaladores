@@ -19,3 +19,4 @@ class Meeting(models.Model):
             values['description'] = desc
         return super(Meeting, self).write(values)
     
+    
