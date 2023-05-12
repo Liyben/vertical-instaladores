@@ -8,7 +8,7 @@
     'version': '14.0.1.0.0',
     'license': 'AGPL-3',
     'description': """
-        
+        Tiene que estar configurado el parametro web.base.url
             
         """,
     'author': 'Liyben',
