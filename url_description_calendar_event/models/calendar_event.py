@@ -13,14 +13,9 @@ class Meeting(models.Model):
         url = self.env['ir.config_parameter'].get_param('web.base.url')
         res_id = self.res_id
         res_model = self.res_model
-        if res_model and res_id:
+        if res_model and res_id and 'description' in values:
             url = url + '/web#id=' + str(res_id) + '&model=' + res_model + '&view_type=form'
-            desc = ''
-            if 'description' in values:
-                desc = values.get('description')
-            else:
-                desc = self.description
-            desc = desc + '\n' + url
+            desc = values.get('description') + '\n' + url
             values['description'] = desc
         return super(Meeting, self).write(values)
     
