@@ -15,9 +15,12 @@ class Meeting(models.Model):
         res_model = self.res_model
         if res_model and res_id:
             url = url + '/web#id=' + str(res_id) + '&model=' + res_model + '&view_type=form'
-            desc = self.description + '\n' + url
-            _logger.debug('%s\n', desc)
-            _logger.debug('%s\n', url)
+            desc = ''
+            if 'description' in values:
+                desc = values.get('description')
+            else:
+                desc = self.description
+            desc = desc + '\n' + url
             values['description'] = desc
         return super(Meeting, self).write(values)
     
