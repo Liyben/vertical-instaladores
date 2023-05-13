@@ -39,5 +39,6 @@ class Meeting(models.Model):
 				if res_model_id and res_id:
 					url = url + '/web#id=' + str(res_id) + '&model=' + res_model_id + '&view_type=form'
 					desc = values.get('description') or defaults.get('description')
+					_logger.debug('\n\n\n%s\n\n',desc + url)
 					values['description'] = desc + '\n' + url
 		return super(Meeting, self).create(vals_list)
