@@ -16,7 +16,7 @@
     'data': [
         'views/assets.xml',
     ],
-    'qweb': [],
+    'qweb': ['static/src/xml/systray_odoo_version.xml'],
     'images': [
     ],
     'demo': [
