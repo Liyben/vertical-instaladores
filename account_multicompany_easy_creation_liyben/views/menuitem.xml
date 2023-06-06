@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem
+        id="easy_creation_menu"
+        name="Creación sencilla de compañía"
+        action="account_multicompany_easy_creation.wizard_multicompany_easy_creation_action"
+        parent="account.account_account_menu"
+        sequence="180"
+        groups="account.group_account_readonly"
+    />
+</odoo>
