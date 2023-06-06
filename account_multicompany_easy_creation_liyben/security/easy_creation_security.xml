@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+    <record id="group_easy_creation_company" model="res.groups">
+        <field name="name">Permite la creación rápida de compañia.</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+
+</data>
+</odoo>

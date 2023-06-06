@@ -8,12 +8,15 @@
     'version': '14.0.1.0.0',
     'license': 'AGPL-3',
     'description': """
-        
+        Añade un nuevo menú en Facturación / Contabilidad/Configuración/Contabilidad --> Creación sencilla de compañía.
+        Añade un nuevo grupo técnico 'Permite la creación rápida de compañia.', para tener acceso a dicho menú y poder crear la nueva compañia.
             
         """,
     'author': 'Liyben',
     'depends': ['account_multicompany_easy_creation',],
     'data': [
+        'security/easy_creation_security.xml',
+        'security/ir.model.access.csv',
         'views/menuitem.xml',
     ],
     'qweb': [],
