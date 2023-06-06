@@ -6,6 +6,6 @@
         action="account_multicompany_easy_creation.wizard_multicompany_easy_creation_action"
         parent="account.account_account_menu"
         sequence="180"
-        groups="account.group_account_readonly"
+        groups="account_multicompany_easy_creation_liyben.group_easy_creation_company"
     />
 </odoo>
