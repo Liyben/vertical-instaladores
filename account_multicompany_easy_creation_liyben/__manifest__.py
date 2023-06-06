@@ -3,7 +3,7 @@
 {
     'name': 'Creación rápida de empresa desde Contabilidad',
     'category': "Accounting",
-    'summary': '',
+    'summary': 'Añade un nuevo menú en Facturación / Contabilidad/Configuración/Contabilidad --> Creación sencilla de compañía. Añade un nuevo grupo técnico: Permite la creación rápida de compañia, para tener acceso a dicho menú y poder crear la nueva compañia.',
     'website': 'https://liyben.com/',
     'version': '14.0.1.0.0',
     'license': 'AGPL-3',
