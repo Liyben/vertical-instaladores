@@ -1,0 +1,3 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_sale_order_line_sections_user","access_sale_order_line_sections_user","installers_sale_order_line_sections.model_sale_order_line_sections","sales_team.group_sale_salesman_all_leads","True","True","True","True"
+"access_sale_order_line_sections_type_user","access_sale_order_line_sections_type_user","installers_sale_order_line_sections.model_sale_order_line_sections_type","sales_team.group_sale_salesman_all_leads","True","True","True","True"

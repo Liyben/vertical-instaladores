@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="view_sale_order_line_sections_form">
+        <field name="name">sale.order.line.form.sections.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="product_task_material_work.view_sale_order_line_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='auto_create_task']" position="before">
+                <group string="Secciones" attrs="{'invisible': [('display_type', '!=', False)]}">
+                    <group>
+                        <field name="detailed_sections" />
+                    </group>
+                    <field name="sections_ids" nolabel="1" >
+                        <tree string="Secciones" editable="bottom" >
+                            <field name="sequence" widget="handle"/>
+                            <field name="section_type_id"/>
+                            <field name="unidades"/>
+                            <field name="ancho"/>
+                            <field name="alto"/>
+                            <field name="mts_cuadrados" string="Mts^2 Und."/>
+                            <field name="mts_cuadrados_sub"/>
+                        </tree>
+                    </field>
+                </group>
+
+                <!-- CAMPOS PARA EL MODO MANUAL -->
+                <group attrs="{'invisible': [('display_type', '!=', False)]}">
+                    <group>
+                        <field name="total_lineales" attrs="{'invisible': [('manual_mode','=',True)]}"/>
+                        <field name="total_lineales_manual" attrs="{'invisible': [('manual_mode','=',False)]}"/>
+                    </group>
+                    <group>
+                        <field name="total_cuadrados" attrs="{'invisible': [('manual_mode','=',True)]}"/>
+                        <field name="total_cuadrados_manual" attrs="{'invisible': [('manual_mode','=',False)]}"/>
+                    </group>
+                </group>
+                <group attrs="{'invisible': [('display_type', '!=', False)]}">
+                    <field name="manual_mode" />
+                </group>
+
+            </xpath>
+
+        </field>
+    </record>
+
+    <!--Window actions-->
+    <record id="section_type_form_action" model="ir.actions.act_window">
+        <field name="name">Secciones</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order.line.sections.type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Añade una nueva sección
+          </p>
+        </field>
+    </record>
+
+    <!--Menu items-->
+    <menuitem id="section_config_main" 
+        name="Secciones" parent="sale.menu_sale_config"
+        sequence="6" 
+        groups="sales_team.group_sale_salesman_all_leads"/>
+
+    <menuitem action="installers_sale_order_line_sections.section_type_form_action" 
+        id="menu_section_type_form_action" 
+        parent="installers_sale_order_line_sections.section_config_main" 
+        sequence="8" 
+        groups="sales_team.group_sale_salesman_all_leads"/>
+</odoo>
