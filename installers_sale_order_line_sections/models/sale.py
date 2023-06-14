@@ -43,8 +43,8 @@ class SaleOrderLine(models.Model):
 	@api.onchange('total_lineales','total_cuadrados','manual_mode')
 	def _onchange_metros(self):
 		# Obtenemos el id de la unidad de medida ml y m2
-		ml_id = self.env.ref('sale_order_line_sections.product_uom_lineal_meter').id
-		m2_id = self.env.ref('sale_order_line_sections.product_uom_square_meter').id
+		ml_id = self.env.ref('installers_sale_order_line_sections.product_uom_lineal_meter').id
+		m2_id = self.env.ref('installers_sale_order_line_sections.product_uom_square_meter').id
 
 		for material in self.task_materials_ids:
 			# Comparamos el id de la unidad de medida del producto con ml_id
@@ -58,8 +58,8 @@ class SaleOrderLine(models.Model):
 	@api.onchange('total_lineales_manual','total_cuadrados_manual')
 	def _onchange_metros_manual(self):
 		# Obtenemos el id de la unidad de medida ml y m2
-		ml_id = self.env.ref('sale_order_line_sections.product_uom_lineal_meter').id
-		m2_id = self.env.ref('sale_order_line_sections.product_uom_square_meter').id
+		ml_id = self.env.ref('installers_sale_order_line_sections.product_uom_lineal_meter').id
+		m2_id = self.env.ref('installers_sale_order_line_sections.product_uom_square_meter').id
 
 		for material in self.task_materials_ids:
 			# Comparamos el id de la unidad de medida del producto con ml_id
