@@ -272,10 +272,25 @@ class ProjectTaskMaterial(models.Model):
         return res
 
     def create_stock_move(self):
-        pick_type = self.env.ref(
+        """ pick_type = self.env.ref(
             "project_task_material_stock_liyben_mig_mod.project_task_material_picking_type"
-        )
+        ) """
         task = self[0].task_id
+
+        pick_type = self.env["stock.picking.type"].search(
+                    [
+                        ("stock_move_from_task", "=", True),
+                        ("company_id", "=", task.company_id.id),
+                    ], limit=1
+                )
+        
+        if not pick_type:
+            raise exceptions.Warning(
+                            _(
+                                "No tiene ningún tipo de albarán para usar en tareas "
+                                "para esta compañia."
+                            )
+                        )
 
         group_id = task.procurement_group_id
         if not group_id:
