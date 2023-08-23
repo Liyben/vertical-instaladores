@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <template id="login_layout_hide_powered_by_and_manage_db" inherit_id="web.login_layout" name="Login Layout">
-        <xpath expr="//div[@class='container py-5']" position="before">
+        <xpath expr="//div[@class='text-center small mt-4 pt-3 border-top']" position="before">
             <t t-set="disable_footer" t-value="1"/>
         </xpath>
     </template>
