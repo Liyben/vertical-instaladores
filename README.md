@@ -2,6 +2,6 @@
 
 Lista Módulos
 ----------------
-Módulo | Link | Resumen
+Módulo | Documentación | Resumen
 --- | --- | ---
 Nombre | [LINK](https://liyben.com) | Texto
