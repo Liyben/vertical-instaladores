@@ -1,8 +1,6 @@
 # vertical-instaladores
 
-## Lista de Módulos
-
-Módulos
+Lista Módulos
 ----------------
 Módulo | Link | Resumen
 --- | --- | ---
