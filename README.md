@@ -6,4 +6,4 @@ Módulos
 ----------------
 Módulo | Link | Resumen
 --- | --- | ---
-Nombre | [LINK](https://liyben.com)  |  | Texto
+Nombre | [LINK](https://liyben.com) | Texto
