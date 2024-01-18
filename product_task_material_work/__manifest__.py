@@ -15,7 +15,7 @@ basada en el módulo de la OCA 'account_invoice_report_grouped_by_picking'.
     'author': 'Liyben',
     'depends': ['sale', 'project_task_material','sale_timesheet', 'product',
                 'sale_project','account', 'project_task_code','sales_team','hr',
-                'hr_timesheet','sale_margin','crm','uom'],
+                'hr_timesheet','sale_margin','crm','uom','stock_picking_invoice_link'],
     'data': ['data/product_data.xml',
             'security/ir.model.access.csv',
             'security/account_move_security.xml',

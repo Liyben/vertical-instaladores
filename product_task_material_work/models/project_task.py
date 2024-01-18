@@ -107,8 +107,8 @@ class ProjectTask(models.Model):
 
 			#Calculamos la nueva descripción de la linea de pedido asociada
 			nameToText = ''
-			if self.oppor_id.sequence_code:
-				nameToText = 'Aviso: ' + self.oppor_id.sequence_code + ', '
+			#if self.oppor_id.sequence_code:
+			#	nameToText = 'Aviso: ' + self.oppor_id.sequence_code + ', '
 
 			if self.code:
 				nameToText += 'Parte de Trabajo: ' + self.code + '<br/>'
