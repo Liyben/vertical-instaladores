@@ -25,6 +25,6 @@ class SaleOrderLine(models.Model):
                 )
             description_sale =""
             if product.description_sale:
-                description_sale = product.descripcion_sale
+                description_sale = product.description_sale
             self.name = product.name + ". " + description_sale
         return res
