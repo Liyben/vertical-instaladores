@@ -23,5 +23,8 @@ class SaleOrderLine(models.Model):
                 product = product.with_context(
                     lang=self.order_id.partner_id.lang,
                 )
-            self.name = product.name + ". " + product.description_sale
+            description_sale =""
+            if product.description_sale:
+                description_sale = product.descripcion_sale
+            self.name = product.name + ". " + description_sale
         return res
