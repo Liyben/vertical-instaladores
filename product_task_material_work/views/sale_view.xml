@@ -309,6 +309,12 @@
             <xpath expr="//field[@name='order_line']/tree//field[@name='purchase_price']" position="attributes">
                 <attribute name="groups">product_task_material_work.group_sales_product_cost</attribute>
             </xpath>
+            <xpath expr="//field[@name='order_line']/tree//field[@name='margin']" position="attributes">
+                <attribute name="groups">product_task_material_work.group_sales_margin</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree//field[@name='margin_percent']" position="attributes">
+                <attribute name="groups">product_task_material_work.group_sales_margin</attribute>
+            </xpath>
         </field>
     </record>
 
