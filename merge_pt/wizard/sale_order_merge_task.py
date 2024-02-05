@@ -92,7 +92,7 @@ class SaleOrderMergeTaskWizard(models.TransientModel):
 						material_list.append((0,0, {
 							'product_id' : material.product_id.id,
 							'quantity' : material.quantity,
-							'product_uom_id' : material.product_uom_id
+							'product_uom_id' : material.product_uom_id.id
 						}))
 					else:
 						encontrado = False
@@ -105,7 +105,7 @@ class SaleOrderMergeTaskWizard(models.TransientModel):
 							material_list.append((0,0, {
 								'product_id' : material.product_id.id,
 								'quantity' : material.quantity,
-								'product_uom_id' : material.product_uom_id
+								'product_uom_id' : material.product_uom_id.id
 								}))
 	
 		if material_list == []:
