@@ -20,7 +20,3 @@ class Task(models.Model):
 			
 		return super(Task, self).unlink()
 	
-class ProjectTaskMaterial(models.Model):
-    _inherit = "project.task.material"
-
-    product_uom_id = fields.Many2one(comodel_name="uom.uom", string="Unit of Measure")

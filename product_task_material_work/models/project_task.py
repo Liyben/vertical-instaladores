@@ -158,6 +158,12 @@ class ProjectTask(models.Model):
 				raise ValidationError(_('No puede crear/modificar un PT relacionado con '
 					'una linea de pedido facturada, realizada o cancelada'))
 
+	
+class ProjectTaskMaterial(models.Model):
+	_inherit = "project.task.material"
+
+	product_uom_id = fields.Many2one(comodel_name="uom.uom", string="Unit of Measure")
+	
 class ProjectTaskWork(models.Model):
 	"""Modelo para almacenar los trabajos de la linea de pedido en el parte de trabajo"""
 

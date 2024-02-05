@@ -239,7 +239,7 @@ class ProjectTaskMaterial(models.Model):
         comodel_name="account.analytic.line",
         string="Analytic Line",
     )
-    product_uom_id = fields.Many2one(comodel_name="uom.uom", string="Unit of Measure")
+    #product_uom_id = fields.Many2one(comodel_name="uom.uom", string="Unit of Measure")
     product_id = fields.Many2one(domain="[('type', 'in', ('consu', 'product'))]")
 
     @api.onchange("product_id")

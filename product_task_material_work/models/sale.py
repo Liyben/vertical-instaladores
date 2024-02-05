@@ -845,8 +845,8 @@ class SaleOrderLine(models.Model):
 		for material in self.task_materials_ids:
 			material_list.append((0,0, {
 				'product_id' : material.material_id.id,
-				'quantity' : material.quantity * self.product_uom_qty
-				#'product_uom_id' : material.material_id.uom_id.id
+				'quantity' : material.quantity * self.product_uom_qty,
+				'product_uom_id' : material.material_id.uom_id.id
 				}))
 
 		return {
