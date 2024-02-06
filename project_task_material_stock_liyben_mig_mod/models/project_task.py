@@ -299,7 +299,7 @@ class ProjectTaskMaterial(models.Model):
                     'name': task.sale_line_id.order_id.name +' ('+ task.code + ')', 
                     'move_type': task.sale_line_id.order_id.picking_policy or 'direct',
                     'task_id': task.id,
-                    # 'sale_id': task.sale_line_id.order_id.id or False,
+                    'sale_id': task.sale_line_id.order_id.id or False,
                     'partner_id': task.partner_id.id,
                 }
             )
