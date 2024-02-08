@@ -17,7 +17,7 @@ class AccountMove(models.Model):
 			if not insurance_credit_limit:
 				insurance_credit_limit = "0.00" 
 				
-			invoice.partner_risk_credit_limit = invoice.partner_id.name + " - (Riesgo: " + insurance_credit_limit + " €)"
+			invoice.partner_risk_credit_limit = partner_name + " - (Riesgo: " + insurance_credit_limit + " €)"
 			invoice.insurance_credit_limit = invoice.partner_id.insurance_credit_limit
 
 	
