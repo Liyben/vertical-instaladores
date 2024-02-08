@@ -13,9 +13,6 @@
                     </group>
                 </group>
             </xpath>
-            <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='product_id']" position="after">
-                <field name="procure_method" groups="analytic.group_analytic_accounting"/>
-            </xpath>
         </field>
     </record>
     
