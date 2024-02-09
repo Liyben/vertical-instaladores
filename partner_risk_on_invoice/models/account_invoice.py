@@ -23,5 +23,5 @@ class AccountMove(models.Model):
 	
 	
 	partner_risk_credit_limit = fields.Char(string='Cliente con Riesgo', store=True, readonly=True, compute='_compute_credit_limit')
-	insurance_credit_limit = fields.Float(string='Límite de crédito del seguro', store=True, readonly=True, compute='_compute_credit_limit')
+	insurance_credit_limit = fields.Float(string='Límite de crédito del seguro', store=True, readonly=True, compute='_compute_credit_limit', group_operator='avg')
 	
