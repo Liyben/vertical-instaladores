@@ -19,6 +19,7 @@
         <field name="inherit_id" ref="account.view_invoice_tree" />
         <field name="arch" type="xml">
             <field name="state" position="before">
+                <field name="invoice_payment_term_id" optional="hide"/>
                 <field name="insurance_credit_limit" avg="Riesgo" />
             </field>
         </field>
