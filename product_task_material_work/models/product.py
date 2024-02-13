@@ -139,14 +139,15 @@ class ProductTemplate(models.Model):
 	#Comprobación de los productos que se encuentran en compuestos
 	@api.constrains("active")
 	def _check_archive(self):
-		if (self.env["product.task.material"].with_context(active_test=False).search([("material_id.product_tmpl_id", "=", self.id)]) or 
-		self.env["product.task.work"].with_context(active_test=False).search([("work_id.product_tmpl_id", "=", self.id)])):
+		for record in self:
+			if (self.env["product.task.material"].with_context(active_test=False).search([("material_id.product_tmpl_id", "=", record.id)]) or 
+			self.env["product.task.work"].with_context(active_test=False).search([("work_id.product_tmpl_id", "=", record.id)])):
 
-			raise ValidationError(
-				_(
-					"Este producto se encuentra al menos en un producto tipo partida."
+				raise ValidationError(
+					_(
+						"Este producto se encuentra al menos en un producto tipo partida."
+					)
 				)
-			)
 
 	#Devuelve los valores para la acción de ventana al pulsar en Productos Compuestos
 	def action_view_product_compound(self):
