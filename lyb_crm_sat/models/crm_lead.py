@@ -144,5 +144,10 @@ class CrmLead(models.Model):
 		
 		if res:
 			res['sub_type'] = 'opportunity'
-			
+
+			if res['sequence_code'] == "/":
+				res['sequence_code'] = self.env.ref(
+						"lyb_crm_sat.sequence_opportunity", raise_if_not_found=False
+					).next_by_id()
+
 		return res
