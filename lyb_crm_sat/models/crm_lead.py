@@ -138,3 +138,11 @@ class CrmLead(models.Model):
 			
 		return super(CrmLead,self).copy(default=default)
 
+	#Añade el subtipo oportunidad
+	def _convert_opportunity_data(self, customer, team_id=False):
+		res = super(CrmLead,self)._convert_opportunity_data(customer, team_id)
+		
+		if res:
+			res['sub_type'] = 'opportunity'
+			
+		return res
