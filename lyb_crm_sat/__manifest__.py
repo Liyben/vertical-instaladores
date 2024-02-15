@@ -12,7 +12,7 @@
         
         """,
     'author': 'Liyben',
-    'depends': ['crm','project','sale','sales_team','sale_crm','crm_timesheet'],
+    'depends': ['crm','project','sale','sales_team','sale_crm','crm_timesheet','product_task_material_work'],
     'data': ['data/lead_sequence.xml',
             'views/crm_lead_views.xml',
             'views/sale_views.xml',

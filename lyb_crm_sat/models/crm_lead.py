@@ -40,6 +40,9 @@ class CrmLead(models.Model):
 	partner_shipping_id = fields.Many2one(
 		'res.partner', string='Dirección de entrega', domain="[('parent_id', '=', partner_id), '|', ('company_id', '=', False), ('company_id', '=', company_id)]",)
 
+	#Grupo cuenta analitica
+	account_analytic_group_id = fields.Many2one('account.analytic.group', string='Grupo', check_company=True) 
+	
 	#Cada vez qeu se produce un cambio en las etiquetas se pone vacio el equipo de ventas
 	@api.onchange('tag_ids')
 	def _onchange_tag_ids_to_false_team_id(self):
