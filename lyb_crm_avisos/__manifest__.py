@@ -17,6 +17,7 @@
             'views/crm_lead_views.xml',
             'views/res_partner_view.xml',
             'views/crm_stage_views.xml',
+            'views/res_config_settings_views.xml',
     ],
     'qweb': [],
     'images': [
