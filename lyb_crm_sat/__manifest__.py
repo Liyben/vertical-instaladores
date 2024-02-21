@@ -18,6 +18,7 @@
             'views/sale_views.xml',
             'views/crm_lead_report.xml',
             'views/report_crm_lead_document.xml',
+            'views/res_config_settings_views.xml',
     ],
     'qweb': [],
     'images': [
