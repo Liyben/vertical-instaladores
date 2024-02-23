@@ -39,5 +39,19 @@ Módulo | Documentación | Resumen
 [report_concatenate_sale_order_line](https://github.com/Liyben/vertical-instaladores/tree/14.0/report_concatenate_sale_order_line) | [LINK](https://docs.google.com/document/d/1mDomXY0Ei8NbOXKsWlNuZtusGvOhWdR9clBw6YEy7cc/edit#heading=h.bb9v6igir4ap) | Concatena la descripción del compuesto con sus materiales
 [sale_order_product_restricted](https://github.com/Liyben/vertical-instaladores/tree/14.0/sale_order_product_restricted) | [LINK](https://docs.google.com/document/d/1mDomXY0Ei8NbOXKsWlNuZtusGvOhWdR9clBw6YEy7cc/edit#heading=h.8ss5h2t7bimv) | Restringe la confirmación del pedido en función de los productos de la linea de pedido
 [url_description_calendar_event](https://github.com/Liyben/vertical-instaladores/tree/14.0/url_description_calendar_event) | [LINK](https://docs.google.com/document/d/1mDomXY0Ei8NbOXKsWlNuZtusGvOhWdR9clBw6YEy7cc/edit#heading=h.4qpn88qqgl6n) | Facturación a origen
-[billin_at_origin](https://github.com/Liyben/vertical-instaladores/tree/14.0/billin_at_origin) | [LINK]() | Facturación a origen
-[billin_at_origin](https://github.com/Liyben/vertical-instaladores/tree/14.0/billin_at_origin) | [LINK]() | Facturación a origen
+[account_multicompany_easy_creation_liyben](https://github.com/Liyben/vertical-instaladores/tree/14.0/account_multicompany_easy_creation_liyben) | [LINK]() | Creación rápida de empresa desde Contabilidad
+[breakdown_report_from_task](https://github.com/Liyben/vertical-instaladores/tree/14.0/breakdown_report_from_task) | [LINK]() | Impresión del parte de avería
+[calendar_event_task](https://github.com/Liyben/vertical-instaladores/tree/14.0/calendar_event_task) | [LINK]() | Impresión del parte de avería
+[client_number_for_reports](https://github.com/Liyben/vertical-instaladores/tree/14.0/client_number_for_reports) | [LINK]() | 
+[hide_footer_login_screen](https://github.com/Liyben/vertical-instaladores/tree/14.0/hide_footer_login_screen) | [LINK]() | 
+[lyb_avisos](https://github.com/Liyben/vertical-instaladores/tree/14.0/lyb_avisos) | [LINK]() | 
+[partner_risk_on_invoice](https://github.com/Liyben/vertical-instaladores/tree/14.0/partner_risk_on_invoice) | [LINK]() | 
+[print_options_to_false_account_move_line](https://github.com/Liyben/vertical-instaladores/tree/14.0/print_options_to_false_account_move_line) | [LINK]() | 
+[product_task_material_work_category](https://github.com/Liyben/vertical-instaladores/tree/14.0/product_task_material_work_category) | [LINK]() | 
+[sale_order_line_description](https://github.com/Liyben/vertical-instaladores/tree/14.0/sale_order_line_description) | [LINK]() | 
+[stock_orderpoint_origin_lyb_mod](https://github.com/Liyben/vertical-instaladores/tree/14.0/stock_orderpoint_origin_lyb_mod) | [LINK]() | 
+[systray_odoo_version](https://github.com/Liyben/vertical-instaladores/tree/14.0/systray_odoo_version) | [LINK]() | 
+
+
+
+
