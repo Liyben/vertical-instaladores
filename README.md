@@ -40,9 +40,9 @@ Módulo | Documentación | Resumen
 [sale_order_product_restricted](https://github.com/Liyben/vertical-instaladores/tree/14.0/sale_order_product_restricted) | [LINK](https://docs.google.com/document/d/1mDomXY0Ei8NbOXKsWlNuZtusGvOhWdR9clBw6YEy7cc/edit#heading=h.8ss5h2t7bimv) | Restringe la confirmación del pedido en función de los productos de la linea de pedido
 [url_description_calendar_event](https://github.com/Liyben/vertical-instaladores/tree/14.0/url_description_calendar_event) | [LINK](https://docs.google.com/document/d/1mDomXY0Ei8NbOXKsWlNuZtusGvOhWdR9clBw6YEy7cc/edit#heading=h.4qpn88qqgl6n) | Facturación a origen
 [account_multicompany_easy_creation_liyben](https://github.com/Liyben/vertical-instaladores/tree/14.0/account_multicompany_easy_creation_liyben) | [LINK]() | Creación rápida de empresa desde Contabilidad
-[breakdown_report_from_task](https://github.com/Liyben/vertical-instaladores/tree/14.0/breakdown_report_from_task) | [LINK]() | Impresión del parte de avería
-[calendar_event_task](https://github.com/Liyben/vertical-instaladores/tree/14.0/calendar_event_task) | [LINK]() | 
-[client_number_for_reports](https://github.com/Liyben/vertical-instaladores/tree/14.0/client_number_for_reports) | [LINK]() | 
+[breakdown_report_from_task](https://github.com/Liyben/vertical-instaladores/tree/14.0/breakdown_report_from_task) | [LINK](https://docs.google.com/document/d/1mDomXY0Ei8NbOXKsWlNuZtusGvOhWdR9clBw6YEy7cc/edit#heading=h.gloc2ew5h8go) | Impresión del parte de avería
+[calendar_event_task](https://github.com/Liyben/vertical-instaladores/tree/14.0/calendar_event_task) | [LINK](https://docs.google.com/document/d/1mDomXY0Ei8NbOXKsWlNuZtusGvOhWdR9clBw6YEy7cc/edit#heading=h.18zm05w0zzr0) | Tarea en calendario
+[client_number_for_reports](https://github.com/Liyben/vertical-instaladores/tree/14.0/client_number_for_reports) | [LINK](https://docs.google.com/document/d/1mDomXY0Ei8NbOXKsWlNuZtusGvOhWdR9clBw6YEy7cc/edit#heading=h.kjfd495sbbqe) | Número de cliente en presupuestos, facturas y albaranes
 [hide_footer_login_screen](https://github.com/Liyben/vertical-instaladores/tree/14.0/hide_footer_login_screen) | [LINK]() | 
 [lyb_avisos](https://github.com/Liyben/vertical-instaladores/tree/14.0/lyb_avisos) | [LINK]() | 
 [partner_risk_on_invoice](https://github.com/Liyben/vertical-instaladores/tree/14.0/partner_risk_on_invoice) | [LINK]() | 
