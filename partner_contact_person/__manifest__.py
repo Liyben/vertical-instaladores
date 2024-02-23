@@ -8,7 +8,7 @@
     "license": "AGPL-3",
     "author": "Liyben",
     "website": "",
-    "depends": ["base_setup", "lyb_crm_avisos"],
+    "depends": ["base_setup", "lyb_crm_sat"],
     "data": ["views/res_partner.xml",
             "views/crm_lead.xml",
             'views/report_crm_lead_document.xml',],
