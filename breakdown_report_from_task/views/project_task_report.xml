@@ -5,8 +5,8 @@
             <field name="name">Parte de avería</field>
             <field name="model">project.task</field>
             <field name="report_type">qweb-pdf</field>
-            <field name="report_name">breakdown_report.report_project_task_breakdown_report</field>
-            <field name="report_file">breakdown_report.report_project_task_breakdown_report</field>
+            <field name="report_name">breakdown_report_from_task.report_project_task_breakdown_report</field>
+            <field name="report_file">breakdown_report_from_task.report_project_task_breakdown_report</field>
             <field name="print_report_name">'Parte de avería - %s' % (object.name)</field>
             <field name="binding_model_id" ref="project.model_project_task"/>
             <field name="binding_type">report</field>
