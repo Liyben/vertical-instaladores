@@ -41,7 +41,7 @@ Módulo | Documentación | Resumen
 [url_description_calendar_event](https://github.com/Liyben/vertical-instaladores/tree/14.0/url_description_calendar_event) | [LINK](https://docs.google.com/document/d/1mDomXY0Ei8NbOXKsWlNuZtusGvOhWdR9clBw6YEy7cc/edit#heading=h.4qpn88qqgl6n) | Facturación a origen
 [account_multicompany_easy_creation_liyben](https://github.com/Liyben/vertical-instaladores/tree/14.0/account_multicompany_easy_creation_liyben) | [LINK]() | Creación rápida de empresa desde Contabilidad
 [breakdown_report_from_task](https://github.com/Liyben/vertical-instaladores/tree/14.0/breakdown_report_from_task) | [LINK]() | Impresión del parte de avería
-[calendar_event_task](https://github.com/Liyben/vertical-instaladores/tree/14.0/calendar_event_task) | [LINK]() | Impresión del parte de avería
+[calendar_event_task](https://github.com/Liyben/vertical-instaladores/tree/14.0/calendar_event_task) | [LINK]() | 
 [client_number_for_reports](https://github.com/Liyben/vertical-instaladores/tree/14.0/client_number_for_reports) | [LINK]() | 
 [hide_footer_login_screen](https://github.com/Liyben/vertical-instaladores/tree/14.0/hide_footer_login_screen) | [LINK]() | 
 [lyb_avisos](https://github.com/Liyben/vertical-instaladores/tree/14.0/lyb_avisos) | [LINK]() | 
