@@ -43,14 +43,14 @@ Módulo | Documentación | Resumen
 [breakdown_report_from_task](https://github.com/Liyben/vertical-instaladores/tree/14.0/breakdown_report_from_task) | [LINK](https://docs.google.com/document/d/1mDomXY0Ei8NbOXKsWlNuZtusGvOhWdR9clBw6YEy7cc/edit#heading=h.gloc2ew5h8go) | Impresión del parte de avería
 [calendar_event_task](https://github.com/Liyben/vertical-instaladores/tree/14.0/calendar_event_task) | [LINK](https://docs.google.com/document/d/1mDomXY0Ei8NbOXKsWlNuZtusGvOhWdR9clBw6YEy7cc/edit#heading=h.18zm05w0zzr0) | Tarea en calendario
 [client_number_for_reports](https://github.com/Liyben/vertical-instaladores/tree/14.0/client_number_for_reports) | [LINK](https://docs.google.com/document/d/1mDomXY0Ei8NbOXKsWlNuZtusGvOhWdR9clBw6YEy7cc/edit#heading=h.kjfd495sbbqe) | Número de cliente en presupuestos, facturas y albaranes
-[hide_footer_login_screen](https://github.com/Liyben/vertical-instaladores/tree/14.0/hide_footer_login_screen) | [LINK]() | 
-[lyb_avisos](https://github.com/Liyben/vertical-instaladores/tree/14.0/lyb_avisos) | [LINK]() | 
-[partner_risk_on_invoice](https://github.com/Liyben/vertical-instaladores/tree/14.0/partner_risk_on_invoice) | [LINK]() | 
-[print_options_to_false_account_move_line](https://github.com/Liyben/vertical-instaladores/tree/14.0/print_options_to_false_account_move_line) | [LINK]() | 
-[product_task_material_work_category](https://github.com/Liyben/vertical-instaladores/tree/14.0/product_task_material_work_category) | [LINK]() | 
-[sale_order_line_description](https://github.com/Liyben/vertical-instaladores/tree/14.0/sale_order_line_description) | [LINK]() | 
-[stock_orderpoint_origin_lyb_mod](https://github.com/Liyben/vertical-instaladores/tree/14.0/stock_orderpoint_origin_lyb_mod) | [LINK]() | 
-[systray_odoo_version](https://github.com/Liyben/vertical-instaladores/tree/14.0/systray_odoo_version) | [LINK]() | 
+[hide_footer_login_screen](https://github.com/Liyben/vertical-instaladores/tree/14.0/hide_footer_login_screen) | [LINK](https://docs.google.com/document/d/1YhgRKbIYy94phmLHXv-L6vCcYxZp3i-F-teZg8lV4MM/edit#heading=h.jw8lprij5gau) | Oculta el pie de la ventana de registro
+[lyb_avisos](https://github.com/Liyben/vertical-instaladores/tree/14.0/lyb_avisos) | [LINK]() | Avisos (LUMISOL)
+[partner_risk_on_invoice](https://github.com/Liyben/vertical-instaladores/tree/14.0/partner_risk_on_invoice) | [LINK](https://docs.google.com/document/d/1u6AOCsnwCyzN05BwCCND6HtGxbUyiN5s4SULGRrRvlM/edit#heading=h.c2lo1xyu747y) | Limite del seguro en facturas
+[print_options_to_false_account_move_line](https://github.com/Liyben/vertical-instaladores/tree/14.0/print_options_to_false_account_move_line) | [LINK]() | Opciones de impresion en linea de factura desactivadas
+[product_task_material_work_category](https://github.com/Liyben/vertical-instaladores/tree/14.0/product_task_material_work_category) | [LINK]() | Poder aplicar la tarifa del compuesto, si se define por categoría, a los materiales y mano de obra de dicho compuesto
+[sale_order_line_description](https://github.com/Liyben/vertical-instaladores/tree/14.0/sale_order_line_description) | [LINK]() | La descripcion de la linea de presupuesto toma como valor el nombre + descripción de venta del producto
+[stock_orderpoint_origin_lyb_mod](https://github.com/Liyben/vertical-instaladores/tree/14.0/stock_orderpoint_origin_lyb_mod) | [LINK]() | Vincular Órdenes de Compra a las Órdenes de Venta de demanda de reabastecimiento
+[systray_odoo_version](https://github.com/Liyben/vertical-instaladores/tree/14.0/systray_odoo_version) | [LINK]() | Version de Odoo en barra de menu
 
 
 
