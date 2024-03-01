@@ -24,7 +24,7 @@
                 <field name="mobile" string="Móvil" />
                 <field name="has_tags" invisible="1"/>
                 <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}" required="1"/>
-                <field name="team_id" string="Equipo de venta" attrs="{'invisible': [('has_tags', '=', False)], 'required': [('has_tags', '=', True)]}"/>
+                <field name="team_id" string="Equipo de venta" required="1"/>
             </xpath>
 
             <xpath expr="//field[@name='zip']" position="after">
@@ -118,7 +118,7 @@
             </xpath>
             
             <xpath expr="//field[@name='team_id']" position="attributes">
-                <attribute name="attrs">{'invisible': [('has_tags', '=', False)], 'required': [('has_tags', '=', True)]}</attribute>
+                <attribute name="required">True</attribute>
             </xpath>
 
             <xpath expr="//field[@name='tag_ids']" position="attributes">
