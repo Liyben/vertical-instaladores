@@ -27,7 +27,7 @@
                                 </tr>
                                 <tr>
                                     <td style="font-weight:bold;border:0;">Fecha </td>
-                                    <td style="font-weight:normal;border: 1px solid #238AA9;width: 125px;"><span t-field="o.create_date" t-options="{&quot;widget&quot;: &quot;date&quot;}"/></td>
+                                    <td style="font-weight:normal;border: 1px solid #238AA9;width: 125px;"><span t-field="o.date_task" t-options="{&quot;widget&quot;: &quot;date&quot;}"/></td>
                                     <td style="font-weight:bold;border:0;">Asignado</td>
                                     <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="o.user_id" /></td>
                                     <td style="font-weight:bold;border:0;">Fecha Límite</td>

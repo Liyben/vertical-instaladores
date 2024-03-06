@@ -26,6 +26,9 @@ class ProjectTask(models.Model):
 	signature = fields.Binary(string='Firma')
 	sign_by = fields.Char(string='Firmado por')
 
+	#Fecha tarea
+	date_task = fields.Datetime(string='Fecha tarea', required=True, copy=False, default=fields.Datetime.now)
+
 	@api.model
 	def create(self, vals):
 		task = super(ProjectTask, self).create(vals)
