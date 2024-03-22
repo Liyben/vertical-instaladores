@@ -14,11 +14,9 @@ class SaleOrder(models.Model):
                 self.opportunity_id.stage_id = stage_id
         return res
     
-    @api.onchange("partner_id")
-    def onchange_partner_id_partner_shipping_id(self):
-        if self.opportunity_id and self.opportunity_id.partner_id.id == self.partner_id.id:
-            self.update(
-                {
-                    "partner_shipping_id": self.opportunity_id.partner_shipping_id.id,
-                }
-            )
+    @api.onchange('partner_id')
+    def onchange_partner_id(self):
+        res = super(SaleOrder, self).onchange_partner_id()
+        for sale in self:
+            if sale.opportunity_id and sale.opportunity_id.partner_id.id == sale.partner_id.id:
+                sale.partner_shipping_id = sale.opportunity_id.partner_shipping_id.id,
