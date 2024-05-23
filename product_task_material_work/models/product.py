@@ -9,13 +9,6 @@ class ProductTemplate(models.Model):
 
 	_inherit='product.template'
 
-	def _default_see_works_and_materials(self):
-		value = False
-		for record in self:
-			if (record.service_tracking == 'task_global_project') or (record.service_tracking == 'task_in_project'):
-				value = 'all'
-		return value
-
 	#Campos relacionales para trabajos y materiales
 	task_works_ids = fields.One2many(comodel_name='product.task.work', inverse_name='product_id', string='Trabajos', copy=True)
 	task_materials_ids = fields.One2many(comodel_name='product.task.material', inverse_name='product_id', string='Materiales', copy=True)
@@ -42,7 +35,15 @@ class ProductTemplate(models.Model):
 		('all', 'Trabajos y Materiales'),
 		('only_works', 'Solo Trabajos'),
 		('only_materials', 'Solo Materiales')],
-		string="Ver", default=_default_see_works_and_materials,)
+		string="Ver", )
+
+
+	@api.onchange('service_tracking')
+	def _onchange_service_tracking_2(self):
+		if (self.service_tracking == 'task_global_project') or (self.service_tracking == 'task_in_project'):
+			return 'all'
+		else:
+			return False
 
 	#Calcula el numero de productos compuestos en los que se encuentra
 	def _compute_product_compound_count(self):
