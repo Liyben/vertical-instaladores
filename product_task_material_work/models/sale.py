@@ -413,7 +413,13 @@ class SaleOrderLine(models.Model):
 	detailed_price_materials = fields.Boolean(string='Imp. precio Mat.')
 	detailed_subtotal_price_time = fields.Boolean(string='Imp. subtotal Hr.')
 	detailed_subtotal_price_materials = fields.Boolean(string='Imp. subtotal Mat.')
-
+	#Campo para controlar la visualización de los trabajos y materiales
+	see_works_and_materials = fields.Selection([
+		('all', 'Trabajos y Materiales'),
+		('only_works', 'Solo Trabajos'),
+		('only_materials', 'Solo Materiales')],
+		string="Ver", )
+	
 	#Albaranes relacionados
 	#picking_ids = fields.One2many('stock.picking', string='Albaranes', compute='_compute_picking_ids')
 
@@ -581,48 +587,54 @@ class SaleOrderLine(models.Model):
 		product = self.product_id
 		if product:
 			self.auto_create_task = (product.service_tracking == 'task_global_project') or (product.service_tracking == 'task_in_project')
+			if product.type == 'service':
+				self.see_works_and_materials = product.see_works_and_materials
+			else:
+				self.see_works_and_materials = False
 
-		if self.auto_create_task:
+		if self.auto_create_task and self.see_works_and_materials != False:
 			self.update({'task_works_ids' : False,
 					'task_materials_ids' : False,})
 
 			work_list = []
-			for work in product.task_works_ids:
-				workforce = work.work_id.with_context(
-					lang=self.order_id.partner_id.lang,
-					partner=self.order_id.partner_id.id,
-					quantity=work.hours,
-					date=self.order_id.date_order,
-					pricelist=self.order_id.pricelist_id.id,
-					uom=work.work_id.uom_id.id)
-
-				work_list.append((0,0, {
-					'name' : work.name,
-					'work_id': work.work_id.id,
-					'sale_price_unit' : self.env['account.tax']._fix_tax_included_price_company(self._get_display_price_line(workforce, work.work_id, work.hours), workforce.taxes_id, self.tax_id, self.company_id),
-					'cost_price_unit' : work.cost_price_unit,
-					'hours' : work.hours,
-					'discount' : self._get_discount_line(work.work_id, work.hours) or 0.0
-					}))
-
-			material_list = []
-			for material in product.task_materials_ids:
-				mat = material.material_id.with_context(
+			if self.see_works_and_materials != 'only_materials':
+				for work in product.task_works_ids:
+					workforce = work.work_id.with_context(
 						lang=self.order_id.partner_id.lang,
 						partner=self.order_id.partner_id.id,
-						quantity=material.quantity,
+						quantity=work.hours,
 						date=self.order_id.date_order,
 						pricelist=self.order_id.pricelist_id.id,
-						uom=material.material_id.uom_id.id)
+						uom=work.work_id.uom_id.id)
 
-				material_list.append((0,0, {
-					'material_id' : material.material_id.id,
-					'name' : material.name,
-					'sale_price_unit' : self.env['account.tax']._fix_tax_included_price_company(self._get_display_price_line(mat, material.material_id, material.quantity), mat.taxes_id, self.tax_id, self.company_id),
-					'cost_price_unit' : material.cost_price_unit,
-					'quantity' : material.quantity,
-					'discount' : self._get_discount_line(material.material_id, material.quantity) or 0.0
-					}))
+					work_list.append((0,0, {
+						'name' : work.name,
+						'work_id': work.work_id.id,
+						'sale_price_unit' : self.env['account.tax']._fix_tax_included_price_company(self._get_display_price_line(workforce, work.work_id, work.hours), workforce.taxes_id, self.tax_id, self.company_id),
+						'cost_price_unit' : work.cost_price_unit,
+						'hours' : work.hours,
+						'discount' : self._get_discount_line(work.work_id, work.hours) or 0.0
+						}))
+
+			material_list = []
+			if self.see_works_and_materials != 'only_works':
+				for material in product.task_materials_ids:
+					mat = material.material_id.with_context(
+							lang=self.order_id.partner_id.lang,
+							partner=self.order_id.partner_id.id,
+							quantity=material.quantity,
+							date=self.order_id.date_order,
+							pricelist=self.order_id.pricelist_id.id,
+							uom=material.material_id.uom_id.id)
+
+					material_list.append((0,0, {
+						'material_id' : material.material_id.id,
+						'name' : material.name,
+						'sale_price_unit' : self.env['account.tax']._fix_tax_included_price_company(self._get_display_price_line(mat, material.material_id, material.quantity), mat.taxes_id, self.tax_id, self.company_id),
+						'cost_price_unit' : material.cost_price_unit,
+						'quantity' : material.quantity,
+						'discount' : self._get_discount_line(material.material_id, material.quantity) or 0.0
+						}))
 
 			self.update({'task_works_ids' : work_list,
 					'task_materials_ids' : material_list,
