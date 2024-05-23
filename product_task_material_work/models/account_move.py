@@ -157,7 +157,12 @@ class AccountMoveLine(models.Model):
 	detailed_price_materials = fields.Boolean(string='Imp. precio Mat.')
 	detailed_subtotal_price_time = fields.Boolean(string='Imp. subtotal Hr.')
 	detailed_subtotal_price_materials = fields.Boolean(string='Imp. subtotal Mat.')
-
+	#Campo para controlar la visualización de los trabajos y materiales
+	see_works_and_materials = fields.Selection([
+		('all', 'Trabajos y Materiales'),
+		('only_works', 'Solo Trabajos'),
+		('only_materials', 'Solo Materiales')],
+		string="Ver", )
 
 	#Carga de los datos del producto en la linea de factura al seleccionar dicho producto
 	@api.onchange('product_id')
@@ -166,26 +171,32 @@ class AccountMoveLine(models.Model):
 		product = self.product_id
 		if product:
 			self.auto_create_task = (product.service_tracking == 'task_global_project') or (product.service_tracking == 'task_in_project')
+			if product.type == 'service':
+				self.see_works_and_materials = product.see_works_and_materials
+			else:
+				self.see_works_and_materials = False
 
-		if self.auto_create_task:
+		if self.auto_create_task and self.see_works_and_materials != False:
 			work_list = []
-			for work in product.task_works_ids:
-				work_list.append((0,0, {
-					'name' : work.name,
-					'work_id': work.work_id.id,
-					'sale_price_unit' : work.sale_price_unit,
-					'cost_price_unit' : work.cost_price_unit,
-					'hours' : work.hours
-					}))
+			if self.see_works_and_materials != 'only_materials':
+				for work in product.task_works_ids:
+					work_list.append((0,0, {
+						'name' : work.name,
+						'work_id': work.work_id.id,
+						'sale_price_unit' : work.sale_price_unit,
+						'cost_price_unit' : work.cost_price_unit,
+						'hours' : work.hours
+						}))
 			material_list = []
-			for material in product.task_materials_ids:
-				material_list.append((0,0, {
-					'material_id' : material.material_id.id,
-					'name': material.name,
-					'sale_price_unit' : material.sale_price_unit,
-					'cost_price_unit' : material.cost_price_unit,
-					'quantity' : material.quantity
-					}))
+			if self.see_works_and_materials != 'only_works':
+				for material in product.task_materials_ids:
+					material_list.append((0,0, {
+						'material_id' : material.material_id.id,
+						'name': material.name,
+						'sale_price_unit' : material.sale_price_unit,
+						'cost_price_unit' : material.cost_price_unit,
+						'quantity' : material.quantity
+						}))
 			self.update({'task_works_ids' : work_list,
 					'task_materials_ids' : material_list,
 					#'workforce_id' : product.workforce_id.id,
