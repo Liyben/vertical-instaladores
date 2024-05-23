@@ -16,6 +16,7 @@
                 <page string ="Partida" name="partida" attrs="{'invisible':[('auto_create_task','!=',True)]}">
                         <group>
                             <group>
+                                <field name="see_works_and_materials"/>
                                 <field name="apply_pricelist"/>
                             </group>
                             <group>
@@ -23,7 +24,7 @@
                                 <button string="Recalcular" name="product_action_recalculate" type="object" class="oe_highlight"/>
                             </group>
                         </group>    
-                        <group string="Trabajos">
+                        <group string="Trabajos" attrs="{'invisible':[('see_works_and_materials','=','only_materials')]}">
                             <group>
                                 <field name="auto_create_task" invisible="1"/>
                                 <field name="workforce_id" invisible="1" ref="product_task_material_work.mano_obra_00" domain="[('categ_id', '=', %(product_task_material_work.product_category_mo)d )]"/>
@@ -54,7 +55,7 @@
                                 </div>
                             </group>
                         </group>
-                        <group string="Materiales">
+                        <group string="Materiales" attrs="{'invisible':[('see_works_and_materials','=','only_works')]}">
                             <field name="task_materials_ids" nolabel="1" context="{'default_product_id':active_id}">
                                 <tree string="Materiales" editable="bottom">
                                     <field name="sequence" widget="handle"/>

@@ -30,6 +30,12 @@ class ProductTemplate(models.Model):
 	apply_pricelist = fields.Boolean(string='Aplicar tarifa')
 	#Campo para calcular el numero de productos compuestos en los que se encuentra
 	product_compound_count = fields.Integer(string='Partidas', compute='_compute_product_compound_count')
+	#Campo para controlar la visualización de los trabajos y materiales
+	see_works_and_materials = fields.Selection([
+        ('all', 'Trabajos y Materiales'),
+        ('only_works', 'Solo Trabajos'),
+        ('only_materials', 'Solo Materiales')],
+        string="Ver", default="all",)
 
 	#Calcula el numero de productos compuestos en los que se encuentra
 	def _compute_product_compound_count(self):
