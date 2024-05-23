@@ -16,7 +16,7 @@
         </field>
     </record>
 
-    <record id="crm_lead_view_form" model="ir.ui.view">
+    <record id="crm_lead_view_form2" model="ir.ui.view">
         <field name="name">Convert task with context</field>
         <field name="model">crm.lead</field>
         <field name="inherit_id" ref="crm_project.crm_lead_view_form" />
