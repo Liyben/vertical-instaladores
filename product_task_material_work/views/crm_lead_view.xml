@@ -15,4 +15,16 @@
             </page>
         </field>
     </record>
+
+    <record id="crm_lead_view_form" model="ir.ui.view">
+        <field name="name">Convert task with context</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm_project.crm_lead_view_form" />
+        <field name="arch" type="xml">
+            <!-- New fields -->
+            <xpath expr="//button[@name='%(crm_project.crm_lead_convert2task_action)d']" position="attributes">
+                <attribute name="context">{'default_project_id': project_id}</attribute>
+            </xpath>
+        </field>
+    </record>
 </odoo>
