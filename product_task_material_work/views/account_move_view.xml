@@ -32,6 +32,7 @@
 
             <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='partner_id']" position="before">
                 <field name="auto_create_task" invisible="1"/>
+                <field name="see_works_and_materials" invisible="1"/>
                 <field name="detailed_time" invisible="1"/>
                 <field name="detailed_subtotal_price_time" attrs="{'invisible': [('detailed_time','=', False)]}" invisible="1"/>
                 <field name="detailed_price_time" attrs="{'invisible': [('detailed_time','=', False)]}" invisible="1"/>
@@ -51,6 +52,7 @@
 
             <xpath expr="//field[@name='line_ids']/tree/field[@name='product_id']" position="before">
                 <field name="auto_create_task" invisible="1"/>
+                <field name="see_works_and_materials" invisible="1"/>
                 <field name="detailed_time" invisible="1"/>
                 <field name="detailed_subtotal_price_time" attrs="{'invisible': [('detailed_time','=', False)]}" invisible="1"/>
                 <field name="detailed_price_time" attrs="{'invisible': [('detailed_time','=', False)]}" invisible="1"/>
