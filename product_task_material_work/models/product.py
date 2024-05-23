@@ -41,9 +41,9 @@ class ProductTemplate(models.Model):
 	@api.onchange('service_tracking')
 	def _onchange_service_tracking_2(self):
 		if (self.service_tracking == 'task_global_project') or (self.service_tracking == 'task_in_project'):
-			return 'all'
+			self.see_works_and_materials = 'all'
 		else:
-			return False
+			self.see_works_and_materials = False
 
 	#Calcula el numero de productos compuestos en los que se encuentra
 	def _compute_product_compound_count(self):
