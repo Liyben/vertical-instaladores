@@ -93,6 +93,11 @@ class CrmLead(models.Model):
 
 		#Asignamos la secuencia correcta 
 		for vals in vals_list:
+			if (vals.get("sequence_code", "/") == "/" and vals.get("type") == 'lead'):
+				vals["sequence_code"] = self.env.ref(
+						"lyb_crm_sat.sequence_lead", raise_if_not_found=False
+					).next_by_id()
+				
 			if (vals.get("sequence_code", "/") == "/" and vals.get("sub_type") == 'opportunity'):
 				vals["sequence_code"] = self.env.ref(
 						"lyb_crm_sat.sequence_opportunity", raise_if_not_found=False
