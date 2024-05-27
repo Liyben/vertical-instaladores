@@ -56,7 +56,8 @@ class CrmLead(models.Model):
 		values = {
 			'partner_shipping_id': addr['delivery'],
 		}
-
+		self.update(values)
+		
 	#Cada vez qeu se produce un cambio en las etiquetas se pone vacio el equipo de ventas
 	@api.onchange('tag_ids')
 	def _onchange_tag_ids_to_false_team_id(self):
