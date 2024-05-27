@@ -38,11 +38,25 @@ class CrmLead(models.Model):
 
 	#Dirección de entrega
 	partner_shipping_id = fields.Many2one(
-		'res.partner', string='Dirección de entrega', domain="[('parent_id', '=', partner_id), '|', ('company_id', '=', False), ('company_id', '=', company_id)]",)
+		'res.partner', string='Dirección de entrega', domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]",)
 
 	#Grupo cuenta analitica
 	account_analytic_group_id = fields.Many2one('account.analytic.group', string='Grupo', check_company=True) 
 	
+	#Carga la direccioń de entrega al cambiar el cliente
+	@api.onchange('partner_id')
+	def onchange_partner_shipping_id(self):
+		if not self.partner_id:
+			self.update({
+				'partner_shipping_id': False,
+			})
+			return
+
+		addr = self.partner_id.address_get(['delivery', 'invoice'])
+		values = {
+			'partner_shipping_id': addr['delivery'],
+		}
+
 	#Cada vez qeu se produce un cambio en las etiquetas se pone vacio el equipo de ventas
 	@api.onchange('tag_ids')
 	def _onchange_tag_ids_to_false_team_id(self):
