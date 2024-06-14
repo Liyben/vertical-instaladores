@@ -26,11 +26,12 @@ class ProjectTaskConvert2Order(models.TransientModel):
 	)
 
 	def action_project_task_to(self):
+		if not self.task_id.partner_id:
+			raise ValidationError(_('No existe ningún cliente asociado al PT.'))
+		
 		action = self.env["ir.actions.actions"]._for_xml_id("sale.action_quotations_with_onboarding")
 		action['views'] = [(self.env.ref('sale.view_order_form').id, 'form')]
 		
-		if not self.task_id.partner_id:
-			raise ValidationError(_('No existe ningún cliente asociado al PT.'))
 		
 		order_line = []
 		if self.task_id:
