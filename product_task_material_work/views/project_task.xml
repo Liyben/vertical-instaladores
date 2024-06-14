@@ -13,6 +13,16 @@
         			<field name="by_administration" widget="toggle_button"/>
         		</button>
         	</div>
+            <field name="stage_id" position="before">
+                <button
+                    class="oe_stat_button"
+                    type="action"
+                    name="%(project_task_convert2order_action)d"
+                    attrs="{'invisible': ['|',('allow_billable', '=', False),('sale_line_id', '!=', False)]}" 
+                    string="Crear presupuesto"
+                    groups="project.group_project_manager"
+                />
+            </field>
         </field>
     </record>
 

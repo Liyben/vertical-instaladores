@@ -21,6 +21,7 @@ basada en el módulo de la OCA 'account_invoice_report_grouped_by_picking'.
             'security/ir.model.access.csv',
             'security/account_move_security.xml',
             'security/sale_security.xml',
+            'wizard/project_task_convert2order_views.xml',
             'views/product_template.xml',
             'views/sale_view.xml',
             'views/hr_view.xml',
