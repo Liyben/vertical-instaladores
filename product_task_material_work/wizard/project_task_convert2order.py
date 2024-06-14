@@ -62,7 +62,7 @@ class ProjectTaskConvert2Order(models.TransientModel):
 				order_line.append((0,0,{'product_id': self.product_id.id,
 					'name': self.task_id.work_to_do,
 					'product_uom_qty':1.0,
-					'product_uom': self.product_id.product_uom.id,
+					#'product_uom': self.product_id.product_uom.id,
 					#'price_unit': line.price_unit,
 					#'purchase_price': line.cost_unit,
 					#'tax_id':[(6, 0, line.tax_id.ids)],
@@ -71,6 +71,8 @@ class ProjectTaskConvert2Order(models.TransientModel):
 					#'auto_create_task' : auto_create_task, 
 					'task_id': self.task_id.id, 
 					}))
+		else:
+			order_line = False
 
 		action['context'] = {
 			#'search_default_partner_id': self.task_id.partner_id.id,
