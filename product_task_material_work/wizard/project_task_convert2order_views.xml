@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <form string="Crear Presupuesto">
                 <group>
-                    <field name="product_id" domain="[('auto_create_task', '=', True)]"/>
+                    <field name="product_id" />
                 </group>
                 <footer>
                     <button
