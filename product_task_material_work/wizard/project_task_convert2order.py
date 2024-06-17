@@ -138,6 +138,7 @@ class ProjectTaskConvert2Order(models.TransientModel):
 			sale_order_line.update({'task_works_ids' : work_list,
 								'task_materials_ids' : material_list,
 								'name' : html2text.html2text(nameToText),
+								'task_id' : self.task_id.id,
 								})
 
 			#Actualizamos los precios de venta y coste de la linea de pedido asociada
