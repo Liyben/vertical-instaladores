@@ -45,7 +45,6 @@ class ProjectTaskConvert2Order(models.TransientModel):
 		res = {
 			"product_id": self.product_id.id,
 			"product_uom_qty": 1.0,
-			"task_id": self.task_id.id,
 			"order_id": sale_order.id,
 		}
 		return res
@@ -69,6 +68,7 @@ class ProjectTaskConvert2Order(models.TransientModel):
 		sale_order_line.product_id_change()
 
 		if sale_order_line:
+			self.task_id.sale_line_id = sale_order_line.id
 		#Calculamos la nueva lista de materiales que le pasaremos a la linea de pedido asociada
 			material_list = []
 			if self.task_id.material_ids:
