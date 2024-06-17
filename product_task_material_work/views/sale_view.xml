@@ -182,9 +182,10 @@
                 </group>
             </xpath>
 
-            <!--<xpath expr="//field[@name='tax_id']" position="after">
-                <field name="task_id"/>
-            </xpath>-->
+            <xpath expr="//field[@name='analytic_tag_ids']" position="after">
+                <field name="task_id" invisible="1"/>
+                <field name="see_works_and_materials" attrs="{'invisible':[('task_id','=',False)]}"/>
+            </xpath>
 
             <xpath expr="//field[@name='order_line']/form//field[@name='display_type']" position="before">
                 <header>
@@ -199,7 +200,6 @@
                     </group>
                 </div>-->
                 <field name="auto_create_task" invisible="1"/>
-                <field name="see_works_and_materials" invisible="1"/>
                 <div name="partida" attrs="{'invisible':[('auto_create_task','!=',True)]}">
                         <group string="Trabajos" attrs="{'invisible':[('see_works_and_materials','in',['only_materials',False])]}">
                             
