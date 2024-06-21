@@ -3,6 +3,9 @@
 
 from odoo import _, api, fields, models
 
+from odoo.addons.mis_builder.models.expression_evaluator import ExpressionEvaluator
+from odoo.addons.mis_builder.models.mis_safe_eval import NameDataError, mis_safe_eval
+
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -60,11 +63,6 @@ class MisReport(models.Model):
 
 				query.domain = res
 
-	def _fetch_queries(self, date_from, date_to, get_additional_query_filter=None):
-		res = super(MisReport, self)._fetch_queries(date_from, date_to, get_additional_query_filter)
-		_logger.debug("%s\n", str(res.values()))
-		return res
-
 class MisReportInstance(models.Model):
 	_inherit = 'mis.report.instance'
 
@@ -76,3 +74,43 @@ class MisReportInstance(models.Model):
 		for line in self:
 			line.analytic_account_id = False
 			line.report_id.btn_reset_domain()
+
+class MisBuilderLiybenExpressionEvaluator(ExpressionEvaluator):
+	def eval_expressions(self, expressions, locals_dict):
+		vals = []
+		drilldown_args = []
+		name_error = False
+		for expression in expressions:
+			expr = expression and expression.name or "AccountingNone"
+			if self.aep:
+				replaced_expr = self.aep.replace_expr(expr)
+			else:
+				replaced_expr = expr
+			val = mis_safe_eval(replaced_expr, locals_dict)
+			_logger.debug("eval expressions: %s/n",str(val))
+			vals.append(val)
+			if isinstance(val, NameDataError):
+				name_error = True
+			if replaced_expr != expr:
+				drilldown_args.append({"expr": expr})
+			else:
+				drilldown_args.append(None)
+		return vals, drilldown_args, name_error
+
+	def eval_expressions_by_account(self, expressions, locals_dict):
+		if not self.aep:
+			return
+		exprs = [e and e.name or "AccountingNone" for e in expressions]
+		for account_id, replaced_exprs in self.aep.replace_exprs_by_account_id(exprs):
+			vals = []
+			drilldown_args = []
+			name_error = False
+			for expr, replaced_expr in zip(exprs, replaced_exprs):
+				val = mis_safe_eval(replaced_expr, locals_dict)
+				_logger.debug("eval expressions by account: %s/n",str(val))
+				vals.append(val)
+				if replaced_expr != expr:
+					drilldown_args.append({"expr": expr, "account_id": account_id})
+				else:
+					drilldown_args.append(None)
+			yield account_id, vals, drilldown_args, name_error
