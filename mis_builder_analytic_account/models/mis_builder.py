@@ -3,6 +3,9 @@
 
 from odoo import _, api, fields, models
 
+import logging
+_logger = logging.getLogger(__name__)
+
 class MisReportQuery(models.Model):
 
 	_inherit = 'mis.report.query'
@@ -56,6 +59,11 @@ class MisReport(models.Model):
 					res = "[('" + query.name_analytic_account + "', '=', " + str(analytic_account) +")]"
 
 				query.domain = res
+
+	def _fetch_queries(self, date_from, date_to, get_additional_query_filter=None):
+		res = super(MisReport, self)._fetch_queries(date_from, date_to, get_additional_query_filter)
+		_logger.debug("%s\n", str(res))
+		return res
 
 class MisReportInstance(models.Model):
 	_inherit = 'mis.report.instance'
