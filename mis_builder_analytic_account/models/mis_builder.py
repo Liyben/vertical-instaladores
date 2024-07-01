@@ -111,6 +111,8 @@ class MisReport(models.Model):
 					drilldown_args,
 					name_error,
 				) = expression_evaluator.eval_expressions(expressions, locals_dict)
+				if vals[0] == None:
+					vals[0] = 0.0				
 				_logger.debug("eval expressions: %s/n",str(vals))
 				for drilldown_arg in drilldown_args:
 					if not drilldown_arg:
@@ -184,6 +186,8 @@ class MisReport(models.Model):
 							continue
 						drilldown_arg["period_id"] = col_key
 						drilldown_arg["kpi_id"] = kpi.id
+					if vals[0] == None:
+						vals[0] = 0.0
 					_logger.debug("eval expressions by account: %s/n",str(vals))
 					kpi_matrix.set_values_detail_account(
 						kpi, col_key, account_id, vals, drilldown_args
