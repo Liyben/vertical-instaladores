@@ -3,10 +3,9 @@
 
 from odoo import _, api, fields, models
 
-from odoo.addons.mis_builder.models.expression_evaluator import ExpressionEvaluator
-from odoo.addons.mis_builder.models.mis_safe_eval import NameDataError, mis_safe_eval, DataError
+from odoo.addons.mis_builder.models.mis_safe_eval import DataError
 from odoo.addons.mis_builder.models.mis_report import SubKPITupleLengthError, SubKPIUnknownTypeError
-from odoo.addons.mis_builder.models.simple_array import SimpleArray, named_simple_array
+from odoo.addons.mis_builder.models.simple_array import named_simple_array
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -111,9 +110,10 @@ class MisReport(models.Model):
 					drilldown_args,
 					name_error,
 				) = expression_evaluator.eval_expressions(expressions, locals_dict)
+				# if expresion_evaluator return None for vals change it to 0.0
 				if vals[0] == None:
-					vals[0] = 0.0				
-				_logger.debug("eval expressions: %s/n",str(vals))
+					vals[0] = 0.0	
+
 				for drilldown_arg in drilldown_args:
 					if not drilldown_arg:
 						continue
@@ -186,9 +186,10 @@ class MisReport(models.Model):
 							continue
 						drilldown_arg["period_id"] = col_key
 						drilldown_arg["kpi_id"] = kpi.id
+					# if expresion_evaluator return None for vals change it to 0.0
 					if vals[0] == None:
 						vals[0] = 0.0
-					_logger.debug("eval expressions by account: %s/n",str(vals))
+					
 					kpi_matrix.set_values_detail_account(
 						kpi, col_key, account_id, vals, drilldown_args
 					)
@@ -216,43 +217,3 @@ class MisReportInstance(models.Model):
 		for line in self:
 			line.analytic_account_id = False
 			line.report_id.btn_reset_domain()
-
-""" class MisBuilderLiybenExpressionEvaluator(ExpressionEvaluator):
-	def eval_expressions(self, expressions, locals_dict):
-		vals = []
-		drilldown_args = []
-		name_error = False
-		for expression in expressions:
-			expr = expression and expression.name or "AccountingNone"
-			if self.aep:
-				replaced_expr = self.aep.replace_expr(expr)
-			else:
-				replaced_expr = expr
-			val = mis_safe_eval(replaced_expr, locals_dict)
-			_logger.debug("eval expressions: %s/n",str(val))
-			vals.append(val)
-			if isinstance(val, NameDataError):
-				name_error = True
-			if replaced_expr != expr:
-				drilldown_args.append({"expr": expr})
-			else:
-				drilldown_args.append(None)
-		return vals, drilldown_args, name_error
-
-	def eval_expressions_by_account(self, expressions, locals_dict):
-		if not self.aep:
-			return
-		exprs = [e and e.name or "AccountingNone" for e in expressions]
-		for account_id, replaced_exprs in self.aep.replace_exprs_by_account_id(exprs):
-			vals = []
-			drilldown_args = []
-			name_error = False
-			for expr, replaced_expr in zip(exprs, replaced_exprs):
-				val = mis_safe_eval(replaced_expr, locals_dict)
-				_logger.debug("eval expressions by account: %s/n",str(val))
-				vals.append(val)
-				if replaced_expr != expr:
-					drilldown_args.append({"expr": expr, "account_id": account_id})
-				else:
-					drilldown_args.append(None)
-			yield account_id, vals, drilldown_args, name_error """
