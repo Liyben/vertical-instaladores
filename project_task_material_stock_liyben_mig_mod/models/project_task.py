@@ -324,8 +324,8 @@ class ProjectTaskMaterial(models.Model):
                 move_vals.update(
                     {
                         "picking_id": picking_id.id or False,
-                        'group_id': group_id.id or False,
-                        'analytic_account_id' : task.project_id.analytic_account_id.id or False,
+                        "group_id": group_id.id or False,
+                        "analytic_account_id" : task.project_id.analytic_account_id.id or False,
                         "location_id": pick_type.default_location_src_id.id,
                         "location_dest_id": pick_type.default_location_dest_id.id,
                     }
