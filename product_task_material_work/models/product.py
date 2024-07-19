@@ -35,7 +35,7 @@ class ProductTemplate(models.Model):
 		('all', 'Trabajos y Materiales'),
 		('only_works', 'Solo Trabajos'),
 		('only_materials', 'Solo Materiales')],
-		string="Ver", )
+		string="Ver", default='all')
 
 
 	@api.onchange('service_tracking')
