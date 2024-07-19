@@ -262,12 +262,12 @@ class ProjectTaskMaterial(models.Model):
             "product_uom": self.product_uom_id.id or product.uom_id.id,
             "product_uom_qty": self.quantity,
             "origin": self.task_id.sale_line_id.order_id.name +' ('+ self.task_id.code + ')',
-            "location_id": self.task_id.location_source_id.id
-            or self.task_id.project_id.location_source_id.id
-            or self.env.ref("stock.stock_location_stock").id,
-            "location_dest_id": self.task_id.location_dest_id.id
-            or self.task_id.project_id.location_dest_id.id
-            or self.env.ref("stock.stock_location_customers").id,
+            #"location_id": self.task_id.location_source_id.id
+            #or self.task_id.project_id.location_source_id.id
+            #or self.env.ref("stock.stock_location_stock").id,
+            #"location_dest_id": self.task_id.location_dest_id.id
+            #or self.task_id.project_id.location_dest_id.id
+            #or self.env.ref("stock.stock_location_customers").id,
         }
         return res
 
@@ -326,6 +326,8 @@ class ProjectTaskMaterial(models.Model):
                         "picking_id": picking_id.id or False,
                         'group_id': group_id.id or False,
                         'analytic_account_id' : task.project_id.analytic_account_id.id or False,
+                        "location_id": pick_type.default_location_src_id.id,
+                        "location_dest_id": pick_type.default_location_dest_id.id,
                     }
                 )
                 move_id = self.env["stock.move"].create(move_vals)
