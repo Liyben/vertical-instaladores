@@ -1,3 +1,0 @@
-"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
-"access_project_task_merge_wizard","access_project_task_merge_wizard_user","merge_pt.model_project_task_merge_wizard","base.group_user","True","True","True","True"
-"access_sale_order_merge_task_wizard","access_sale_order_merge_task_wizard_user","merge_pt.model_sale_order_merge_task_wizard","base.group_user","True","True","True","True"
