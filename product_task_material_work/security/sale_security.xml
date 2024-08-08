@@ -6,7 +6,7 @@
         <field name="category_id" ref="base.module_category_hidden"/>
     </record>
 
-    <record id="group_sales_comparisons" model="res.groups">
+    <!--<record id="group_sales_comparisons" model="res.groups">
         <field name="name">Mostar pestaña comparaciones en presupuestos y pedidos de venta.</field>
         <field name="category_id" ref="base.module_category_hidden"/>
     </record>
@@ -19,6 +19,6 @@
     <record id="group_report_invoice_grouped_by_picking" model="res.groups">
         <field name="name">Permitir impresión de facturas agrupadas por albarán.</field>
         <field name="category_id" ref="base.module_category_hidden"/>
-    </record>
+    </record>-->
 </data>
 </odoo>

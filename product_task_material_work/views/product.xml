@@ -6,18 +6,19 @@
         <field name="model">product.template</field>
         <field name="inherit_id" ref="product.product_template_form_view"/>
         <field name="arch" type="xml">
-            <xpath expr="//group[@name='description']" position="attributes">
+            <!--<xpath expr="//group[@name='description']" position="attributes">
                 <attribute name="invisible">True</attribute>
             </xpath>
             <xpath expr="//field[@name='name']" position="after">
                 <field name="description_sale" nolabel="1" style="width: 1200px;"/>
-            </xpath>
+            </xpath>-->
             <xpath expr="//page[@name='sales']" position="after">
                 <page string ="Partida" name="partida" attrs="{'invisible':[('auto_create_task','!=',True)]}">
                         <group>
                             <group>
                                 <field name="see_works_and_materials"/>
-                                <field name="apply_pricelist"/>
+                                <!--<field name="apply_pricelist"/>-->
+                                <field name="auto_create_task" invisible="1"/>
                             </group>
                             <group>
                             <!-- Recacula el precio de venta y coste del producto con los materiales y trabajos, si el usuario requiere hacerlo sino se podria modificar manualmente -->
@@ -25,14 +26,10 @@
                             </group>
                         </group>    
                         <group string="Trabajos" attrs="{'invisible':[('see_works_and_materials','in',['only_materials',False])]}">
-                            <group>
-                                <field name="auto_create_task" invisible="1"/>
-                                <field name="workforce_id" invisible="1" ref="product_task_material_work.mano_obra_00" domain="[('categ_id', '=', %(product_task_material_work.product_category_mo)d )]"/>
-                            </group>
                             <field name="task_works_ids" nolabel="1" context="{'default_product_id': active_id}">
                                 <tree string="Trabajos" editable="bottom">
                                     <field name="sequence" widget="handle"/>
-                                    <field name="work_id"/>
+                                    <field name="work_id" context="{'company_id': parent.company_id}"/>
                                     <field name="name"/>
                                     <field name="hours" sum="Horas totales" widget="float_time"/>
                                     <field name="cost_price_unit" optional="show"/>
@@ -41,6 +38,7 @@
                                     <field name="sale_price" sum="Total P.V." optional="show"/>
                                     <field name="work_margin" optional="hide" groups="product_task_material_work.group_sales_margin"/>
                                     <field name="work_margin_percent" optional="show" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
+                                    <field name="company_id" invisible="1"/>
                                 </tree>
                             </field>
                             <group class="pull-right">
@@ -49,7 +47,7 @@
                                 <field name="total_hours" invisible="1"/>
                                 <label for="benefit_work_amount" string="Beneficio"/>
                                 <div>
-                                    <field name="benefit_work_amount" groups="product_task_material_work.group_sales_margin" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                    <field name="benefit_work_amount" groups="product_task_material_work.group_sales_margin" />
                                     <span> | </span>
                                     <field name="benefit_work" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
                                 </div>
@@ -59,7 +57,7 @@
                             <field name="task_materials_ids" nolabel="1" context="{'default_product_id':active_id}">
                                 <tree string="Materiales" editable="bottom">
                                     <field name="sequence" widget="handle"/>
-                                    <field name="material_id"/>
+                                    <field name="material_id" context="{'company_id': parent.company_id}"/>
                                     <field name="name"/>
                                     <field name="quantity"/>
                                     <field name="cost_price_unit" optional="show"/>
@@ -68,6 +66,7 @@
                                     <field name="sale_price" sum="Total P.V." optional="show"/>
                                     <field name="material_margin" optional="hide" groups="product_task_material_work.group_sales_margin"/>
                                     <field name="material_margin_percent" optional="show" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
+                                    <field name="company_id" invisible="1"/>
                                 </tree>
                             </field>
                             <group class="pull-right">
@@ -75,7 +74,7 @@
                                 <field name="total_cp_material" invisible="1"/>
                                 <label for="benefit_material_amount" string="Beneficio"/>
                                 <div>
-                                    <field name="benefit_material_amount" groups="product_task_material_work.group_sales_margin" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                    <field name="benefit_material_amount" groups="product_task_material_work.group_sales_margin"/>
                                     <span> | </span>
                                     <field name="benefit_material" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
                                 </div>
@@ -113,7 +112,7 @@
                     attrs="{'invisible': [('product_compound_count', '=', 0)]}" groups="base.group_user">
                     <div class="o_field_widget o_stat_info">
                         <span class="o_stat_value">
-                            <field name="product_compound_count" widget="statinfo" nolabel="1" class="mr4"/>
+                            <field name="product_compound_count"/>
                         </span>
                         <span class="o_stat_text">Partidas</span>
                     </div>
