@@ -39,6 +39,7 @@
                                     <field name="work_margin" optional="hide" groups="product_task_material_work.group_sales_margin"/>
                                     <field name="work_margin_percent" optional="show" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
                                     <field name="company_id" invisible="1"/>
+                                    <field name="currency_id" column_invisible="True"/>
                                 </tree>
                             </field>
                             <group class="pull-right">
@@ -67,6 +68,7 @@
                                     <field name="material_margin" optional="hide" groups="product_task_material_work.group_sales_margin"/>
                                     <field name="material_margin_percent" optional="show" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
                                     <field name="company_id" invisible="1"/>
+                                    <field name="currency_id" column_invisible="True"/>
                                 </tree>
                             </field>
                             <group class="pull-right">
