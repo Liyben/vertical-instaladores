@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
     <record model="ir.ui.view" id="product_task_material_work_form_view">
@@ -13,7 +12,7 @@
                 <field name="description_sale" nolabel="1" style="width: 1200px;"/>
             </xpath>-->
             <xpath expr="//page[@name='sales']" position="after">
-                <page string ="Partida" name="partida" attrs="{'invisible':[('auto_create_task','!=',True)]}">
+                <page string ="Partida" name="partida" invisible="auto_create_task != True">
                         <group>
                             <group>
                                 <field name="see_works_and_materials"/>
@@ -25,7 +24,7 @@
                                 <button string="Recalcular" name="product_action_recalculate" type="object" class="oe_highlight"/>
                             </group>
                         </group>    
-                        <group string="Trabajos" attrs="{'invisible':[('see_works_and_materials','in',['only_materials',False])]}">
+                        <group string="Trabajos" invisible="see_works_and_materials in ['only_materials',False]">
                             <field name="task_works_ids" nolabel="1" context="{'default_product_id': active_id}">
                                 <tree string="Trabajos" editable="bottom">
                                     <field name="sequence" widget="handle"/>
@@ -54,7 +53,7 @@
                                 </div>
                             </group>
                         </group>
-                        <group string="Materiales" attrs="{'invisible':[('see_works_and_materials','in',['only_works',False])]}">
+                        <group string="Materiales" invisible="see_works_and_materials in ['only_works',False]">
                             <field name="task_materials_ids" nolabel="1" context="{'default_product_id':active_id}">
                                 <tree string="Materiales" editable="bottom">
                                     <field name="sequence" widget="handle"/>
@@ -111,7 +110,7 @@
                     name="action_view_product_compound"
                     class="oe_stat_button"
                     icon="fa-product-hunt"
-                    attrs="{'invisible': [('product_compound_count', '=', 0)]}" groups="base.group_user">
+                    invisible="product_compound_count = 0" groups="base.group_user">
                     <div class="o_field_widget o_stat_info">
                         <span class="o_stat_value">
                             <field name="product_compound_count"/>
