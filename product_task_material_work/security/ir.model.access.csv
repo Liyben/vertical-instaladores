@@ -1,3 +1,5 @@
 "id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
-"access_product_task_work_user","access_product_task_work_user","product_task_material_work.model_product_task_work",,"True","True","True","True"
-"access_product_task_materials_user","access_product_task_materials_user","product_task_material_work.model_product_task_material",,"True","True","True","True"
+"access_product_task_work_user","access_product_task_work_user","product_task_material_work.model_product_task_work","base.group_user","True","False","False","False"
+"access_product_task_materials_user","access_product_task_materials_user","product_task_material_work.model_product_task_material","base.group_user","True","False","False","False"
+"access_product_task_work_manager","access_product_task_work_manager","product_task_material_work.model_product_task_work","sales_team.group_sale_salesman","True","True","True","True"
+"access_product_task_materials_manager","access_product_task_materials_manager","product_task_material_work.model_product_task_material","sales_team.group_sale_salesman","True","True","True","True"
