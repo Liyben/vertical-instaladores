@@ -16,7 +16,7 @@ class ProdcutTaskWork(models.Model):
 	@api.model
 	def _get_work_id_domain(self):
 		uom_categ_id = self.env.ref('uom.uom_categ_wtime').id
-		return [('uom_id.category_id', '=', uom_categ_id), ('sale_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', self.company_id)]
+		return [('uom_id.category_id', '=', uom_categ_id), ('sale_ok', '=', True)]
 
 	#Campo relación con el producto de la partida
 	product_id = fields.Many2one(comodel_name='product.template', string='Producto', ondelete='restrict')

@@ -16,7 +16,7 @@ class ProductTaskMaterial(models.Model):
 	@api.model
 	def _get_material_id_domain(self):
 		uom_categ_id = self.env.ref('uom.uom_categ_wtime').id
-		return [('uom_id.category_id', '!=', uom_categ_id, ('sale_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', self.company_id))]
+		return [('uom_id.category_id', '!=', uom_categ_id), ('sale_ok', '=', True)]
 
 	#Descripcion del material
 	name = fields.Char(string='Descripción', required=True)
@@ -41,7 +41,7 @@ class ProductTaskMaterial(models.Model):
 	#Misma compañia que el producto partida al que pertence
 	company_id = fields.Many2one(related='product_id.company_id', string='Company', store=True, readonly=True, index=True)
 	#Misma moneda que el producto partida al que pertenece
-	currency_id = fields.Many2one(related='product_id.currency_id', depends=['product_id.currency_id'], store=True, precompute=True)
+	currency_id = fields.Many2one(related='product_id.currency_id', depends=['product_id.currency_id'], store=True, precompute=True) 
 
 	#Calcula el valor de todos los precios de cada linea del material
 	@api.depends('quantity','material_id')
