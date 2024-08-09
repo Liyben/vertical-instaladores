@@ -36,8 +36,8 @@ class ProdcutTaskWork(models.Model):
 	hours = fields.Float(string='Hr.')
 	sequence = fields.Integer()
 	#Margen
-	work_margin = fields.Monetary(string='Margen', digits='Product Price', compute='_compute_price', store=True)
-	work_margin_percent = fields.Float(string='Margen (%)', digits='Product Price', compute='_compute_price', store=True)
+	work_margin = fields.Monetary(string='Margen', digits='Product Price', compute='_compute_price')
+	work_margin_percent = fields.Float(string='Margen (%)', digits='Product Price', compute='_compute_price')
 	#Misma compañia que el producto partida al que pertence
 	company_id = fields.Many2one(related='product_id.company_id', string='Company', store=True, readonly=True, index=True)
 	#Misma moneda que el producto partida al que pertenece
