@@ -110,7 +110,7 @@
                     name="action_view_product_compound"
                     class="oe_stat_button"
                     icon="fa-product-hunt"
-                    invisible="product_compound_count = 0" groups="base.group_user">
+                    invisible="product_compound_count == 0" groups="base.group_user">
                     <div class="o_field_widget o_stat_info">
                         <span class="o_stat_value">
                             <field name="product_compound_count"/>
