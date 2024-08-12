@@ -5,9 +5,11 @@ from . import product_task_material
 from . import product_task_work
 from . import product_template
 from . import product_product
-#from . import sale
+from . import sale_order
+from . import sale_order_line_task_material
+from . import sale_order_line_task_work
+from . import sale_order_line
 #from . import account_move
 #from . import project_task
 #from . import hr
-#from . import mail_thread
 #from . import crm_lead

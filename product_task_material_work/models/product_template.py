@@ -23,7 +23,7 @@ class ProductTemplate(models.Model):
 	benefit_material = fields.Float(string='Beneficio (%)',  compute='_compute_benefit_material', store=True)
 	benefit_material_amount = fields.Monetary(string='Beneficio (€)',  compute='_compute_benefit_material', store=True)
 	#Campo boolean para saber si crear o no una tarea de forma automatica
-	auto_create_task = fields.Boolean(string='Tarea automática', compute='_compute_auto_create_task')
+	auto_create_task = fields.Boolean(string='Tarea automática', compute='_compute_auto_create_task', store=True)
 	apply_pricelist = fields.Boolean(string='Aplicar tarifa')
 	#Campo para calcular el numero de productos compuestos en los que se encuentra
 	product_compound_count = fields.Integer(string='Partidas', compute='_compute_product_compound_count')

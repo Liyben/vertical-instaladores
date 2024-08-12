@@ -39,7 +39,7 @@ class ProdcutTaskWork(models.Model):
 	work_margin = fields.Monetary(string='Margen', digits='Product Price', compute='_compute_price')
 	work_margin_percent = fields.Float(string='Margen (%)', digits='Product Price', compute='_compute_price')
 	#Misma compañia que el producto partida al que pertence
-	company_id = fields.Many2one(related='product_id.company_id', string='Company', store=True, readonly=True, index=True)
+	company_id = fields.Many2one(related='product_id.company_id', store=True, index=True, precompute=True)
 	#Misma moneda que el producto partida al que pertenece
 	currency_id = fields.Many2one(related='product_id.currency_id', depends=['product_id.currency_id'], store=True, precompute=True)
 

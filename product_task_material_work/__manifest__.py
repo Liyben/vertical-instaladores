@@ -13,11 +13,12 @@ basada en el módulo de la OCA 'account_invoice_report_grouped_by_picking'.
 
     """,
     'author': 'Liyben',
-    'depends': ['sale_project'],
+    'depends': ['sale_project','sale_crm'],
     'data': [
         'security/ir.model.access.csv',
-        'security/sale_security.xml',
-        'views/product.xml',
+        'security/security.xml',
+        'views/product_view.xml',
+        'views/sale_view.xml',
             ],
     'qweb': [],
     'images': [

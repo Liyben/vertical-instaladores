@@ -10,12 +10,12 @@
         <field name="name">Permite aplicar tarifa sobre productos partida.</field>
         <field name="category_id" ref="base.module_category_hidden"/>
     </record>
-<!--
+
     <record id="group_sales_product_cost" model="res.groups">
         <field name="name">Mostar coste en linea de presupuesto de productos.</field>
         <field name="category_id" ref="base.module_category_hidden"/>
     </record>
-
+<!--
     <record id="group_report_invoice_grouped_by_picking" model="res.groups">
         <field name="name">Permitir impresión de facturas agrupadas por albarán.</field>
         <field name="category_id" ref="base.module_category_hidden"/>

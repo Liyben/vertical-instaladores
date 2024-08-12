@@ -31,13 +31,13 @@
                                     <field name="work_id" context="{'company_id': parent.company_id}"/>
                                     <field name="name"/>
                                     <field name="hours" sum="Horas totales" widget="float_time"/>
-                                    <field name="cost_price_unit" optional="show"/>
-                                    <field name="sale_price_unit" optional="show"/>
-                                    <field name="cost_price" sum="Total P.C." optional="hide"/>
-                                    <field name="sale_price" sum="Total P.V." optional="show"/>
+                                    <field name="cost_price_unit" widget="monetary" optional="show"/>
+                                    <field name="sale_price_unit" widget="monetary" optional="show"/>
+                                    <field name="cost_price" widget="monetary" sum="Total P.C." optional="hide"/>
+                                    <field name="sale_price" widget="monetary" sum="Total P.V." optional="show"/>
                                     <field name="work_margin" optional="hide" groups="product_task_material_work.group_sales_margin"/>
                                     <field name="work_margin_percent" optional="show" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
-                                    <field name="company_id" invisible="1"/>
+                                    <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
                                     <field name="currency_id" column_invisible="True"/>
                                 </tree>
                             </field>
@@ -45,11 +45,11 @@
                                 <field name="total_sp_work" invisible="1"/>
                                 <field name="total_cp_work" invisible="1"/>
                                 <field name="total_hours" invisible="1"/>
-                                <label for="benefit_work_amount" string="Beneficio"/>
+                                <label for="benefit_work_amount" string="Beneficio" groups="product_task_material_work.group_sales_margin"/>
                                 <div>
-                                    <field name="benefit_work_amount" groups="product_task_material_work.group_sales_margin" />
+                                    <field name="benefit_work_amount" class="oe_inline" nolabel="1" groups="product_task_material_work.group_sales_margin" />
                                     <span> | </span>
-                                    <field name="benefit_work" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
+                                    <field name="benefit_work" class="oe_inline" nolabel="1" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
                                 </div>
                             </group>
                         </group>
@@ -60,24 +60,24 @@
                                     <field name="material_id" context="{'company_id': parent.company_id}"/>
                                     <field name="name"/>
                                     <field name="quantity"/>
-                                    <field name="cost_price_unit" optional="show"/>
-                                    <field name="sale_price_unit" optional="show"/>
-                                    <field name="cost_price" sum="Total P.C." optional="hide"/>
-                                    <field name="sale_price" sum="Total P.V." optional="show"/>
+                                    <field name="cost_price_unit" widget="monetary" optional="show"/>
+                                    <field name="sale_price_unit" widget="monetary" optional="show"/>
+                                    <field name="cost_price" widget="monetary" sum="Total P.C." optional="hide"/>
+                                    <field name="sale_price" widget="monetary" sum="Total P.V." optional="show"/>
                                     <field name="material_margin" optional="hide" groups="product_task_material_work.group_sales_margin"/>
                                     <field name="material_margin_percent" optional="show" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
-                                    <field name="company_id" invisible="1"/>
+                                    <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
                                     <field name="currency_id" column_invisible="True"/>
                                 </tree>
                             </field>
                             <group class="pull-right">
                                 <field name="total_sp_material" invisible="1"/>
                                 <field name="total_cp_material" invisible="1"/>
-                                <label for="benefit_material_amount" string="Beneficio"/>
+                                <label for="benefit_material_amount" string="Beneficio" groups="product_task_material_work.group_sales_margin"/>
                                 <div>
-                                    <field name="benefit_material_amount" groups="product_task_material_work.group_sales_margin"/>
+                                    <field name="benefit_material_amount" class="oe_inline" nolabel="1" groups="product_task_material_work.group_sales_margin"/>
                                     <span> | </span>
-                                    <field name="benefit_material" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
+                                    <field name="benefit_material" class="oe_inline" nolabel="1" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
                                 </div>
                             </group>
                         </group>
