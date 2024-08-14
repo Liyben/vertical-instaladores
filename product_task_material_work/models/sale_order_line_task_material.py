@@ -43,7 +43,7 @@ class SaleOrderLineTaskMaterial(models.Model):
 	#Misma compañia que el pedido al que pertence
 	company_id = fields.Many2one(related='order_line_id.order_id.company_id', store=True, index=True, precompute=True)
 	#Misma moneda que el pedido al que pertenece
-	currency_id = fields.Many2one(related='order_line_id.order_id.currency_id', depends=['product_id.currency_id'], store=True, precompute=True) 
+	currency_id = fields.Many2one(related='order_line_id.order_id.currency_id', depends=['order_line_id.order_id.currency_id'], store=True, precompute=True) 
 
 	""" #Obtiene el precio del material segun tarifa
 	def _get_display_price_material(self, material):
