@@ -36,7 +36,7 @@ class ProductTaskMaterial(models.Model):
 	quantity = fields.Float(string='Und.', digits='Product Unit of Measure')
 	sequence = fields.Integer()
 	#Margen
-	material_margin = fields.Monetary(string='Margen', digits='Product Price', compute='_compute_price')
+	material_margin = fields.Float(string='Margen', digits='Product Price', compute='_compute_price')
 	material_margin_percent = fields.Float(string='Margen (%)', digits='Product Price', compute='_compute_price')
 	#Misma compañia que el producto partida al que pertence
 	company_id = fields.Many2one(related='product_id.company_id', store=True, index=True, precompute=True)

@@ -30,7 +30,7 @@ class SaleOrderLine(models.Model):
 	benefit_material = fields.Float(string='Beneficio (%)', digits='Product Price', compute='_compute_benefit_material')
 	benefit_material_amount = fields.Float(string='Beneficio (€)', digits='Product Price', compute='_compute_benefit_material')
 	#Campo boolean para saber si crear o no una tarea de forma automatica
-	auto_create_task = fields.Boolean(string='Tarea automática', related='product_id.auto_create_task', strore=True)
+	auto_create_task = fields.Boolean(string='Tarea automática', related='product_id.auto_create_task', store=True)
 	#Opciones de impresión por linea de pedido
 	detailed_time = fields.Boolean(string='Imp. trabajos')
 	detailed_price_time = fields.Boolean(string='Imp. precio Hr.')
