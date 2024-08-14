@@ -6,7 +6,7 @@
     <template id="report_invoice_document_with_retention" inherit_id="account.report_invoice_document">
 
         <xpath expr="//div[@id='total']/div/table" position="inside">
-            <t t-if="o.percent_retention > 0.0">
+            <t t-if="o.percent_retention > 0.0 and o.payment_state != 'paid'">
                 <tr>
                     <td>
                         <i class="oe_form_field text-right oe_payment_label">Retención por obra</i>
