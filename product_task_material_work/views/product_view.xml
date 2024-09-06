@@ -28,7 +28,7 @@
                             <field name="task_works_ids" nolabel="1" context="{'default_product_id': active_id}">
                                 <tree string="Trabajos" editable="bottom">
                                     <field name="sequence" widget="handle"/>
-                                    <field name="work_id" force_save="1" context="{'company_id': parent.company_id}"/>
+                                    <field name="work_id" />
                                     <field name="name"/>
                                     <field name="hours" sum="Horas totales" widget="float_time"/>
                                     <field name="cost_price_unit" widget="monetary" optional="show"/>
@@ -57,7 +57,7 @@
                             <field name="task_materials_ids" nolabel="1" context="{'default_product_id':active_id}">
                                 <tree string="Materiales" editable="bottom">
                                     <field name="sequence" widget="handle"/>
-                                    <field name="material_id" force_save="1" context="{'company_id': parent.company_id}"/>
+                                    <field name="material_id" />
                                     <field name="name"/>
                                     <field name="quantity"/>
                                     <field name="cost_price_unit" widget="monetary" optional="show"/>
