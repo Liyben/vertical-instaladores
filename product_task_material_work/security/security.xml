@@ -20,5 +20,24 @@
         <field name="name">Permitir impresión de facturas agrupadas por albarán.</field>
         <field name="category_id" ref="base.module_category_hidden"/>
     </record>-->
+
+    <!-- Rules -->
+    <record model="ir.rule" id="record_product_task_material_shared_company_rule">
+        <field name="name">Product Task Material: multi-company</field>
+        <field name="model_id" ref="model_product_task_material"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">
+            ['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]
+        </field>
+    </record>
+
+    <record model="ir.rule" id="record_product_task_work_shared_company_rule">
+        <field name="name">Product Task Work: multi-company</field>
+        <field name="model_id" ref="model_product_task_work"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">
+            ['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]
+        </field>
+    </record>
 </data>
 </odoo>
