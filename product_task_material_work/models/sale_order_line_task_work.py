@@ -151,7 +151,7 @@ class SaleOrderLineTaskWork(models.Model):
 			discount = (new_list_price - price) / new_list_price * 100
 			if discount > 0:
 				self.discount = discount
-
+"""
 	#Calculo de los precios de venta y coste totales por linea de los trabajos
 	#
 	@api.depends('hours','sale_price_unit', 'cost_price_unit', 'discount')
@@ -167,4 +167,4 @@ class SaleOrderLineTaskWork(models.Model):
 			if (record.sale_price != 0) and (record.cost_price != 0):
 				record.work_margin_percent = (1-(record.cost_price/record.sale_price))
 
- """
+ 

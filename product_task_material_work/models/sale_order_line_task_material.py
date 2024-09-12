@@ -147,7 +147,7 @@ class SaleOrderLineTaskMaterial(models.Model):
 			discount = (new_list_price - price) / new_list_price * 100
 			if discount > 0:
 				self.discount = discount
-
+"""
 	#Calculo de los precios de venta y coste totales por linea de los materiales
 	@api.depends('quantity','sale_price_unit','cost_price_unit','discount')
 	def _compute_price(self):
@@ -160,4 +160,4 @@ class SaleOrderLineTaskMaterial(models.Model):
 			record.cost_price = (record.quantity * record.cost_price_unit)
 			record.material_margin = (record.quantity * (record.sale_price_unit * (1 - (record.discount / 100)))) - (record.quantity * record.cost_price_unit)
 			if (record.sale_price != 0) and (record.cost_price != 0):
-				record.material_margin_percent = (1-(record.cost_price/record.sale_price)) """
+				record.material_margin_percent = (1-(record.cost_price/record.sale_price)) 
