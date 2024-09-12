@@ -39,5 +39,23 @@
             ['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]
         </field>
     </record>
+
+    <record model="ir.rule" id="record_sale_order_line_task_material_shared_company_rule">
+        <field name="name">Sale Order Line Task Material: multi-company</field>
+        <field name="model_id" ref="model_sale_order_line_task_material"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">
+            ['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]
+        </field>
+    </record>
+
+    <record model="ir.rule" id="record_sale_order_line_task_work_shared_company_rule">
+        <field name="name">Sale Order Line Task Work: multi-company</field>
+        <field name="model_id" ref="model_sale_order_line_task_work"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">
+            ['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]
+        </field>
+    </record>
 </data>
 </odoo>
