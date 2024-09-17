@@ -19,14 +19,14 @@ class SaleOrderLine(models.Model):
 		comodel_name='sale.order.line.task.material', inverse_name='order_line_id', string='Materiales', copy=True, 
 		store=True, readonly=False, precompute=True, compute='_compute_materials_and_works')
 	#Precio totales, unitarios y beneficio de Trabajos
-	total_sp_work = fields.Float(string='Total P.V.', digits='Product Price', compute='_compute_total_sp_work')
-	total_cp_work = fields.Float(string='Total P.C.', digits='Product Price', compute='_compute_total_cp_work')
+	total_sp_work = fields.Float(string='Total P.V.', digits='Product Price', store=True, compute='_compute_total_sp_work')
+	total_cp_work = fields.Float(string='Total P.C.', digits='Product Price', store=True, compute='_compute_total_cp_work')
 	benefit_work = fields.Float(string='Beneficio (%)', digits='Product Price', compute='_compute_benefit_work')
 	benefit_work_amount = fields.Float(string='Beneficio (€)', digits='Product Price', compute='_compute_benefit_work')
 	total_hours = fields.Float(string='Total horas', compute='_compute_total_hours')
 	#Precios totales, unitarios  y beneficio de Materiales
-	total_sp_material = fields.Float(string='Total P.V.', digits='Product Price', compute='_compute_total_sp_material')
-	total_cp_material = fields.Float(string='Total P.C.', digits='Product Price', compute='_compute_total_cp_material')
+	total_sp_material = fields.Float(string='Total P.V.', digits='Product Price', store=True, compute='_compute_total_sp_material')
+	total_cp_material = fields.Float(string='Total P.C.', digits='Product Price', store=True, compute='_compute_total_cp_material')
 	benefit_material = fields.Float(string='Beneficio (%)', digits='Product Price', compute='_compute_benefit_material')
 	benefit_material_amount = fields.Float(string='Beneficio (€)', digits='Product Price', compute='_compute_benefit_material')
 	#Campo boolean para saber si crear o no una tarea de forma automatica
@@ -161,6 +161,61 @@ class SaleOrderLine(models.Model):
 			if (record.total_cp_material != 0) and (record.total_sp_material != 0):
 				record.benefit_material = (1-(record.total_cp_material/record.total_sp_material))
 
+	#Activa la función para calcular el precio unitario tambien cuando se cambia los materiales y mano de obra
+	@api.depends('task_works_ids', 'task_works_ids', 'task_works_ids.sale_price', 'task_materials_ids.sale_price', 'task_works_ids.hours', 'task_materials_ids.quantity')
+	def _compute_price_unit(self):
+		super()._compute_price_unit()
+	
+	#Computa el precio unitario de una linea de presupuesto teniendo en cuenta los materiales y mano de obra, si tuviera,
+	#y los cambios que se hagan sobre ellos en la linea 
+	#Overridden
+	def _get_display_price(self):
+		"""Compute the displayed unit price for a given line.
+
+		Overridden in custom flows:
+		* where the price is not specified by the pricelist
+		* where the discount is not specified by the pricelist
+
+		Note: self.ensure_one()
+		"""
+		self.ensure_one()
+		
+		#Producto Partida
+		product_lst_price = 0.0
+		product_standard_price = 0.0
+		if self.auto_create_task and self.see_works_and_materials != False:
+			#Guardamos los precios de la ficha de producto
+			product_lst_price = self.product_id.list_price
+			product_standard_price = self.product_id.standard_price
+
+			#Actualizamos los precios de la ficha de producto con los precios de la linea de pedido
+			self.product_id.write({
+				'list_price' : (self.total_sp_material + self.total_sp_work),
+				'standard_price' : (self.total_cp_material + self.total_cp_work),
+				})
+			
+		pricelist_price = self._get_pricelist_price()
+
+		if self.order_id.pricelist_id.discount_policy == 'with_discount':
+			return pricelist_price
+
+		if not self.pricelist_item_id:
+			# No pricelist rule found => no discount from pricelist
+			return pricelist_price
+
+		base_price = self._get_pricelist_price_before_discount()
+		
+		#Producto Partida
+		if self.auto_create_task and self.see_works_and_materials != False:
+			#Recuperamos los precios de la ficha producto previamente guardado
+			self.product_id.write({
+				'list_price' : product_lst_price,
+				'standard_price' : product_standard_price,
+				})
+
+		# negative discounts (= surcharge) are included in the display price
+		return max(base_price, pricelist_price)
+	
 	#Obtiene el precio del material o mano de obra segun tarifa	
 	""" def _get_display_price_line(self, product, product_id, quantity):
 		

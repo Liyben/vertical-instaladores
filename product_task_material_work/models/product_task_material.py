@@ -19,7 +19,10 @@ class ProductTaskMaterial(models.Model):
 		return [('uom_id.category_id', '!=', uom_categ_id), ('sale_ok', '=', True)]
 
 	#Descripcion del material
-	name = fields.Char(string='Descripción', required=True)
+	name = fields.Char(
+		string='Nombre',
+		compute='_compute_name',
+		store=True, readonly=False, required=True, precompute=True)
 	#Campo relación con el producto de la partida
 	product_id = fields.Many2one(comodel_name='product.template', string='Producto',ondelete='restrict')
 	#Material
@@ -30,10 +33,20 @@ class ProductTaskMaterial(models.Model):
 	sale_price = fields.Float(string='P.V.', digits='Product Price', compute='_compute_price')
 	cost_price = fields.Float(string='P.C.', digits='Product Price', compute='_compute_price')
 	#Precios Unitarios para cada material
-	sale_price_unit = fields.Float(string='P.V.U.', digits='Product Price', compute='_compute_price')
-	cost_price_unit = fields.Float(string='P.C.U.', digits='Product Price', compute='_compute_price')
+	sale_price_unit = fields.Float(
+		string='P.V.U.', 
+		compute='_compute_price_unit',
+        digits='Product Price',
+        store=True, readonly=False, required=True, precompute=True)
+	cost_price_unit = fields.Float(
+		string='P.C.U.', 
+		compute='_compute_price_unit',
+        digits='Product Price',
+        store=True, readonly=False, required=True, precompute=True)
 	#Cantidad de cada material
 	quantity = fields.Float(string='Und.', digits='Product Unit of Measure')
+	#Descuento aplicado al precio del material
+	discount = fields.Float(string='Des. (%)', digits='Discount', default=0.0)
 	sequence = fields.Integer()
 	#Margen
 	material_margin = fields.Float(string='Margen', digits='Product Price', compute='_compute_price')
@@ -43,28 +56,35 @@ class ProductTaskMaterial(models.Model):
 	#Misma moneda que el producto partida al que pertenece
 	currency_id = fields.Many2one(related='product_id.currency_id', depends=['product_id.currency_id'], store=True, precompute=True)
 
-	#Calcula el valor de todos los precios de cada linea del material
-	@api.depends('quantity','material_id')
+	#Calculo de los precios de venta y coste totales por linea de los materiales
+	@api.depends('quantity','sale_price_unit','cost_price_unit','discount')
 	def _compute_price(self):
-		self.sale_price_unit = 0.0
-		self.cost_price_unit = 0.0
 		self.sale_price = 0.0
 		self.cost_price = 0.0
 		self.material_margin = 0.0
 		self.material_margin_percent = 0.0
 		for record in self:
+			record.sale_price = record.quantity * (record.sale_price_unit * (1 - (record.discount / 100)))
+			record.cost_price = (record.quantity * record.cost_price_unit)
+			record.material_margin = (record.quantity * (record.sale_price_unit * (1 - (record.discount / 100)))) - (record.quantity * record.cost_price_unit)
+			if (record.sale_price != 0) and (record.cost_price != 0):
+				record.material_margin_percent = (1-(record.cost_price/record.sale_price)) 
+
+	#Carga el nombre de la mano de obra
+	@api.depends('material_id')
+	def _compute_name(self):
+		for record in self:
+			if not record.material_id:
+				continue
+			record.name = record.material_id.name
+
+	#Carga los precios unitarios de la mano de obra
+	@api.depends('material_id')
+	def _compute_price_unit(self):
+		for record in self:
+			if not record.material_id:
+				continue
 			record.sale_price_unit = record.material_id.list_price
 			record.cost_price_unit = record.material_id.standard_price
-			record.sale_price = (record.quantity * record.material_id.list_price)
-			record.cost_price = (record.quantity * record.material_id.standard_price)
-			record.material_margin = (record.quantity * record.material_id.list_price) - (record.quantity * record.material_id.standard_price)
-			if (record.sale_price != 0) and (record.cost_price != 0):
-				record.material_margin_percent = (1-(record.cost_price/record.sale_price))
-	
-	#Carga el nombre del material
-	@api.onchange('material_id')
-	def _onchange_work_id(self):
-		for record in self:
-			record.name = record.material_id.name
 	
 		

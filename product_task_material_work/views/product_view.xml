@@ -33,6 +33,7 @@
                                     <field name="hours" sum="Horas totales" widget="float_time"/>
                                     <field name="cost_price_unit" widget="monetary" optional="show"/>
                                     <field name="sale_price_unit" widget="monetary" optional="show"/>
+                                    <field name="discount" groups="product.group_discount_per_so_line" optional="show"/>
                                     <field name="cost_price" widget="monetary" sum="Total P.C." optional="hide"/>
                                     <field name="sale_price" widget="monetary" sum="Total P.V." optional="show"/>
                                     <field name="work_margin" widget="monetary" optional="hide" groups="product_task_material_work.group_sales_margin"/>
@@ -62,6 +63,7 @@
                                     <field name="quantity"/>
                                     <field name="cost_price_unit" widget="monetary" optional="show"/>
                                     <field name="sale_price_unit" widget="monetary" optional="show"/>
+                                    <field name="discount" groups="product.group_discount_per_so_line" optional="show"/>
                                     <field name="cost_price" widget="monetary" sum="Total P.C." optional="hide"/>
                                     <field name="sale_price" widget="monetary" sum="Total P.V." optional="show"/>
                                     <field name="material_margin" widget="monetary" optional="hide" groups="product_task_material_work.group_sales_margin"/>
