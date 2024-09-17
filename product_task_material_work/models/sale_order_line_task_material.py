@@ -86,3 +86,4 @@ class SaleOrderLineTaskMaterial(models.Model):
 				continue
 			record.sale_price_unit = record.material_id.list_price
 			record.cost_price_unit = record.material_id.standard_price
+			record.discount = record.material_id.discount
