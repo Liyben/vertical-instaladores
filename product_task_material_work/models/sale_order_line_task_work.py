@@ -35,14 +35,12 @@ class SaleOrderLineTaskWork(models.Model):
 	#Precios Unitarios para cada trabajo
 	sale_price_unit = fields.Float(
 		string='P.V.U.', 
-		compute='_compute_price_unit',
         digits='Product Price',
-        store=True, readonly=False, required=True, precompute=True)
+        readonly=False, required=True)
 	cost_price_unit = fields.Float(
 		string='P.C.U.', 
-		compute='_compute_price_unit',
         digits='Product Price',
-        store=True, readonly=False, required=True, precompute=True)
+        readonly=False, required=True)
 	#Horas empleadas en el trabajo
 	hours = fields.Float(string='Hr.')
 	#Descuento aplicado al precio de la mano de obra
@@ -79,8 +77,8 @@ class SaleOrderLineTaskWork(models.Model):
 			record.name = record.work_id.name
 
 	#Carga los precios unitarios de la mano de obra
-	@api.depends('work_id')
-	def _compute_price_unit(self):
+	@api.onchange('work_id')
+	def _onchange_price_unit(self):
 		for record in self:
 			if not record.work_id:
 				continue

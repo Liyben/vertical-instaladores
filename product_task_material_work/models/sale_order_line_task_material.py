@@ -35,14 +35,12 @@ class SaleOrderLineTaskMaterial(models.Model):
 	#Precios Unitarios para cada material
 	sale_price_unit = fields.Float(
 		string='P.V.U.', 
-		compute='_compute_price_unit',
         digits='Product Price',
-        store=True, readonly=False, required=True, precompute=True)
+        readonly=False, required=True)
 	cost_price_unit = fields.Float(
 		string='P.C.U.', 
-		compute='_compute_price_unit',
         digits='Product Price',
-        store=True, readonly=False, required=True, precompute=True)
+        readonly=False, required=True)
 	#Cantidad de cada material
 	quantity = fields.Float(string='Und.', digits='Product Unit of Measure', default=1.0)
 	#Descuento aplicado al precio del material
@@ -79,8 +77,8 @@ class SaleOrderLineTaskMaterial(models.Model):
 			record.name = record.material_id.name
 
 	#Carga los precios unitarios de la mano de obra
-	@api.depends('material_id')
-	def _compute_price_unit(self):
+	@api.onchange('material_id')
+	def _onchange_price_unit(self):
 		for record in self:
 			if not record.material_id:
 				continue
