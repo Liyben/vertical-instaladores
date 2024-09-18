@@ -86,4 +86,3 @@ class SaleOrderLineTaskWork(models.Model):
 				continue
 			record.sale_price_unit = record.work_id.list_price
 			record.cost_price_unit = record.work_id.standard_price
-			record.discount = record.work_id.discount

@@ -82,7 +82,7 @@ class SaleOrderLine(models.Model):
 							'sale_price_unit' : work.sale_price_unit,
 							'cost_price_unit' : work.cost_price_unit,
 							'hours' : work.hours,
-							#'discount' : self._get_discount_line(work.work_id, work.hours) or 0.0
+							'discount' : work.discount
 							}))
 
 				material_list = []
@@ -94,7 +94,7 @@ class SaleOrderLine(models.Model):
 							'sale_price_unit' : material.sale_price_unit,
 							'cost_price_unit' : material.cost_price_unit,
 							'quantity' : material.quantity,
-							#'discount' : self._get_discount_line(material.material_id, material.quantity) or 0.0
+							'discount' : material.discount
 							}))
 
 				line.update({'task_works_ids' : work_list,
