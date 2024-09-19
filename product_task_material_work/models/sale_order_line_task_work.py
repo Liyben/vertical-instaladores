@@ -52,7 +52,7 @@ class SaleOrderLineTaskWork(models.Model):
 	#Misma compañia que el pedido al que pertence
 	company_id = fields.Many2one(related='work_id.company_id', store=True, index=True, precompute=True)
 	#Misma moneda que el pedido al que pertenece
-	currency_id = fields.Many2one(related='work_id.currency_id', depends=['order_line_id.order_id.currency_id'], store=True, precompute=True) 
+	currency_id = fields.Many2one(related='work_id.currency_id', depends=['work_id.currency_id'], store=True, precompute=True) 
 
 	#Calculo de los precios de venta y coste totales por linea de los trabajos
 	@api.depends('hours','sale_price_unit', 'cost_price_unit', 'discount')
