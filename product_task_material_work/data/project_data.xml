@@ -1,0 +1,11 @@
+<odoo>
+    <template id="mail_template_task_merge">
+        <p>Las siguientes tareas se han fusionado en esta:</p>
+        <ul>
+            <t t-foreach="tasks" t-as="task">
+                <li><a href="#" t-att-data-oe-model="task._name" t-att-data-oe-id="task.id" t-out="task.name"></a></li>
+            </t>
+        </ul>
+    </template>
+
+</odoo>

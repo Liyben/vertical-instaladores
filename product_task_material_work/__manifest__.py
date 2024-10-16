@@ -15,10 +15,12 @@ basada en el módulo de la OCA 'account_invoice_report_grouped_by_picking'.
     'author': 'Liyben',
     'depends': ['sale_project','sale_crm','project_timesheet_time_control'],
     'data': [
+        'data/project_data.xml',
         'security/ir.model.access.csv',
         'security/security.xml',
         'views/product_view.xml',
         'views/sale_view.xml',
+        'views/project_task.xml',
             ],
     'qweb': [],
     'images': [
