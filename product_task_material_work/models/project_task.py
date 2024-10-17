@@ -20,6 +20,11 @@ class ProjectTask(models.Model):
     merge_task_ids = fields.Many2many('project.task','merge_tasks','task_id','merge_task_id','Tareas unificadas')
     merge_task_count = fields.Integer('Tareas unificadas',compute='compute_merge_task_count')
 
+    #Campos para la firma
+    signature = fields.Binary(string="Firma", copy=False, tracking=1)
+    signed_by = fields.Char(string="Firmada por", copy=False, tracking=2)
+    signed_on = fields.Datetime(string="Firmada en", copy=False, tracking=3)
+
     def compute_merge_task_count(self):
         for task_id in self:
             task_id.merge_task_count = len(task_id.merge_task_ids)
@@ -100,3 +105,10 @@ class ProjectTask(models.Model):
             'view_mode': 'form',
             'res_id': task_id.id,
         }
+    
+    def toggle_invoiceable(self):
+        res = super(ProjectTask, self).toggle_invoiceable()
+        for task in self.merge_task_ids:
+            task.toggle_invoiceable()
+    
+        return res
