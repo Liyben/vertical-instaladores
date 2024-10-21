@@ -38,7 +38,7 @@
                 </button>
             </div>
             <xpath expr="//notebook/page[@name='extra_info']" position="after">
-                <page string="Customer Signature" name="customer_signature">
+                <page string="Firma del cliente" name="customer_signature">
                     <group>
                         <field name="signed_by" readonly="signature"/>
                         <field name="signed_on" readonly="signature"/>
@@ -70,18 +70,18 @@
                 <separator string="Trabajo realizado"/>
             </xpath>
             <xpath expr="//page[@name='page_timesheets']" position='inside'>
-                <!--<separator string="Tareas a realizar"/>
-                <field name="task_works_ids" nolabel="1" context="{'default_product_id': active_id}">
+                <separator string="Tareas a realizar"/>
+                <field name="task_works_ids" nolabel="1" context="{'default_project_task_id': active_id}">
                     <tree string="Trabajos" editable="bottom">
-                        <field name="sequence" widget="handle"/> -->
+                        <field name="sequence" widget="handle"/> 
                         <!-- Solo los productos de tipo servicio -->
-                        <!--<field name="work_id" domain="[('type', '=', 'service')]"/>
+                        <field name="work_id" domain="[('type', '=', 'service')]"/>
                         <field name="name"/>
                         <field name="hours" sum="Horas totales" widget="float_time"/>
                         <field name="to_done"/>
                         <field name="validated"/>
                     </tree>
-                </field>-->
+                </field>
                 <separator string="Trabajo a realizar"/>
                 <field name="work_to_do"/>
             </xpath>

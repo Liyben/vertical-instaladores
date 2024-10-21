@@ -9,8 +9,5 @@ from . import sale_order
 from . import sale_order_line_task_material
 from . import sale_order_line_task_work
 from . import sale_order_line
+from . import project_task_work
 from . import project_task
-#from . import account_move
-#from . import project_task
-#from . import hr
-#from . import crm_lead

@@ -21,9 +21,12 @@ class ProjectTask(models.Model):
     merge_task_count = fields.Integer('Tareas unificadas',compute='compute_merge_task_count')
 
     #Campos para la firma
-    signature = fields.Binary(string="Firma", copy=False, tracking=1)
+    signature = fields.Binary(string="Firma", copy=False,)
     signed_by = fields.Char(string="Firmada por", copy=False, tracking=2)
     signed_on = fields.Datetime(string="Firmada en", copy=False, tracking=3)
+
+    #Campo relacional para los trabajos de la linea de presupuesto
+    task_works_ids = fields.One2many(comodel_name='project.task.work', inverse_name='project_task_id', string='Trabajos', copy=False)
 
     def compute_merge_task_count(self):
         for task_id in self:
@@ -51,6 +54,7 @@ class ProjectTask(models.Model):
         current_tasks = self.env['project.task'].browse(self._context.get('active_ids'))
         planned_hours = 0
         timesheets = self.env['account.analytic.line']
+        works_ids = self.env['project.task.work']
         tags = self.env['project.tags']
         projects = current_tasks.mapped('project_id')
         #project_id = None
@@ -66,6 +70,7 @@ class ProjectTask(models.Model):
             planned_hours += task.allocated_hours
             #deadline_date = task.date_deadline
             timesheets += task.timesheet_ids
+            works_ids += task.task_works_ids
             tags += task.tag_ids
 
             if task.description:
@@ -84,6 +89,7 @@ class ProjectTask(models.Model):
             'tag_ids': [(6, 0, tags.ids)] if tags else False,
             'name': ', '.join(current_tasks.mapped('name')),
             'timesheet_ids': [(6, 0, timesheets.ids)] if timesheets else False,
+            'task_works_ids': [(6, 0, works_ids.ids)] if works_ids else False,
             'merge_task_ids': [(6, 0, current_tasks.ids)]
         })
 
