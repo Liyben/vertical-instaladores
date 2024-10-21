@@ -40,19 +40,20 @@
         <field name="name">sale.order.merge.task.action.confirm.form.inherit</field>
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
-        <field name="groups_id" eval="[(4, ref('product_task_material_work.group_sales_merge_task_to_confirm'))]"/>
         <field name="arch" type="xml">
             <xpath expr="//button[@id='action_confirm']" position="replace">
                 <button name="action_confirm" id="merge_task_action_confirm_not_sent"
                         string="Confirmar" class="btn-primary" type="object" data-hotkey="q" 
                         context="{'validate_analytic': True}" invisible="state != 'sent'"
-                        confirm="¿Estás seguro que desea confirmar el presupuesto y unificar las tareas generadas, si las hubiera?"/>
+                        confirm="¿Estás seguro que desea confirmar el presupuesto y unificar las tareas generadas, si las hubiera?"
+                        groups="product_task_material_work.group_sales_merge_task_to_confirm"/>
             </xpath>
             <xpath expr="//button[@name='action_confirm']" position="replace">
                 <button name="action_confirm" id="merge_task_action_confirm_not_draft" 
                         string="Confirmar" type="object" data-hotkey="q"
                         context="{'validate_analytic': True}" invisible="state != 'draft'"
-                        confirm="¿Estás seguro que desea confirmar el presupuesto y unificar las tareas generadas, si las hubiera?"/>
+                        confirm="¿Estás seguro que desea confirmar el presupuesto y unificar las tareas generadas, si las hubiera?"
+                        groups="product_task_material_work.group_sales_merge_task_to_confirm"/>
             </xpath>
         </field>
     </record>
