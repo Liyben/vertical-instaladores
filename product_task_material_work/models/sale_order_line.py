@@ -546,7 +546,7 @@ class SaleOrderLine(models.Model):
             'sale_line_id': self.id,
             'sale_order_id': self.order_id.id,
             'company_id': project.company_id.id,
-            'user_ids': False, # force non assigned task, as created as sudo()
+            'user_ids': False, 
             #'material_ids': material_list,
             'task_works_ids': work_list,
             'oppor_id': self.order_id.opportunity_id.id or False, # Asocia con el aviso

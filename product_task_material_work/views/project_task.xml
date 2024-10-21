@@ -34,7 +34,7 @@
                 <button class="oe_stat_button" type="object"
                         name="action_merge_tasks"
                         icon="fa-puzzle-piece">
-                    <field string="Tareas Unificadas" name="merge_task_count" widget="statinfo"/>
+                    <!--<field string="Tareas Unificadas" name="merge_task_count" widget="statinfo"/>-->
                 </button>
             </div>
             <xpath expr="//notebook/page[@name='extra_info']" position="after">

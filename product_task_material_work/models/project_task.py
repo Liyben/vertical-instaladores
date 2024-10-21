@@ -34,7 +34,10 @@ class ProjectTask(models.Model):
 
     def action_merge_tasks(self):
         self.ensure_one()
-        action = {
+        action = self.env['ir.actions.act_window'].with_context(active_id=self.project_id.id)._for_xml_id('project.act_project_project_2_project_task_all')
+        action['display_name'] = _("%(name)s", name=self.project_id.name)
+        context = action['context'].replace('open_tasks', str("inactive"))
+        """ action = {
             'res_model': 'project.task',
             'type': 'ir.actions.act_window',
         }
@@ -47,7 +50,8 @@ class ProjectTask(models.Model):
             action.update({
                 'domain': [('id', 'in', self.merge_task_ids.ids)],
                 'view_mode': 'tree,form',
-            })
+            }) """
+        action['context'] = context
         return action
 
     def task_merge(self):
