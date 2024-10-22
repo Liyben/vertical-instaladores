@@ -541,8 +541,10 @@ class SaleOrderLine(models.Model):
         for material in self.task_materials_ids:
             material_list.append((0,0, {
                 'product_id' : material.material_id.id,
+                'name' : material.name,
                 'product_uom_qty' : material.quantity * self.product_uom_qty,
                 'product_uom' : material.material_id.uom_id.id,
+                'warehouse_id': self.order_id.location_id.warehouse_id.id,
                 'picking_type_id' : self.order_id.picking_type_id.id,
                 'location_id' : self.order_id.location_id.id,
                 'location_dest_id' : self.order_id.location_dest_id.id,
