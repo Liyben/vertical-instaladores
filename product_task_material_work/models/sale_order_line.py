@@ -510,6 +510,15 @@ class SaleOrderLine(models.Model):
             planned_hours = sum(self.task_works_ids.mapped('hours')) * self.product_uom_qty
         return planned_hours
     """
+    #Calculo de los valores necesarios para crear el proyecto correspondiente a la linea de pedido
+    def _timesheet_create_project_prepare_values(self):
+        """Generate project values"""
+        values = super()._timesheet_create_project_prepare_values()
+        values['picking_type_id'] = self.order_id.picking_type_id.id
+        values['location_id'] = self.order_id.location_id.id
+        values['location_dest_id'] = self.order_id.location_dest_id.id
+        return values
+
     #Calculo de los valores necesarios para crear el parte de trabajo correspondiente a la linea de pedido
     def _timesheet_create_task_prepare_values(self, project):
         self.ensure_one()
@@ -527,13 +536,17 @@ class SaleOrderLine(models.Model):
                 'hours' : work.hours * self.product_uom_qty,
                 }))
 
-        """ material_list = []
+        material_list = []
+
         for material in self.task_materials_ids:
             material_list.append((0,0, {
                 'product_id' : material.material_id.id,
-                'quantity' : material.quantity * self.product_uom_qty,
-                'product_uom_id' : material.material_id.uom_id.id
-                })) """
+                'product_uom_qty' : material.quantity * self.product_uom_qty,
+                'product_uom' : material.material_id.uom_id.id,
+                'picking_type_id' : self.order_id.picking_type_id.id,
+                'location_id' : self.order_id.location_id.id,
+                'location_dest_id' : self.order_id.location_dest_id.id,
+                })) 
 
         return {
             'name': title if project.sale_line_id else '%s: %s' % (self.order_id.name or '', title),
@@ -547,7 +560,7 @@ class SaleOrderLine(models.Model):
             'sale_order_id': self.order_id.id,
             'company_id': project.company_id.id,
             'user_ids': False, 
-            #'material_ids': material_list,
+            'move_ids': material_list,
             'task_works_ids': work_list,
             'oppor_id': self.order_id.opportunity_id.id or False, # Asocia con el aviso
             }
