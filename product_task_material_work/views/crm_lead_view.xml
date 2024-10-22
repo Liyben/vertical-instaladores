@@ -4,12 +4,11 @@
         <field name="name">CRM - Leads with task</field>
         <field name="model">crm.lead</field>
         <field name="inherit_id" ref="crm.crm_lead_view_form" />
-        <field name="groups_id" eval="[(6, 0, [ref('hr_timesheet.group_hr_timesheet_user')])]"/>
         <field name="arch" type="xml">
             <!-- New fields -->
             <page name="extra" position="after">
                 <page string="Tareas">
-                    <field name="task_ids" readonly="1"/>
+                    <field name="task_ids" readonly="1" groups="hr_timesheet.group_hr_timesheet_user"/>
                 </page>
             </page>
         </field>
