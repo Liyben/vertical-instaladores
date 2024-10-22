@@ -33,6 +33,20 @@
                 <field name="opportunity_id" options="{'no_create': True}" string="Oportunidad / Aviso"/>
             </xpath>
 
+            <xpath expr="//group[@name='other_information']" position="after">
+                <group string="Stock" name="stock_misc" groups="base.group_no_one">
+                    <field name="picking_type_id" domain="[]" />
+                    <field
+                        name="location_id"
+                        groups="stock.group_stock_multi_locations"
+                    />
+                    <field
+                        name="location_dest_id"
+                        groups="stock.group_stock_multi_locations"
+                    />
+                </group>
+            </xpath>
+
         </field>
     </record>
 

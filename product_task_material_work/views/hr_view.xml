@@ -1,16 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 	<record model="ir.ui.view" id="view_hr_employee_work_form">
         <field name="name">hr.employee.work.form.inherit</field>
         <field name="model">hr.employee</field>
-        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="inherit_id" ref="hr_hourly_cost.view_employee_form"/>
         <field name="arch" type="xml">
-			<xpath expr="//group[@name='active_group']" position="after">
-			
-				<group string="Mano de obra">
-					<field name="work_id" domain="[('type', '=', 'service')]"/>
-				</group>
-	
+			<xpath expr="//label[@for='hourly_cost']" position="before">
+			    <field name="work_id" domain="[('type', '=', 'service')]"/>
 			</xpath>
         </field>
     </record>

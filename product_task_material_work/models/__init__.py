@@ -11,3 +11,5 @@ from . import sale_order_line_task_work
 from . import sale_order_line
 from . import project_task_work
 from . import project_task
+from . import crm_lead
+from . import hr

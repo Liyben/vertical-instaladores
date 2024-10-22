@@ -31,11 +31,11 @@
         <field name="inherit_id" ref="project.view_task_form2"/>
         <field name="arch" type="xml">
             <div name="button_box" position="inside">
-                <button class="oe_stat_button" type="object"
+                <!--<button class="oe_stat_button" type="object"
                         name="action_merge_tasks"
                         icon="fa-puzzle-piece">
-                    <!--<field string="Tareas Unificadas" name="merge_task_count" widget="statinfo"/>-->
-                </button>
+                    <field string="Tareas Unificadas" name="merge_task_count" widget="statinfo"/>
+                </button>-->
             </div>
             <xpath expr="//notebook/page[@name='extra_info']" position="after">
                 <page string="Firma del cliente" name="customer_signature">

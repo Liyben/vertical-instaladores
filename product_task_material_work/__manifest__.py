@@ -16,11 +16,14 @@
     'data': [
         'data/project_data.xml',
         'data/ir_actions_server_data.xml',
+        'data/stock_picking_type_data.xml',
         'security/ir.model.access.csv',
         'security/security.xml',
         'views/product_view.xml',
         'views/sale_view.xml',
         'views/project_task.xml',
+        'views/crm_lead_view.xml',
+        'views/hr_view.xml',
             ],
     'qweb': [],
     'images': [

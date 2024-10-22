@@ -1,4 +1,4 @@
-# © 2021 Liyben
+# © 2024 Liyben
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import api, fields, models, _
@@ -13,7 +13,7 @@ class HrEmployee(models.Model):
 	@api.onchange('work_id')
 	def _onchange_work_id(self):
 		for record in self:
-			record.timesheet_cost = record.work_id.standard_price
+			record.hourly_cost  = record.work_id.standard_price
 
 
 class HrEmployee(models.Model):
