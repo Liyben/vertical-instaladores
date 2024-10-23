@@ -19,7 +19,7 @@ class SaleOrderMergeTaskWizard(models.TransientModel):
     def action_confirm(self):
         self.ensure_one()
         order = self.env['project.task'].browse(self._context.get('active_id'))
-        _logger.debug("Order: %s", str(self.order.id))
+        _logger.debug("Order: %s", str(order.id))
         #Confirmamos el presupuesto sin combinar
         order.action_confirm()
         _logger.debug("Task: %s", str(order.tasks_ids.ids))
