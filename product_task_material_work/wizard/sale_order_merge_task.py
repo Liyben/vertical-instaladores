@@ -67,7 +67,7 @@ class SaleOrderMergeTaskWizard(models.TransientModel):
                 works += "Trabajo a realizar para el PT <b>%s</b>:<br/>%s" % (task.name, task.work_to_do or 'Sin trabajo a realizar')
 
         #Creacion tarea
-        task_id = self.create({
+        task_id = self.env['project.task'].create({
             'allocated_hours': planned_hours,
             'project_id': projects.id if projects else False,
             'analytic_account_id': projects.analytic_account_id.id if projects else False,
