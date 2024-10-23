@@ -16,24 +16,21 @@ class SaleOrderMergeTaskWizard(models.TransientModel):
     #    'sale.order', default=lambda self: self.env.context.get('active_id'), required=True)
         
     #No Combina los PTs
-    def action_confirm(self):
+    def action_unlink(self):
         self.ensure_one()
         order = self.env['sale.order'].browse(self._context.get('active_id'))
-
-        #Confirmamos el presupuesto sin combinar
-        res = order.action_confirm()
-        _logger.debug("Task: %s", str(order.tasks_ids.ids))
+        current_tasks = self.env['project.task'].browse(order.tasks_ids.ids)
+        if current_tasks:
+            current_tasks.unlink()
 
     #Combina los PTs
     def merge_task(self):
-        #self.ensure_one()
-        _logger.debug("Order: %s", str(self.sale_order_id.id))
-        #Confirmamos el presupuesto
-        self.sale_order_id.action_confirm()
+        self.ensure_one()
+        order = self.env['sale.order'].browse(self._context.get('active_id'))
 
         #Comprobamos el control de facturación de los productos compuestos
         list_bool = []
-        for line in self.sale_order_id.order_line:
+        for line in order.order_line:
             if line.auto_create_task:
                 list_bool.append(line.product_id.invoicing_finished_task)
         if any(list_bool) == True and all(list_bool) == False:
@@ -43,8 +40,7 @@ class SaleOrderMergeTaskWizard(models.TransientModel):
             '2. Configurar todos los productos con el mismo control de factura.\n'+
             '3. Vuelva al prespuesto, conviertalo a presupuesto y confirmelo.\n'))
         
-        current_tasks = self.env['project.task'].browse(self.sale_order_id.tasks_ids.ids)
-        _logger.debug("Task: %s", str(self.sale_order_id.tasks_ids.ids))
+        current_tasks = self.env['project.task'].browse(order.tasks_ids.ids)
         planned_hours = 0
         timesheets = self.env['account.analytic.line']
         works_ids = self.env['project.task.work']
@@ -75,12 +71,12 @@ class SaleOrderMergeTaskWizard(models.TransientModel):
             'allocated_hours': planned_hours,
             'project_id': projects.id if projects else False,
             'analytic_account_id': projects.analytic_account_id.id if projects else False,
-            'partner_id': self.sale_order_id.partner_id.id,
+            'partner_id': order.partner_id.id,
             'user_ids': False,
-            'sale_line_id': self.sale_order_id.tasks_ids[0].sale_line_id.id,
-            'sale_order_id': self.sale_order_id.id,
+            'sale_line_id': order.tasks_ids[0].sale_line_id.id,
+            'sale_order_id': order.id,
             'company_id': projects.company_id.id if projects else False,
-            'oppor_id': self.sale_order_id.opportunity_id.id or False, 
+            'oppor_id': order.opportunity_id.id or False, 
             'description': description,
             'work_to_do': works,
             'tag_ids': [(6, 0, tags.ids)] if tags else False,

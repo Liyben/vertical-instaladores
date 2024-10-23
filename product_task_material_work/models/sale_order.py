@@ -74,7 +74,7 @@ class SaleOrder(models.Model):
                 order.location_dest_id = picking_type.default_location_dest_id.id
 
     def action_confirm(self):
-        
+        res = super().action_confirm()
         if self.env.user.has_group('product_task_material_work.group_sales_merge_task_to_confirm'):
             return {'type': 'ir.actions.act_window',
                 'name': _('Combinar partes de trabajo'),
@@ -83,7 +83,7 @@ class SaleOrder(models.Model):
                 'view_id': self.env.ref('product_task_material_work.view_sale_order_merge_task').id,
                 'view_mode': 'form'}
                 
-        return super().action_confirm()
+        return res
 
     #Grupo cuenta analitica
     #account_analytic_group_id = fields.Many2one('account.analytic.group', string='Grupo', check_company=True) 
