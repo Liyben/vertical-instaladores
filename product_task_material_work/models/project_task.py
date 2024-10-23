@@ -17,7 +17,7 @@ class ProjectTask(models.Model):
     date_task = fields.Datetime(string='Fecha tarea', required=True, copy=False, default=fields.Datetime.now)
 
     #Tareas unificadas
-    #merge_task_ids = fields.Many2many('project.task','merge_tasks','task_id','merge_task_id','Tareas unificadas')
+    merge_task_ids = fields.Many2many('project.task','merge_tasks','task_id','merge_task_id','Tareas unificadas')
     #merge_task_count = fields.Integer('Tareas unificadas',compute='compute_merge_task_count')
 
     #Campos para la firma

@@ -1,42 +1,17 @@
 <odoo>
-	<!--<record model="ir.ui.view" id="view_project_task_by_administration_form">
-        <field name="name">project.task.by.administration.form.inherit</field>
-        <field name="model">project.task</field>
-        <field name="inherit_id" ref="project.view_task_form2"/>
-        <field name="arch" type="xml">
-        	<div name="button_box" position="inside">
-                <field name="task_to_invoice" invisible="1"/>
-        		<button name="sale_order_action_recalculate" type="object" class="oe_stat_button"
-                    icon="fa-file-text-o" attrs="{'invisible': [('task_to_invoice', '=', False)]}"  
-                    string="Por Admon." confirm="¿Estas seguro que quiere pasarlo a 'Por Administración'?">
-        			<field name="by_administration" widget="toggle_button"/>
-        		</button>
-        	</div>
-            <field name="stage_id" position="before">
-                <button
-                    class="oe_stat_button"
-                    type="action"
-                    name="%(project_task_convert2order_action)d"
-                    attrs="{'invisible': ['|',('allow_billable', '=', False),('sale_line_id', '!=', False)]}" 
-                    string="Crear presupuesto"
-                    groups="project.group_project_manager"
-                />
-            </field>
-        </field>
-    </record>-->
-
+	
     <record model="ir.ui.view" id="view_task_form2_inherit">
         <field name="name">project.task.merged.tasks</field>
         <field name="model">project.task</field>
         <field name="inherit_id" ref="project.view_task_form2"/>
         <field name="arch" type="xml">
-            <div name="button_box" position="inside">
-                <!--<button class="oe_stat_button" type="object"
+            <!--<div name="button_box" position="inside">
+                <button class="oe_stat_button" type="object"
                         name="action_merge_tasks"
                         icon="fa-puzzle-piece">
                     <field string="Tareas Unificadas" name="merge_task_count" widget="statinfo"/>
-                </button>-->
-            </div>
+                </button>
+            </div>-->
             <xpath expr="//notebook/page[@name='extra_info']" position="after">
                 <page string="Firma del cliente" name="customer_signature">
                     <group>
@@ -87,26 +62,5 @@
             </xpath>
         </field>
     </record>
-
-    <!--<record model="ir.ui.view" id="edit_project_task_track_translation">
-        <field name="name">edit.project.task.track.translation</field>
-        <field name="model">project.task</field>
-        <field name="inherit_id" ref="sale_order_invoicing_finished_task.edit_project_task_track"/>
-        <field name="arch" type="xml">
-            <xpath expr="//div[@name='button_box']/button[@name='toggle_invoiceable']" position="replace">
-                <button name="toggle_invoiceable" type="object"
-                    attrs="{'invisible': [('invoicing_finished_task','=', False)]}"
-                    class="oe_stat_button" icon="fa-file">
-                        <field name="invoiceable" widget="boolean_button"
-                             options='{"terminology": {
-                                    "string_true": "Facturable",
-                                    "hover_true": "No Facturable",
-                                    "string_false": "No Facturable",
-                                    "hover_false": "Facturable"
-                                }}'/>
-                </button>
-            </xpath>
-        </field>
-    </record>-->
 
 </odoo>
