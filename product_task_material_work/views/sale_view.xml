@@ -50,7 +50,7 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="view_sale_order_merge_task_action_confirm">
+    <!--<record model="ir.ui.view" id="view_sale_order_merge_task_action_confirm">
         <field name="name">sale.order.merge.task.action.confirm.form.inherit</field>
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
@@ -70,7 +70,7 @@
                         groups="product_task_material_work.group_sales_merge_task_to_confirm"/>
             </xpath>
         </field>
-    </record>
+    </record>-->
 
     <record model="ir.ui.view" id="view_sale_order_project_form_inherit">
         <field name="name">sale.order.project.form.inherit</field>

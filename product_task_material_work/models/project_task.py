@@ -60,6 +60,7 @@ class ProjectTask(models.Model):
         planned_hours = 0
         timesheets = self.env['account.analytic.line']
         works_ids = self.env['project.task.work']
+        stock_ids = self.env['stock.move']
         tags = self.env['project.tags']
         projects = current_tasks.mapped('project_id')
         #project_id = None
@@ -76,6 +77,7 @@ class ProjectTask(models.Model):
             #deadline_date = task.date_deadline
             timesheets += task.timesheet_ids
             works_ids += task.task_works_ids
+            stock_ids += task.move_ids
             tags += task.tag_ids
 
             if task.description:
@@ -95,6 +97,7 @@ class ProjectTask(models.Model):
             'name': ', '.join(current_tasks.mapped('name')),
             'timesheet_ids': [(6, 0, timesheets.ids)] if timesheets else False,
             'task_works_ids': [(6, 0, works_ids.ids)] if works_ids else False,
+            'move_ids': [(6, 0, stock_ids.ids)] if stock_ids else False,
             'merge_task_ids': [(6, 0, current_tasks.ids)]
         })
 

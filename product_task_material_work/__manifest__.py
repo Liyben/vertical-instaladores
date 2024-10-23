@@ -24,6 +24,7 @@
         'views/project_task.xml',
         'views/crm_lead_view.xml',
         'views/hr_view.xml',
+        'wizard/sale_order_merge_task_wizard_views.xml',
             ],
     'qweb': [],
     'images': [

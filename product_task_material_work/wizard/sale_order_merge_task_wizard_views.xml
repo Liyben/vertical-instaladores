@@ -1,0 +1,20 @@
+<odoo>
+        <record id="view_sale_order_merge_task" model="ir.ui.view">
+            <field name="name">Combinar partes de trabajo</field>
+            <field name="model">sale.order.merge.task.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Combinar partes de trabajo">
+                    <p>
+                        ¿Quiere combinar los partes de trabajo resultantes en uno solo?
+                    </p>
+                    <span class="text-muted">Esto archivará los partes de trabajo (excepto el parte de trabajo fusionado)</span>
+                    <footer>
+                        <button name="merge_task" id="merge_task_button" string="Si" type="object" class="btn-primary"/>
+                        <button name="action_confirm" id="merge_task_button" string="No" type="object" class="btn-primary"/>
+                        <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+</odoo>

@@ -9,3 +9,5 @@
 "access_sale_order_line_task_materials_manager","access_sale_order_line_task_materials_manager","product_task_material_work.model_sale_order_line_task_material","sales_team.group_sale_salesman","True","True","True","True"
 "access_project_task_work_user","access_project_task_work_user","product_task_material_work.model_project_task_work","base.group_user","True","False","False","False"
 "access_project_task_work_manager","access_project_task_work_manager","product_task_material_work.model_project_task_work","sales_team.group_sale_salesman","True","True","True","True"
+"access_sale_order_merge_task_wizard_user","access_sale_order_merge_task_wizard_user","product_task_material_work.model_sale_order_merge_task_wizard","base.group_user","True","False","False","False"
+"access_sale_order_merge_task_wizard_manager","access_sale_order_merge_task_wizard_manager","product_task_material_work.model_sale_order_merge_task_wizard","product_task_material_work.group_sales_merge_task_to_confirm","True","True","True","True"
