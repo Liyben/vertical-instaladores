@@ -18,7 +18,7 @@ class SaleOrderMergeTaskWizard(models.TransientModel):
     #No Combina los PTs
     def action_confirm(self):
         self.ensure_one()
-        order = self.env['project.task'].browse(self._context.get('active_id'))
+        order = self.env['sale.order'].browse(self._context.get('active_id'))
         _logger.debug("Order: %s", str(order.id))
         #Confirmamos el presupuesto sin combinar
         order.action_confirm()
