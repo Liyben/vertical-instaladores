@@ -5,6 +5,8 @@ from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 from odoo.exceptions import UserError
 
+import logging
+_logger = logging.getLogger(__name__)
 
 class SaleOrderMergeTaskWizard(models.TransientModel):
     _name = 'sale.order.merge.task.wizard'
@@ -15,15 +17,16 @@ class SaleOrderMergeTaskWizard(models.TransientModel):
         
     #No Combina los PTs
     def action_confirm(self):
-        self.ensure_one()
-
+        #self.ensure_one()
+        _logger.debug("Order: %s", str(self.sale_order_id.id))
         #Confirmamos el presupuesto sin combinar
         self.sale_order_id.action_confirm()
+        _logger.debug("Task: %s", str(self.sale_order_id.tasks_ids.ids))
 
     #Combina los PTs
     def merge_task(self):
-        self.ensure_one()
-
+        #self.ensure_one()
+        _logger.debug("Order: %s", str(self.sale_order_id.id))
         #Confirmamos el presupuesto
         self.sale_order_id.action_confirm()
 
@@ -40,6 +43,7 @@ class SaleOrderMergeTaskWizard(models.TransientModel):
             '3. Vuelva al prespuesto, conviertalo a presupuesto y confirmelo.\n'))
         
         current_tasks = self.env['project.task'].browse(self.sale_order_id.tasks_ids.ids)
+        _logger.debug("Task: %s", str(self.sale_order_id.tasks_ids.ids))
         planned_hours = 0
         timesheets = self.env['account.analytic.line']
         works_ids = self.env['project.task.work']
