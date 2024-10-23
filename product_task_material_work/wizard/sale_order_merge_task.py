@@ -12,16 +12,17 @@ class SaleOrderMergeTaskWizard(models.TransientModel):
     _name = 'sale.order.merge.task.wizard'
     _description = "Combinar partes de trabajo desde presupuesto"
 
-    sale_order_id = fields.Many2one(
-        'sale.order', default=lambda self: self.env.context.get('active_id'), required=True)
+    #sale_order_id = fields.Many2one(
+    #    'sale.order', default=lambda self: self.env.context.get('active_id'), required=True)
         
     #No Combina los PTs
     def action_confirm(self):
-        #self.ensure_one()
-        _logger.debug("Order: %s", str(self.sale_order_id.id))
+        self.ensure_one()
+        order = self.env['project.task'].browse(self._context.get('active_id'))
+        _logger.debug("Order: %s", str(self.order.id))
         #Confirmamos el presupuesto sin combinar
-        self.sale_order_id.action_confirm()
-        _logger.debug("Task: %s", str(self.sale_order_id.tasks_ids.ids))
+        order.action_confirm()
+        _logger.debug("Task: %s", str(order.tasks_ids.ids))
 
     #Combina los PTs
     def merge_task(self):
