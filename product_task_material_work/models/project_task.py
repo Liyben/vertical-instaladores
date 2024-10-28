@@ -18,7 +18,7 @@ class ProjectTask(models.Model):
 
     #Tareas unificadas
     merge_task_ids = fields.Many2many('project.task','merge_tasks','task_id','merge_task_id','Tareas unificadas', context={'active_test': False})
-    #merge_task_count = fields.Integer('Tareas unificadas',compute='compute_merge_task_count')
+    merge_task_count = fields.Integer('Tareas unificadas',compute='compute_merge_task_count')
 
     #Campos para la firma
     signature = fields.Binary(string="Firma", copy=False,)
