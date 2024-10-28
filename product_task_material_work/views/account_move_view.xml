@@ -31,7 +31,7 @@
                         string="Editar"
                         class="float-right oe_edit_only" 
                         groups="product_task_material_work.group_account_move_line_edit" 
-                        attrs="{'invisible' : ['|', ('parent_state', '!=', 'draft'),('auto_create_task', '=', False)]}"/>
+                        invisible="parent_state != 'draft' or not auto_create_task"/>
             </xpath>
 
             <xpath expr="//field[@name='line_ids']/tree/field[@name='partner_id']" position="before">
@@ -84,7 +84,7 @@
             <xpath expr="//field[@name='invoice_line_ids']/form/sheet" position="inside">
                 <field name="auto_create_task" invisible="1"/>
                 <field name="see_works_and_materials" invisible="1"/>
-                <div name="partida" attrs="{'invisible':[('auto_create_task','!=',True)]}">
+                <div name="partida" invisible="not auto_create_task">
                         <group string="Trabajos" invisible="see_works_and_materials in ['only_materials',False]">
                             <field name="task_works_ids" nolabel="1" context="{'default_product_id': active_id}">
                                 <tree string="Trabajos" editable="bottom">
@@ -197,7 +197,7 @@
                     </group>
                     <field name="auto_create_task" invisible="1"/>
                     <field name="see_works_and_materials" invisible="1"/>
-                    <div name="partida" attrs="{'invisible':[('auto_create_task','!=',True)]}">
+                    <div name="partida" invisible="not auto_create_task">
                         <group string="Trabajos" invisible="see_works_and_materials in ['only_materials',False]">
                             <field name="task_works_ids" nolabel="1" context="{'default_product_id': active_id}" >
                                 <tree string="Trabajos" editable="bottom">
