@@ -588,10 +588,9 @@ class SaleOrderLine(models.Model):
                         'name' : work.name,
                         'work_id': work.work_id.id,
                         'sale_price_unit' : work.sale_price_unit,
-                        #'sale_price_unit' : self.env['account.tax']._fix_tax_included_price_company(self._get_display_price_line(workforce, work.work_id, work.hours), workforce.taxes_id, self.tax_id, self.company_id),
                         'cost_price_unit' : work.cost_price_unit,
                         'hours' : work.hours,
-                        'discount' : self._get_discount_line(work.work_id, work.hours) or 0.0
+                        'discount' : material.discount
                     }))
             else:
                 work_list = False
@@ -610,10 +609,9 @@ class SaleOrderLine(models.Model):
                         'material_id' : material.material_id.id,
                         'name' : material.name,
                         'sale_price_unit' : material.sale_price_unit,
-                        #'sale_price_unit' : self.env['account.tax']._fix_tax_included_price_company(self._get_display_price_line(mat, material.material_id, material.quantity), mat.taxes_id, self.tax_id, self.company_id),
                         'cost_price_unit' : material.cost_price_unit,
                         'quantity' : material.quantity,
-                        'discount' : self._get_discount_line(material.material_id, material.quantity) or 0.0
+                        'discount' : material.discount
                     }))
             else:
                 material_list = False
