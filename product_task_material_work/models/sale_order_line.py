@@ -590,7 +590,7 @@ class SaleOrderLine(models.Model):
                         'sale_price_unit' : work.sale_price_unit,
                         'cost_price_unit' : work.cost_price_unit,
                         'hours' : work.hours,
-                        'discount' : material.discount
+                        'discount' : work.discount
                     }))
             else:
                 work_list = False
