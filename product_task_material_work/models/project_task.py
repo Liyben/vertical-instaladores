@@ -27,7 +27,7 @@ class ProjectTask(models.Model):
 
     #Campo relacional para los trabajos de la linea de presupuesto
     task_works_ids = fields.One2many(comodel_name='project.task.work', inverse_name='project_task_id', string='Trabajos', copy=False)
-    """
+    
     def compute_merge_task_count(self):
         for task_id in self:
             task_id.merge_task_count = len(task_id.merge_task_ids)
@@ -36,7 +36,7 @@ class ProjectTask(models.Model):
         self.ensure_one()
         action = self.env['ir.actions.act_window'].with_context(active_id=self.project_id.id)._for_xml_id('project.act_project_project_2_project_task_all')
         action['display_name'] = _("%(name)s", name=self.project_id.name)
-        context = action['context'].replace('open_tasks', str("inactive"))
+        #context = action['context'].replace('open_tasks', str("inactive"))
         action = {
             'res_model': 'project.task',
             'type': 'ir.actions.act_window',
@@ -51,9 +51,9 @@ class ProjectTask(models.Model):
                 'domain': [('id', 'in', self.merge_task_ids.ids)],
                 'view_mode': 'tree,form',
             })
-        action['context'] = context
+        #action['context'] = context
         return action 
-        """
+        
  
     def task_merge(self):
         current_tasks = self.env['project.task'].browse(self._context.get('active_ids'))
