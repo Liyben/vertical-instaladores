@@ -16,18 +16,18 @@ class AccountMoveLine(models.Model):
         comodel_name='account.move.line.task.material', inverse_name='account_move_line_id', string='Materiales', copy=True,
         store=True, readonly=False, precompute=True, compute='_compute_materials_and_works')
     #Precio totales, unitarios y beneficio de Trabajos
-    total_sp_work = fields.Float(string='Total P.V.', digits='Product Price', compute='_compute_total_sp_work', default=0.0)
-    total_cp_work = fields.Float(string='Total P.C.', digits='Product Price', compute='_compute_total_cp_work', default=0.0)
-    benefit_work = fields.Float(string='Beneficio (%)', digits='Product Price', compute='_compute_benefit_work', default=0.0)
-    benefit_work_amount = fields.Float(string='Beneficio (€)', digits='Product Price', compute='_compute_benefit_work', default=0.0)
+    total_sp_work = fields.Float(string='Total P.V.', digits='Product Price', store=True, compute='_compute_total_sp_work')
+    total_cp_work = fields.Float(string='Total P.C.', digits='Product Price', store=True, compute='_compute_total_cp_work')
+    benefit_work = fields.Float(string='Beneficio (%)', digits='Product Price', compute='_compute_benefit_work')
+    benefit_work_amount = fields.Float(string='Beneficio (€)', digits='Product Price', compute='_compute_benefit_work')
     total_hours = fields.Float(string='Total horas', compute='_compute_total_hours')
     #Precios totales, unitarios  y beneficio de Materiales
-    total_sp_material = fields.Float(string='Total P.V.', digits='Product Price', compute='_compute_total_sp_material', default=0.0)
-    total_cp_material = fields.Float(string='Total P.C.', digits='Product Price', compute='_compute_total_cp_material', default=0.0)
-    benefit_material = fields.Float(string='Beneficio (%)', digits='Product Price', compute='_compute_benefit_material', default=0.0)
-    benefit_material_amount = fields.Float(string='Beneficio (€)', digits='Product Price', compute='_compute_benefit_material', default=0.0)
+    total_sp_material = fields.Float(string='Total P.V.', digits='Product Price', store=True, compute='_compute_total_sp_material')
+    total_cp_material = fields.Float(string='Total P.C.', digits='Product Price', store=True, compute='_compute_total_cp_material')
+    benefit_material = fields.Float(string='Beneficio (%)', digits='Product Price', compute='_compute_benefit_material')
+    benefit_material_amount = fields.Float(string='Beneficio (€)', digits='Product Price', compute='_compute_benefit_material')
     #Campo boolean para saber si crear o no una tarea de forma automatica
-    auto_create_task = fields.Boolean(string='Tarea automática', copy=True)
+    auto_create_task = fields.Boolean(string='Tarea automática', related='product_id.auto_create_task', store=True)
     #Opciones de impresión por linea de pedido
     detailed_time = fields.Boolean(string='Imp. horas')
     detailed_price_time = fields.Boolean(string='Imp. precio Hr.')
@@ -40,7 +40,7 @@ class AccountMoveLine(models.Model):
         ('all', 'Trabajos y Materiales'),
         ('only_works', 'Solo Trabajos'),
         ('only_materials', 'Solo Materiales')],
-        string="Ver", )
+        string="Ver", default='all')
 
     #Carga de los materiales y mano de obra
     @api.depends('product_id')
