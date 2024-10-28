@@ -24,14 +24,14 @@
                 <field name="detailed_subtotal_price_materials" column_invisible="1"/>
                 <field name="detailed_price_materials" column_invisible="1"/>
                 <!-- Buttons -->
-                <!--<field name="parent_state" invisible="1"/>
+                <field name="parent_state" invisible="1"/>
                 <button name="action_invoice_line_open"
                         type="object"
                         icon="fa-pencil-square-o"
                         string="Editar"
                         class="float-right oe_edit_only" 
                         groups="product_task_material_work.group_account_move_line_edit" 
-                        attrs="{'invisible' : ['|', ('parent_state', '!=', 'draft'),('auto_create_task', '=', False)]}"/>-->
+                        attrs="{'invisible' : ['|', ('parent_state', '!=', 'draft'),('auto_create_task', '=', False)]}"/>
             </xpath>
 
             <xpath expr="//field[@name='line_ids']/tree/field[@name='partner_id']" position="before">
@@ -150,110 +150,110 @@
         </field>
     </record>
 
-    <!-- <record id="view_invoice_line_form" model="ir.ui.view">
+    <record id="view_invoice_line_form" model="ir.ui.view">
         <field name="name">invoice.line.form</field>
         <field name="model">account.move.line</field>
         <field name="arch" type="xml">
             <form string="Linea de factura" create="false">
                 <sheet>
-                    <field name="product_uom_category_id" invisible="1"/>
-                    <field name="display_type" invisible="1"/>
-                    <field name="parent_state" invisible="1"/>
+                    <field name="tax_calculation_rounding_method" invisible="1"/>
+                    <field name="display_type" invisible="1" />
+                    <field name="company_id" invisible="1" />
+                    <field name="partner_id" invisible="1"   />
                     <group>
                         <group>
                             <field name="detailed_time"/>
-                            <field name="detailed_subtotal_price_time" attrs="{'invisible': [('detailed_time','=', False)]}"/>
-                            <field name="detailed_price_time" attrs="{'invisible': [('detailed_time','=', False)]}"/>
+                            <field name="detailed_subtotal_price_time" invisible="not detailed_time"/>
+                            <field name="detailed_price_time" invisible="not detailed_time"/>
                         </group>
                         <group>
                             <field name="detailed_materials"/>
-                            <field name="detailed_subtotal_price_materials" attrs="{'invisible': [('detailed_materials','=', False)]}"/>
-                            <field name="detailed_price_materials" attrs="{'invisible': [('detailed_materials','=', False)]}"/>
+                            <field name="detailed_subtotal_price_materials" invisible="not detailed_materials"/>
+                            <field name="detailed_price_materials" invisible="not detailed_materials"/>
                         </group>
                     </group>
                     <group>
-                        <field name="partner_id" invisible="1"/>
-                        <field name="company_id" invisible="1"/>
-                        <field name="debit" invisible="1"/>
-                        <field name="credit" invisible="1"/>
-                        <field name="product_id" widget="many2one_barcode"/>
-                        <field name="quantity" invisible="1"/>
-                        <field name="product_uom_id" groups="uom.group_uom" invisible="1"/>
-                        <field name="price_unit"/>
-                        <field name="discount" string="Desc.%" groups="product.group_discount_per_so_line" invisible="1"/>
-                        <field name="currency_id" invisible="1"/>
+                        <field name="product_id" widget="many2one_barcode" />
+                        <field name="quantity" />
+                        <field name="product_uom_category_id" invisible="1"/>
+                        <field name="product_uom_id"   />
+                        <field name="price_unit" />
+                        <field name="discount" string="Desc.%" />
+                        <field name="price_subtotal" invisible="1" />
+                        <field name="price_total" string="Total" invisible="1" />
                     </group>
                     <group>
-                        <field name="analytic_tag_ids" groups="analytic.group_analytic_tags" widget="many2many_tags" invisible="1"/>
-                        <field name="account_id" options="{'no_create': True}" domain="[('company_id', '=', company_id)]" readonly="1" invisible="1"/>
-                        <field name="tax_ids" widget="many2many_tags" invisible="1"/>
-                        <field name="analytic_account_id" groups="analytic.group_analytic_accounting" invisible="1"/>
+                        <field name="account_id" domain="[('company_id', 'parent_of', company_id), ('deprecated', '=', False)]" options="{'no_create': True}" context="{'partner_id': partner_id, 'move_type': parent.move_type}"   />
+                        <field name="tax_ids" widget="many2many_tags"   />
+                        <field name="analytic_distribution" widget="analytic_distribution"/>
                     </group>
-                    <label for="name" string="Descripción" attrs="{'invisible': [('display_type', '!=', False)]}"/>
-                    <label for="name" string="Seccion" attrs="{'invisible': [('display_type', '!=', 'line_section')]}"/>
-                    <label for="name" string="Nota" attrs="{'invisible': [('display_type', '!=', 'line_note')]}"/>
+                    <label for="name" string="Descripción" invisible="display_type in ('line_note', 'line_section')"/>
+                    <label for="name" string="Sección" invisible="display_type != 'line_section'"/>
+                    <label for="name" string="Nota" invisible="display_type != 'line_note'"/>
                     <field name="name" widget="text"/>
                     <group>
-                        <field name="price_subtotal" string="Subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
-                        <field name="price_total" string="Total" groups="account.group_show_line_subtotals_tax_included"/>
+                        <field name="price_subtotal" string="Impuestos no incluidos" />
+                        <field name="price_total" string="Impuestos incluidos" invisible="tax_calculation_rounding_method == 'round_globally'" optional="hide" />
                     </group>
                     <field name="auto_create_task" invisible="1"/>
                     <field name="see_works_and_materials" invisible="1"/>
                     <div name="partida" attrs="{'invisible':[('auto_create_task','!=',True)]}">
-                        <group string="Trabajos" attrs="{'invisible':[('see_works_and_materials','in',['only_materials',False])]}">
-                            <group>
-                                <field name="workforce_id" invisible="1" ref="product_task_material_work.mano_obra_00" domain="[('categ_id', '=', %(product_task_material_work.product_category_mo)d )]"/>
-                            </group>
-                            <field name="task_works_ids" nolabel="1" context="{'default_product_id': active_id}">
+                        <group string="Trabajos" invisible="see_works_and_materials in ['only_materials',False]">
+                            <field name="task_works_ids" nolabel="1" context="{'default_product_id': active_id}" >
                                 <tree string="Trabajos" editable="bottom">
                                     <field name="sequence" widget="handle"/>
-                                    <field name="work_id"/>
+                                    <field name="work_id"   />
                                     <field name="name"/>
-                                    <field name="hours" sum="Horas totales" widget="float_time"/>
-                                    <field name="cost_price_unit" optional="show"/>
-                                    <field name="sale_price_unit" optional="show"/>
-                                    <field name="discount" groups="product.group_discount_per_so_line" optional="show"/>
-                                    <field name="cost_price" sum="Total P.C." optional="hide"/>
-                                    <field name="sale_price" sum="Total P.V." optional="show"/>
-                                    <field name="work_margin" groups="product_task_material_work.group_sales_margin" optional="hide"/>
-                                    <field name="work_margin_percent" optional="show" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
+                                    <field name="hours" sum="Horas totales" widget="float_time" />
+                                    <field name="cost_price_unit" widget="monetary" optional="show" />
+                                    <field name="sale_price_unit" widget="monetary" optional="show" />
+                                    <field name="discount" optional="show" />
+                                    <field name="cost_price" widget="monetary" sum="Total P.C." optional="hide" />
+                                    <field name="sale_price" widget="monetary" sum="Total P.V." optional="show" />
+                                    <field name="work_margin" widget="monetary" optional="hide"/>
+                                    <field name="work_margin_percent" optional="show" widget="percentage"/>
+                                    <field name="company_id" column_invisible="False"/>
+                                    <field name="currency_id" column_invisible="True"/>
                                 </tree>
                             </field>
                             <group class="pull-right">
-                                <field name="total_sp_work" invisible="1"/>
-                                <field name="total_cp_work" invisible="1"/>
+                                <field name="total_sp_work" invisible="1" />
+                                <field name="total_cp_work" invisible="1" />
                                 <field name="total_hours" invisible="1"/>
                                 <label for="benefit_work_amount" string="Beneficio"/>
                                 <div>
-                                    <field name="benefit_work_amount" groups="product_task_material_work.group_sales_margin" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                    <field name="benefit_work_amount" class="oe_inline" nolabel="1" widget="monetary"/>
                                     <span> | </span>
-                                    <field name="benefit_work" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
+                                    <field name="benefit_work" class="oe_inline" nolabel="1" widget="percentage"/>
                                 </div>
                             </group>
                         </group>
-                        <group string="Materiales" attrs="{'invisible':[('see_works_and_materials','in',['only_works',False])]}">
-                            <field name="task_materials_ids" nolabel="1" context="{'default_product_id':active_id}">
+                        <group string="Materiales" invisible="see_works_and_materials in ['only_works',False]">
+                            <field name="task_materials_ids" nolabel="1" context="{'default_product_id':active_id}" >
                                 <tree string="Materiales" editable="bottom">
-                                    <field name="sequence" widget="handle"/>
-                                    <field name="material_id"/>
+                                    <field name="sequence" widget="handle"/>                                
+                                    <field name="material_id"   />
                                     <field name="name"/>
-                                    <field name="quantity"/>
-                                    <field name="cost_price_unit" optional="show"/>
-                                    <field name="sale_price_unit" optional="show"/>
-                                    <field name="discount" groups="product.group_discount_per_so_line" optional="show"/>
-                                    <field name="cost_price" sum="Total P.C." optional="hide"/>
-                                    <field name="sale_price" sum="Total P.V." optional="show"/>
-                                    <field name="material_margin" groups="product_task_material_work.group_sales_margin" optional="hide"/>
-                                    <field name="material_margin_percent" optional="show" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
+                                    <field name="quantity" />
+                                    <field name="cost_price_unit" widget="monetary" optional="show" />
+                                    <field name="sale_price_unit" widget="monetary" optional="show" />
+                                    <field name="discount" optional="show" />
+                                    <field name="cost_price" widget="monetary" sum="Total P.C." optional="hide" />
+                                    <field name="sale_price" widget="monetary" sum="Total P.V." optional="show" />
+                                    <field name="material_margin" widget="monetary" optional="hide"/>
+                                    <field name="material_margin_percent" optional="show" widget="percentage"/>
+                                    <field name="company_id" column_invisible="False"/>
+                                    <field name="currency_id" column_invisible="True"/>
                                 </tree>
                             </field>
                             <group class="pull-right">
-                                <field name="total_sp_material" invisible="1"/>
-                                <field name="total_cp_material" invisible="1"/>
+                                <field name="total_sp_material" invisible="1" />
+                                <field name="total_cp_material" invisible="1" />
+                                <label for="benefit_material_amount" string="Beneficio"/>
                                 <div>
-                                    <field name="benefit_material_amount" groups="product_task_material_work.group_sales_margin" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                    <field name="benefit_material_amount" class="oe_inline" nolabel="1" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                                     <span> | </span>
-                                    <field name="benefit_material" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
+                                    <field name="benefit_material" class="oe_inline" nolabel="1" widget="percentage"/>
                                 </div>
                             </group>
                         </group>
@@ -261,5 +261,5 @@
                 </sheet>
             </form>
         </field>
-    </record> -->
+    </record>
 </odoo>
