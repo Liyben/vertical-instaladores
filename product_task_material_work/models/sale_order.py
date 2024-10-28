@@ -75,7 +75,7 @@ class SaleOrder(models.Model):
 
     def action_confirm(self):
         res = super().action_confirm()
-        if self.env.user.has_group('product_task_material_work.group_sales_merge_task_to_confirm'):
+        if self.env.user.has_group('product_task_material_work.group_sales_merge_task_to_confirm') and self.order_line.mapped('auto_create_task') > 1:
             return {'type': 'ir.actions.act_window',
                 'name': _('Combinar partes de trabajo'),
                 'res_model': 'sale.order.merge.task.wizard',

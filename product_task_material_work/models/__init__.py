@@ -13,3 +13,7 @@ from . import project_task_work
 from . import project_task
 from . import crm_lead
 from . import hr
+from . import account_move_line_task_work
+from . import account_move_line_task_material
+from . import account_move_line
+from . import account_move

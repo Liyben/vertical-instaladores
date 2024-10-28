@@ -126,7 +126,7 @@
                                 <field name="sale_price" widget="monetary" sum="Total P.V." optional="show"/>
                                 <field name="work_margin" widget="monetary" groups="product_task_material_work.group_sales_margin" optional="hide"/>
                                 <field name="work_margin_percent" optional="show" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
-                                <field name="company_id" invisible="0"/>
+                                <field name="company_id" column_invisible="False"/>
                                 <field name="currency_id" column_invisible="True"/>
                             </tree>
                         </field>
@@ -156,7 +156,7 @@
                                 <field name="sale_price" widget="monetary" sum="Total P.V." optional="show"/>
                                 <field name="material_margin" widget="monetary" groups="product_task_material_work.group_sales_margin" optional="hide"/>
                                 <field name="material_margin_percent" optional="show" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
-                                <field name="company_id" invisible="0"/>
+                                <field name="company_id" column_invisible="False"/>
                                 <field name="currency_id" column_invisible="True"/>
                             </tree>
                         </field>
