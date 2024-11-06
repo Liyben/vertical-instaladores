@@ -161,6 +161,22 @@ class SaleOrderLine(models.Model):
             if (record.total_cp_material != 0) and (record.total_sp_material != 0):
                 record.benefit_material = (1-(record.total_cp_material/record.total_sp_material))
 
+    #Activa la función para calcular el precio de coste tambien cuando se cambia los materiales y mano de obra
+    @api.depends('task_works_ids', 'task_materials_ids', 'task_works_ids.cost_price', 'task_materials_ids.cost_price')
+    def _compute_purchase_price(self):
+        super()._compute_purchase_price()
+        for line in self:
+            if not line.product_id:
+                line.purchase_price = 0.0
+                continue
+            if line.task_works_ids or line.task_materials_ids:
+                line = line.with_company(line.company_id)
+                line_cost = line.total_cp_material + line.total_cp_work
+                line.purchase_price = line._convert_to_sol_currency(
+                    line_cost,
+                    line.product_id.cost_currency_id)
+        return True
+
     #Activa la función para calcular el precio unitario tambien cuando se cambia los materiales y mano de obra
     @api.depends('task_works_ids', 'task_materials_ids', 'task_works_ids.sale_price', 'task_materials_ids.sale_price')
     def _compute_price_unit(self):
