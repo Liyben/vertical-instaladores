@@ -145,17 +145,14 @@ class AccountMoveLine(models.Model):
                 record.benefit_material = (1-(record.total_cp_material/record.total_sp_material))
 
     #Activa la función para calcular el precio unitario tambien cuando se cambia los materiales y mano de obra
-    @api.depends('task_works_ids', 'task_works_ids', 'task_works_ids.sale_price', 'task_materials_ids.sale_price', 'task_works_ids.hours', 'task_materials_ids.quantity')
+    @api.depends('task_works_ids', 'task_materials_ids', 'task_works_ids.sale_price', 'task_materials_ids.sale_price')
     def _compute_price_unit(self):
         super()._compute_price_unit()
-
-    #Calculo del precio de venta del prodcuto tipo partida en la linea de pedido
-    #al producirse algun cambio en los materiales, trabajos o mano de obra    
-    """ @api.onchange('task_materials_ids', 'task_works_ids')
-    def _onchange_task_materials_works_workforce(self):
         for line in self:
-            line.price_unit = (line.total_sp_material + line.total_sp_work)
-            line.purchase_price = (line.total_cp_material + line.total_cp_work) """
+            if line.task_works_ids or line.task_materials_ids:
+                line.price_unit = (line.total_sp_material + line.total_sp_work)
+                line.purchase_price = (line.total_cp_material + line.total_cp_work)
+        return True
 
     #Abre la linea de factura en un formulario en primer plano
     def action_invoice_line_open(self):

@@ -162,7 +162,7 @@ class SaleOrderLine(models.Model):
                 record.benefit_material = (1-(record.total_cp_material/record.total_sp_material))
 
     #Activa la función para calcular el precio unitario tambien cuando se cambia los materiales y mano de obra
-    @api.depends('task_works_ids', 'task_works_ids', 'task_works_ids.sale_price', 'task_materials_ids.sale_price', 'task_works_ids.hours', 'task_materials_ids.quantity')
+    @api.depends('task_works_ids', 'task_materials_ids', 'task_works_ids.sale_price', 'task_materials_ids.sale_price')
     def _compute_price_unit(self):
         super()._compute_price_unit()
     
