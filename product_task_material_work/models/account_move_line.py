@@ -151,7 +151,7 @@ class AccountMoveLine(models.Model):
         for line in self:
             if line.task_works_ids or line.task_materials_ids:
                 line.price_unit = (line.total_sp_material + line.total_sp_work)
-                line.purchase_price = (line.total_cp_material + line.total_cp_work)
+                #line.purchase_price = (line.total_cp_material + line.total_cp_work)
         return True
 
     #Abre la linea de factura en un formulario en primer plano
