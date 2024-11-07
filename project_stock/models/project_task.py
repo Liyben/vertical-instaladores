@@ -4,6 +4,9 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
+import logging
+_logger = logging.getLogger(__name__)
+
 class ProjectTask(models.Model):
     _name = "project.task"
     _inherit = ["project.task", "analytic.mixin"]
@@ -153,6 +156,8 @@ class ProjectTask(models.Model):
         return {"name": "Task-ID: %s" % self.id}
 
     def action_confirm(self):
+        for move in self.move_ids:
+            _logger.debug("PICKING: %s", str(move._search_picking_for_assignation()))
         self.move_ids._action_confirm()
         self.move_ids.filtered(
             lambda move: move.state not in ("draft", "cancel", "done")
