@@ -162,6 +162,7 @@ class ProjectTask(models.Model):
                     and (x.location_id != loc or x.location_dest_id != loc_dest)
                 )
             )
+            _logger.debug("MOVES: %s\n", str(moves))
             moves.update(
                 {
                     "group_id": item.group_id.id,
@@ -234,17 +235,14 @@ class ProjectTask(models.Model):
 
     def write(self, vals):
         res = super().write(vals)
-        if not self.group_id:
-            self.group_id = self.env["procurement.group"].create(
-                self._prepare_procurement_group_vals()
-            )
-        # Update group
-        if self.group_id:
-            _logger.debug("UPDATE GROUP.\n")
-            self.sudo()._update_moves_group_id()
         if "stage_id" in vals:
             stage = self.env["project.task.type"].browse(vals.get("stage_id"))
             if stage.done_stock_moves:
+                if not self.group_id:
+                    self.group_id = self.env["procurement.group"].create(
+                        self._prepare_procurement_group_vals()
+                    )
+                self.sudo()._update_moves_group_id()
                 # Avoid permissions error if the user does not have access to stock.
                 self.sudo().action_assign()
         # Update info
