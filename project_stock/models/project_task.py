@@ -237,7 +237,7 @@ class ProjectTask(models.Model):
 
     def action_view_delivery(self):
         action = self.env["ir.actions.actions"]._for_xml_id("stock.action_picking_tree_all")
-        pickings = self.move_ids.mappped('picking_id')
+        pickings = self.move_ids.mapped('picking_id')
         if len(pickings) > 1:
             action['domain'] = [('id', 'in', pickings.ids)]
         elif pickings:
