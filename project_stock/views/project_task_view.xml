@@ -6,12 +6,20 @@
         <field name="inherit_id" ref="project.view_task_form2" />
         <field name="arch" type="xml">
             <xpath expr="///button[@name='action_open_parent_task']" position="after">
-                <button
+                <!--<button
                     name="%(action_project_task_moves)d"
                     type="action"
                     string="Product Moves"
                     class="oe_stat_button"
                     icon="fa-exchange"
+                    invisible="not done_stock_moves"
+                    groups="stock.group_stock_user"
+                />-->
+                <button
+                    class="oe_stat_button"
+                    name="action_view_delivery"
+                    type="object"
+                    icon="fa-truck"
                     invisible="not done_stock_moves"
                     groups="stock.group_stock_user"
                 />

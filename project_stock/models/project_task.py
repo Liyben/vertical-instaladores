@@ -235,6 +235,29 @@ class ProjectTask(models.Model):
         action["context"] = dict(self._context, default_origin=self.name)
         return action
 
+    def action_view_delivery(self):
+        action = self.env["ir.actions.actions"]._for_xml_id("stock.action_picking_tree_all")
+        pickings = self.move_ids.mappped('picking_id')
+        if len(pickings) > 1:
+            action['domain'] = [('id', 'in', pickings.ids)]
+        elif pickings:
+            form_view = [(self.env.ref('stock.view_picking_form').id, 'form')]
+            if 'views' in action:
+                action['views'] = form_view + [(state,view) for state,view in action['views'] if view != 'form']
+            else:
+                action['views'] = form_view
+            action['res_id'] = pickings.id
+        # Prepare the context.
+        picking_id = pickings.filtered(lambda l: l.picking_type_id.code == 'outgoing')
+        if picking_id:
+            picking_id = picking_id[0]
+        else:
+            picking_id = pickings[0]
+        # View context from sale_renting `rental_schedule_view_form`
+        cleaned_context = {k: v for k, v in self._context.items() if k != 'form_view_ref'}
+        action['context'] = dict(cleaned_context, default_partner_id=self.partner_id.id, default_picking_type_id=picking_id.picking_type_id.id, default_origin=self.name, default_group_id=picking_id.group_id.id)
+        return action
+
     def write(self, vals):
         res = super().write(vals)
         if "stage_id" in vals:
