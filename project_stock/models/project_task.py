@@ -167,6 +167,7 @@ class ProjectTask(models.Model):
             moves.update(
                 {
                     "group_id": item.group_id.id,
+                    "task_id": item.id,
                 }
             )
 
