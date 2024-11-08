@@ -160,7 +160,7 @@ class ProjectTask(models.Model):
             moves = item.move_ids.filtered(
                 lambda x, loc=location, loc_dest=location_dest, pick_type= picking_type: (
                     x.state not in ("cancel", "done")
-                    and x.location_id == loc and x.location_dest_id == loc_dest and x.picking_type == pick_type
+                    and x.location_id == loc and x.location_dest_id == loc_dest and x.picking_type_id == pick_type
                 )
             )
             _logger.debug("MOVES: %s\n", str(moves))
