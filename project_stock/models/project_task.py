@@ -239,7 +239,9 @@ class ProjectTask(models.Model):
                 self._prepare_procurement_group_vals()
             )
         # Update group
-        self._update_moves_group_id()
+        if self.group_id:
+            _logger.debug("UPDATE GROUP.\n")
+            self.sudo()._update_moves_group_id()
         if "stage_id" in vals:
             stage = self.env["project.task.type"].browse(vals.get("stage_id"))
             if stage.done_stock_moves:
