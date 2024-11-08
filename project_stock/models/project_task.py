@@ -150,6 +150,23 @@ class ProjectTask(models.Model):
                 }
             )
         self.action_assign()
+    
+    def _update_moves_group_id(self):
+        for item in self:
+            item._check_tasks_with_pending_moves()
+            location = item.location_id or item.project_id.location_id
+            location_dest = item.location_dest_id or item.project_id.location_dest_id
+            moves = item.move_ids.filtered(
+                lambda x, loc=location, loc_dest=location_dest: (
+                    x.state not in ("cancel", "done")
+                    and (x.location_id != loc or x.location_dest_id != loc_dest)
+                )
+            )
+            moves.update(
+                {
+                    "group_id": item.group_id.id,
+                }
+            )
 
     @api.model
     def _prepare_procurement_group_vals(self):
@@ -217,6 +234,12 @@ class ProjectTask(models.Model):
 
     def write(self, vals):
         res = super().write(vals)
+        if not self.group_id:
+            self.group_id = self.env["procurement.group"].create(
+                self._prepare_procurement_group_vals()
+            )
+        # Update group
+        self._update_moves_group_id()
         if "stage_id" in vals:
             stage = self.env["project.task.type"].browse(vals.get("stage_id"))
             if stage.done_stock_moves:

@@ -86,6 +86,7 @@ class StockMove(models.Model):
             defaults.update(
                 {
                     "group_id": task.group_id.id,
+                    "task_id": task.id,
                     "location_id": (
                         task.location_id.id or task.project_id.location_id.id
                     ),
