@@ -80,8 +80,8 @@ class SaleOrder(models.Model):
     #Calculo del resumen de trabajos
     @api.depends('order_line','order_line.task_works_ids','order_line.task_works_ids.work_id','order_line.task_works_ids.sale_price_unit',
                  'order_line.task_works_ids.cost_price_unit','order_line.task_works_ids.discount','order_line.task_works_ids.name',
-                 'order_line.task_works_ids.quantity')
-    def _compute_materials(self):
+                 'order_line.task_works_ids.hours')
+    def _compute_works(self):
         work_list = []
         for order in self:
             order.update({'works_ids' : False})
