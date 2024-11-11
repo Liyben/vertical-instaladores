@@ -78,7 +78,7 @@ class SaleOrder(models.Model):
             order.update({'materials_ids' : material_list})
 
     #Calculo del resumen de trabajos
-    @api.depends('order_line','order_line.task_works_ids','order_line.task_works_ids.material_id','order_line.task_works_ids.sale_price_unit',
+    @api.depends('order_line','order_line.task_works_ids','order_line.task_works_ids.work_id','order_line.task_works_ids.sale_price_unit',
                  'order_line.task_works_ids.cost_price_unit','order_line.task_works_ids.discount','order_line.task_works_ids.name',
                  'order_line.task_works_ids.quantity')
     def _compute_materials(self):
@@ -109,13 +109,13 @@ class SaleOrder(models.Model):
                                 cost_price = item[2]["cost_price_unit"]
                                 discount = item[2]["discount"]
                                 name = item[2]["name"]
-                                if work_id == work.material_id.id and sale_price == work.sale_price_unit and cost_price == work.cost_price_unit and discount == work.discount and name.upper() == work.name.upper():
+                                if work_id == work.work_id.id and sale_price == work.sale_price_unit and cost_price == work.cost_price_unit and discount == work.discount and name.upper() == work.name.upper():
                                     item[2]["hours"] = item[2]["hours"] + (work.hours * line.product_uom_qty)
                                     encontrado = True
                             if not encontrado:	
                                 work_list.append((0,0, {
                                     #'order_id' : material.order_line_id.order_id.id,
-                                    'material_id' : work.material_id.id,
+                                    'work_id' : work.work_id.id,
                                     'name' : work.name,
                                     'sale_price_unit' : work.sale_price_unit,
                                     'cost_price_unit' : work.cost_price_unit,
