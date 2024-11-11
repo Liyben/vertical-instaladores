@@ -11,7 +11,7 @@
 
 
     """,
-    'author': 'Liyben',
+    'author': 'Seges',
     'depends': ['sale_project','sale_crm','project_timesheet_time_control','sale_order_invoicing_finished_task','sale_margin'],
     'data': [
         'data/project_data.xml',
