@@ -8,42 +8,40 @@
 
             <xpath expr="//notebook[last()]" position="inside">
                 <page string="Resumen Compuestos" groups="resume_material_and_work.group_sales_resume">
-                    <group string="Materiales (Compuestos)">
-                        <field name="materials_ids" nolabel="1">
-                                <tree string="Materiales" create="false" delete="false" >
-                                    <field name="material_id"/>
-                                    <field name="name"/>
-                                    <field name="quantity"/>
-                                    <field name="cost_price_unit" widget="monetary" optional="show" groups="product_task_material_work.group_sales_product_cost"/>
-                                    <field name="sale_price_unit" widget="monetary" optional="show"/>
-                                    <field name="discount" groups="product.group_discount_per_so_line" optional="show"/>
-                                    <field name="cost_price" widget="monetary" sum="Total P.C." optional="hide" groups="product_task_material_work.group_sales_product_cost"/>
-                                    <field name="sale_price" widget="monetary" sum="Total P.V." optional="show"/>
-                                    <field name="material_margin" widget="monetary" groups="product_task_material_work.group_sales_margin" optional="hide"/>
-                                    <field name="material_margin_percent" optional="show" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
-                                    <field name="company_id" column_invisible="False"/>
-                                    <field name="currency_id" column_invisible="False"/>
-                                </tree>
-                            </field>
-                    </group>
-                    <group string="Mano de obra (Compuestos)">
-                        <field name="works_ids" nolabel="1">
-                                <tree string="Mano de obra" create="false" delete="false" >
-                                    <field name="work_id"/>
-                                    <field name="name"/>
-                                    <field name="hours" sum="Horas totales" widget="float_time"/>
-                                    <field name="cost_price_unit" widget="monetary" optional="show" groups="product_task_material_work.group_sales_product_cost"/>
-                                    <field name="sale_price_unit" widget="monetary" optional="show"/>
-                                    <field name="discount" groups="product.group_discount_per_so_line" optional="show"/>
-                                    <field name="cost_price" widget="monetary" sum="Total P.C." optional="hide" groups="product_task_material_work.group_sales_product_cost"/>
-                                    <field name="sale_price" widget="monetary" sum="Total P.V." optional="show"/>
-                                    <field name="work_margin" widget="monetary" groups="product_task_material_work.group_sales_margin" optional="hide"/>
-                                    <field name="work_margin_percent" optional="show" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
-                                    <field name="company_id" column_invisible="False"/>
-                                    <field name="currency_id" column_invisible="False"/>
-                                </tree>
-                            </field>
-                    </group>
+                    <separator string="Materiales (Compuestos)"/>
+                    <field name="materials_ids" nolabel="1">
+                        <tree string="Materiales" >
+                            <field name="material_id"/>
+                            <field name="name"/>
+                            <field name="quantity"/>
+                            <field name="cost_price_unit" widget="monetary" optional="show" groups="product_task_material_work.group_sales_product_cost"/>
+                            <field name="sale_price_unit" widget="monetary" optional="show"/>
+                            <field name="discount" groups="product.group_discount_per_so_line" optional="show"/>
+                            <field name="cost_price" widget="monetary" sum="Total P.C." optional="hide" groups="product_task_material_work.group_sales_product_cost"/>
+                            <field name="sale_price" widget="monetary" sum="Total P.V." optional="show"/>
+                            <field name="material_margin" widget="monetary" groups="product_task_material_work.group_sales_margin" optional="hide"/>
+                            <field name="material_margin_percent" optional="show" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
+                            <field name="company_id" column_invisible="True"/>
+                            <field name="currency_id" column_invisible="True"/>
+                        </tree>
+                    </field>
+                    <separator string="Mano de obra (Compuestos)"/>
+                    <field name="works_ids" nolabel="1">
+                        <tree string="Mano de obra" >
+                            <field name="work_id"/>
+                            <field name="name"/>
+                            <field name="hours" sum="Horas totales" widget="float_time"/>
+                            <field name="cost_price_unit" widget="monetary" optional="show" groups="product_task_material_work.group_sales_product_cost"/>
+                            <field name="sale_price_unit" widget="monetary" optional="show"/>
+                            <field name="discount" groups="product.group_discount_per_so_line" optional="show"/>
+                            <field name="cost_price" widget="monetary" sum="Total P.C." optional="hide" groups="product_task_material_work.group_sales_product_cost"/>
+                            <field name="sale_price" widget="monetary" sum="Total P.V." optional="show"/>
+                            <field name="work_margin" widget="monetary" groups="product_task_material_work.group_sales_margin" optional="hide"/>
+                            <field name="work_margin_percent" optional="show" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
+                            <field name="company_id" column_invisible="True"/>
+                            <field name="currency_id" column_invisible="True"/>
+                        </tree>
+                    </field>
                 </page>
             </xpath>
 
