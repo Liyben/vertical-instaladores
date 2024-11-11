@@ -1,0 +1,5 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_sale_order_task_work_manager","access_sale_order_task_work_manager","resume_material_and_work.model_sale_order_task_work","sales_team.group_sale_salesman","True","True","True","True"
+"access_sale_order_task_materials_manager","access_sale_order_task_materials_manager","resume_material_and_work.model_sale_order_task_material","sales_team.group_sale_salesman","True","True","True","True"
+"access_sale_order_task_work_user","access_sale_order_task_work_user","resume_material_and_work.model_sale_order_task_work","base.group_user","True","False","False","False"
+"access_sale_order_task_materials_user","access_sale_order_task_materials_user","resume_material_and_work.model_sale_order_task_material","base.group_user","True","False","False","False"
