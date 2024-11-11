@@ -29,8 +29,13 @@ class ProjectTaskConvert2Order(models.TransientModel):
 
 	def _get_sale_order_data(self):
 		self.ensure_one()
+		addr = self.task_id.partner_id.address_get(['delivery', 'invoice'])
 		res = {
 			"partner_id": self.task_id.partner_id.id,
+			"partner_invoice_id": addr['invoice'],
+            "partner_shipping_id": addr['delivery'],
+			"pricelist_id": self.task_id.partner_id.property_product_pricelist and self.task_id.partner_id.property_product_pricelist.id,
+            "payment_term_id": self.task_id.partner_id.property_payment_term_id and self.task_id.partner_id.property_payment_term_id.id,
 			"analytic_account_id": self.task_id.analytic_account_id.id or False,
 			"project_id": self.task_id.project_id.id or False,
 			"opportunity_id": self.task_id.oppor_id.id or False,
@@ -60,7 +65,7 @@ class ProjectTaskConvert2Order(models.TransientModel):
 		order_model = self.env["sale.order"].sudo()
 		sale_order_data = self._get_sale_order_data()
 		sale_order = order_model.create(sale_order_data)
-		sale_order.onchange_partner_id()
+		#sale_order.onchange_partner_id()
 
 		order_line_model = self.env["sale.order.line"].sudo()
 		sale_order_line_data = self._get_sale_line_data(sale_order)
