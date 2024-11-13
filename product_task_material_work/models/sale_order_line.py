@@ -23,7 +23,7 @@ class SaleOrderLine(models.Model):
     total_cp_work = fields.Float(string='Total P.C.', digits='Product Price', store=True, compute='_compute_total_cp_work')
     benefit_work = fields.Float(string='Beneficio (%)', digits='Product Price', compute='_compute_benefit_work')
     benefit_work_amount = fields.Float(string='Beneficio (€)', digits='Product Price', compute='_compute_benefit_work')
-    total_hours = fields.Float(string='Total horas', compute='_compute_total_hours')
+    total_hours = fields.Float(string='Total horas', compute='_compute_total_hours', store=True)
     #Precios totales, unitarios  y beneficio de Materiales
     total_sp_material = fields.Float(string='Total P.V.', digits='Product Price', store=True, compute='_compute_total_sp_material')
     total_cp_material = fields.Float(string='Total P.C.', digits='Product Price', store=True, compute='_compute_total_cp_material')

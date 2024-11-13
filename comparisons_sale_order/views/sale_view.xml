@@ -1,0 +1,64 @@
+<odoo>
+   
+    <record model="ir.ui.view" id="view_sale_order_comparations_form">
+        <field name="name">sale.order.comparations.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook[last()]" position="inside">
+                <page string="Comparaciones" groups="comparisons_sale_order.group_sales_comparisons">
+                    <group>
+                        <group>
+                            <group string="Según Presupuesto">
+                                <field name="total_hours" widget="float_time"/>
+                                <field name="cost_price_work_hour" widget="monetary" groups="product_task_material_work.group_sales_product_cost" />
+                                <field name="sale_price_work_hour" widget="monetary" />
+                                <field name="total_cp_work" widget="monetary" groups="product_task_material_work.group_sales_product_cost"/>
+                                <field name="total_sp_work" widget="monetary" />
+                                <field name="benefit_work" widget="percentage" groups="product_task_material_work.group_sales_margin"/>
+                            </group>
+                            <group string="Presupuesto Real">
+                                <field name="total_ideal_hours" widget="float_time"/>
+                                <field name="cost_price_ideal_work_hour" widget="monetary" groups="product_task_material_work.group_sales_product_cost"/>
+                                <field name="sale_price_ideal_work_hour" readonly="1" widget="monetary" />
+                                <field name="total_cp_ideal_work" widget="monetary" groups="product_task_material_work.group_sales_product_cost"/>
+                                <field name="total_sp_ideal_work" widget="monetary" />
+                                <field name="benefit_ideal_work" widget="percentage" groups="product_task_material_work.group_sales_margin"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Materiales">
+                                <group string="Material Ppto">
+                                    <field name="total_cp_material" widget="monetary" groups="product_task_material_work.group_sales_product_cost"/>
+                                    <field name="total_sp_material" widget="monetary" />
+                                    <field name="benefit_material" widget="percentage" groups="product_task_material_work.group_sales_margin"/>
+                                </group>
+                                <group string="Material Real">
+                                    <field name="total_cp_real_material" widget="monetary" groups="product_task_material_work.group_sales_product_cost"/>
+                                    <field name="total_sp_real_material" widget="monetary" />
+                                    <field name="benefit_real_material" widget="percentage" groups="product_task_material_work.group_sales_margin"/>
+                                </group>
+                            </group>
+                            <group string="Margen General" groups="product_task_material_work.group_sales_margin">
+                                <label for="margin_real_monetary" string="Margen Ppto" />
+                                <div>
+                                    <field name="margin_real_monetary" class="oe_inline" nolabel="1" widget="monetary" />
+                                    <span> | </span>
+                                    <field name="margin_real_percent" class="oe_inline" nolabel="1" widget="percentage"/>
+                                </div>
+                                <label for="margin_ideal_monetary" string="Margen Real">
+                                <div>
+                                    <field name="margin_ideal_monetary" class="oe_inline" nolabel="1" widget="monetary"/>
+                                    <span> | </span>
+                                    <field name="margin_ideal_percent" class="oe_inline" nolabel="1" widget="percentage"/>
+                                </div>
+                                <field name="discount_ideal" widget="percentage"/>
+                            </group>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

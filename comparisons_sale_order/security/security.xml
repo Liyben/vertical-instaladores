@@ -1,0 +1,8 @@
+<odoo>
+<data noupdate="1">
+    <record id="group_sales_comparisons" model="res.groups">
+        <field name="name">Mostar pestaña comparaciones en presupuestos y pedidos de venta.</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+</data>
+</odoo>
