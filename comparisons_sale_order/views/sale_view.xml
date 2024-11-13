@@ -18,12 +18,12 @@
                                 <field name="benefit_work" widget="percentage" groups="product_task_material_work.group_sales_margin"/>
                             </group>
                             <group string="Presupuesto Real">
-                                <field name="total_ideal_hours" widget="float_time"/>
-                                <field name="cost_price_ideal_work_hour" widget="monetary" groups="product_task_material_work.group_sales_product_cost"/>
-                                <field name="sale_price_ideal_work_hour" readonly="1" widget="monetary" />
-                                <field name="total_cp_ideal_work" widget="monetary" groups="product_task_material_work.group_sales_product_cost"/>
-                                <field name="total_sp_ideal_work" widget="monetary" />
-                                <field name="benefit_ideal_work" widget="percentage" groups="product_task_material_work.group_sales_margin"/>
+                                <field name="total_real_hours" widget="float_time"/>
+                                <field name="cost_price_real_work_hour" widget="monetary" groups="product_task_material_work.group_sales_product_cost"/>
+                                <field name="sale_price_real_work_hour" readonly="1" widget="monetary" />
+                                <field name="total_cp_real_work" widget="monetary" groups="product_task_material_work.group_sales_product_cost"/>
+                                <field name="total_sp_real_work" widget="monetary" />
+                                <field name="benefit_real_work" widget="percentage" groups="product_task_material_work.group_sales_margin"/>
                             </group>
                         </group>
                         <group>
@@ -40,19 +40,19 @@
                                 </group>
                             </group>
                             <group string="Margen General" groups="product_task_material_work.group_sales_margin">
-                                <label for="margin_real_monetary" string="Margen Ppto" />
+                                <label for="margin_order_monetary" string="Margen Ppto" />
                                 <div>
-                                    <field name="margin_real_monetary" class="oe_inline" nolabel="1" widget="monetary" />
+                                    <field name="margin_order_monetary" class="oe_inline" nolabel="1" widget="monetary" />
+                                    <span> | </span>
+                                    <field name="margin_order_percent" class="oe_inline" nolabel="1" widget="percentage"/>
+                                </div>
+                                <label for="margin_real_monetary" string="Margen Real"/>
+                                <div>
+                                    <field name="margin_real_monetary" class="oe_inline" nolabel="1" widget="monetary"/>
                                     <span> | </span>
                                     <field name="margin_real_percent" class="oe_inline" nolabel="1" widget="percentage"/>
                                 </div>
-                                <label for="margin_ideal_monetary" string="Margen Real">
-                                <div>
-                                    <field name="margin_ideal_monetary" class="oe_inline" nolabel="1" widget="monetary"/>
-                                    <span> | </span>
-                                    <field name="margin_ideal_percent" class="oe_inline" nolabel="1" widget="percentage"/>
-                                </div>
-                                <field name="discount_ideal" widget="percentage"/>
+                                <field name="discount_general" widget="percentage"/>
                             </group>
                         </group>
                     </group>
