@@ -27,17 +27,16 @@
                             </group>
                         </group>
                         <group>
-                            <group string="Materiales">
-                                <group string="Material Ppto">
-                                    <field name="total_cp_material" widget="monetary" groups="product_task_material_work.group_sales_product_cost"/>
-                                    <field name="total_sp_material" widget="monetary" />
-                                    <field name="benefit_material" widget="percentage" groups="product_task_material_work.group_sales_margin"/>
-                                </group>
-                                <group string="Material Real">
-                                    <field name="total_cp_real_material" widget="monetary" groups="product_task_material_work.group_sales_product_cost"/>
-                                    <field name="total_sp_real_material" widget="monetary" />
-                                    <field name="benefit_real_material" widget="percentage" groups="product_task_material_work.group_sales_margin"/>
-                                </group>
+                            <separator string="Materiales"/>
+                            <group string="Material Ppto">
+                                <field name="total_cp_material" widget="monetary" groups="product_task_material_work.group_sales_product_cost"/>
+                                <field name="total_sp_material" widget="monetary" />
+                                <field name="benefit_material" widget="percentage" groups="product_task_material_work.group_sales_margin"/>
+                            </group>
+                            <group string="Material Real">
+                                <field name="total_cp_real_material" widget="monetary" groups="product_task_material_work.group_sales_product_cost"/>
+                                <field name="total_sp_real_material" widget="monetary" />
+                                <field name="benefit_real_material" widget="percentage" groups="product_task_material_work.group_sales_margin"/>
                             </group>
                             <group string="Margen General" groups="product_task_material_work.group_sales_margin">
                                 <label for="margin_order_monetary" string="Margen Ppto" />
