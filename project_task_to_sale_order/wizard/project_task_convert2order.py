@@ -14,7 +14,7 @@ class ProjectTaskConvert2Order(models.TransientModel):
 		comodel_name="project.task", string="Tarea", default=lambda self: self.env.context.get('active_id')
 	)
 	product_id = fields.Many2one(
-		comodel_name="product.product", string="Producto", required=True, domain="[('auto_create_task', '=', True]"
+		comodel_name="product.product", string="Producto", required=True, domain="[('auto_create_task', '=', True)]"
 	)
 
 	def _get_sale_order_data(self):
