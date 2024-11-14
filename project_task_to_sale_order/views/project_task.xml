@@ -1,0 +1,21 @@
+<odoo>
+   
+    <record model="ir.ui.view" id="view_project_task_to_sale_order_form">
+        <field name="name">project.task.to.sale.order.form</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <field name="stage_id" position="before">
+                <button
+                    class="oe_highlight"
+                    type="action"
+                    name="%(project_task_convert2order_action)d"
+                    attrs="not allow_billable or sale_line_id" 
+                    string="Crear presupuesto"
+                    groups="project.group_project_manager"
+                />
+            </field>
+        </field>
+    </record>
+
+</odoo>
