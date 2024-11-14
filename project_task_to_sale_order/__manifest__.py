@@ -14,6 +14,7 @@
     'author': 'Seges',
     'depends': ['product_task_material_work'],
     'data': [
+        'security/ir.model.access.csv',
         'wizard/project_task_convert2order_views.xml',
         'views/project_task.xml',
         ],
