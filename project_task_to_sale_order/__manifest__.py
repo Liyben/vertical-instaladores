@@ -14,8 +14,8 @@
     'author': 'Seges',
     'depends': ['product_task_material_work'],
     'data': [
-        'views/project_task.xml',
         'wizard/project_task_convert2order_views.xml',
+        'views/project_task.xml',
         ],
     'qweb': [],
     'images': [
