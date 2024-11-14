@@ -95,10 +95,10 @@ class ProjectTaskConvert2Order(models.TransientModel):
 				work_list = False
 
 			#Calculamos la nueva descripción de la linea de pedido asociada
-			nameToText = 'Parte de Trabajo: ' + self.task_id.name + '<br/>'
+			nameToText = 'Parte de Trabajo: ' + self.task_id.name
 
 			if self.task_id.work_to_do:
-				nameToText += self.task_id.work_to_do + '<br/>'
+				nameToText += self.task_id.work_to_do
 
 			#Limpiamos la lista de trabajos y materiales de la linea de pedido asociada
 			sale_order_line.update({'task_works_ids' : False,

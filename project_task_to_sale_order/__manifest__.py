@@ -13,6 +13,7 @@
     """,
     'author': 'Seges',
     'depends': ['product_task_material_work'],
+    'external_dependencies': {"python": ['html2text']},
     'data': [
         'security/ir.model.access.csv',
         'wizard/project_task_convert2order_views.xml',
