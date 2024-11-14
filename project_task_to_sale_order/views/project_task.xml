@@ -10,7 +10,7 @@
                     class="oe_highlight"
                     type="action"
                     name="%(project_task_convert2order_action)d"
-                    attrs="not allow_billable or sale_line_id" 
+                    invisible="not allow_billable or sale_line_id" 
                     string="Crear presupuesto"
                     groups="project.group_project_manager"
                 />
