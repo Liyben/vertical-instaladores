@@ -4,6 +4,8 @@
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 
+import html2text
+
 class ProjectTaskConvert2Order(models.TransientModel):
 	"""wizard to convert a Project task into a Order"""
 
@@ -70,7 +72,7 @@ class ProjectTaskConvert2Order(models.TransientModel):
 						'material_id' : move.product_id.id,
 						'name' : move.name,
 						'quantity' : move.product_uom_qty,
-						'sale_price_unit' : move.product_id.list_price,
+						'sale_price_unit' : move.product_id.lst_price,
 						'cost_price_unit' : move.product_id.standard_price,
 						'discount' : 0.0
 						}))
@@ -85,7 +87,7 @@ class ProjectTaskConvert2Order(models.TransientModel):
 							'name' : work.name,
 							'work_id': work.employee_id.work_id.id,
 							'hours' : work.unit_amount,
-							'sale_price_unit' : work.employee_id.work_id.standard_price if work.employee_id.work_id else 0.0,
+							'sale_price_unit' : work.employee_id.work_id.lst_price if work.employee_id.work_id else 0.0,
 							'cost_price_unit' : work.employee_id.work_id.standard_price if work.employee_id.work_id else 0.0,
 							'discount' : 0.0
 						}))
@@ -106,7 +108,7 @@ class ProjectTaskConvert2Order(models.TransientModel):
 			#Actualizamos con las nuevas listas de trabajos y materiales de la linea de pedido asociada
 			sale_order_line.update({'task_works_ids' : work_list,
 								'task_materials_ids' : material_list,
-								'name' : nameToText,
+								'name' : html2text.html2text(nameToText),
 								'task_id' : self.task_id.id,
 								})
 					
