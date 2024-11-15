@@ -1,0 +1,32 @@
+<odoo>
+   
+    <record model="ir.ui.view" id="view_project_task_by_administration_form">
+        <field name="name">project.task.by.administration.form.inherit</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <field name="task_to_invoice" invisible="1"/>
+                <button 
+                    name="sale_order_action_recalculate" 
+                    type="object" 
+                    class="oe_stat_button"
+                    icon="fa-file-text-o" 
+                    invisible="not task_to_invoice" 
+                    confirm="¿Estas seguro que quiere pasarlo a 'Por Administración'?" 
+                    groups="project.group_project_manager"
+                >
+        			    <span
+                        class="text-success"
+                        invisible="by_administration"
+                        >Por Administración</span>
+                        <span
+                            class="text-danger"
+                            invisible="not by_administration"
+                        >Por Administración</span>
+        		</button>
+            </div>
+        </field>
+    </record>
+
+</odoo>
