@@ -15,7 +15,7 @@
     'depends': ['product_task_material_work'],
     'data': [
         'security/ir.model.access.csv',
-        'wizard/project_task_convert2order_views.xml',
+        'wizard/crm_lead_convert2task_views.xml',
         'views/crm_lead_views.xml'
         ],
     'qweb': [],
