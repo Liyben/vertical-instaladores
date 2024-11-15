@@ -50,10 +50,10 @@ class ProjectTask(models.Model):
                 work_list = False
 
             #Calculamos la nueva descripción de la linea de pedido asociada
-            nameToText = 'Parte de Trabajo: ' + self.task_id.name
+            nameToText = 'Parte de Trabajo: ' + self.name
 
-            if self.task_id.work_to_do:
-                nameToText += self.task_id.work_to_do
+            if self.work_to_do:
+                nameToText += self.work_to_do
 
             #Limpiamos la lista de trabajos y materiales de la linea de pedido asociada
             self.sale_line_id.update({'task_works_ids' : False,

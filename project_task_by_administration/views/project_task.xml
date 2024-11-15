@@ -19,11 +19,11 @@
                 >
         			    <span
                         class="text-success"
-                        invisible="by_administration"
+                        invisible="not by_administration"
                         >Por Administración</span>
                         <span
                             class="text-danger"
-                            invisible="not by_administration"
+                            invisible="by_administration"
                         >Por Administración</span>
         		</button>
             </div>
