@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <!-- New fields -->
             <page name="extra" position="after">
-                <page string="Tareas">
+                <page string="Tareas" name="tasks">
                     <field name="task_ids" readonly="1" groups="hr_timesheet.group_hr_timesheet_user"/>
                 </page>
             </page>
