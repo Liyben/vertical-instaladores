@@ -23,8 +23,8 @@
             </xpath>
 
             <xpath expr="//field[@name='payment_term_id']" position="after">
-                <!--<field name="account_analytic_group_id" groups="analytic.group_analytic_accounting" />-->
-                <field name="analytic_account_id" context="{'default_partner_id':partner_invoice_id, 'default_name':name}" readonly= "invoice_count != 0 and state == 'sale'" groups="analytic.group_analytic_accounting" force_save="1"/>
+                <field name="plan_id" groups="analytic.group_analytic_accounting" />
+                <field name="analytic_account_id" context="{'default_partner_id':partner_invoice_id, 'default_name':name, 'default_plan_id': plan_id}" readonly= "invoice_count != 0 and state == 'sale'" groups="analytic.group_analytic_accounting" force_save="1"/>
                 <field name="visible_project" invisible="1"/>
                 <field name="project_id" options="{'no_create': True}" invisible="not visible_project"/>
             </xpath>

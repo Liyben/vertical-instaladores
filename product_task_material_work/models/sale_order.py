@@ -91,17 +91,28 @@ class SaleOrder(models.Model):
                 
         return res
 
-    #Grupo cuenta analitica
-    #account_analytic_group_id = fields.Many2one('account.analytic.group', string='Grupo', check_company=True) 
+    #Override función para los datos de la cuenta analitica
+    def _prepare_analytic_account_data(self, prefix=None):
+        """ Prepare SO analytic account creation values.
 
-    #Método para los datos de la cuenta analitica
-    """ def _prepare_analytic_account_data(self, prefix=None):
-        analytic_account_vals = super(SaleOrder, self)._prepare_analytic_account_data(prefix)
-
-        for order in self: 
-            if order.account_analytic_group_id:
-                analytic_account_vals.update({'group_id': order.account_analytic_group_id.id})
-
-        return analytic_account_vals """
-
-        
+        :param str prefix: The prefix of the to-be-created analytic account name
+        :return: `account.analytic.account` creation values
+        :rtype: dict
+        """
+        self.ensure_one()
+        name = self.name
+        if prefix:
+            name = prefix + ": " + self.name
+        plan = self.plan_id
+        if not plan:
+            #plan = self.env['account.analytic.plan'].sudo().search([], limit=1)
+            plan = self.env['account.analytic.plan'].sudo().create({
+                'name': name,
+            })
+        return {
+            'name': name,
+            'code': self.client_order_ref,
+            'company_id': self.company_id.id,
+            'plan_id': plan.id,
+            'partner_id': self.partner_id.id,
+        }
