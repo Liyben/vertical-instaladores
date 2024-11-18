@@ -5,32 +5,22 @@
     
     <template id="report_saleorder_document" inherit_id="sale.report_saleorder_document">
 
-        <xpath expr="//div[@class='page']" position="inside">
-            <link rel="stylesheet" href="/product_task_material_work/static/src/css/report.css"/>
-        </xpath>
-        
-        <!-- Tamaño de letra del report -->
+        <!-- Tamaño de letra del report 
         <xpath expr="//div[@class='page']" position="attributes">
           <attribute name="style">font-size: 11px !important;</attribute>
-        </xpath>
+        </xpath> -->
 
         <!-- Impresión de albarán de venta-->
-        <xpath expr="//h2[@class='mt16']" position="replace">
-            <h2 class="mt16">
-                <t t-if="not (env.context.get('proforma', False) or is_pro_forma or is_delivery_note)">
-                    <span t-if="doc.state not in ['draft','sent']">Pedido # </span>
-                    <span t-if="doc.state in ['draft','sent']">Presupuesto # </span>
-                </t>
-                <t t-if="env.context.get('proforma', False) or is_pro_forma">
-                    <span>Factura Proforma # </span>
-                </t>
-                <t t-if="is_delivery_note">
-                    <span>Albarán de venta # </span>
-                </t>
-                <span t-field="doc.name"/>
+        <xpath expr="//h2[@class='mt-4']" position="replace">
+            <h2 class="mt-4">
+                <span t-if="env.context.get('proforma', False) or is_pro_forma">Factura Proforma # </span>
+                <span t-elif="is_delivery_note">Albarán de venta # </span>
+                <span t-elif="doc.state in ['draft','sent']">Presupuesto # </span>
+                <span t-else="">Pedido # </span>
+                <span t-field="doc.name">SO0000</span>
             </h2>
         </xpath>
-
+        <!--
         <xpath expr="//p[@t-if='doc.payment_term_id.note']" position="replace">
 
         </xpath>
@@ -40,24 +30,17 @@
                 <span t-field="doc.payment_term_id.note"/>
             </p>
         </xpath>
-
+        -->
         <xpath expr="//div[@id='informations']" position="replace">
-            <div class="row mt32 mb32" id="informations">
-                <!--<div t-if="doc.confirmation_date and doc.state not in ['draft','sent']" class="col-xs-3">
-                    <strong>Date Ordered:</strong>
-                    <p t-field="doc.confirmation_date"/>
-                </div>-->
-                <div t-if="doc.date_order and doc.state in ['draft','sent']" class="col-auto col-3 mw-100 mb-2">
-                    <strong>Fecha del presupuesto:</strong>
-                    <p class="m-0" t-field="doc.date_order" t-options="{&quot;widget&quot;: &quot;date&quot;}"/>
-                </div>
-                <div t-if="doc.date_order and doc.state not in ['draft','sent']" class="col-auto col-3 mw-100 mb-2">
-                    <strong>Fecha del pedido:</strong>
-                    <p class="m-0" t-field="doc.date_order" t-options="{&quot;widget&quot;: &quot;date&quot;}"/>
+            <div class="row mt-4 mb-2" id="informations">
+                <div t-if="doc.date_order" class="col-auto col-3 mw-100 mb-2" name="informations_date">
+                    <strong t-if="doc.state in ['draft', 'sent']">Fecha del presupuesto:</strong>
+                    <strong t-else="">Fecha del pedido:</strong><br/>
+                    <span class="m-0" t-field="doc.date_order" t-options='{"widget": "date"}'>2023-12-31</span>
                 </div>
                 <div t-if="doc.user_id.name" class="col-auto col-3 mw-100 mb-2">
                     <strong>Comercial:</strong>
-                    <p class="m-0" t-field="doc.user_id"/>
+                    <span class="m-0" t-field="doc.user_id">Mitchell Admin</span>
                 </div>
                 <div t-if="doc.ref" class="col-auto col-3 mw-100 mb-2">
                     <strong>Nº cliente:</strong>
@@ -67,20 +50,18 @@
                     <strong>Ref. del cliente:</strong>
                     <p class="m-0" t-field="doc.client_order_ref"/>
                 </div>
-                <!--<div name="payment_term" t-if="doc.payment_term_id" class="col-auto col-3 mw-100 mb-2">
-                    <strong>Plazo de pago:</strong>
-                    <p class="m-0" t-field="doc.payment_term_id"/>
-                </div>-->
-                <div t-if="doc.validity_date and doc.state in ['draft', 'sent']" class="col-auto col-3 mw-100 mb-2" name="expiration_date">
-                    <strong>Fecha de caducidad:</strong>
-                    <p class="m-0" t-field="doc.validity_date"/>
+                <div t-if="doc.validity_date and doc.state in ['draft', 'sent']"
+                    class="col-auto col-3 mw-100 mb-2"
+                    name="expiration_date">
+                    <strong>Fecha de caducidad:</strong><br/>
+                    <span class="m-0" t-field="doc.validity_date">2023-12-31</span>
                 </div>
             </div>
         </xpath>
 
-        <xpath expr="//table[@class='table table-sm o_main_table']" position="before">
+        <xpath expr="//table[@class='table table-sm o_main_table table-borderless mt-4']" position="before">
             <t t-if="not display_discount">
-                <t t-foreach="doc.order_line" t-as="line">
+                <t t-foreach="lines_to_report" t-as="line">
                     <t t-set="display_discount" t-value="any([work.discount for work in line.task_works_ids])"/>
                     <t t-if="not display_discount">
                         <t t-set="display_discount" t-value="any([material.discount for material in line.task_materials_ids])"/>
@@ -89,17 +70,16 @@
             </t>
         </xpath>
         
-        <xpath expr="//table[@class='table table-sm o_main_table']" position="replace">
+        <xpath expr="//table[@class='table table-sm o_main_table table-borderless mt-4']" position="replace">
             <table class="table table-sm o_main_table">
                 <thead style="display: table-row-group">
                     <tr>
                         <th name="th_description" >Descripción</th>
                         <th name="th_quantity" class="text-right">Cantidad</th>
                         <th t-if="not (is_without_valuing and is_delivery_note)" name="th_priceunit" class="text-right">P. Und</th>
-                        <th t-if="not (is_without_valuing and is_delivery_note) and display_discount" name="th_discount" class="text-right" groups="product.group_discount_per_so_line">Desc.%</th>
+                        <th t-if="not (is_without_valuing and is_delivery_note) and display_discount" name="th_discount" class="text-end">Desc.%</th>
                         <th t-if="not (is_without_valuing and is_delivery_note)" name="th_subtotal" class="text-right">
-                            <span groups="account.group_show_line_subtotals_tax_excluded">Importe</span>
-                            <span groups="account.group_show_line_subtotals_tax_included">Total</span>
+                            <span>Total</span>
                         </th>
                     </tr>
                 </thead>
@@ -107,57 +87,61 @@
 
                     <t t-set="current_subtotal" t-value="0"/>
 
-                    <t t-foreach="doc.order_line" t-as="line">
+                    <t t-foreach="lines_to_report" t-as="line">
 
-                        <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
-                        <t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+                        <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" />
 
-                        <tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
+                        <tr t-att-class="'bg-200 fw-bold o_line_section' if line.display_type == 'line_section' else 'fst-italic o_line_note' if line.display_type == 'line_note' else ''">
                             <t t-if="not line.display_type">
-                                <td name="td_name"><span t-field="line.name"/></td>
+                                <td name="td_name"><span t-field="line.name">Bacon Burger</span></td>
                                 <!-- IMPRESION DE SOLO TEXTO CUANDO LA CANTIDAD ES 0 -->
-                                <td name="td_quantity" class="text-right">
+                                <td name="td_quantity" class="text-end">
                                     <t t-if="not line.product_uom_qty == 0">
-                                        <span t-field="line.product_uom_qty"/>
-                                        <span t-field="line.product_uom"/>
+                                        <span t-field="line.product_uom_qty">3</span>
+                                        <span t-field="line.product_uom">units</span>
+                                        <span t-if="line.product_packaging_id">
+                                            (<span t-field="line.product_packaging_qty" t-options='{"widget": "integer"}'/> <span t-field="line.product_packaging_id"/>)
+                                        </span>
                                     </t>
                                 </td>
-                                <td t-if="not (is_without_valuing and is_delivery_note)" name="td_priceunit" class="text-right">
+                                <td t-if="not (is_without_valuing and is_delivery_note)" name="td_priceunit" class="text-end">
                                     <t t-if="not line.product_uom_qty == 0">
-                                        <span t-field="line.price_unit"/>
+                                        <span t-field="line.price_unit">3</span>
                                     </t>
                                 </td>
-                                <td t-if="not (is_without_valuing and is_delivery_note) and display_discount" class="text-right" groups="product.group_discount_per_so_line">
+                                <td t-if="not (is_without_valuing and is_delivery_note) and display_discount" class="text-end">
                                     <t t-if="not line.product_uom_qty == 0">
-                                        <span t-field="line.discount"/>
+                                        <span t-field="line.discount">-</span>
                                     </t>
                                 </td>
-                                <td t-if="not (is_without_valuing and is_delivery_note)" name="td_total" class="text-right o_price_total">
+                                <td t-if="not line.is_downpayment and not (is_without_valuing and is_delivery_note)" name="td_subtotal" class="text-end o_price_total">
                                     <t t-if="not line.product_uom_qty == 0">
-                                        <span t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
-                                        <span t-field="line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+                                        <span t-field="line.price_subtotal">27.00</span>
                                     </t>
                                 </td>
                             </t>
-                            <t t-if="line.display_type == 'line_section'">
+                            <t t-elif="line.display_type == 'line_section'">
                                 <td name="td_section_line" colspan="99">
-                                    <span t-field="line.name"/>
+                                    <span t-field="line.name">A section title</span>
                                 </td>
                                 <t t-set="current_section" t-value="line"/>
                                 <t t-set="current_subtotal" t-value="0"/>
                             </t>
-                            <t t-if="line.display_type == 'line_note'">
+                            <t t-elif="line.display_type == 'line_note'">
                                 <td name="td_note_line" colspan="99">
-                                    <span t-field="line.name"/>
+                                    <span t-field="line.name">A note, whose content usually applies to the section or product above.</span>
                                 </td>
                             </t>
                         </tr>
 
-                        <t t-if="current_section and (line_last or doc.order_line[line_index+1].display_type == 'line_section')">
-                            <tr t-if="not (is_without_valuing and is_delivery_note)" class="is-subtotal text-right">
+                        <t t-if="current_section and (line_last or lines_to_report[line_index+1].display_type == 'line_section') and not line.is_downpayment">
+                            <tr t-if="not (is_without_valuing and is_delivery_note)" class="is-subtotal text-end">
                                 <td name="td_section_subtotal" colspan="99">
                                     <strong class="mr16">Subtotal</strong>
-                                    <span t-esc="current_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
+                                    <span
+                                        t-out="current_subtotal"
+                                        t-options='{"widget": "monetary", "display_currency": doc.currency_id}'
+                                    >31.05</span>
                                 </td>
                             </tr>
                         </t>

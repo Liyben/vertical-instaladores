@@ -14,25 +14,37 @@
     'author': 'Seges',
     'depends': ['sale_project','sale_crm','project_timesheet_time_control','sale_order_invoicing_finished_task','sale_margin','crm_timesheet'],
     'data': [
+        'security/ir.model.access.csv',
+        'security/security.xml',
+
+        'report/ir_actions_report_sale_templates.xml',
+        'report/ir_actions_report.xml',
+
         'data/project_data.xml',
         'data/ir_actions_server_data.xml',
         'data/stock_picking_type_data.xml',
-        'security/ir.model.access.csv',
-        'security/security.xml',
+
+        'wizard/sale_order_merge_task_wizard_views.xml',
+
         'views/product_view.xml',
         'views/sale_view.xml',
         'views/project_task.xml',
         'views/crm_lead_view.xml',
         'views/hr_view.xml',
         'views/account_move_view.xml',
-        'wizard/sale_order_merge_task_wizard_views.xml',
             ],
     'qweb': [],
     'images': [
     ],
     'demo': [
     ],
-    'css': [
-    ],
+    'assets': {
+        'web.report_assets_common': [
+            'product_task_material_work/static/src/css/report.css',
+        ],
+        'web.report_assets_pdf': [
+            'product_task_material_work/static/src/css/report.css',
+        ],
+    },
     'installable': True,
 }
