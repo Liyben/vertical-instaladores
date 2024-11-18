@@ -85,7 +85,7 @@ class ProdcutTaskWork(models.Model):
 		for record in self:
 			if not record.work_id:
 				continue
-			record.sale_price_unit = record.work_id.list_price
+			record.sale_price_unit = record.work_id.lst_price
 			record.cost_price_unit = record.work_id.standard_price
 
 

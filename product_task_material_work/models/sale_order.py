@@ -46,6 +46,12 @@ class SaleOrder(models.Model):
         precompute=True,
     )
 
+    #Campo para el plan analitico
+    plan_id = fields.Many2one(
+        'account.analytic.plan',
+        string='Plan analítico',
+    )
+    
     @api.depends('company_id')
     def _compute_stock_options(self):
         for order in self:

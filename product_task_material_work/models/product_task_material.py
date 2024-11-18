@@ -84,7 +84,7 @@ class ProductTaskMaterial(models.Model):
 		for record in self:
 			if not record.material_id:
 				continue
-			record.sale_price_unit = record.material_id.list_price
+			record.sale_price_unit = record.material_id.lst_price
 			record.cost_price_unit = record.material_id.standard_price
 	
 		

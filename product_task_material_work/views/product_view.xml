@@ -16,7 +16,7 @@
                         <group>
                             <group>
                                 <field name="see_works_and_materials"/>
-                                <field name="apply_pricelist" groups="product_task_material_work.group_sales_apply_pricelist"/>
+                                <!--<field name="apply_pricelist" groups="product_task_material_work.group_sales_apply_pricelist"/>-->
                                 <field name="auto_create_task" invisible="1"/>
                             </group>
                             <group>
@@ -38,7 +38,7 @@
                                     <field name="sale_price" widget="monetary" sum="Total P.V." optional="show"/>
                                     <field name="work_margin" widget="monetary" optional="hide" groups="product_task_material_work.group_sales_margin"/>
                                     <field name="work_margin_percent" optional="show" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
-                                    <field name="company_id" invisible="0"/>
+                                    <field name="company_id" column_invisible="True"/>
                                     <field name="currency_id" column_invisible="True"/>
                                 </tree>
                             </field>
@@ -68,7 +68,7 @@
                                     <field name="sale_price" widget="monetary" sum="Total P.V." optional="show"/>
                                     <field name="material_margin" widget="monetary" optional="hide" groups="product_task_material_work.group_sales_margin"/>
                                     <field name="material_margin_percent" optional="show" groups="product_task_material_work.group_sales_margin" widget="percentage"/>
-                                    <field name="company_id" invisible="0"/>
+                                    <field name="company_id" column_invisible="True"/>
                                     <field name="currency_id" column_invisible="True"/>
                                 </tree>
                             </field>

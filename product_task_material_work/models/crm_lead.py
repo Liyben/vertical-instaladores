@@ -8,3 +8,9 @@ class CrmLead(models.Model):
 	
 	#Campo para relacionar Aviso / Oportunidad con PT
 	task_ids = fields.One2many(comodel_name='project.task', inverse_name='oppor_id', string="Partes de Trabajo")
+	
+	#Campo para el plan analitico
+	plan_id = fields.Many2one(
+        'account.analytic.plan',
+        string='Plan analítico',
+    )
