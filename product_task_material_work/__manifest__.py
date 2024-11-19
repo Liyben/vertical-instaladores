@@ -18,6 +18,7 @@
         'security/security.xml',
 
         'report/ir_actions_report_sale_templates.xml',
+        'report/ir_actions_report_invoice_templates.xml',
         'report/ir_actions_report.xml',
 
         'data/project_data.xml',

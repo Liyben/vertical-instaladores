@@ -74,10 +74,10 @@
                 <thead style="display: table-row-group">
                     <tr>
                         <th name="th_description" >Descripción</th>
-                        <th name="th_quantity" class="text-right">Cantidad</th>
-                        <th t-if="not (is_without_valuing and is_delivery_note)" name="th_priceunit" class="text-right">P. Und</th>
+                        <th name="th_quantity" class="text-end">Cantidad</th>
+                        <th t-if="not (is_without_valuing and is_delivery_note)" name="th_priceunit" class="text-end">P. Und</th>
                         <th t-if="not (is_without_valuing and is_delivery_note) and display_discount" name="th_discount" class="text-end">Desc.%</th>
-                        <th t-if="not (is_without_valuing and is_delivery_note)" name="th_subtotal" class="text-right">
+                        <th t-if="not (is_without_valuing and is_delivery_note)" name="th_subtotal" class="text-end">
                             <span>Total</span>
                         </th>
                     </tr>
@@ -161,7 +161,7 @@
                         </td>
                         <td t-if="not (is_without_valuing and is_delivery_note)" class="works_hours_price">                            
                         </td>
-                        <td t-if="not (is_without_valuing and is_delivery_note) and display_discount" class="text-right"></td>
+                        <td t-if="not (is_without_valuing and is_delivery_note) and display_discount" class="text-end"></td>
                         <td t-if="not (is_without_valuing and is_delivery_note)" class="works_total_amount">
                             <t t-if="line.detailed_subtotal_price_time">
                                 <span t-esc="'{0:,.2f}'.format(line.total_sp_work).replace('.', ',')"/> <span t-field="doc.pricelist_id.currency_id.symbol"/>
@@ -203,7 +203,7 @@
                         <td class="materials_lbl">Total Materiales Und.</td>
                         <td></td>
                         <td t-if="not (is_without_valuing and is_delivery_note)"></td>
-                        <td t-if="not (is_without_valuing and is_delivery_note) and display_discount" class="text-right"></td>
+                        <td t-if="not (is_without_valuing and is_delivery_note) and display_discount" class="text-end"></td>
                         <td t-if="not (is_without_valuing and is_delivery_note)" class="materials_total_amount">
                             <t t-if="line.detailed_subtotal_price_materials">
                                 <span t-esc="'{0:,.2f}'.format(line.total_sp_material).replace('.', ',')"/> <span t-field="doc.pricelist_id.currency_id.symbol"/>
