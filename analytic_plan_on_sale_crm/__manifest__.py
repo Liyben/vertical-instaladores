@@ -14,7 +14,7 @@
     'author': 'Seges',
     'depends': ['sale_project', 'crm_timesheet'],
     'data': [
-        'views/crm_lead_views.xml'
+        'views/crm_lead_views.xml',
         'views/sale_view.xml'
         ],
     'qweb': [],
