@@ -16,6 +16,12 @@ class SaleOrder(models.Model):
         string='Plan analítico',
     )
 
+    @api.onchange('analytic_account_id')
+    def _onchange_analytic_account_id(self):
+        for record in self:
+            if record.analytic_account_id.plan_id:
+                record.plan_id = record.analytic_account_id.plan_id.id
+
     #Override función para los datos de la cuenta analitica
     def _prepare_analytic_account_data(self, prefix=None):
         """ Prepare SO analytic account creation values.
