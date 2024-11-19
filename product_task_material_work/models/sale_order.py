@@ -46,12 +46,6 @@ class SaleOrder(models.Model):
         precompute=True,
     )
 
-    #Campo para el plan analitico
-    plan_id = fields.Many2one(
-        'account.analytic.plan',
-        string='Plan analítico',
-    )
-    
     @api.depends('company_id')
     def _compute_stock_options(self):
         for order in self:
@@ -91,28 +85,3 @@ class SaleOrder(models.Model):
                 
         return res
 
-    #Override función para los datos de la cuenta analitica
-    def _prepare_analytic_account_data(self, prefix=None):
-        """ Prepare SO analytic account creation values.
-
-        :param str prefix: The prefix of the to-be-created analytic account name
-        :return: `account.analytic.account` creation values
-        :rtype: dict
-        """
-        self.ensure_one()
-        name = self.name
-        if prefix:
-            name = prefix + ": " + self.name
-        plan = self.plan_id
-        if not plan:
-            #plan = self.env['account.analytic.plan'].sudo().search([], limit=1)
-            plan = self.env['account.analytic.plan'].sudo().create({
-                'name': name,
-            })
-        return {
-            'name': name,
-            'code': self.client_order_ref,
-            'company_id': self.company_id.id,
-            'plan_id': plan.id,
-            'partner_id': self.partner_id.id,
-        }

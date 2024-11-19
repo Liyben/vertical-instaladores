@@ -12,7 +12,7 @@
 
     """,
     'author': 'Seges',
-    'depends': ['sale_project','sale_crm','project_timesheet_time_control','sale_order_invoicing_finished_task','sale_margin','crm_timesheet'],
+    'depends': ['sale_crm','project_timesheet_time_control','sale_order_invoicing_finished_task','sale_margin','analytic_plan_on_sale_crm'],
     'data': [
         'security/ir.model.access.csv',
         'security/security.xml',
