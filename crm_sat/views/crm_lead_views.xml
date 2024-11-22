@@ -119,9 +119,9 @@
                 <label for="sequence_code" string="  " class="oe_inline" />
             </field>
 
-            <field name="date_deadline" position="before">
+            <label for="date_deadline" position="before">
                 <field name="date_creation" />
-            </field>
+            </label>
 
             <field name="user_id" position="before">
                 <field name="worker_one" />
