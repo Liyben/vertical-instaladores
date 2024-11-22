@@ -12,18 +12,20 @@
 
     """,
     'author': 'Seges',
-    'depends': ['sale_crm','project_timesheet_time_control','sale_order_invoicing_finished_task','sale_margin','analytic_plan_on_sale_crm'],
+    'depends': ['sale_crm','project_timesheet_time_control','sale_order_invoicing_finished_task','sale_margin','analytic_plan_on_sale_crm',],
     'data': [
         'security/ir.model.access.csv',
         'security/security.xml',
 
         'report/ir_actions_report_sale_templates.xml',
         'report/ir_actions_report_invoice_templates.xml',
+        'report/ir_actions_report_task_templates.xml',
         'report/ir_actions_report.xml',
 
         'data/project_data.xml',
         'data/ir_actions_server_data.xml',
         'data/stock_picking_type_data.xml',
+        'data/task_sequence.xml',
 
         'wizard/sale_order_merge_task_wizard_views.xml',
 

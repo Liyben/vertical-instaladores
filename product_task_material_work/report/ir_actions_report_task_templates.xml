@@ -7,10 +7,10 @@
                 <t t-call="web.external_layout">
                     <div class="page" style="font-size: 10px !important;">
 
-                        <table class="table table-sm o_main_table">
+                        <table class="table table-sm o_main_table table-borderless">
                             <tbody>
                                 <tr>
-                                    <td colspan="6" style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:0;">PARTE DE TRABAJO <span t-field="o.code" /></td>                                
+                                    <td colspan="6" style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:0;">PARTE DE TRABAJO <span t-field="o.sequence_code" /></td>                                
                                 </tr>
                                 <tr>
                                     <td style="font-weight:normal;border:0;">
@@ -29,7 +29,7 @@
                                     <td style="font-weight:bold;border:0;">Fecha </td>
                                     <td style="font-weight:normal;border: 1px solid #238AA9;width: 125px;"><span t-field="o.date_task" t-options="{&quot;widget&quot;: &quot;date&quot;}"/></td>
                                     <td style="font-weight:bold;border:0;">Asignado</td>
-                                    <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="o.user_id" /></td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"><div t-foreach="o.user_ids" t-as="user" t-esc="user.name"/></td>
                                     <td style="font-weight:bold;border:0;">Fecha Límite</td>
                                     <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="o.date_deadline" t-options="{&quot;widget&quot;: &quot;date&quot;}"/></td>
                                 </tr>
@@ -41,7 +41,7 @@
                                     <td style="font-weight:bold;border:0;">Obra</td>
                                     <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="o.project_id.name" /></td>
                                     <td style="font-weight:bold;border:0;">Horas Estimadas</td>
-                                    <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="o.planned_hours" /></td>
+                                    <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="o.allocated_hours" /></td>
                                     <td style="font-weight:bold;border:0;">Revisor</td>
                                     <td style="font-weight:normal;border:1px solid #238AA9;"><span t-field="o.project_id.user_id" /></td>
                                 </tr>
@@ -52,7 +52,7 @@
                             </tbody>
                         </table>                             
 <!--===================DATOS DEL CLIENTE=======================-->                             
-                        <table class="table table-sm o_main_table">
+                        <table class="table table-sm o_main_table table-borderless">
                             <tbody t-if="not o.sale_order_id">
                                 <tr>
                                     <td colspan="4" style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:0;">CLIENTE</td>
@@ -113,7 +113,7 @@
                             </tbody>
                         </table>
 <!--===================TRABAJOS A REALIZAR=========================--> 
-                        <table class="table table-sm o_main_table">
+                        <table class="table table-sm o_main_table table-borderless">
                             <tbody>
                                 <tr>
                                     <td style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:1px solid #238AA9;">TRABAJO A REALIZAR</td>
@@ -124,7 +124,7 @@
                             </tbody>
                         </table>
 <!--====================TRABAJOS REALIZADO======================--> 
-                        <table class="table table-sm o_main_table">
+                        <table class="table table-sm o_main_table table-borderless">
                             <tbody>
                                 <tr>
                                     <td style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:1px solid #238AA9;">TRABAJO REALIZADO</td>
@@ -141,7 +141,7 @@
                             </tbody>
                         </table>
 <!--===================MATERIALES EMPLEADOS=======================--> 
-                        <table class="table table-sm o_main_table">
+                        <table class="table table-sm o_main_table table-borderless">
                             <tbody>
                                 <tr>
                                     <td style="background-color:#238AA9;color:#ffffff;font-weight:bold;border:1px solid #238AA9;;width:85%;">MATERIALES EMPLEADOS</td>
@@ -171,12 +171,12 @@
                         </table>                             
 
 <!--====================FIRMA======================--> 
-                        <table class="table table-sm o_main_table">
+                        <table class="table table-sm o_main_table table-borderless">
                             <tbody>
                                 <tr style="background-color: #FFFFFF;">
                                     <td style="valign:bottom;">
                                         <div style="text-align: right;">
-                                            <strong>Conforme cliente: </strong><span t-field="o.sign_by"/>
+                                            <strong>Conforme cliente: </strong><span t-field="o.signed_by"/>
                                         </div>
                                         <img t-att-src="'data:image/png;base64,%s' % to_text(o.signature)" width="35%" height="35%" style="float: right;"/>
                                     </td>
