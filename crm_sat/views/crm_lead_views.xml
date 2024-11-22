@@ -1,0 +1,134 @@
+<odoo>
+        
+        <!-- Vistas heredadas -->
+    <record model="ir.ui.view" id="crm_sat_quick_create_opportunity_form">
+        <field name="name">crm.sat.quick.create.opportunity.form</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.quick_create_opportunity_form" />
+        <field name="arch" type="xml">
+        
+            <xpath expr="//field[@name='mobile']" position="replace"></xpath>
+
+            <xpath expr="//field[@name='phone']" position="replace"></xpath>
+
+            <xpath expr="//field[@name='email_from']" position="after">
+                <field name="mobile" string="Móvil" />
+                <field name="has_tags" invisible="1"/>
+                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}" required="0"/>
+                <field name="team_id" string="Equipo de venta" required="0"/>
+            </xpath>
+
+            <xpath expr="//field[@name='zip']" position="after">
+                <field name="phone" invisible="1" />
+            </xpath>
+
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="crm_sat_code_tree_view">
+        <field name="name">crm.sat.code.tree</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_oppor" />
+        <field name="arch" type="xml">
+            <field name="name" position="before">
+                <field name="sequence_code" />
+            </field>
+            <field name="user_id" position="before">
+                <field name="worker_one" widget="many2one_avatar_user" optional="show" domain="[('share', '=', False)]"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="crm_sat_search_view">
+        <field name="name">crm.sat.code.search</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.view_crm_case_opportunities_filter" />
+        <field name="arch" type="xml">
+            <field name="name" position="attributes">
+                <attribute name="filter_domain">
+                [
+                '|', '|', '|', '|','|',
+                ('partner_id', 'ilike', self),
+                ('partner_name', 'ilike', self),
+                ('email_from', 'ilike', self),
+                ('name', 'ilike', self),
+                ('contact_name', 'ilike', self)
+                ('sequence_code', 'ilike', self)
+                ]
+                </attribute>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="crm_lead_code_kanban_view">
+        <field name="name">crm.lead.code.kanban</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_kanban_view_leads" />
+        <field name="arch" type="xml">
+            <field name="name" position="before">
+                <field name="sequence_code" />
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="crm_sat_form_view_avisos">
+        <field name="name">lyb.avisos.form.avisos</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@id='mobile_page_lead']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+
+            <xpath expr="//label[@for='mobile_page_lead']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+
+            <xpath expr="//group[@name='opportunity_partner']" position="inside">
+                <label for="mobile_page_lead" class="oe_inline"/>
+                <div class="o_row o_row_readonly">
+                    <button name="phone_action_blacklist_remove" class="fa fa-ban text-danger"
+                        title="This phone number is blacklisted for SMS Marketing. Click to unblacklist."
+                        type="object" context="{'default_phone': mobile}" groups="base.group_user"
+                        invisible="not mobile_blacklisted"/>
+                    <field name="mobile" id="mobile_page_lead" widget="phone"/>
+                </div>
+            </xpath>
+
+            <xpath expr="//field[@name='team_id']" position="before">
+                <field name="has_tags" invisible="1"/>
+            </xpath>
+
+            <xpath expr="//field[@name='is_blacklisted']" position="before">
+                <field name="partner_shipping_id" groups="account.group_delivery_invoice_address" 
+                options="{'always_reload': True, 'no_create': True, 'no_create_edit': True}"
+                context="{'default_type':'delivery', 'show_address': False, 'show_vat': False}"/>
+            </xpath>
+            
+            <xpath expr="//field[@name='team_id']" position="attributes">
+                <attribute name="required">False</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='tag_ids']" position="attributes">
+                <attribute name="required">False</attribute>
+            </xpath>
+
+            <field name="name" position="before">
+                <field name="sequence_code" class="oe_inline" />
+                <label for="sequence_code" string="  " class="oe_inline" />
+            </field>
+
+            <field name="date_deadline" position="before">
+                <field name="date_creation" />
+            </field>
+
+            <field name="user_id" position="before">
+                <field name="worker_one" />
+                <field name="helpers" />
+            </field>
+
+        </field>
+    </record>
+
+</odoo>
