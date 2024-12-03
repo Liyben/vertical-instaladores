@@ -28,12 +28,6 @@ class ProjectTask(models.Model):
     #Campo relacional para los trabajos de la linea de presupuesto
     task_works_ids = fields.One2many(comodel_name='project.task.work', inverse_name='project_task_id', string='Trabajos', copy=False)
     
-    #Campos necesarios para la secuencia
-    sequence_code = fields.Char(string='Nº serie', default="/", required=True, readonly=True, copy=False)
-    _sql_constraints = [
-        ("project_task_unique_sequence_code", "UNIQUE (sequence_code)", _("La secuencia debe ser única!!")),
-        ]
-    
     def compute_merge_task_count(self):
         for task_id in self:
             task_id.merge_task_count = len(task_id.merge_task_ids)
@@ -132,17 +126,6 @@ class ProjectTask(models.Model):
             task.toggle_invoiceable()
     
         return res
-    
-    @api.model_create_multi
-    def create(self, vals_list):
 
-        #Asignamos la secuencia correcta 
-        for vals in vals_list:
-            if vals.get("sequence_code", "/") == "/" :
-                vals["sequence_code"] = self.env.ref(
-                        "product_task_material_work.sequence_task", raise_if_not_found=False
-                    ).next_by_id()
-            
-        return super().create(vals_list)
     
     
