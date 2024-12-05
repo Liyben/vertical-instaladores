@@ -84,11 +84,6 @@
                     <attribute name="domain">[('team_id', 'in', [team_id, False]), ('type', 'in', [type, 'both'])]</attribute>
                 </xpath>
 
-                <xpath expr="//label[@for='name'][2]" position="replace">
-                    <label for="name" string="SAT" class="oe_edit_only" attrs="{'invisible': [('type','=','opportunity')]}"/>
-                    <label for="name" string="Oportunidad" class="oe_edit_only" attrs="{'invisible': [('type','=','sat')]}"/>
-                </xpath>
-
             </field>
         </record>
 
