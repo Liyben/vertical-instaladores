@@ -14,8 +14,9 @@
     'author': 'Seges',
     'depends': ['sale_crm','project_timesheet_time_control','sale_order_invoicing_finished_task','sale_margin','analytic_plan_on_sale_crm','project_task_code'],
     'data': [
-        'security/ir.model.access.csv',
+
         'security/security.xml',
+        'security/ir.model.access.csv',
 
         'report/ir_actions_report_sale_templates.xml',
         'report/ir_actions_report_invoice_templates.xml',
