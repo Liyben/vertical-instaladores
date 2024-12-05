@@ -32,7 +32,7 @@
                     <filter string="Archivados" name="inact" domain="[('active', '=', False)]"/>
                     <separator/>
                     <filter string="SAT" name="sat"
-                            domain="['&amp;',('type','=','sat')]"
+                            domain="[('type','=','sat')]"
                             help="SAT"/>
                     <filter string="Mis SAT" name="asignado_a_mi"
                             domain="['&amp;','&amp;',('worker_one', '=', uid),('type','=','sat')]"
