@@ -151,7 +151,7 @@
             id="crm_type_sat_menu_sat_teams"
             action="sales_team.crm_team_action_pipeline"
             name="Equipos"
-            parent="crm_type_sat_menu_root_informes"
+            parent="crm_type_sat_menu_root_sat"
             sequence="4"/>
 
         <menuitem
