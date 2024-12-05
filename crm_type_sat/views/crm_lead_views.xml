@@ -116,7 +116,7 @@
         <menuitem
             id="crm_type_sat_menu_root"
             name="SAT"
-            web_icon="crm_type_sat,static/description/instalaciones_ico.jpg"
+            web_icon="crm_type_sat,static/description/kisspng-electrician.png"
             groups="project.group_project_user"
             sequence="4"/>
 
