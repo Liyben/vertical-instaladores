@@ -6,7 +6,7 @@
     'category': "Customer Relationship Management",
     'summary': 'Añade los avisos',
     'website': 'https://liyben.com/',
-    'version': '14.0.1.0.0',
+    'version': '17.0.1.0.0',
     'license': 'AGPL-3',
     'description': """
         
