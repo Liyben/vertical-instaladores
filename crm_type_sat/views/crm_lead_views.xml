@@ -118,7 +118,7 @@
             name="SAT"
             web_icon="crm_type_sat,static/description/kisspng-electrician.png"
             groups="project.group_project_user"
-            sequence="4"/>
+            sequence="26"/>
 
         <menuitem
             id="crm_type_sat_menu_root_sat"
