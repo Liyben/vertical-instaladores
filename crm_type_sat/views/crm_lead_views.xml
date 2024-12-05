@@ -118,7 +118,6 @@
             name="SAT"
             web_icon="crm_type_sat,static/description/instalaciones_ico.jpg"
             groups="project.group_project_user"
-            action="action_your_sat"
             sequence="4"/>
 
         <menuitem
@@ -130,7 +129,7 @@
         <menuitem
             id="crm_type_sat_menu_sat"
             action="action_your_sat"
-            name="SAT"
+            name="Mis SAT"
             parent="crm_type_sat_menu_root_sat"
             sequence="1"/>
 
