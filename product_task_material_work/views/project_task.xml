@@ -22,10 +22,6 @@
                 </page>
             </xpath>
 
-            <field name="name" position="before">
-                <field name="sequence_code" class="oe_inline" />
-                <label for="sequence_code" string="  " class="oe_inline" />
-            </field>
         </field>
     </record>
 
