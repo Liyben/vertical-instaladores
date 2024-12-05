@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+       <record id="view_crm_type_sat_filter_sat" model="ir.ui.view">
+            <field name="name">crm.type.sat.search.sat</field>
+            <field name="model">crm.lead</field>
+            <field name="priority">15</field>
+            <field name="arch" type="xml">
+                <search string="Buscar SAT">
+                    <field name="name" string="SAT" filter_domain="[
+                        '|', '|', '|', '|','|',
+                        ('partner_id', 'ilike', self),
+                        ('partner_name', 'ilike', self),
+                        ('email_from', 'ilike', self),
+                        ('name', 'ilike', self),
+                        ('contact_name', 'ilike', self),
+                        ('sequence_code', 'ilike', self)]"/>
+                    <field name="partner_id" operator="child_of" string="Cliente" filter_domain="[
+                        '|', '|', '|',
+                        ('partner_id', 'ilike', self),
+                        ('partner_name', 'ilike', self),
+                        ('email_from', 'ilike', self),
+                        ('contact_name', 'ilike', self)]"/>
+                    <field name="tag_ids" string="Etiqueta" filter_domain="[('tag_ids', 'ilike', self)]"/>
+                    <field name="user_id"/>
+                    <field name="team_id"/>
+                    <field name="worker_one" string="Oficial 1"/>
+                    <field name="phone_mobile_search"/>
+                    <field name="stage_id" domain="[]"/>
+                    <field name="activity_state"/>
+                    <field name="lead_properties"/>
+                    <separator/>
+                    <filter string="Archivados" name="inact" domain="[('active', '=', False)]"/>
+                    <separator/>
+                    <filter string="SAT" name="sat"
+                            domain="['&amp;',('type','=','sat')]"
+                            help="SAT"/>
+                    <filter string="Mis SAT" name="asignado_a_mi"
+                            domain="['&amp;','&amp;',('worker_one', '=', uid),('type','=','sat')]"
+                            help="SAT asignados a mi"/>
+                    <filter string="Sin asignar" name="sinasignar"
+                            domain="['&amp;','&amp;',('worker_one','=', False),('type','=','sat')]" help="Sin oficial"/>
+                    <separator/>
+                    <filter string="Actividades tardías" name="act_overdue"
+                            domain="['&amp;','&amp;',('activity_ids.date_deadline', '&lt;', context_today().strftime('%Y-%m-%d')),('type','=','sat')]"/>
+                    <filter string="Actividades de Hoy" name="act_today"
+                            domain="['&amp;','&amp;',('activity_ids.date_deadline', '=', context_today().strftime('%Y-%m-%d')),('type','=','sat')]"/>
+                    <filter string="Actividades futuras" name="act_upcoming_all"
+                            domain="['&amp;','&amp;',('activity_ids.date_deadline', '&gt;', context_today().strftime('%Y-%m-%d')),('type','=','sat')]"/>
+
+                    <separator/>
+                    <filter string="SAT atrasados" name="overdue_avv"
+                            domain="['&amp;', '&amp;',('date_deadline', '&lt;', context_today().strftime('%Y-%m-%d')), ('date_closed', '=', False),('type','=','sat')]"
+                            help="Muestra todos los SAT con un plazo para el cual la próxima fecha de la acción es antes de hoy."/>
+                    <separator/>
+                    <filter string="Perdido" name="won_avv" domain="['&amp;', '&amp;', ('active', '=', False), ('probability', '=', 0),('type','=','sat')]"/>
+                    <filter string="Ganados" name="lost_avv" domain="['&amp;', '&amp;', ('active', '=', True), ('stage_id.is_won', '=', True),('type','=','sat')]"/>
+                    <group expand="0" string="Group By" colspan="16">
+                        <filter string="Oficial 1" name="worker" context="{'group_by':'worker_one'}"/>
+                        <filter string="Canal de Ventas" name="saleschanel_avv" context="{'group_by':'team_id'}"/>
+                        <filter string="País" name="coutry_avv" context="{'group_by':'country_id'}" />
+                        <filter string="Compañia" name="company_avv" context="{'group_by':'company_id'}" groups="base.group_multi_company"/>
+                        <filter name="stage_avv" string="Etapa" context="{'group_by':'stage_id'}"/>
+                        <filter string="Campaña" name="compaign" domain="[]" context="{'group_by':'campaign_id'}"/>
+                        <filter string="Medio" name="medium_avv" domain="[]" context="{'group_by':'medium_id'}"/>
+                        <filter string="Origen" name="source_avv" domain="[]" context="{'group_by':'source_id'}"/>
+                        <separator orientation="vertical" />
+                        <filter string="Mes de creación" context="{'group_by':'create_date:month'}" name="month_avv"/>
+                        <filter string="Fecha de cierre prevista" name="date_deadline_avv" context="{'group_by':'date_deadline'}"/>
+                        <filter string="Motivo de la perdida" name="lost_reason_avv" context="{'group_by':'lost_reason'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Vistas heredadas -->
+
+        <record model="ir.ui.view" id="crm_type_sat_form_view_sat">
+            <field name="name">crm.type.sat.form.sat</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_lead_view_form" />
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='stage_id']" position="attributes">
+                    <attribute name="domain">[('team_id', 'in', [team_id, False]), ('type', 'in', [type, 'both'])]</attribute>
+                </xpath>
+
+                <xpath expr="//label[@for='name'][2]" position="replace">
+                    <label for="name" string="SAT" class="oe_edit_only" attrs="{'invisible': [('type','=','opportunity')]}"/>
+                    <label for="name" string="Oportunidad" class="oe_edit_only" attrs="{'invisible': [('type','=','sat')]}"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <!-- Acciones de Ventana -->
+
+        <record model="ir.actions.act_window" id="action_your_sat">
+            <field name="name">SAT</field>
+            <field name="res_model">crm.lead</field>
+            <field name="view_mode">tree,calendar,kanban,form,graph,pivot</field>
+            <field name="domain" eval="[]"/>
+            <field name="context" eval="{'default_type': 'sat','search_default_sat': 1}"/>
+            <field name="view_ids"
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('crm.crm_case_tree_view_oppor'),'sequence': 2}),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('crm.crm_lead_view_form'),'sequence': 3}),
+                          (0, 0, {'view_mode': 'kanban', 'view_id': ref('crm.crm_case_kanban_view_leads'),'sequence': 1}),
+                          (0, 0, {'view_mode': 'calendar', 
+                          'view_id': ref('crm.crm_case_calendar_view_leads'),'sequence': 4}),
+                          (0, 0, {'view_mode': 'pivot', 'view_id': ref('crm.crm_lead_view_pivot'), 'sequence': 5}),
+                          (0, 0, {'view_mode': 'graph', 'view_id': ref('crm.crm_lead_view_graph'), 'sequence': 6})]"/>
+            <field name="search_view_id" ref="view_crm_type_sat_filter_sat"/>
+            <field name="help" type="html">
+                <p>
+                
+                </p>
+            </field>
+        </record>   
+        
+        <!-- Menu padre -->
+        <menuitem
+            id="crm_type_sat_menu_root"
+            name="SAT"
+            web_icon="crm_type_sat,static/description/instalaciones_ico.jpg"
+            groups="project.group_project_user"
+            action="action_your_sat"
+            sequence="4"/>
+
+        <menuitem
+            id="crm_type_sat_menu_root_sat"
+            name="SAT"
+            parent="crm_type_sat_menu_root"
+            sequence="1"/>
+        
+        <menuitem
+            id="crm_type_sat_menu_sat"
+            action="action_your_sat"
+            name="SAT"
+            parent="crm_type_sat_menu_root_sat"
+            sequence="1"/>
+
+        <menuitem
+            id="crm_type_sat_menu_presupuestos"
+            action="sale.action_quotations"
+            name="Presupuestos"
+            parent="crm_type_sat_menu_root_sat"
+            sequence="2"/>    
+
+        <menuitem
+            id="crm_type_sat_menu_root_clientes"
+            action="base.action_partner_form"
+            name="Clientes"
+            parent="crm_type_sat_menu_root_sat"
+            sequence="3"/>
+
+        <menuitem
+            id="crm_type_sat_menu_sat_teams"
+            action="sales_team.crm_team_action_pipeline"
+            name="Equipos"
+            parent="crm_type_sat_menu_root_informes"
+            sequence="4"/>
+
+        <menuitem
+            id="crm_type_sat_menu_root_informes"
+            name="Informes"
+            parent="crm_type_sat_menu_root"
+            sequence="2"/>
+
+        <menuitem
+            id="crm_type_sat_menu_informes_actividades"
+            action="crm.crm_activity_report_action"
+            name="Actividades"
+            parent="crm_type_sat_menu_root_informes"
+            sequence="1"/>
+
+        <menuitem
+            id="crm_type_sat_menu_root_configuracion"
+            name="Configuración"
+            parent="crm_type_sat_menu_root"
+            sequence="3"/>
+
+        <menuitem
+            id="crm_type_sat_menu_etapas"
+            action="crm.crm_stage_action"
+            name="Etapas"
+            parent="crm_type_sat_menu_root_configuracion"
+            sequence="1"/>
+
+        <menuitem
+            id="crm_type_sat_menu_etiquetas_sat"
+            action="sales_team.sales_team_crm_tag_action"
+            name="Categorias de SAT"
+            parent="crm_type_sat_menu_root_configuracion"
+            sequence="2"/>
+
+        <menuitem
+            id="crm_type_sat_menu_sale_teams"
+            action="sales_team.crm_team_action_config"
+            name="Equipos de venta"
+            parent="crm_type_sat_menu_root_configuracion"
+            sequence="3"/>
+
+        <menuitem
+            id="crm_type_sat_menu_tipo_actividad"
+            action="sales_team.mail_activity_type_action_config_sales"
+            name="Tipos de actividad"
+            parent="crm_type_sat_menu_root_configuracion"
+            sequence="4"/>
+
+        <menuitem
+            id="crm_type_sat_menu_motivo_perdida"
+            action="crm.crm_lost_reason_action"
+            name="Razones de pérdida"
+            parent="crm_type_sat_menu_root_configuracion"
+            sequence="5"/>
+
+</odoo>

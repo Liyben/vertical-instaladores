@@ -1,0 +1,9 @@
+<odoo noupdate="1">
+    <record id="sequence_sat" model="ir.sequence">
+        <field name="name">SAT Code</field>
+        <field name="code">sat.code</field>
+        <field eval="4" name="padding" />
+        <field name="prefix">SAT-</field>
+    </record>
+
+</odoo>
