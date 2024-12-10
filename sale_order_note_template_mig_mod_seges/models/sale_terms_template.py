@@ -17,7 +17,7 @@ class SaleTermsTemplate(models.Model):
 
     text = fields.Html(string="Terms template", translate=True)
 
-    def get_value(self, sale_order, add_context=None, post_process=True):
+    def get_value(self, sale_order, add_context=None, options=None):
         """Get sales terms from template.
 
         Like in mail composer `text` template can use jinja or qweb syntax.
@@ -32,18 +32,18 @@ class SaleTermsTemplate(models.Model):
         :param add_context: context forwarded to the templating engine
         :param post_process: what ever to use `post_process` from the templating
                              engine. If `True` urls are transform to absolute urls
+        :param dict options: options for rendering (no options available
+          currently);
         """
         self.ensure_one()
         sale_order.ensure_one()
-        _logger.debug("SALE ORDER %s\n", str(sale_order))
         lang = sale_order.partner_id.lang if sale_order.partner_id else None
-        _logger.debug("SALE ORDER LANG %s\n", str(lang))
-        comment_texts = self.env["mail.render.mixin"]._render_template(
+        rendered = self.env["mail.render.mixin"]._render_template_inline_template(
             template_src=self.with_context(lang=lang).text,
             model="sale.order",
             res_ids=[sale_order.id],
-            engine="inline_template",
             add_context=add_context,
-            post_process=post_process,
+            options=options,
         )
+        comment_texts = self.env["mail.render.mixin"].with_context(mail_render_postprocess_model="sale.order")._render_template_postprocess(rendered)
         return comment_texts[sale_order.id] or ""

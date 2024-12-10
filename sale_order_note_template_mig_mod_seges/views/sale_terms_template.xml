@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
 
     <record model="ir.ui.view" id="view_sale_terms_template_search">
