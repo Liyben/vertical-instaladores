@@ -4,7 +4,8 @@
 # © 2024 Seges Migration to 17.0 and add modifications
 
 from odoo import fields, models
-
+import logging
+_logger = logging.getLogger(__name__)
 
 class SaleTermsTemplate(models.Model):
     _name = "sale.terms_template"
@@ -34,7 +35,9 @@ class SaleTermsTemplate(models.Model):
         """
         self.ensure_one()
         sale_order.ensure_one()
+        _logger.debug("SALE ORDER %s\n", str(sale_order))
         lang = sale_order.partner_id.lang if sale_order.partner_id else None
+        _logger.debug("SALE ORDER LANG %s\n", str(lang))
         comment_texts = self.env["mail.render.mixin"]._render_template(
             template_src=self.with_context(lang=lang).text,
             model="sale.order",
