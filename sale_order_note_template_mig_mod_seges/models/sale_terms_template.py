@@ -39,7 +39,7 @@ class SaleTermsTemplate(models.Model):
         sale_order.ensure_one()
         lang = sale_order.partner_id.lang if sale_order.partner_id else None
         rendered = self.env["mail.render.mixin"]._render_template_inline_template(
-            template_src=self.with_context(lang=lang).text,
+            template_txt=self.with_context(lang=lang).text,
             model="sale.order",
             res_ids=[sale_order.id],
             add_context=add_context,
