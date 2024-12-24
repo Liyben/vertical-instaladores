@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 {
-    'name': 'Update apps inf',
+    'name': 'Update apps info',
     'version': '17.0.1.0.1',
     'license': 'AGPL-3',
     'category': 'Tools',
@@ -14,18 +14,13 @@
     'author': 'Seges',
     'depends': ['base', 'web'],
     'data': [
-        'views/ir_module_views.xml',
+        'data/ir_cron_data.xml',
         ],
     'qweb': [],
     'images': [
     ],
     'demo': [
     ],
-    'assets': {
-        'web.assets_backend': [
-            'web/static/src/legacy/js/apps.js',
-        ]
-    },
     'css': [
     ],
     'installable': True,
