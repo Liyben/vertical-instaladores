@@ -14,6 +14,7 @@ class Module(models.Model):
     def update_published_version(self):
         modules_to_update_dict = self.get_modules_need_update()
         if not modules_to_update_dict:
+            _logger.debug("NOT LIST\n")
             return False
         
         # Update published_version field
@@ -51,6 +52,7 @@ class Module(models.Model):
             },
         }
         response = requests.Session().post(url, json=payload).json()
+        _logger.debug("RESPONSE: %s\n", str(response.get("result")))
         return response.get("result")
 
     def get_modules_need_update(self):
