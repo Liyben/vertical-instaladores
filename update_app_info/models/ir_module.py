@@ -92,7 +92,7 @@ class Module(models.Model):
             ],
         )
         modules_dict = {record["name"]: record for record in installed_modules}
-
+        _logger.debug("MODULES DICT: %s\n", str(modules_dict))
         # Check for updates
         modules_to_update_dict = self.check_app_store_updates(modules_dict)
 
