@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 import requests
 import logging
+import json
 
 from odoo import api, fields, models, modules, tools, _
 from odoo.service.common import exp_version
@@ -51,9 +52,12 @@ class Module(models.Model):
                 "version": exp_version(),
             },
         }
-        response = requests.Session().post(url, json=payload).json()
-        _logger.debug("RESPONSE: %s\n", str(response.get("result")))
-        return response.get("result")
+        resp = self._call_apps(json.dumps(payload))
+        resp.raise_for_status()
+        modules_list = resp.json().get('result', [])
+        #response = requests.Session().post(url, json=payload).json()
+        _logger.debug("RESPONSE: %s\n", str(modules_list))
+        return modules_list
 
     def get_modules_need_update(self):
         """Find installed modules and get a dictionary of modules that need an update.
