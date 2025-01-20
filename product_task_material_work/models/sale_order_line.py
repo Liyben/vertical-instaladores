@@ -648,3 +648,24 @@ class SaleOrderLine(models.Model):
         return res
 
 
+    @api.depends(
+        "qty_invoiced",
+        "qty_delivered",
+        "product_uom_qty",
+        "state",
+        "task_ids.invoiceable",
+    )
+    def _compute_qty_to_invoice(self):
+        lines = self.filtered(
+            lambda x: (
+                x.product_id.type == "service"
+                and x.product_id.invoicing_finished_task
+                and x.product_id.service_tracking
+                in ["task_global_project", "task_in_project"]
+                and all(x.task_ids.mapped("invoiceable"))
+            )
+        )
+        if lines:
+            for line in lines:
+                line.update({"qty_to_invoice": line.product_uom_qty})
+        return super(SaleOrderLine, self - lines)._compute_qty_to_invoice()
