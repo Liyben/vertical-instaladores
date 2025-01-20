@@ -666,6 +666,5 @@ class SaleOrderLine(models.Model):
             )
         )
         if lines:
-            for line in lines:
-                line.update({"qty_to_invoice": line.product_uom_qty})
+            lines.update({"qty_to_invoice": 1.0})
         return super(SaleOrderLine, self - lines)._compute_qty_to_invoice()
