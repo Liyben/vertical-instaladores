@@ -150,6 +150,8 @@ class SaleOrderLineSecciones(models.Model):
 		string = 'Sección',
 		help = 'Seleccione sección...')
 
+	name = fields.Char('Nombre de sección', required=False, translate=True)
+	
 	unidades = fields.Integer(default = 1, string="Und.")
 
 	mts_lineales_sub = fields.Float(
