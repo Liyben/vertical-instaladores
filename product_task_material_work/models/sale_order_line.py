@@ -662,9 +662,9 @@ class SaleOrderLine(models.Model):
                 and x.product_id.invoicing_finished_task
                 and x.product_id.service_tracking
                 in ["task_global_project", "task_in_project"]
-                and all(x.task_ids.mapped("invoiceable"))
+                and not all(x.task_ids.mapped("invoiceable"))
             )
         )
         if lines:
-            lines.update({"qty_to_invoice": 1.0})
+            lines.update({"qty_to_invoice": 0.0})
         return super(SaleOrderLine, self - lines)._compute_qty_to_invoice()
