@@ -11,26 +11,24 @@ class StockMove(models.Model):
 
     def _action_done(self, cancel_backorder=False):
         res = super()._action_done(cancel_backorder=cancel_backorder)
-        analytic_line_vals = []
         for rec in self:
             if (rec.product_id
                 and rec.product_id.type != "service"
                 and rec.product_id.categ_id.property_valuation == "only_analytic"
                 and rec.state == "done"
             ):
-                analytic_line_vals += rec._prepare_analytic_line()
+                analytic_line_vals = self._prepare_analytic_line(rec)
         _logger.debug("AL: %s\n", str(analytic_line_vals))
         #if analytic_line_vals:    
         #    self.env['account.analytic.line'].create(analytic_line_vals)
         return res
     
-    def _prepare_analytic_line(self):
-        result = []
-        for move in self:
-            amount = 0.0 - move.product_id.standard_price 
-            if move.location_id and move.location_id.usage == "customer":
-                amount *= -1.0
-            result.append({
+    def _prepare_analytic_line(self, move):
+        amount = 0.0 - move.product_id.standard_price 
+        if move.location_id and move.location_id.usage == "customer":
+            amount *= -1.0
+        _logger.debug("amount: %s\n", str(amount))
+        return {
                 'name': "{} - {}".format(move.reference, move.product_id.name),
                 'date': fields.date.today(),
                 'account_id': move.analytic_account_id.id,
@@ -44,4 +42,4 @@ class StockMove(models.Model):
                 'user_id': self._uid,
                 'partner_id': move.partner_id.id,
                 'company_id': move.analytic_account_id.company_id.id or move.company_id.id,
-            })
+            }
