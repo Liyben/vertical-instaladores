@@ -3,6 +3,8 @@
 
 from odoo import api, fields, models, _
 
+import logging
+_logger = logging.getLogger(__name__)
 
 class StockMove(models.Model):
     _inherit = "stock.move"
@@ -17,13 +19,13 @@ class StockMove(models.Model):
                 and rec.state == "done"
             ):
                 analytic_line_vals += self._prepare_analytic_line(rec)
+        _logger.debug("AL: %s\n", str(analytic_line_vals))
         if analytic_line_vals:    
             self.env['account.analytic.line'].create(analytic_line_vals)
         return res
     
     def _prepare_analytic_line(self, move):
-        self.ensure_one()
-        amount = 0.0 - move.product_id.standard_price # Del producto costo y el signo en función del tipo de operación
+        amount = 0.0 - move.product_id.standard_price 
         if move.location_id and move.location_id.usage == "customer":
             amount *= -1.0
         return {
