@@ -22,6 +22,7 @@ class StockMove(models.Model):
         return res
     
     def _prepare_analytic_line(self, move):
+        self.ensure_one()
         amount = 0.0 - move.product_id.standard_price # Del producto costo y el signo en función del tipo de operación
         if move.location_id and move.location_id.usage == "customer":
             amount *= -1.0
