@@ -27,7 +27,7 @@ class StockMove(models.Model):
             amount *= -1.0
         return {
             'name': "{} - {}".format(move.reference, move.product_id.name),
-            'date': move.date,
+            'date': fields.date.today(),
             'account_id': move.analytic_account_id.id,
             'group_id': move.analytic_account_id.group_id.id,
             'unit_amount': move.quantity_done,
