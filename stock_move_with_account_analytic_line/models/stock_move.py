@@ -19,8 +19,8 @@ class StockMove(models.Model):
             ):
                 analytic_line_vals = self._prepare_analytic_line(rec)
                 _logger.debug("AL: %s\n", str(analytic_line_vals))
-        #if analytic_line_vals:    
-        #    self.env['account.analytic.line'].create(analytic_line_vals)
+                if analytic_line_vals:    
+                    self.env['account.analytic.line'].create(analytic_line_vals)
         return res
     
     def _prepare_analytic_line(self, move):
