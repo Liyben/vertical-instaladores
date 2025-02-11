@@ -12,7 +12,7 @@ class StockMove(models.Model):
         analytic_line_vals = []
         for rec in self:
             if (rec.product_id
-                and rec.product_id.type == "consu"
+                and rec.product_id.type != "service"
                 and rec.product_id.categ_id.property_valuation == "only_analytic"
                 and rec.state == "done"
             ):
