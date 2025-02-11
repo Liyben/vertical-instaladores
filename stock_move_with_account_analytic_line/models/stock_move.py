@@ -24,7 +24,7 @@ class StockMove(models.Model):
         #    self.env['account.analytic.line'].create(analytic_line_vals)
         return res
     
-    def _prepare_analytic_line(self, move):
+    def _prepare_analytic_line(self):
         result = []
         for move in self:
             amount = 0.0 - move.product_id.standard_price 
