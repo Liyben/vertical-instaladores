@@ -9,5 +9,6 @@ class ProductCategory(models.Model):
 
     property_valuation = fields.Selection(selection_add=[
         ('only_analytic', 'Coste / Beneficio')
-    ], 
-    )
+    ],  ondelete={
+        'only_analytic': 'set default',
+    })
