@@ -14,6 +14,7 @@
     'author': 'Liyben',
     'depends': ['stock','l10n_es'],
     'data': [
+        'views/product_category_views.xml'
     ],
     'qweb': [],
     'images': [

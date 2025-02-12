@@ -12,3 +12,10 @@ class ProductCategory(models.Model):
     ],  ondelete={
         'only_analytic': 'set default',
     })
+
+    @api.onchange('property_valuation')
+    def onchange_property_valuation_only_analytic(self):
+        if self.property_valuation == 'only_analytic':
+            self.property_stock_account_input_categ_id = False
+            self.property_stock_account_output_categ_id = False
+            self.property_stock_valuation_account_id = False
