@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="purchase.purchase_order_form"/>
         <field name="arch" type="xml">
             <xpath expr="//page[@name='purchase_delivery_invoice']/group/group" position="inside">
-                <field name="opportunity_id" groups="base.group_no_one"/>
+                <field name="opportunity_id"/>
             </xpath>
         </field>
     </record>
