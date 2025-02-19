@@ -15,6 +15,9 @@ class StockMove(models.Model):
             if (rec.product_id
                 and rec.product_id.type != "service"
                 and rec.product_id.categ_id.property_valuation == "only_analytic"
+                and rec.picking_id
+                and rec.picking_id.analytic_account_id
+                and rec.picking_id.picking_type_id.stock_move_from_task
                 and rec.state == "done"
             ):
                 analytic_line_vals = self._prepare_analytic_line(rec)
