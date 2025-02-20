@@ -1,0 +1,20 @@
+<odoo>
+
+      <template id="report_saleorder_document" inherit_id="product_task_material_work.report_saleorder_document">
+
+        <xpath expr="//td[@name='td_name']" position="inside">
+            <t t-if="line.task_materials_ids">
+                <br/>
+                <t t-foreach="line.task_materials_ids" t-as="material">
+                    <t t-if="material.material_id.concatenate_description">
+                        <span t-if="material.name" t-field="material.name" t-options="{'widget': 'text'}"/>. 
+                        <span t-if="material.material_id.description_sale" t-field="material.material_id.description_sale" t-options="{'widget': 'text'}"/>
+                        <br/>
+                    </t>
+                </t>
+            </t>
+        </xpath>
+
+    </template>
+    
+</odoo>

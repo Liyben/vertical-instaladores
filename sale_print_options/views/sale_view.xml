@@ -6,48 +6,118 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
             <div name="button_box" position="inside">
-                <field name="invoiceable" invisible="1" />
+                <field name="detailed_time" invisible="1" />
                 <button
-                    name="toggle_invoiceable"
+                    name="print_detailed_time"
                     type="object"
-                    invisible="not 'invoicing_finished_task'"
                     class="oe_stat_button"
-                    icon="fa-file"
+                    icon="fa-print"
+                    groups="sale_print_options.group_sales_print_options"
                 >
                     <span
                         class="text-success"
-                        invisible="not invoiceable"
-                    >Invoiceable</span>
+                        invisible="not detailed_time"
+                    >Horas</span>
                     <span
                         class="text-danger"
-                        invisible="invoiceable"
-                    >Not Invoiceable</span>
+                        invisible="detailed_time"
+                    >Sin Horas</span>
                 </button>
 
-
-                <button name="print_detailed_time" type="object" string="Horas" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-print">
-                    <field name="detailed_time" widget="boolean_toggle"/>
+                <field name="detailed_subtotal_price_time" invisible="1" />
+                <button
+                    name="print_detailed_subtotal_price_time"
+                    type="object"
+                    invisible="not detailed_time"
+                    class="oe_stat_button"
+                    icon="fa-print"
+                    groups="sale_print_options.group_sales_print_options"
+                >
+                    <span
+                        class="text-success"
+                        invisible="not detailed_subtotal_price_time"
+                    >Subtotal Hr.</span>
+                    <span
+                        class="text-danger"
+                        invisible="detailed_subtotal_price_time"
+                    >Sin Subtotal Hr.</span>
                 </button>
 
-                <button name="print_detailed_subtotal_price_time" type="object" string="Subtotal Hr." attrs="{'invisible': [('detailed_time', '=', False)]}" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-print">
-                    <field name="detailed_subtotal_price_time" widget="boolean_toggle"/>
+                <field name="detailed_price_time" invisible="1" />
+                <button
+                    name="print_detailed_price_time"
+                    type="object"
+                    invisible="not detailed_time"
+                    class="oe_stat_button"
+                    icon="fa-print"
+                    groups="sale_print_options.group_sales_print_options"
+                >
+                    <span
+                        class="text-success"
+                        invisible="not detailed_price_time"
+                    >Precio Hr.</span>
+                    <span
+                        class="text-danger"
+                        invisible="detailed_price_time"
+                    >Sin Precio Hr.</span>
                 </button>
 
-                <button name="print_detailed_price_time" type="object" string="Precio Hr." attrs="{'invisible': [('detailed_time', '=', False)]}" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-print">
-                    <field name="detailed_price_time" widget="boolean_toggle"/>
+                <field name="detailed_materials" invisible="1" />
+                <button
+                    name="print_detailed_materials"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-print"
+                    groups="sale_print_options.group_sales_print_options"
+                >
+                    <span
+                        class="text-success"
+                        invisible="not detailed_materials"
+                    >Materiales</span>
+                    <span
+                        class="text-danger"
+                        invisible="detailed_materials"
+                    >Sin Materiales</span>
                 </button>
 
-                <button name="print_detailed_materials" type="object" string="Materiales" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-print">
-                    <field name="detailed_materials" widget="boolean_toggle"/>
+                <field name="detailed_subtotal_price_materials" invisible="1" />
+                <button
+                    name="print_detailed_subtotal_price_materials"
+                    type="object"
+                    invisible="not detailed_materials"
+                    class="oe_stat_button"
+                    icon="fa-print"
+                    groups="sale_print_options.group_sales_print_options"
+                >
+                    <span
+                        class="text-success"
+                        invisible="not detailed_subtotal_price_materials"
+                    >Subtotal Mat.</span>
+                    <span
+                        class="text-danger"
+                        invisible="detailed_subtotal_price_materials"
+                    >Sin Subtotal Mat.</span>
                 </button>
 
-                <button name="print_detailed_subtotal_price_materials" type="object" string="Subtotal Mat." attrs="{'invisible': [('detailed_materials', '=', False)]}" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-print">
-                    <field name="detailed_subtotal_price_materials" widget="boolean_toggle"/>
+                <field name="detailed_price_materials" invisible="1" />
+                <button
+                    name="print_detailed_price_materials"
+                    type="object"
+                    invisible="not detailed_materials"
+                    class="oe_stat_button"
+                    icon="fa-print"
+                    groups="sale_print_options.group_sales_print_options"
+                >
+                    <span
+                        class="text-success"
+                        invisible="not detailed_price_materials"
+                    >Precio Mat.</span>
+                    <span
+                        class="text-danger"
+                        invisible="detailed_price_materials"
+                    >Sin Precio Mat.</span>
                 </button>
 
-                <button name="print_detailed_price_materials" type="object" string="Precio Mat." attrs="{'invisible': [('detailed_materials', '=', False)]}" confirm="¿Estas seguro que quiere activarlo/desactivarlo en todas las lineas del presupuesto?" class="oe_stat_button" icon="fa-print">
-                    <field name="detailed_price_materials" widget="boolean_toggle"/>
-                </button>
             </div>
         </field>
     </record>
