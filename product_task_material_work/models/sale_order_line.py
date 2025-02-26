@@ -46,8 +46,8 @@ class SaleOrderLine(models.Model):
         string="Ver", default='all')
     # % desperdicio
     percent_waste = fields.Float(
-        string='% Desperdicio', digits='Discount', copy=True,
-        store=True, readonly=False, precompute=True, compute='_compute_materials_and_works')
+        string='% Desperdicio', digits='Discount', copy=True,)
+        #store=True, readonly=False, precompute=True, compute='_compute_materials_and_works')
 
     #Estado de la factura de una linea de pedido
     """ def _compute_invoice_status(self):
@@ -62,6 +62,13 @@ class SaleOrderLine(models.Model):
                 line.invoice_status = 'invoiced'
             else:
                 line.invoice_status = 'no' """
+    
+    #Carga del desperdicio
+    @api.onchange('product_id')
+    def _onchange_percent_waste(self):
+        for line in self:
+            if line.product_id.auto_create_task:
+                line.percent_waste = line.product_id.percent_waste
 
     #Carga de los materiales y mano de obra
     @api.depends('product_id')
@@ -101,9 +108,11 @@ class SaleOrderLine(models.Model):
                             'discount' : material.discount
                             }))
 
-                line.update({'task_works_ids' : work_list,
+                line.update({
+                        'task_works_ids' : work_list,
                         'task_materials_ids' : material_list,
-                        'percent_waste' : line.product_id.percent_waste})
+                        })
+                        #'percent_waste' : line.product_id.percent_waste})
 
 
     #Calculo del precio total de venta de los trabajos	
