@@ -75,7 +75,7 @@ class SaleOrderLine(models.Model):
             line.update({'task_works_ids' : False,
                         'task_materials_ids' : False,})
             
-            if line.auto_create_task and self.see_works_and_materials != False:
+            if line.auto_create_task and line.see_works_and_materials != False:
 
                 work_list = []
                 if line.see_works_and_materials != 'only_materials':
