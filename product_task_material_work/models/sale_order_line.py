@@ -44,6 +44,10 @@ class SaleOrderLine(models.Model):
         ('only_works', 'Solo Trabajos'),
         ('only_materials', 'Solo Materiales')],
         string="Ver", default='all')
+    # % desperdicio
+    percent_waste = fields.Float(
+        string='% Desperdicio', digits='Discount', copy=True,
+        store=True, readonly=False, precompute=True, compute='_compute_materials_and_works')
 
     #Estado de la factura de una linea de pedido
     """ def _compute_invoice_status(self):
@@ -72,7 +76,7 @@ class SaleOrderLine(models.Model):
                         'task_materials_ids' : False,})
             
             if line.auto_create_task and self.see_works_and_materials != False:
-                
+
                 work_list = []
                 if line.see_works_and_materials != 'only_materials':
                     for work in line.product_id.task_works_ids:
@@ -98,7 +102,8 @@ class SaleOrderLine(models.Model):
                             }))
 
                 line.update({'task_works_ids' : work_list,
-                        'task_materials_ids' : material_list,})
+                        'task_materials_ids' : material_list,
+                        'percent_waste' : line.product_id.percent_waste})
 
 
     #Calculo del precio total de venta de los trabajos	
@@ -109,13 +114,15 @@ class SaleOrderLine(models.Model):
             if record.task_works_ids:
                 record.total_sp_work = sum(record.task_works_ids.mapped('sale_price'))
 
-    #Calculo del precio total de coste de los trabajos
-    @api.depends('task_works_ids', 'task_works_ids.cost_price')
+    @api.depends('task_works_ids', 'task_works_ids.cost_price', 'percent_waste')
     def _compute_total_cp_work(self):
         self.total_cp_work = 0.0
         for record in self:
             if record.task_works_ids:
-                record.total_cp_work = sum(record.task_works_ids.mapped('cost_price'))
+                total_cp_work = sum(record.task_works_ids.mapped('cost_price'))
+                if self.env['ir.config_parameter'].sudo().get_param('product_task_material_work.group_percent_waste') and record.percent_waste > 0.0:
+                    total_cp_work = total_cp_work + ((total_cp_work * record.percent_waste) / 100)
+                record.total_cp_work = total_cp_work
 
     #Calculo del total de horas de los trabajos	
     @api.depends('task_works_ids', 'task_works_ids.hours')
@@ -143,13 +150,16 @@ class SaleOrderLine(models.Model):
             if record.task_materials_ids:
                 record.total_sp_material = sum(record.task_materials_ids.mapped('sale_price'))
 
-    #Calculo del precio total de coste de los materiales	
-    @api.depends('task_materials_ids', 'task_materials_ids.cost_price')
+    #Calcula el precio de coste total del campo Materiales	
+    @api.depends('task_materials_ids', 'task_materials_ids.cost_price', 'percent_waste')
     def _compute_total_cp_material(self):
         self.total_cp_material = 0.0
         for record in self:
             if record.task_materials_ids:
-                record.total_cp_material = sum(record.task_materials_ids.mapped('cost_price'))
+                total_cp_material = sum(record.task_materials_ids.mapped('cost_price'))
+                if self.env['ir.config_parameter'].sudo().get_param('product_task_material_work.group_percent_waste') and record.percent_waste > 0.0:
+                    total_cp_material = total_cp_material + ((total_cp_material * record.percent_waste) / 100)
+                record.total_cp_material = total_cp_material
 
     #Calculo del beneficio de los materiales	
     @api.depends('total_sp_material', 'total_cp_material')

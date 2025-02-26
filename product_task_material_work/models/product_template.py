@@ -33,7 +33,8 @@ class ProductTemplate(models.Model):
 		('only_works', 'Solo Trabajos'),
 		('only_materials', 'Solo Materiales')],
 		string="Ver", default='all')
-
+	# % desperdicio
+	percent_waste = fields.Float(string='% Desperdicio', digits='Discount')
 
 	@api.onchange('service_tracking')
 	def _onchange_service_tracking_2(self):
@@ -79,12 +80,15 @@ class ProductTemplate(models.Model):
 				record.total_sp_work = sum(record.task_works_ids.mapped('sale_price'))
 
 	#Calcula el precio de coste total del campo Trabajos	
-	@api.depends('task_works_ids', 'task_works_ids.cost_price')
+	@api.depends('task_works_ids', 'task_works_ids.cost_price', 'percent_waste')
 	def _compute_total_cp_work(self):
 		self.total_cp_work = 0.0
 		for record in self:
 			if record.task_works_ids:
-				record.total_cp_work = sum(record.task_works_ids.mapped('cost_price'))
+				total_cp_work = sum(record.task_works_ids.mapped('cost_price'))
+				if self.env['ir.config_parameter'].sudo().get_param('product_task_material_work.group_percent_waste') and record.percent_waste > 0.0:
+					total_cp_work = total_cp_work + ((total_cp_work * record.percent_waste) / 100)
+				record.total_cp_work = total_cp_work
 
 	#Calcula el beneficio de los Trabajos a partir del precio total de venta y coste 	
 	@api.depends('total_sp_work', 'total_cp_work')
@@ -105,12 +109,15 @@ class ProductTemplate(models.Model):
 				record.total_sp_material = sum(record.task_materials_ids.mapped('sale_price'))
 
 	#Calcula el precio de coste total del campo Materiales	
-	@api.depends('task_materials_ids', 'task_materials_ids.cost_price')
+	@api.depends('task_materials_ids', 'task_materials_ids.cost_price', 'percent_waste')
 	def _compute_total_cp_material(self):
 		self.total_cp_material = 0.0
 		for record in self:
 			if record.task_materials_ids:
-				record.total_cp_material = sum(record.task_materials_ids.mapped('cost_price'))
+				total_cp_material = sum(record.task_materials_ids.mapped('cost_price'))
+				if self.env['ir.config_parameter'].sudo().get_param('product_task_material_work.group_percent_waste') and record.percent_waste > 0.0:
+					total_cp_material = total_cp_material + ((total_cp_material * record.percent_waste) / 100)
+				record.total_cp_material = total_cp_material
 
 	#Calcula el beneficio de los Materiales a partir del precio total de venta y coste	
 	@api.depends('total_sp_material', 'total_cp_material')

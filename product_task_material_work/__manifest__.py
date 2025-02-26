@@ -27,6 +27,7 @@
         'data/ir_actions_server_data.xml',
         'data/stock_picking_type_data.xml',
 
+        'wizard/res_config_settings_views.xml',
         'wizard/sale_order_merge_task_wizard_views.xml',
 
         'views/product_view.xml',

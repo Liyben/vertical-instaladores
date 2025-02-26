@@ -86,6 +86,10 @@
                 </header> -->
             </xpath>
 
+            <xpath expr="//field[@name='order_line']/form//field[@name='price_unit']" position="after">
+                <field name="percent_waste" groups="product_task_material_work.group_percent_waste"/>
+            </xpath>
+
             <xpath expr="//field[@name='order_line']/form//field[@name='name']" position="after">
                <field name="auto_create_task" invisible="1"/>
                <div name="partida" attrs="{'invisible':[('auto_create_task','!=',True)]}">
@@ -96,7 +100,7 @@
                             <tree string="Trabajos" editable="bottom">
                                 <field name="sequence" widget="handle"/>
                                 <field name="work_id"/>
-                                <field name="name"/>
+                                <field name="name" widget="text"/>
                                 <field name="hours" sum="Horas totales" widget="float_time"/>
                                 <field name="cost_price_unit" widget="monetary" optional="show" groups="product_task_material_work.group_sales_product_cost"/>
                                 <field name="sale_price_unit" widget="monetary" optional="show"/>
@@ -126,7 +130,7 @@
                             <tree string="Materiales" editable="bottom">
                                 <field name="sequence" widget="handle"/>                                
                                 <field name="material_id"/>
-                                <field name="name"/>
+                                <field name="name" widget="text"/>
                                 <field name="quantity"/>
                                 <field name="cost_price_unit" widget="monetary" optional="show" groups="product_task_material_work.group_sales_product_cost"/>
                                 <field name="sale_price_unit" widget="monetary" optional="show"/>
