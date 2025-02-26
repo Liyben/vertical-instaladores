@@ -86,7 +86,7 @@ class ProductTemplate(models.Model):
 		for record in self:
 			if record.task_works_ids:
 				total_cp_work = sum(record.task_works_ids.mapped('cost_price'))
-				if self.env['ir.config_parameter'].sudo().get_param('product_task_material_work.group_percent_waste') and record.percent_waste > 0.0:
+				if self.env['ir.config_parameter'].sudo().get_param('product_task_material_work.active_group_percent_waste') and record.percent_waste > 0.0:
 					total_cp_work = total_cp_work + ((total_cp_work * record.percent_waste) / 100)
 				record.total_cp_work = total_cp_work
 
@@ -115,7 +115,7 @@ class ProductTemplate(models.Model):
 		for record in self:
 			if record.task_materials_ids:
 				total_cp_material = sum(record.task_materials_ids.mapped('cost_price'))
-				if self.env['ir.config_parameter'].sudo().get_param('product_task_material_work.group_percent_waste') and record.percent_waste > 0.0:
+				if self.env['ir.config_parameter'].sudo().get_param('product_task_material_work.active_group_percent_waste') and record.percent_waste > 0.0:
 					total_cp_material = total_cp_material + ((total_cp_material * record.percent_waste) / 100)
 				record.total_cp_material = total_cp_material
 
