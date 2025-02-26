@@ -46,7 +46,7 @@ class SaleOrderLine(models.Model):
         string="Ver", default='all')
     # % desperdicio
     percent_waste = fields.Float(
-        string='% Desperdicio', digits='Discount', copy=True,)
+        string='% Desperdicio', digits='Discount', copy=True, store=False)
         #store=True, readonly=False, precompute=True, compute='_compute_materials_and_works')
 
     #Estado de la factura de una linea de pedido
