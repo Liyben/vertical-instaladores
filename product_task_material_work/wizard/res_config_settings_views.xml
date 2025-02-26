@@ -8,7 +8,7 @@
         <field name="arch" type="xml">
             <block id="pricing_setting_container" position="inside">
                 <setting id="percent_waste_product" title="Añade un porcentaje de desperdicio al producto partida para obtener el coste total." help="Mostrar % desperdicio en productos partida y linea de pedido.">
-                    <field name="group_percent_waste"/>
+                    <field name="active_group_percent_waste"/>
                 </setting>
             </block>
         </field>
