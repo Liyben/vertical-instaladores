@@ -84,6 +84,10 @@
                     <attribute name="invisible">type == 'opportunity' or type == 'sat' or not active</attribute>
                 </xpath>
 
+                <xpath expr="//button[@name='%(crm.crm_lead_lost_action)d']" position="attributes">
+                    <attribute name="invisible">type == 'opportunity' or type == 'sat' or probability == 0 and not active</attribute>
+                </xpath>
+
                 <xpath expr="//group[@name='lead_partner']" position="attributes">
                     <attribute name="invisible">type == 'opportunity' or type == 'sat'</attribute>
                 </xpath>
@@ -93,6 +97,10 @@
                 </xpath>
 
                 <xpath expr="//group[@name='lead_priority']" position="attributes">
+                    <attribute name="invisible">type == 'opportunity' or type == 'sat'</attribute>
+                </xpath>
+
+                <xpath expr="//sheet/group/group[5]" position="attributes">
                     <attribute name="invisible">type == 'opportunity' or type == 'sat'</attribute>
                 </xpath>
 
