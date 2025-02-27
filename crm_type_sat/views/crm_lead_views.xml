@@ -84,7 +84,7 @@
                     <attribute name="invisible">type == 'opportunity' or type == 'sat' or not active</attribute>
                 </xpath>
 
-                <xpath expr="//button[@name='%(crm.crm_lead_lost_action)d']" position="attributes">
+                <xpath expr="//button[@name='%(crm.crm_lead_lost_action)d'][2]" position="attributes">
                     <attribute name="invisible">type == 'opportunity' or type == 'sat' or probability == 0 and not active</attribute>
                 </xpath>
 
