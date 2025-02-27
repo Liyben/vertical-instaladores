@@ -79,6 +79,26 @@
             <field name="model">crm.lead</field>
             <field name="inherit_id" ref="crm.crm_lead_view_form" />
             <field name="arch" type="xml">
+                
+                <xpath expr="//button[@name='%(crm.action_crm_lead2opportunity_partner)d']" position="attributes">
+                    <attribute name="invisible">type == 'opportunity' or type == 'sat' or not active</attribute>
+                </xpath>
+
+                <xpath expr="//group[@name='lead_partner']" position="attributes">
+                    <attribute name="invisible">type == 'opportunity' or type == 'sat'</attribute>
+                </xpath>
+
+                <xpath expr="//group[@name='lead_info']" position="attributes">
+                    <attribute name="invisible">type == 'opportunity' or type == 'sat'</attribute>
+                </xpath>
+
+                <xpath expr="//group[@name='lead_priority']" position="attributes">
+                    <attribute name="invisible">type == 'opportunity' or type == 'sat'</attribute>
+                </xpath>
+
+                <xpath expr="//page[@name='extra']" position="attributes">
+                    <attribute name="invisible">type == 'opportunity' or type == 'sat'</attribute>
+                </xpath>
 
                 <xpath expr="//field[@name='stage_id']" position="attributes">
                     <attribute name="domain">[('team_id', 'in', [team_id, False]), ('type', 'in', [type, 'both'])]</attribute>
