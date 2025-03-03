@@ -46,8 +46,7 @@ class SaleOrderLine(models.Model):
         string="Ver", default='all')
     # % desperdicio
     percent_waste = fields.Float(
-        string='% Desperdicio', digits='Discount', copy=True, store=False)
-        #store=True, readonly=False, precompute=True, compute='_compute_materials_and_works')
+        string='% Desperdicio', digits='Discount', copy=True)
 
     #Estado de la factura de una linea de pedido
     """ def _compute_invoice_status(self):
@@ -112,7 +111,6 @@ class SaleOrderLine(models.Model):
                         'task_works_ids' : work_list,
                         'task_materials_ids' : material_list,
                         })
-                        #'percent_waste' : line.product_id.percent_waste})
 
 
     #Calculo del precio total de venta de los trabajos	
@@ -182,8 +180,8 @@ class SaleOrderLine(models.Model):
             if (record.total_cp_material != 0) and (record.total_sp_material != 0):
                 record.benefit_material = (1-(record.total_cp_material/record.total_sp_material))
 
-    #Activa la función para calcular el precio de coste tambien cuando se cambia los materiales y mano de obra
-    @api.depends('task_works_ids', 'task_materials_ids', 'task_works_ids.cost_price', 'task_materials_ids.cost_price')
+    #Activa la función para calcular el precio de coste tambien cuando se cambia los materiales y mano de obra y desperdicioe
+    @api.depends('task_works_ids', 'task_materials_ids', 'task_works_ids.cost_price', 'task_materials_ids.cost_price', 'percent_waste')
     def _compute_purchase_price(self):
         super()._compute_purchase_price()
         for line in self:
