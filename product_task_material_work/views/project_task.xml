@@ -21,7 +21,9 @@
                     </group>
                 </page>
             </xpath>
-
+            <xpath expr="//field[@name='analytic_account_id']" position="attributes">
+                <attribute name="groups">base.group_system</attribute>
+            </xpath>
         </field>
     </record>
 

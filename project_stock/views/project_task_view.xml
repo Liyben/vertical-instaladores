@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="project.view_task_form2" />
         <field name="arch" type="xml">
             <xpath expr="///button[@name='action_open_parent_task']" position="after">
-                <!--<button
+                <button
                     name="%(action_project_task_moves)d"
                     type="action"
                     string="Product Moves"
@@ -14,7 +14,7 @@
                     icon="fa-exchange"
                     invisible="not done_stock_moves"
                     groups="stock.group_stock_user"
-                />-->
+                />
                 <button
                     class="oe_stat_button"
                     name="action_view_delivery"
@@ -41,19 +41,19 @@
             >
                 <field
                     name="stock_analytic_account_id"
-                    groups="analytic.group_analytic_accounting"
+                    groups="base.group_system"
                     required="not project_id"
                     invisible="not use_stock_moves"
                 />
                 <field
                     name="stock_analytic_distribution"
                     widget="analytic_distribution"
-                    groups="analytic.group_analytic_accounting"
+                    groups="base.group_system"
                     invisible="not use_stock_moves"
                 />
                 <field name="stock_analytic_date" />
             </xpath>
-            <field name="stage_id" position="before">
+            <!--<field name="stage_id" position="before">
                 <button
                     name="action_confirm"
                     string="Confirm materials"
@@ -106,7 +106,7 @@
                     class="oe_highlight"
                     groups="stock.group_stock_manager"
                     type="object"
-                />
+                />-->
             </field>
             <xpath expr="///page[@name='extra_info']" position="before">
                 <!-- Field without groups used as domain in stock_analytic_* fields !-->
