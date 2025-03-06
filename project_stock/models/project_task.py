@@ -163,7 +163,7 @@ class ProjectTask(models.Model):
                     and x.location_id == loc and x.location_dest_id == loc_dest and x.picking_type_id == pick_type
                 )
             )
-            _logger.debug("MOVES: %s\n", str(moves))
+            #_logger.debug("MOVES: %s\n", str(moves))
             moves.update(
                 {
                     "group_id": item.group_id.id,
@@ -273,6 +273,7 @@ class ProjectTask(models.Model):
         # Update info
         field_names = ("location_id", "location_dest_id")
         if any(vals.get(field) for field in field_names):
+            _logger.debug("UPDATE MOVES: %s\n", str(self.move_ids.picking_id))
             self._update_moves_info()
         return res
 

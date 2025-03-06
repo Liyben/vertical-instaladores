@@ -584,6 +584,7 @@ class SaleOrderLine(models.Model):
                 'location_id' : self.order_id.location_id.id,
                 'location_dest_id' : self.order_id.location_dest_id.id,
                 'partner_id' : self.order_id.partner_shipping_id.id,
+                'analytic_distribution': self.analytic_distribution,
                 })) 
 
         return {
