@@ -106,8 +106,8 @@
                     class="oe_highlight"
                     groups="stock.group_stock_manager"
                     type="object"
-                />-->
-            </field>
+                />
+            </field>-->
             <xpath expr="///page[@name='extra_info']" position="before">
                 <!-- Field without groups used as domain in stock_analytic_* fields !-->
                 <field name="use_stock_moves" invisible="1" />
