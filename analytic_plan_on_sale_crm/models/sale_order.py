@@ -36,10 +36,10 @@ class SaleOrder(models.Model):
             name = prefix + ": " + self.name
         plan = self.plan_id
         if not plan:
-            #plan = self.env['account.analytic.plan'].sudo().search([], limit=1)
-            plan = self.env['account.analytic.plan'].sudo().create({
+            plan = self.env['account.analytic.plan'].sudo().search([], limit=1)
+            """ plan = self.env['account.analytic.plan'].sudo().create({
                 'name': name,
-            })
+            }) """
         return {
             'name': name,
             'code': self.client_order_ref,
