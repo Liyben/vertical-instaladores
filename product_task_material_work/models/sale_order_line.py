@@ -601,7 +601,7 @@ class SaleOrderLine(models.Model):
             'move_ids': material_list,
             'task_works_ids': work_list,
             'oppor_id': self.order_id.opportunity_id.id or False, # Asocia con el aviso
-            'analytic_distribution': self.analytic_distribution or False,
+            'analytic_distribution': self.analytic_distribution,
             }
 
     #Calculo de los valores necesarios de la linea factura asociada a la linea de pedido, al crear la factura del pedido	
@@ -664,6 +664,7 @@ class SaleOrderLine(models.Model):
             res['detailed_subtotal_price_time'] = self.detailed_subtotal_price_time
             res['detailed_subtotal_price_materials'] = self.detailed_subtotal_price_materials
             res['see_works_and_materials'] = self.see_works_and_materials
+            res['analytic_distribution'] = self.analytic_distribution
 
         return res
 
