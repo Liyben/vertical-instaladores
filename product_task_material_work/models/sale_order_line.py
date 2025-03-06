@@ -601,6 +601,7 @@ class SaleOrderLine(models.Model):
             'move_ids': material_list,
             'task_works_ids': work_list,
             'oppor_id': self.order_id.opportunity_id.id or False, # Asocia con el aviso
+            'analytic_distribution': self.analytic_distribution or False,
             }
 
     #Calculo de los valores necesarios de la linea factura asociada a la linea de pedido, al crear la factura del pedido	

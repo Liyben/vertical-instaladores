@@ -85,3 +85,13 @@ class SaleOrder(models.Model):
                 
         return res
 
+    #Se añade la cuenta anañitica a la distribución analitica de cada linea despues de crearla
+    def _create_analytic_account(self, prefix=None):
+        result = super(SaleOrder, self)._create_analytic_account(prefix=prefix)
+        for order in self:
+            analytic_account_id = order.analytic_account_id.id
+            if analytic_account_id:
+                analytic_account_id = str(analytic_account_id)
+                for line in order.order_line:
+                    line.analytic_distribution = {analytic_account_id: 100}
+        return result
