@@ -273,7 +273,7 @@ class ProjectTask(models.Model):
         # Update info
         field_names = ("location_id", "location_dest_id")
         if any(vals.get(field) for field in field_names):
-            _logger.debug("UPDATE MOVES: %s\n", str(self.move_ids.picking_id))
+            #_logger.debug("UPDATE MOVES: %s\n", str(self.move_ids.picking_id))
             self._update_moves_info()
         return res
 
