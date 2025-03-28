@@ -20,7 +20,7 @@ class StockMove(models.Model):
                 and rec.task_id
                 and rec.state == "done"
             ):
-                unit_amount = rec.quantity_done
+                unit_amount = rec.quantity
                 amount = 0.0 - rec.product_id.standard_price 
                 if rec.location_id and rec.location_id.usage == "customer":
                     amount *= -1.0
