@@ -72,7 +72,7 @@ class StockMove(models.Model):
                 new_amount -= (amount / 100) * distribution
             vals["amount"] = new_amount
         res.update(vals)
-        _logger.debug("ANALYTIC LINE FROM TASK: %s\n", str(vals))
+        #_logger.debug("ANALYTIC LINE FROM TASK: %s\n", str(vals))
         return res
 
     @api.model

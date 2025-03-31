@@ -170,6 +170,23 @@ class ProjectTask(models.Model):
                     "task_id": item.id,
                 }
             )
+    def _update_analytic_distribution_info(self):
+        for item in self:
+            item._check_tasks_with_pending_moves()
+            picking_type = item.picking_type_id or item.project_id.picking_type_id
+            location = item.location_id or item.project_id.location_id
+            location_dest = item.location_dest_id or item.project_id.location_dest_id
+            moves = item.move_ids.filtered(
+                lambda x, loc=location, loc_dest=location_dest, pick_type= picking_type: (
+                    x.state not in ("cancel", "done")
+                    and x.location_id == loc and x.location_dest_id == loc_dest and x.picking_type_id == pick_type
+                )
+            )
+            moves.update(
+                {
+                    "analytic_distribution": item.analytic_distribution,
+                }
+            )
 
     @api.model
     def _prepare_procurement_group_vals(self):
@@ -268,8 +285,11 @@ class ProjectTask(models.Model):
                         self._prepare_procurement_group_vals()
                     )
                 self._update_moves_group_id()
+
+                if self.stock_analytic_distribution:
+                    self._update_analytic_distribution_info()
                 # Avoid permissions error if the user does not have access to stock.
-                _logger.debug("ACTION ASSIGN\n")
+                #_logger.debug("ACTION ASSIGN\n")
                 self.sudo().action_assign()
         # Update info
         field_names = ("location_id", "location_dest_id")
