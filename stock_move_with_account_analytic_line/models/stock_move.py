@@ -21,7 +21,7 @@ class StockMove(models.Model):
                 and rec.state == "done"
             ):
                 unit_amount = rec.quantity
-                amount = 0.0 - rec.product_id.standard_price 
+                amount = 0.0 - (rec.quantity * rec.product_id.standard_price) 
                 if rec.location_id and rec.location_id.usage == "customer":
                     amount *= -1.0
 
