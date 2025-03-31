@@ -182,10 +182,10 @@ class ProjectTask(models.Model):
                     and x.location_id == loc and x.location_dest_id == loc_dest and x.picking_type_id == pick_type
                 )
             )
-            _logger.debug("ANALYTIC DISTRIBUTION MOVES UPDATE: %s\n", str(moves))
+            #_logger.debug("ANALYTIC DISTRIBUTION MOVES UPDATE: %s\n", str(moves))
             moves.update(
                 {
-                    "analytic_distribution": item.analytic_distribution,
+                    "analytic_distribution": item.stock_analytic_distribution,
                 }
             )
 
@@ -288,7 +288,7 @@ class ProjectTask(models.Model):
                 self._update_moves_group_id()
 
                 if self.stock_analytic_distribution:
-                    _logger.debug("ANALYTIC DISTRIBUTION\n")
+                    #_logger.debug("ANALYTIC DISTRIBUTION\n")
                     self._update_analytic_distribution_info()
                 # Avoid permissions error if the user does not have access to stock.
                 #_logger.debug("ACTION ASSIGN\n")
