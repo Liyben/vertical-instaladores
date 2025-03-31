@@ -269,6 +269,7 @@ class ProjectTask(models.Model):
                     )
                 self._update_moves_group_id()
                 # Avoid permissions error if the user does not have access to stock.
+                _logger.debug("ACTION ASSIGN\n")
                 self.sudo().action_assign()
         # Update info
         field_names = ("location_id", "location_dest_id")
