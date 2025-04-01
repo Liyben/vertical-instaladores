@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="stock_account.view_category_property_form"/>
         <field name="arch" type="xml">
             <xpath expr="//group[@name='account_stock_property']" position="attributes">
-                <attribute name="attrs">{'invisible':[('property_valuation', '!=', 'real_time')]}</attribute>
+                <attribute name="invisible">property_valuation != 'real_time'</attribute>
             </xpath>
         </field>
     </record>
