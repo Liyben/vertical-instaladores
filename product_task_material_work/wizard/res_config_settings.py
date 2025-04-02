@@ -12,3 +12,10 @@ class ResConfigSettings(models.TransientModel):
         implied_group='product_task_material_work.group_percent_waste',
         config_parameter='product_task_material_work.active_group_percent_waste',
     )
+
+    active_group_sales_apply_pricelist = fields.Boolean(
+        string="Tarifa en Productos Partida",
+        help="Permite aplicar la tarifa en las líneas de materiales y mano de obra en lugar del producto partida",
+        implied_group='product_task_material_work.group_sales_apply_pricelist',
+        config_parameter='product_task_material_work.active_group_sales_apply_pricelist',
+    )

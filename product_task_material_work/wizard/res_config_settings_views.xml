@@ -10,6 +10,9 @@
                 <setting id="percent_waste_product" title="Añade un porcentaje de desperdicio al producto partida para obtener el coste total." help="Mostrar % desperdicio en productos partida y linea de pedido.">
                     <field name="active_group_percent_waste"/>
                 </setting>
+                <setting id="apply_pricelist_product" title="Permite poder aplicar tarifa dentro de los productos partida." help="Permite aplicar la tarifa en las líneas de materiales y mano de obra en lugar del producto partida.">
+                    <field name="active_group_sales_apply_pricelist"/>
+                </setting>
             </block>
         </field>
     </record>
