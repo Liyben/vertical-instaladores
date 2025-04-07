@@ -19,7 +19,7 @@
             <field name="report_type">qweb-pdf</field>
             <field name="report_name">product_task_material_work.report_project_task_work_order</field>
             <field name="report_file">product_task_material_work.report_project_task_work_order</field>
-            <field name="print_report_name">'Parte de trabajo - %s' % (object.sequence_code)</field>
+            <field name="print_report_name">'Parte de trabajo - %s' % (object.code)</field>
             <field name="binding_model_id" ref="model_project_task"/>
             <field name="binding_type">report</field>
         </record>

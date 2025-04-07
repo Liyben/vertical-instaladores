@@ -171,7 +171,7 @@
                         </table>                             
 
 <!--====================FIRMA======================--> 
-                        <table class="table table-sm o_main_table table-borderless">
+                        <table class="table table-sm o_main_table table-borderless" t-if="o.signature">
                             <tbody>
                                 <tr style="background-color: #FFFFFF;">
                                     <td style="valign:bottom;">
