@@ -49,9 +49,9 @@ class SaleOrderLine(models.Model):
         string='% Desperdicio', digits='Discount', copy=True)
     #Campo para controlar evento onchange en el producto
     change_control = fields.Selection([
-        ('empty', 'Vacío'),
-        ('change', 'Con producto')],
-        string="Change control", default='empty')
+        ('first_change', 'Primer cambio'),
+        ('with_product', 'Con producto')],
+        string="Change control", default='first_change')
 
     #Estado de la factura de una linea de pedido
     """ def _compute_invoice_status(self):
@@ -223,7 +223,7 @@ class SaleOrderLine(models.Model):
         #Producto Partida
         product_lst_price = 0.0
         product_standard_price = 0.0
-        if self.auto_create_task and self.see_works_and_materials != False:
+        if self.auto_create_task and self.see_works_and_materials != False and self.change_control == 'with_product':
             _logger.debug("AUTO CREATE TASK: %s\n",str(self.change_control))
             #Si en el producto partida se aplica tarifa en los materiales y mano de obra
             #se devuelve la suma de los precios totales de venta de cada uno
@@ -240,7 +240,18 @@ class SaleOrderLine(models.Model):
                 })
             
         pricelist_price = self._get_pricelist_price()
+        
+        #Producto Partida
+        if self.auto_create_task and self.see_works_and_materials != False and self.change_control == 'with_product':
+            #Recuperamos los precios de la ficha producto previamente guardado
+            self.product_id.write({
+                'list_price' : product_lst_price,
+                'standard_price' : product_standard_price,
+                })
 
+        if self.change_control == 'first_change':
+            self.change_control = 'with_product'
+             
         if self.order_id.pricelist_id.discount_policy == 'with_discount':
             return pricelist_price
 
@@ -249,14 +260,6 @@ class SaleOrderLine(models.Model):
             return pricelist_price
 
         base_price = self._get_pricelist_price_before_discount()
-        
-        #Producto Partida
-        if self.auto_create_task and self.see_works_and_materials != False:
-            #Recuperamos los precios de la ficha producto previamente guardado
-            self.product_id.write({
-                'list_price' : product_lst_price,
-                'standard_price' : product_standard_price,
-                })
 
         # negative discounts (= surcharge) are included in the display price
         return max(base_price, pricelist_price)
@@ -265,10 +268,8 @@ class SaleOrderLine(models.Model):
     @api.onchange('product_id')
     def _onchange_change_control(self):
         for line in self:
-            _logger.debug("ONCHANGE CONTROL BEFORE IF: %s\n",str(line.change_control))
             if line.product_id:
-                line.change_control = 'change'
-                _logger.debug("ONCHANGE CONTROL INSIDE IF: %s\n",str(line.change_control))
+                line.change_control = 'first_change'
 
     
     #Calculo de los valores necesarios para crear el proyecto correspondiente a la linea de pedido
