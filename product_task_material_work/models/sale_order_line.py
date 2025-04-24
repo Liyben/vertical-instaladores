@@ -248,9 +248,6 @@ class SaleOrderLine(models.Model):
                 'list_price' : product_lst_price,
                 'standard_price' : product_standard_price,
                 })
-
-        if self.change_control == 'first_change':
-            self.change_control = 'with_product'
              
         if self.order_id.pricelist_id.discount_policy == 'with_discount':
             return pricelist_price
@@ -264,12 +261,18 @@ class SaleOrderLine(models.Model):
         # negative discounts (= surcharge) are included in the display price
         return max(base_price, pricelist_price)
     
-    #Carga del desperdicio
+    #Control de onchange
     @api.onchange('product_id')
-    def _onchange_change_control(self):
+    def _onchange_change_control_product(self):
         for line in self:
             if line.product_id:
                 line.change_control = 'first_change'
+
+    @api.onchange('task_works_ids', 'task_materials_ids', 'task_works_ids.sale_price', 'task_materials_ids.sale_price', 'task_works_ids.cost_price', 'task_materials_ids.cost_price')
+    def _onchange_change_control_material_and_work(self):
+        for line in self:
+            if line.product_id:
+                line.change_control = 'with_product'
 
     
     #Calculo de los valores necesarios para crear el proyecto correspondiente a la linea de pedido
