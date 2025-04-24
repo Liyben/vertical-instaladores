@@ -61,6 +61,13 @@ class SaleOrderLineTaskMaterial(models.Model):
         self.order_line_id.product_id.ensure_one()
 
         return self.order_line_id.product_id.apply_pricelist
+    
+    #Obtener la fecha del pedido
+    def _get_order_date(self):
+        self.ensure_one()
+        self.order_line_id.ensure_one()
+
+        return self.order_line_id.order_id.date_order
 
     #Calculo del precio unitario según tarifa
     def _get_display_price(self):
@@ -83,7 +90,8 @@ class SaleOrderLineTaskMaterial(models.Model):
             product=self.material_id,
             quantity=self.quantity or 1.0,
             uom=self.material_id.uom_id,
-            date=self.order_line_id._get_order_date(),
+            date=self._get_order_date(),
+            #date=self.order_line_id._get_order_date(),
             currency=self.currency_id,
         )
 
