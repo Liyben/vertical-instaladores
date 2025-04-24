@@ -116,7 +116,7 @@ class SaleOrderLineTaskWork(models.Model):
                 price = record._get_display_price()
                 record.sale_price = record.hours * (price * (1 - (record.discount / 100)))
                 record.cost_price = (record.hours * record.cost_price_unit)
-                record.material_margin = (record.hours * (price * (1 - (record.discount / 100)))) - (record.hours * record.cost_price_unit)
+                record.work_margin = (record.hours * (price * (1 - (record.discount / 100)))) - (record.hours * record.cost_price_unit)
             else:
                 record.sale_price = record.hours * (record.sale_price_unit * (1 - (record.discount / 100)))
                 record.cost_price = (record.hours * record.cost_price_unit)

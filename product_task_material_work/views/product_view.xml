@@ -17,7 +17,7 @@
                             <group>
                                 <field name="see_works_and_materials"/>
                                 <field name="percent_waste" groups="product_task_material_work.group_percent_waste"/>
-                                <field name="apply_pricelist" groups="product_task_material_work.group_sales_apply_pricelist"/>
+                                <field name="apply_pricelist" />
                                 <field name="auto_create_task" invisible="1"/>
                             </group>
                             <group>
