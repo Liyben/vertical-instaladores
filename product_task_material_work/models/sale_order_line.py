@@ -268,7 +268,7 @@ class SaleOrderLine(models.Model):
             if line.product_id:
                 line.change_control = 'first_change'
 
-    @api.onchange('task_works_ids', 'task_materials_ids', 'task_works_ids.sale_price', 'task_materials_ids.sale_price', 'task_works_ids.cost_price', 'task_materials_ids.cost_price')
+    @api.onchange('task_works_ids', 'task_materials_ids')
     def _onchange_change_control_material_and_work(self):
         for line in self:
             if line.product_id:
