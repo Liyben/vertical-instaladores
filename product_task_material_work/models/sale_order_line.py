@@ -193,7 +193,7 @@ class SaleOrderLine(models.Model):
             if not line.product_id:
                 line.purchase_price = 0.0
                 continue
-            if line.task_works_ids or line.task_materials_ids:
+            if line.task_works_ids or line.task_materials_ids and line.change_control == 'with_product':
                 line = line.with_company(line.company_id)
                 line_cost = line.total_cp_material + line.total_cp_work
                 line.purchase_price = line._convert_to_sol_currency(
@@ -224,7 +224,7 @@ class SaleOrderLine(models.Model):
         product_lst_price = 0.0
         product_standard_price = 0.0
         if self.auto_create_task and self.see_works_and_materials != False and self.change_control == 'with_product':
-            _logger.debug("AUTO CREATE TASK: %s\n",str(self.change_control))
+            #_logger.debug("AUTO CREATE TASK: %s\n",str(self.change_control))
             #Si en el producto partida se aplica tarifa en los materiales y mano de obra
             #se devuelve la suma de los precios totales de venta de cada uno
             if self.product_id.apply_pricelist:
