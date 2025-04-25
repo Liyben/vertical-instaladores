@@ -190,6 +190,7 @@ class SaleOrderLine(models.Model):
     def _compute_purchase_price(self):
         super()._compute_purchase_price()
         for line in self:
+            _logger.debug("_compute_purchase_price: %s\n",str(self.change_control))
             if not line.product_id:
                 line.purchase_price = 0.0
                 continue
@@ -220,11 +221,11 @@ class SaleOrderLine(models.Model):
         """
         self.ensure_one()
         
+        _logger.debug("_get_display_price: %s\n",str(self.change_control))
         #Producto Partida
         product_lst_price = 0.0
         product_standard_price = 0.0
-        if self.auto_create_task and self.see_works_and_materials != False and self.change_control == 'with_product':
-            #_logger.debug("AUTO CREATE TASK: %s\n",str(self.change_control))
+        if self.auto_create_task and self.see_works_and_materials != False and self.change_control == 'with_product':    
             #Si en el producto partida se aplica tarifa en los materiales y mano de obra
             #se devuelve la suma de los precios totales de venta de cada uno
             if self.product_id.apply_pricelist:
@@ -265,12 +266,14 @@ class SaleOrderLine(models.Model):
     @api.onchange('product_id')
     def _onchange_change_control_product(self):
         for line in self:
+            _logger.debug("_onchange_change_control_product: %s\n",str(line.change_control))
             if line.product_id:
                 line.change_control = 'first_change'
 
     @api.onchange('task_works_ids', 'task_materials_ids')
     def _onchange_change_control_material_and_work(self):
         for line in self:
+            _logger.debug("_onchange_change_control_material_and_work: %s\n",str(line.change_control))
             if line.product_id:
                 line.change_control = 'with_product'
 
