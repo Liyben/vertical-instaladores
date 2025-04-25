@@ -271,15 +271,19 @@ class SaleOrderLine(models.Model):
             if line.product_id:
                 line.change_control = 'first_change'
 
-    @api.onchange('task_works_ids', 'task_materials_ids')
-    def _onchange_change_control_material_and_work(self):
+    @api.onchange('task_works_ids')
+    def _onchange_change_control_task_works_ids(self):
         for line in self:
-            _logger.debug("_onchange_change_control_material_and_work: %s\n",str(line.change_control))
-            if line.product_id:
-                if line.change_control == 'first_change':
-                    line.change_control = 'with_product'
-                elif line.change_control == 'with_product':
-                    line.change_control = 'complete'
+            _logger.debug("_onchange_change_control_task_works_ids: %s\n",str(line.change_control))
+            if line.product_id and line.auto_create_task and line.see_works_and_materials != False:
+                line.change_control = 'with_product'
+    
+    @api.onchange('task_materials_ids')
+    def _onchange_change_control_task_materials_ids(self):
+        for line in self:
+            _logger.debug("_onchange_change_control_task_materials_ids: %s\n",str(line.change_control))
+            if line.product_id and line.auto_create_task and line.see_works_and_materials != False:
+                line.change_control = 'complete'
     
     #Calculo de los valores necesarios para crear el proyecto correspondiente a la linea de pedido
     def _timesheet_create_project_prepare_values(self):
