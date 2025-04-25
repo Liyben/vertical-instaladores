@@ -50,7 +50,8 @@ class SaleOrderLine(models.Model):
     #Campo para controlar evento onchange en el producto
     change_control = fields.Selection([
         ('first_change', 'Primer cambio'),
-        ('with_product', 'Con producto')],
+        ('with_product', 'Con producto'),
+        ('complete', 'Con mano de obra y materiales')],
         string="Change control", default='first_change')
 
     #Estado de la factura de una linea de pedido
@@ -194,7 +195,7 @@ class SaleOrderLine(models.Model):
             if not line.product_id:
                 line.purchase_price = 0.0
                 continue
-            if line.task_works_ids or line.task_materials_ids and line.change_control == 'with_product':
+            if line.task_works_ids or line.task_materials_ids and line.change_control == 'complete':
                 line = line.with_company(line.company_id)
                 line_cost = line.total_cp_material + line.total_cp_work
                 line.purchase_price = line._convert_to_sol_currency(
@@ -225,7 +226,7 @@ class SaleOrderLine(models.Model):
         #Producto Partida
         product_lst_price = 0.0
         product_standard_price = 0.0
-        if self.auto_create_task and self.see_works_and_materials != False and self.change_control == 'with_product':    
+        if self.auto_create_task and self.see_works_and_materials != False and self.change_control == 'complete':    
             #Si en el producto partida se aplica tarifa en los materiales y mano de obra
             #se devuelve la suma de los precios totales de venta de cada uno
             if self.product_id.apply_pricelist:
@@ -243,7 +244,7 @@ class SaleOrderLine(models.Model):
         pricelist_price = self._get_pricelist_price()
         
         #Producto Partida
-        if self.auto_create_task and self.see_works_and_materials != False and self.change_control == 'with_product':
+        if self.auto_create_task and self.see_works_and_materials != False and self.change_control == 'complete':
             #Recuperamos los precios de la ficha producto previamente guardado
             self.product_id.write({
                 'list_price' : product_lst_price,
@@ -275,8 +276,10 @@ class SaleOrderLine(models.Model):
         for line in self:
             _logger.debug("_onchange_change_control_material_and_work: %s\n",str(line.change_control))
             if line.product_id:
-                line.change_control = 'with_product'
-
+                if line.change_control == 'first_change':
+                    line.change_control = 'with_product'
+                if line.change_control == 'with_product':
+                    line.change_control = 'complete'
     
     #Calculo de los valores necesarios para crear el proyecto correspondiente a la linea de pedido
     def _timesheet_create_project_prepare_values(self):
