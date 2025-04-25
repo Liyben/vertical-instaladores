@@ -53,7 +53,7 @@ class SaleOrderLine(models.Model):
         ('material', 'Material'),
         ('work', 'Mano de obra'),
         ('complete', 'Completo')],
-        string="Change control")
+        string="Change control", default='product')
 
     #Estado de la factura de una linea de pedido
     """ def _compute_invoice_status(self):
