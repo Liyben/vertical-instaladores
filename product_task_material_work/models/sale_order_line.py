@@ -278,7 +278,7 @@ class SaleOrderLine(models.Model):
             if line.product_id:
                 if line.change_control == 'first_change':
                     line.change_control = 'with_product'
-                if line.change_control == 'with_product':
+                elif line.change_control == 'with_product':
                     line.change_control = 'complete'
     
     #Calculo de los valores necesarios para crear el proyecto correspondiente a la linea de pedido
