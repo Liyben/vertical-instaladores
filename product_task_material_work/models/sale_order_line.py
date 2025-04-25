@@ -50,8 +50,7 @@ class SaleOrderLine(models.Model):
     #Campo para controlar evento onchange en el producto
     change_control = fields.Selection([
         ('product', 'Producto'),
-        ('material', 'Material'),
-        ('work', 'Mano de obra'),
+        ('work_material', 'Compuestos'),
         ('complete', 'Completo')],
         string="Change control", default='product')
 
@@ -196,10 +195,7 @@ class SaleOrderLine(models.Model):
             if not line.product_id:
                 line.purchase_price = 0.0
                 continue
-            if line.task_works_ids or line.task_materials_ids and line.change_control == 'work':
-                line.change_control == 'complete'
-                return True
-            if line.task_works_ids or line.task_materials_ids and line.change_control == 'complete':
+            if line.task_works_ids or line.task_materials_ids and line.change_control == 'work_material':
                 line = line.with_company(line.company_id)
                 line_cost = line.total_cp_material + line.total_cp_work
                 line.purchase_price = line._convert_to_sol_currency(
@@ -230,7 +226,7 @@ class SaleOrderLine(models.Model):
         #Producto Partida
         product_lst_price = 0.0
         product_standard_price = 0.0
-        if self.auto_create_task and self.see_works_and_materials != False and self.change_control == 'complete':    
+        if self.auto_create_task and self.see_works_and_materials != False and self.change_control == 'work_material':    
             #Si en el producto partida se aplica tarifa en los materiales y mano de obra
             #se devuelve la suma de los precios totales de venta de cada uno
             if self.product_id.apply_pricelist:
@@ -248,7 +244,7 @@ class SaleOrderLine(models.Model):
         pricelist_price = self._get_pricelist_price()
         
         #Producto Partida
-        if self.auto_create_task and self.see_works_and_materials != False and self.change_control == 'complete':
+        if self.auto_create_task and self.see_works_and_materials != False and self.change_control == 'work_material':
             #Recuperamos los precios de la ficha producto previamente guardado
             self.product_id.write({
                 'list_price' : product_lst_price,
@@ -275,19 +271,12 @@ class SaleOrderLine(models.Model):
             if line.product_id:
                 line.change_control = 'product'
 
-    @api.onchange('task_works_ids')
-    def _onchange_change_control_task_works_ids(self):
+    @api.onchange('task_works_ids','task_materials_ids')
+    def _onchange_change_control_material_work_ids(self):
         for line in self:
-            _logger.debug("_onchange_change_control_task_works_ids: %s\n",str(line.change_control))
-            if line.product_id and line.auto_create_task and line.see_works_and_materials != False and line.change_control == 'product':
-                line.change_control = 'material'
-    
-    @api.onchange('task_materials_ids')
-    def _onchange_change_control_task_materials_ids(self):
-        for line in self:
-            _logger.debug("_onchange_change_control_task_materials_ids: %s\n",str(line.change_control))
-            if line.product_id and line.auto_create_task and line.see_works_and_materials != False and line.change_control == 'material':
-                line.change_control = 'work'
+            _logger.debug("_onchange_change_control_material_work_ids: %s\n",str(line.change_control))
+            if line.product_id and line.auto_create_task and line.see_works_and_materials != False:
+                line.change_control = 'work_material'
     
     #Calculo de los valores necesarios para crear el proyecto correspondiente a la linea de pedido
     def _timesheet_create_project_prepare_values(self):

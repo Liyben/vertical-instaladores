@@ -94,6 +94,7 @@
                <field name="auto_create_task" invisible="1"/>
                <div name="partida" attrs="{'invisible':[('auto_create_task','!=',True)]}">
                     <field name="see_works_and_materials"/>
+                    <field name="change_control" invisible="1"/>
                     <group string="Trabajos" invisible="see_works_and_materials in ['only_materials',False]">
                         
                         <field name="task_works_ids" nolabel="1" context="{'default_product_id': active_id}">
