@@ -53,6 +53,7 @@ class SaleOrderLine(models.Model):
         ('work_material', 'Compuestos'),
         ('complete', 'Completo')],
         string="Change control", default='product')
+    count_change = fields.Integer(string='Contador')
 
     #Estado de la factura de una linea de pedido
     """ def _compute_invoice_status(self):
@@ -191,11 +192,12 @@ class SaleOrderLine(models.Model):
     def _compute_purchase_price(self):
         super()._compute_purchase_price()
         for line in self:
-            _logger.debug("_compute_purchase_price: %s\n",str(self.change_control))
+            _logger.debug("_compute_purchase_price: %s\n",str(line.change_control))
             if not line.product_id:
                 line.purchase_price = 0.0
                 continue
             if line.task_works_ids or line.task_materials_ids and line.change_control == 'work_material':
+                _logger.debug("_compute_purchase_price: %s\n",str(line.count_change))
                 line = line.with_company(line.company_id)
                 line_cost = line.total_cp_material + line.total_cp_work
                 line.purchase_price = line._convert_to_sol_currency(
@@ -269,6 +271,7 @@ class SaleOrderLine(models.Model):
         for line in self:
             _logger.debug("_onchange_change_control_product: %s\n",str(line.change_control))
             if line.product_id:
+                line.count_change = 0
                 line.change_control = 'product'
 
     @api.onchange('task_works_ids','task_materials_ids')
@@ -276,6 +279,7 @@ class SaleOrderLine(models.Model):
         for line in self:
             _logger.debug("_onchange_change_control_material_work_ids: %s\n",str(line.change_control))
             if line.product_id and line.auto_create_task and line.see_works_and_materials != False:
+                line.count_change += 1
                 line.change_control = 'work_material'
     
     #Calculo de los valores necesarios para crear el proyecto correspondiente a la linea de pedido
