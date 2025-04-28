@@ -75,6 +75,8 @@ class SaleOrderLine(models.Model):
         for line in self:
             if line.product_id.auto_create_task:
                 line.percent_waste = line.product_id.percent_waste
+            else:
+                line.percent_waste = 0.0
 
     #Carga de los materiales y mano de obra
     @api.depends('product_id')
