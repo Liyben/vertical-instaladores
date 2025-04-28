@@ -197,12 +197,16 @@ class SaleOrderLine(models.Model):
                 line.purchase_price = 0.0
                 continue
             if line.task_works_ids or line.task_materials_ids and line.change_control == 'work_material':
-                _logger.debug("_compute_purchase_price: %s\n",str(line.count_change))
-                line = line.with_company(line.company_id)
-                line_cost = line.total_cp_material + line.total_cp_work
-                line.purchase_price = line._convert_to_sol_currency(
-                    line_cost,
-                    line.product_id.cost_currency_id)
+                if line.count_change == 2:
+                    _logger.debug("_compute_purchase_price: %s\n",str(line.count_change))
+                    continue
+                else:
+                    _logger.debug("_compute_purchase_price: %s\n",str(line.count_change))
+                    line = line.with_company(line.company_id)
+                    line_cost = line.total_cp_material + line.total_cp_work
+                    line.purchase_price = line._convert_to_sol_currency(
+                        line_cost,
+                        line.product_id.cost_currency_id)
         return True
 
     #Activa la función para calcular el precio unitario tambien cuando se cambia los materiales y mano de obra
