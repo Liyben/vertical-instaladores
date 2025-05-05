@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <t t-name="geolocation_test.Geolocation_widget">
+        <div class="o_field_widget">
+            <span class="input-group-text">lat: </span>
+            <input type="text" class="form-control" t-model="state.coordinates.latitude"/>
+            <span class="input-group-text">long: </span>
+            <input type="text" class="form-control" t-model="state.coordinates.longitude"/>
+            <button type="button" class="btn btn-primary" t-on-click="getCoordinates" t-ref="popupRef">
+                Coordenadas
+            </button>
+        </div>
+    </t>
+</templates>
