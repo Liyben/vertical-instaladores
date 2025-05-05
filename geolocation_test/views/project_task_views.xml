@@ -8,7 +8,7 @@
         <field name="inherit_id" ref="project.view_task_form2"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='tag_ids']" position="after">
-                <field name="coordinates" widget="geolocation"/>
+                <field name="coordinates" widget="latandlong"/>
             </xpath>
         </field>
     </record>

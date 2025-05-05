@@ -6,7 +6,7 @@
             <input type="text" class="form-control" t-model="state.coordinates.latitude"/>
             <span class="input-group-text">long: </span>
             <input type="text" class="form-control" t-model="state.coordinates.longitude"/>
-            <button type="button" class="btn btn-primary" t-on-click="getCoordinates" t-ref="popupRef">
+            <button type="button" class="btn btn-primary" t-on-click="getCoordinates">
                 Coordenadas
             </button>
         </div>

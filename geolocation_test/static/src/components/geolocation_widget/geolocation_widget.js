@@ -12,12 +12,12 @@ export class Geolocation_widget extends Component {
     };
     setup() {
       this.state = useState({
-        coordinates: {latitude: 0.0, longitude: 0.0}
+        coordinates: {latitude: 0.0, longitude: 0.0},
       });
     }
 
     getCoordinates() {
-      console.log('getCoordinates')
+      console.log('getCoordinates');
     }
 }
 
@@ -30,4 +30,4 @@ const geolocationWidget = {
   }),
 };
 
-registry.category("fields").add("geolocation", geolocationWidget);
+registry.category("fields").add("latandlong", geolocationWidget);
