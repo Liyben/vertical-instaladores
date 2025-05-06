@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <templates xml:space="preserve">
-    <t t-name="geolocation_test.GeolocationWidget">
+    <t t-name="geolocation_test.GeolocationWidget" owl="1">
         <div class="o_field_widget">
             <span class="input-group-text">lat: </span>
             <input type="text" class="form-control" t-model="state.coordinates.latitude"/>
