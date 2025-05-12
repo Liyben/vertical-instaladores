@@ -1,0 +1,280 @@
+<odoo>
+
+    <!--TASK-->
+    <!--Form view-->
+    <record model="ir.ui.view" id="project_timesheet_time_control_form_task_inherited">
+        <field name="name">project.timesheet.time.control.form.task.inherited</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project_timesheet_time_control.view_task_form2_inherited"/>
+        <field name="arch" type="xml">
+            <!--Botones para el grupo administrativo-->
+            <xpath expr="//button[@name='button_start_work']" position="attributes">
+                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
+            </xpath>
+            <xpath expr="//button[@name='button_end_work']" position="attributes">
+                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_task_form2_inherited" model="ir.ui.view">
+        <field name="name">Add timesheet time controls</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited" />
+        <field name="arch" type="xml">
+            <!--Botones para el grupo operarios-->
+            <div name="button_box" position="inside">
+                <field
+                    name="view_button_start"
+                    invisible="1"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+                <field
+                    name="view_button_stop"
+                    invisible="1"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+                <button
+                    name="button_start_work"
+                    string="Comenzar trabajo"
+                    type="object"
+                    icon="fa-play-circle text-success"
+                    invisible="show_time_control != 'start' and view_button_start"
+                    class="oe_stat_button"
+                    title="Comenzar trabajo"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+                <button
+                    name="button_end_work"
+                    string="Detener trabajo"
+                    type="object"
+                    icon="fa-stop-circle text-warning"
+                    invisible="show_time_control != 'stop' and view_button_stop"
+                    class="oe_stat_button"
+                    title="Detener trabajo"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+            </div>
+        </field>
+    </record>
+
+    <!--Kanban view-->
+    <record model="ir.ui.view" id="project_timesheet_time_control_kanban_task_inherited">
+        <field name="name">project.timesheet.time.control.kanban.task.inherited</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project_timesheet_time_control.view_task_kanban"/>
+        <field name="arch" type="xml">
+            <!--Botones para el grupo administrativo-->
+            <xpath expr="//a[@name='button_start_work']" position="attributes">
+                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
+            </xpath>
+            <xpath expr="//a[@name='button_end_work']" position="attributes">
+                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_task_kanban" model="ir.ui.view">
+        <field name="name">Add timesheet time controls</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_kanban" />
+        <field name="arch" type="xml">
+            <!--Botones para el grupo operarios-->
+            <xpath expr="//*[hasclass('oe_kanban_bottom_left')]" position="inside">
+                <field
+                    name="view_button_start"
+                    invisible="1"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+                <field
+                    name="view_button_stop"
+                    invisible="1"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+                <a
+                   name="button_start_work"
+                    type="object"
+                    tabindex="-1"
+                    invisible="show_time_control != 'start' and view_button_start"
+                    class="o_kanban_inline_block fa fa-lg fa-play-circle text-success"
+                    title="Comenzar trabajo"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+                <a
+                    name="button_end_work"
+                    type="object"
+                    tabindex="-1"
+                    invisible="show_time_control != 'stop' and view_button_stop"
+                    class="o_kanban_inline_block fa fa-lg fa-stop-circle text-warning"
+                    title="Detener trabajo"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+            </xpath>
+
+        </field>
+    </record>
+
+    <!--Tree view-->
+    <record model="ir.ui.view" id="project_timesheet_time_control_tree_task_inherited">
+        <field name="name">project.timesheet.time.control.tree.task.inherited</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project_timesheet_time_control.view_task_tree2_inherited"/>
+        <field name="arch" type="xml">
+            <!--Botones para el grupo administrativo-->
+            <xpath expr="//button[@name='button_start_work']" position="attributes">
+                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
+            </xpath>
+            <xpath expr="//button[@name='button_end_work']" position="attributes">
+                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
+            </xpath>
+
+        </field>
+    </record>
+    
+    <record id="view_task_tree2_inherited" model="ir.ui.view">
+        <field name="name">Add timesheet time controls</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="hr_timesheet.view_task_tree2_inherited" />
+        <field name="arch" type="xml">
+            <!--Botones para el grupo operarios-->
+            <tree position="inside">
+                <field
+                    name="view_button_start"
+                    invisible="1"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+                <field
+                    name="view_button_stop"
+                    invisible="1"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+                <button
+                    name="button_start_work"
+                    string="Comenzar trabajo"
+                    type="object"
+                    tabindex="-1"
+                    icon="fa-play-circle text-success"
+                    invisible="show_time_control != 'start' and view_button_start"
+                    class="oe_stat_button"
+                    title="Comenzar trabajo"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+                <button
+                    name="button_end_work"
+                    string="Detener trabajo"
+                    type="object"
+                    tabindex="-1"
+                    icon="fa-stop-circle text-warning"
+                    invisible="show_time_control != 'stop' and view_button_stop"
+                    class="oe_stat_button"
+                    title="Detener trabajo"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+            </tree>
+
+        </field>
+    </record>
+
+    <!--TIMESHEET_IDS-->
+    <!--Botones geolocalización-->
+    <record model="ir.ui.view" id="view_task_form2_inherited">
+        <field name="name">Add geolocation tree and kanban view</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited" />
+        <field name="arch" type="xml">
+            <!-- Sub-tree view for timesheet_ids -->
+            <xpath expr="//field[@name='timesheet_ids']/tree" position="inside">
+                <field
+                    name="view_button_stop"
+                    invisible="1"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+                <button
+                    name="button_end_work"
+                    type="object"
+                    tabindex="-1"
+                    icon="fa-stop-circle text-warning"
+                    invisible="show_time_control != 'stop' and view_button_stop"
+                    class="oe_stat_button"
+                    title="Detener trabajo"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+            </xpath>
+            <!-- Sub-kanban view for timesheet_ids -->
+            <xpath expr="//field[@name='timesheet_ids']/kanban//templates//field[@name='unit_amount']" position="after">
+                <field
+                    name="view_button_stop"
+                    invisible="1"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+                <a
+                    name="button_end_work"
+                    string="Detener trabajo"
+                    type="object"
+                    tabindex="-1"
+                    invisible="show_time_control != 'stop' and view_button_stop"
+                    class="o_kanban_inline_block fa fa-lg fa-stop-circle text-warning"
+                    title="Detener trabajo"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_task_form3_inherited">
+        <field name="name">Add geolocation form view</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project_timesheet_time_control.view_task_form2_inherited" />
+        <field name="arch" type="xml">
+            <!-- Sub-form view for timesheet_ids -->
+            <xpath expr="//field[@name='timesheet_ids']/form//div[@name='button_box']" position="inside">
+                <field
+                    name="view_button_stop"
+                    invisible="1"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+                <button
+                    name="button_end_work"
+                    type="object"
+                    tabindex="-1"
+                    icon="fa-stop-circle text-warning"
+                    invisible="show_time_control != 'stop' and view_button_stop"
+                    class="oe_stat_button"
+                    title="Detener trabajo"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+            </xpath>
+        </field>
+    </record>
+
+    <!--Botones para el grupo administrativo-->
+    <record model="ir.ui.view" id="project_timesheet_time_control_timesheet_ids_inherited">
+        <field name="name">project.timesheet.time.control.timesheet_ids.inherited</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project_timesheet_time_control.view_task_form2_inherited"/>
+        <field name="arch" type="xml">
+            <!-- Sub-form view for timesheet_ids -->
+            <xpath expr="//field[@name='timesheet_ids']/form//button[@name='button_resume_work']" position="attributes">
+                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
+            </xpath>
+            <xpath expr="//field[@name='timesheet_ids']/form//button[@name='button_end_work']" position="attributes">
+                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
+            </xpath>
+            <!-- Sub-tree view for timesheet_ids -->
+            <xpath expr="//field[@name='timesheet_ids']/tree//button[@name='button_resume_work']" position="attributes">
+                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
+            </xpath>
+            <xpath expr="//field[@name='timesheet_ids']/tree//button[@name='button_end_work']" position="attributes">
+                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
+            </xpath>
+            <!-- Sub-kanban view for timesheet_ids -->
+            <xpath expr="//a[@name='button_resume_work']" position="attributes">
+                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
+            </xpath>
+            <xpath expr="//a[@name='button_end_work']" position="attributes">
+                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
