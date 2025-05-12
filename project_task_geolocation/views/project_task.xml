@@ -243,7 +243,7 @@
     </record>
 
     <!--Botones para el grupo operarios-->
-    <record model="ir.ui.view" id="view_task_form2_inherited">
+    <record model="ir.ui.view" id="view_task_form4_inherited">
         <field name="name">Add geolocation tree and kanban view</field>
         <field name="model">project.task</field>
         <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited" />
