@@ -14,9 +14,21 @@
             <xpath expr="//button[@name='button_end_work']" position="attributes">
                 <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
             </xpath>
-        
+        </field>
+    </record>
+
+    <record id="view_task_form2_inherited" model="ir.ui.view">
+        <field name="name">Add timesheet time controls</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited" />
+        <field name="arch" type="xml">
             <!--Botones para el grupo operarios-->
             <div name="button_box" position="inside">
+                <field
+                    name="show_time_control"
+                    invisible="1"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
                 <field
                     name="view_button_start"
                     invisible="1"
@@ -75,6 +87,11 @@
             <!--Botones para el grupo operarios-->
             <xpath expr="//*[hasclass('oe_kanban_bottom_left')]" position="inside">
                 <field
+                    name="show_time_control"
+                    invisible="1"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+                <field
                     name="view_button_start"
                     invisible="1"
                     groups="project_task_geolocation.group_geolocation_worker"
@@ -132,13 +149,18 @@
             <!--Botones para el grupo operarios-->
             <tree position="inside">
                 <field
+                    name="show_time_control"
+                    column_invisible="1"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+                <field
                     name="view_button_start"
-                    invisible="1"
+                    column_invisible="1"
                     groups="project_task_geolocation.group_geolocation_worker"
                 />
                 <field
                     name="view_button_stop"
-                    invisible="1"
+                    column_invisible="1"
                     groups="project_task_geolocation.group_geolocation_worker"
                 />
                 <button
@@ -179,7 +201,12 @@
             <xpath expr="//field[@name='timesheet_ids']/tree" position="inside">
                 <field
                     name="view_button_stop"
-                    invisible="1"
+                    column_invisible="1"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+                <field
+                    name="show_time_control"
+                    column_invisible="1"
                     groups="project_task_geolocation.group_geolocation_worker"
                 />
                 <button
@@ -187,7 +214,7 @@
                     type="object"
                     tabindex="-1"
                     icon="fa-stop-circle text-warning"
-                    invisible="show_time_control != 'stop' and view_button_stop"
+                    column_invisible="show_time_control != 'stop' and view_button_stop"
                     class="oe_stat_button"
                     title="Detener trabajo"
                     groups="project_task_geolocation.group_geolocation_worker"
@@ -197,6 +224,11 @@
             <xpath expr="//field[@name='timesheet_ids']/kanban//templates//field[@name='unit_amount']" position="after">
                 <field
                     name="view_button_stop"
+                    invisible="1"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+                <field
+                    name="show_time_control"
                     invisible="1"
                     groups="project_task_geolocation.group_geolocation_worker"
                 />
@@ -223,6 +255,11 @@
             <xpath expr="//field[@name='timesheet_ids']/form//div[@name='button_box']" position="inside">
                 <field
                     name="view_button_stop"
+                    invisible="1"
+                    groups="project_task_geolocation.group_geolocation_worker"
+                />
+                <field
+                    name="show_time_control"
                     invisible="1"
                     groups="project_task_geolocation.group_geolocation_worker"
                 />
