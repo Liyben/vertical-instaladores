@@ -8,6 +8,9 @@
         <field name="inherit_id" ref="project_timesheet_time_control.project_invoice_form"/>
         <field name="arch" type="xml">
             <!--Botones para el grupo administrativo-->
+            <xpath expr="//field[@name='show_time_control']" position="attributes">
+                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
+            </xpath>
             <xpath expr="//button[@name='button_start_work']" position="attributes">
                 <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
             </xpath>
@@ -24,6 +27,9 @@
         <field name="inherit_id" ref="project_timesheet_time_control.view_project_kanban_inherited"/>
         <field name="arch" type="xml">
             <!--Botones para el grupo administrativo-->
+            <xpath expr="//field[@name='show_time_control']" position="attributes">
+                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
+            </xpath>
             <xpath expr="//a[@name='button_start_work']" position="attributes">
                 <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
             </xpath>
@@ -41,6 +47,9 @@
         <field name="inherit_id" ref="project_timesheet_time_control.view_project_tree"/>
         <field name="arch" type="xml">
             <!--Botones para el grupo administrativo-->
+            <xpath expr="//field[@name='show_time_control']" position="attributes">
+                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
+            </xpath>
             <xpath expr="//button[@name='button_start_work']" position="attributes">
                 <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
             </xpath>
