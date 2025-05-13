@@ -12,7 +12,7 @@ class ProjectTask(models.Model):
     view_button_start = fields.Boolean(string='Ver boton comienzo', compute='_compute_view_button_start', store=True)
     view_button_stop = fields.Boolean(string='Ver boton comienzo', compute='_compute_view_button_stop', store=True)
 
-    @api.depends("user_ids")
+    @api.depends("user_ids","user_ids.employee_ids.last_attendance_id")
     def _compute_show_time_control(self):
         """Decide when to show time controls."""
         result = super()._compute_show_time_control()
