@@ -12,9 +12,15 @@ class ProjectTask(models.Model):
 	view_button_start = fields.Boolean(string='Ver boton comienzo', compute='_compute_view_button_start', store=True)
 	view_button_stop = fields.Boolean(string='Ver boton comienzo', compute='_compute_view_button_stop', store=True)
 
+	@api.depends(
+        "project_id.allow_timesheets",
+        "timesheet_ids.employee_id",
+        "timesheet_ids.unit_amount",
+		"user_ids",
+    )
 	def _compute_view_button_start(self):
 		for record in self:
-			if self.env.user:
+			if self.env.user and self.env.user in record.user_ids:
 				employee = self.env['hr.employee'].search([('user_id', '=', self.env.user.id), ('company_id', '=', self.env.company.id)])
 				if employee:
 					now = fields.Datetime.now()

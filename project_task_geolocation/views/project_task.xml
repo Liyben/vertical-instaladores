@@ -265,7 +265,7 @@
                     type="object"
                     tabindex="-1"
                     icon="fa-stop-circle text-warning"
-                    column_invisible="show_time_control != 'stop' and view_button_stop"
+                    invisible="show_time_control != 'stop' and view_button_stop"
                     class="oe_stat_button"
                     title="Detener trabajo"
                     groups="project_task_geolocation.group_geolocation_worker"
