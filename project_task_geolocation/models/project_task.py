@@ -10,7 +10,7 @@ class ProjectTask(models.Model):
     _inherit = 'project.task'
 
     view_button_start = fields.Boolean(string='Ver boton comienzo', compute='_compute_view_button_start', store=True, precompute=True,)
-    view_button_stop = fields.Boolean(string='Ver boton comienzo', compute='_compute_view_button_stop', store=True)
+    view_button_stop = fields.Boolean(string='Ver boton parada', compute='_compute_view_button_stop', store=True)
 
 
     def _compute_show_time_control(self):
