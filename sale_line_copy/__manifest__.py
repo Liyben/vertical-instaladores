@@ -2,8 +2,8 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 {
     'name': 'Copia de la linea de presupuesto',
-    'version': '17.1.0.0',
-    'summary': 'Duplica la linea de presupuesto',
+    'version': '17.0.1.0.0',
+    'summary': """Duplica la linea de presupuesto""",
     'category':'Sale',
     'author': 'Seges',
     'website': 'seges.es',
@@ -15,7 +15,7 @@
         ],
     'installable': True,
     'auto_install': False,
-    "images":[],
+    'license': 'AGPL-3',
 }
 
 
