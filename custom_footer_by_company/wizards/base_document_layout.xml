@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- View base.document.layout form -->
+    <record id="base_document_layout" model="ir.ui.view">
+        <field name="name">base.document.layout</field>
+        <field name="model">base.document.layout</field>
+        <field name="inherit_id" ref="web.view_base_document_layout" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='report_footer']" position="after">
+                <field name="custom_report_footer" string="Pie de página personalizado" options="{'resizable': false}"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

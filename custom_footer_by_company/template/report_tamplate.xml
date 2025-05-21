@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="external_layout_standard" inherit_id="web.external_layout_standard" >
+        
+        <!-- support for custom footer -->
+        <div t-field="company.report_footer" position="after">
+            <div t-field="company.custom_report_footer"/>
+        </div>
+
+    </template>
+
+    <template id="external_layout_bold" inherit_id="web.external_layout_bold" >
+
+        <!-- support for custom footer -->
+        <span t-field="company.report_footer" position="after">
+            <div t-field="company.custom_report_footer"/>
+        </span>
+
+    </template>
+
+    <template id="external_layout_boxed" inherit_id="web.external_layout_boxed" >
+
+        <!-- support for custom footer -->
+        <div t-field="company.report_footer" position="after">
+            <div t-field="company.custom_report_footer"/>
+        </div>
+        
+    </template>
+
+    <template id="external_layout_striped" inherit_id="web.external_layout_striped" >
+        
+        <!-- support for custom footer -->
+        <div t-field="company.report_footer" position="after">
+            <div t-field="company.custom_report_footer"/>
+        </div>
+
+    </template>
+
+</odoo>
