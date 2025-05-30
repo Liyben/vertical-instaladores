@@ -31,6 +31,6 @@ class SaleOrderLine(models.Model):
                 price = line.purchase_price / (1-(line.margin_benefit / 100))
                 line.price_unit = line._convert_to_sol_currency(
                     price,
-                    line.product_id.cost_currency_id)
+                    line.company_id.currency_id)
             else: 
                 line._compute_price_unit()
