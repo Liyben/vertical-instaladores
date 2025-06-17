@@ -11,7 +11,5 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     @api.constrains('vat', 'country_id')
-    def check_vat_extended(self):
+    def check_vat(self):
         return True
-
-    ResPartner.check_vat = check_vat_extended
