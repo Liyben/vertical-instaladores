@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- View sale.order form -->
+    <record id="view_sale_order_form" model="ir.ui.view">
+        <field name="name">view.sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='has_active_pricelist']" position="before">
+                <field name="create_date_order" readonly="state in ['cancel', 'sale']" />
+            </xpath>
+        </field>
+    </record>
+
+
+    <!-- View sale.order tree -->
+    <record id="view_sale_order_tree" model="ir.ui.view">
+        <field name="name">view.sale.order.tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='create_date']" position="replace">
+                <field name="create_date_order" readonly="state in ['cancel', 'sale']" widget="date" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
