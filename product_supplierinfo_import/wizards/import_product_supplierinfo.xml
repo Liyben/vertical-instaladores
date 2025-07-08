@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- View import.product_supplierinfo form -->
+    <record id="view_import_product_supplierinfo_form" model="ir.ui.view">
+        <field name="name">view.import.product_supplierinfo.form</field>
+        <field name="model">import.product_supplierinfo</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="method" widget="radio"/>
+                        <field name="file"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Importar" type="object"
+                            name="action_product_supplierinfo_import" class="btn-primary"/>
+                    <button string="Cancelar" special="cancel"
+                            class="btn-secondary"/>
+                    <div style="margin-left: auto;margin-right: 0;">
+                        <strong>Descargar ejemplo:</strong>
+                        <a role="button" href="/product_supplierinfo_import/static/sample/product_supplierinfo.xlsx" class="btn-primary" style="margin: 0 10px; font-size: 12px; line-height: 1.5; border-radius: 3px; padding: 8px 10px; color: #ffffff;">
+                        <i class="fa fa-download"/>
+                        Excel file
+                        </a>
+                    </div>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action import.product_supplierinfo -->
+    <record id="action_import_product_supplierinfo" model="ir.actions.act_window">
+        <field name="name">Importar Precios Proveedores</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">import.product_supplierinfo</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!--Wizard menu import.product_supplierinfo-->
+    <menuitem id="import_product_supplierinfo_menu_action"
+              name="Importar Precios Proveedores"
+              parent="purchase.menu_procurement_management"
+              action="action_import_product_supplierinfo"
+              groups="product_variant_import.group_product_supplierinfo_import_manager"
+              sequence="16">
+    </menuitem>
+</odoo>
