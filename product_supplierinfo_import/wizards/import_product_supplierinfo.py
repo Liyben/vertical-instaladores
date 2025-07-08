@@ -47,19 +47,19 @@ class ImportProduct_supplierinfo(models.TransientModel):
                     continue
                 
                 if row:
-                    _logger.debug("INDEX row: %s\n", str(index))
                     line = index + 1
                     row_vals = row
+                    
                     supplier = self.env['res.partner'].with_context(active_test=False).search(
                             [('name', '=like', row_vals[0]),('supplier_rank', '>', 0)])
                     
-                    if not supplier:
+                    if not supplier and row_vals[0] != None:
                         raise UserError(_("El proveedor en la fila %s no existe.", str(line)))
                     
-                    if row_vals[1] == False:
+                    if row_vals[1] == None:
                         raise UserError(_("La fila %s no tiene nombre de producto.", str(line)))
                     
-                    if row_vals[2] == False:
+                    if row_vals[2] == None:
                         raise UserError(_("La fila %s no tiene referencia interna.", str(line)))
                     
                     product_template = self.env['product.template'].with_context(active_test=False).search([('default_code', '=like', row_vals[2])])
