@@ -10,7 +10,6 @@
             <form>
                 <sheet>
                     <group>
-                        <field name="method" widget="radio"/>
                         <field name="file"/>
                     </group>
                 </sheet>

@@ -16,11 +16,6 @@ _logger = logging.getLogger(__name__)
 class ImportProduct_supplierinfo(models.TransientModel):
     _name = 'import.product_supplierinfo'
     _description = _('ImportProduct_supplierinfo')
-
-    method = fields.Selection([('create', 'Crear Precio Proveedor'),
-                               ('update', 'Actualizar Precio Proveedor'), ],
-                              string="Método", required=True, default='update',
-                              help="Metodo de importación")
     
     file = fields.Binary(string="Archivo", required=True,
                          help="Archivo a subir")
