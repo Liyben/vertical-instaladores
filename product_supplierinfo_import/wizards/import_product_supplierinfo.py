@@ -36,6 +36,7 @@ class ImportProduct_supplierinfo(models.TransientModel):
                 workbook = load_workbook(filename=file_pointer.name)
                 sheet = workbook['Sheet1']
                 max_rows = sheet.max_row
+                _logger.debug("NUMERO MAX LINEAS: %s\n", str(max_rows))
                 if max_rows >2000:
                     raise UserError(_("Archivo con demasiadas filas."))
             except:
@@ -44,13 +45,17 @@ class ImportProduct_supplierinfo(models.TransientModel):
             codes = []
             for index, row in enumerate(sheet.iter_rows(values_only=True)):
                 if index == 0:
+                    _logger.debug("INDEX: %s\n", str(index))
                     continue
                 
                 if row:
+                    _logger.debug("INDEX row: %s\n", str(index))
                     line = index + 1
                     row_vals = row
-                    supplier = self.env['res.partner'].search(
+                    supplier = self.env['res.partner'].with_context(active_test=False).search(
                             [('name', '=like', row_vals[1]),('supplier_rank', '>', 0)])
+                    _logger.debug("COL PROVEEDOR: %s\n", str(row_vals[1]))
+                    _logger.debug("PROVEEDOR: %s\n", supplier.name)
                     
                     if not supplier:
                         raise UserError(_("El proveedor en la fila %s no existe.", str(line)))
