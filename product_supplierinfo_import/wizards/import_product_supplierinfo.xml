@@ -45,7 +45,7 @@
               name="Importar Precios Proveedores"
               parent="purchase.menu_procurement_management"
               action="action_import_product_supplierinfo"
-              groups="product_variant_import.group_product_supplierinfo_import_manager"
+              groups="product_supplierinfo_import.group_product_supplierinfo_import_manager"
               sequence="16">
     </menuitem>
 </odoo>

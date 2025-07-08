@@ -16,7 +16,9 @@
         "views/product_supplierinfo_views.xml",
         "wizards/import_product_supplierinfo.xml"
     ],
-    
+    'external_dependencies': {
+        'python' : ['openpyxl'],
+    },
     'application': False,
     'installable': True,
     'auto_install': False,
