@@ -255,13 +255,16 @@ class ProjectTaskMaterial(models.Model):
 
     def _prepare_stock_move(self):
         product = self.product_id
+        origin = self.task_id.code
+        if self.task_id.sale_line_id:
+            origin = self.task_id.sale_line_id.order_id.name +' ('+ self.task_id.code + ')'
         res = {
             "product_id": product.id,
             "name": product.partner_ref,
             "state": "draft",
             "product_uom": self.product_uom_id.id or product.uom_id.id,
             "product_uom_qty": self.quantity,
-            "origin": self.task_id.sale_line_id.order_id.name +' ('+ self.task_id.code + ')',
+            "origin": origin,
             #"location_id": self.task_id.location_source_id.id
             #or self.task_id.project_id.location_source_id.id
             #or self.env.ref("stock.stock_location_stock").id,
@@ -294,9 +297,13 @@ class ProjectTaskMaterial(models.Model):
 
         group_id = task.procurement_group_id
         if not group_id:
+            name = task.code
+            if task.sale_line_id:
+                name = task.sale_line_id.order_id.name +' ('+ task.code + ')'
+
             group_id = self.env['procurement.group'].create(
                 {
-                    'name': task.sale_line_id.order_id.name +' ('+ task.code + ')', 
+                    'name': name, 
                     'move_type': task.sale_line_id.order_id.picking_policy or 'direct',
                     'task_id': task.id,
                     'sale_id': task.sale_line_id.order_id.id or False,
@@ -305,9 +312,13 @@ class ProjectTaskMaterial(models.Model):
             )
             task.procurement_group_id = group_id.id
 
+        origin = "{}".format(task.code)
+        if task.sale_line_id:
+            origin = "{}/{}".format(task.sale_line_id.order_id.name, task.code)
+        
         picking_id = task.picking_id or self.env["stock.picking"].create(
             {
-                "origin": "{}/{}".format(task.sale_line_id.order_id.name, task.code),
+                "origin": origin,
                 "partner_id": task.partner_id.id,
                 "picking_type_id": pick_type.id,
                 "location_id": pick_type.default_location_src_id.id,
