@@ -57,22 +57,22 @@ class SaleOrderLineTaskWork(models.Model):
     #Comprobar si se aplica tarifa o no
     def _check_apply_pricelist(self):
         self.ensure_one()
-        self.order_line_id.ensure_one()
-        self.order_line_id.product_id.ensure_one()
+        #self.order_line_id.ensure_one()
+        #self.order_line_id.product_id.ensure_one()
 
         return self.order_line_id.product_id.apply_pricelist
     
     #Obtener la fecha del pedido
     def _get_order_date(self):
         self.ensure_one()
-        self.order_line_id.ensure_one()
+        #self.order_line_id.ensure_one()
 
         return self.order_line_id.order_id.date_order
     
     #Calculo del precio unitario según tarifa
     def _get_display_price(self):
         self.ensure_one()
-        self.order_line_id.ensure_one()
+        #self.order_line_id.ensure_one()
         #self.work_id.ensure_one()
 
         #Guardamos los precios de la ficha de mano de obra
