@@ -73,7 +73,7 @@ class SaleOrderLineTaskMaterial(models.Model):
     def _get_display_price(self):
         self.ensure_one()
         self.order_line_id.ensure_one()
-        self.material_id.ensure_one()
+        #self.material_id.ensure_one()
 
         #Guardamos los precios de la ficha de material
         product_lst_price = self.material_id.list_price

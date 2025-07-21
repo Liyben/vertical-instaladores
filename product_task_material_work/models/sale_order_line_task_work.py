@@ -73,7 +73,7 @@ class SaleOrderLineTaskWork(models.Model):
     def _get_display_price(self):
         self.ensure_one()
         self.order_line_id.ensure_one()
-        self.work_id.ensure_one()
+        #self.work_id.ensure_one()
 
         #Guardamos los precios de la ficha de mano de obra
         product_lst_price = self.work_id.list_price
