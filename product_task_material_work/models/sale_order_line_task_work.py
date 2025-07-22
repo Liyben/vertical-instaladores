@@ -74,7 +74,7 @@ class SaleOrderLineTaskWork(models.Model):
         self.ensure_one()
         #self.order_line_id.ensure_one()
         #self.work_id.ensure_one()
-
+        _logger.debug("work_id: %s\n",str(self.work_id))
         #Guardamos los precios de la ficha de mano de obra
         product_lst_price = self.work_id.list_price
         product_standard_price = self.work_id.standard_price
