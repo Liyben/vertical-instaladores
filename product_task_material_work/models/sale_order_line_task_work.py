@@ -74,7 +74,7 @@ class SaleOrderLineTaskWork(models.Model):
         self.ensure_one()
         #self.order_line_id.ensure_one()
         #self.work_id.ensure_one()
-        _logger.debug("work_id: %s\n",str(self.work_id))
+
         #Guardamos los precios de la ficha de mano de obra
         product_lst_price = self.work_id.list_price
         product_standard_price = self.work_id.standard_price
@@ -104,7 +104,7 @@ class SaleOrderLineTaskWork(models.Model):
         return price
 
     #Calculo de los precios de venta y coste totales por linea de los trabajos
-    @api.depends('hours','sale_price_unit', 'cost_price_unit', 'discount')
+    @api.depends('work_id','hours','sale_price_unit', 'cost_price_unit', 'discount')
     def _compute_price(self):
         self.sale_price = 0.0
         self.cost_price = 0.0
@@ -113,9 +113,9 @@ class SaleOrderLineTaskWork(models.Model):
         for record in self:
             if record._check_apply_pricelist():
                 record = record.with_company(record.company_id)
-                _logger.debug("record.work_id: %s\n",str(record.work_id))
-                #price = record._get_display_price()
-                price = record.work_id.list_price
+                price = record.sale_price_unit
+                if record.work_id:
+                    price = record._get_display_price()
                 record.sale_price = record.hours * (price * (1 - (record.discount / 100)))
                 record.cost_price = (record.hours * record.cost_price_unit)
                 record.work_margin = (record.hours * (price * (1 - (record.discount / 100)))) - (record.hours * record.cost_price_unit)
