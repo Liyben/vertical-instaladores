@@ -113,6 +113,7 @@ class SaleOrderLineTaskWork(models.Model):
         for record in self:
             if record._check_apply_pricelist():
                 record = record.with_company(record.company_id)
+                _logger.debug("record: %s\n",str(record))
                 price = record._get_display_price()
                 record.sale_price = record.hours * (price * (1 - (record.discount / 100)))
                 record.cost_price = (record.hours * record.cost_price_unit)
