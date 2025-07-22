@@ -86,7 +86,7 @@ class SaleOrderLineTaskWork(models.Model):
             'list_price' : self.sale_price_unit,
             'standard_price' : self.cost_price_unit,
             })
-        
+        _logger.debug("self.order_line_id.pricelist_item_id: %s\n",str(self.order_line_id.pricelist_item_id))
         #Aplicamos tarifa
         price = self.order_line_id.pricelist_item_id._compute_price(
             product=self.work_id,
