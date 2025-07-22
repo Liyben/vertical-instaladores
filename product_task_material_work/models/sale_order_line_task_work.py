@@ -74,11 +74,13 @@ class SaleOrderLineTaskWork(models.Model):
         self.ensure_one()
         #self.order_line_id.ensure_one()
         #self.work_id.ensure_one()
+        _logger.debug("self.work_id: %s\n",str(self.work_id))
 
         #Guardamos los precios de la ficha de mano de obra
         product_lst_price = self.work_id.list_price
         product_standard_price = self.work_id.standard_price
-
+        _logger.debug("product_lst_price: %s\n",str(product_lst_price))
+        _logger.debug("product_standard_price: %s\n",str(product_standard_price))
         #Actualizamos los precios de la ficha de mano de obra con los precios de la linea de mano de obra
         self.work_id.write({
             'list_price' : self.sale_price_unit,
@@ -95,6 +97,7 @@ class SaleOrderLineTaskWork(models.Model):
             currency=self.currency_id,
         )
 
+        _logger.debug("price: %s\n",str(price))
         #Recuperamos los precios de la ficha de mano de obra previamente guardado
         self.work_id.write({
             'list_price' : product_lst_price,
