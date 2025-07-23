@@ -57,23 +57,23 @@ class SaleOrderLineTaskWork(models.Model):
     #Comprobar si se aplica tarifa o no
     def _check_apply_pricelist(self):
         self.ensure_one()
-        #self.order_line_id.ensure_one()
-        #self.order_line_id.product_id.ensure_one()
+        self.order_line_id.ensure_one()
+        self.order_line_id.product_id.ensure_one()
 
         return self.order_line_id.product_id.apply_pricelist
     
     #Obtener la fecha del pedido
     def _get_order_date(self):
         self.ensure_one()
-        #self.order_line_id.ensure_one()
+        self.order_line_id.ensure_one()
 
         return self.order_line_id.order_id.date_order
     
     #Calculo del precio unitario según tarifa
     def _get_display_price(self):
         self.ensure_one()
-        #self.order_line_id.ensure_one()
-        #self.work_id.ensure_one()
+        self.order_line_id.ensure_one()
+        self.work_id.ensure_one()
         _logger.debug("self.work_id: %s\n",str(self.work_id))
 
         #Guardamos los precios de la ficha de mano de obra
@@ -86,10 +86,17 @@ class SaleOrderLineTaskWork(models.Model):
             'list_price' : self.sale_price_unit,
             'standard_price' : self.cost_price_unit,
             })
-        _logger.debug("self.order_line_id.pricelist_item_id: %s\n",str(self.order_line_id.pricelist_item_id))
-        _logger.debug("self.order_line_id.order_id.pricelist_id: %s\n",str(self.order_line_id.order_id.pricelist_id))
+        
+        #Obtenemos el elemento de tarifa
+        pricelist_item = self.order_line_id.order_id.pricelist_id._get_product_rule(
+            self.work_id,
+            quantity=self.hours or 1.0,
+            uom=self.work_id.uom_id,
+            date=self._get_order_date(),
+        )
+        _logger.debug("pricelist_item: %s\n",str(pricelist_item))
         #Aplicamos tarifa
-        price = self.order_line_id.pricelist_item_id._compute_price(
+        price = pricelist_item._compute_price(
             product=self.work_id,
             quantity=self.hours or 1.0,
             uom=self.work_id.uom_id,
