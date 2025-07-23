@@ -88,12 +88,16 @@ class SaleOrderLineTaskWork(models.Model):
             })
         
         #Obtenemos el elemento de tarifa
-        pricelist_item = self.order_line_id.order_id.pricelist_id._get_product_rule(
+        pricelist_item_id = self.order_line_id.order_id.pricelist_id._get_product_rule(
             self.work_id,
             quantity=self.hours or 1.0,
             uom=self.work_id.uom_id,
             date=self._get_order_date(),
         )
+        _logger.debug("pricelist_item_id: %s\n",str(pricelist_item_id))
+        pricelist_item = self.env['product.pricelist.item'].search([
+            ('id', '=', pricelist_item_id)
+        ])
         _logger.debug("pricelist_item: %s\n",str(pricelist_item))
         #Aplicamos tarifa
         price = pricelist_item._compute_price(
