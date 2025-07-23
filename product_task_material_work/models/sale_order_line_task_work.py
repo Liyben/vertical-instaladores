@@ -126,7 +126,15 @@ class SaleOrderLineTaskWork(models.Model):
         self.work_margin = 0.0
         self.work_margin_percent = 0.0
         for record in self:
-            if record._check_apply_pricelist():
+            if record.work_id:
+                record.sale_price_unit = record.work_id.list_price
+                record.cost_price_unit = record.work_id.standard_price
+                if record._check_apply_pricelist():
+                    record.sale_price_unit = record._get_display_price()
+                record.sale_price = record.hours * (record.sale_price_unit * (1 - (record.discount / 100)))
+                record.cost_price = (record.hours * record.cost_price_unit)
+                record.work_margin = (record.hours * (record.sale_price_unit * (1 - (record.discount / 100)))) - (record.hours * record.cost_price_unit)
+            """ if record._check_apply_pricelist():
                 record = record.with_company(record.company_id)
                 price = record.sale_price_unit
                 if record.work_id:
@@ -138,7 +146,7 @@ class SaleOrderLineTaskWork(models.Model):
                 record.sale_price = record.hours * (record.sale_price_unit * (1 - (record.discount / 100)))
                 record.cost_price = (record.hours * record.cost_price_unit)
                 record.work_margin = (record.hours * (record.sale_price_unit * (1 - (record.discount / 100)))) - (record.hours * record.cost_price_unit)
-
+ """
             if (record.sale_price != 0) and (record.cost_price != 0):
                 record.work_margin_percent = (1-(record.cost_price/record.sale_price))
 
@@ -151,10 +159,10 @@ class SaleOrderLineTaskWork(models.Model):
             record.name = record.work_id.name
 
     #Carga los precios unitarios de la mano de obra
-    @api.onchange('work_id')
+    """@api.onchange('work_id')
     def _onchange_price_unit(self):
         for record in self:
             if not record.work_id:
                 continue
             record.sale_price_unit = record.work_id.list_price
-            record.cost_price_unit = record.work_id.standard_price
+            record.cost_price_unit = record.work_id.standard_price """
