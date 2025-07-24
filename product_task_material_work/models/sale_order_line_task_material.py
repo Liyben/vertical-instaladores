@@ -98,7 +98,7 @@ class SaleOrderLineTaskMaterial(models.Model):
         ])
 
         #Aplicamos tarifa
-        price = self.order_line_id.pricelist_item._compute_price(
+        price = pricelist_item._compute_price(
             product=self.material_id,
             quantity=self.quantity or 1.0,
             uom=self.material_id.uom_id,
