@@ -84,7 +84,10 @@ class SaleOrderLineTaskWork(models.Model):
             'list_price' : self.sale_price_unit,
             'standard_price' : self.cost_price_unit,
             })
-        
+        _logger.debug("self.order_line_id: %s\n",str(self.order_line_id))
+        _logger.debug("self.order_line_id.order_id: %s\n",str(self.order_line_id.order_id))
+        _logger.debug("self.order_line_id.order_id.pricelist_id: %s\n",str(self.order_line_id.order_id.pricelist_id))
+
         #Obtenemos el elemento de tarifa
         pricelist_item_id = self.order_line_id.order_id.pricelist_id._get_product_rule(
             self.work_id,
