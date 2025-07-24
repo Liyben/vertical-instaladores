@@ -57,23 +57,23 @@ class SaleOrderLineTaskMaterial(models.Model):
     #Comprobar si se aplica tarifa o no
     def _check_apply_pricelist(self):
         self.ensure_one()
-        #self.order_line_id.ensure_one()
-        #self.order_line_id.product_id.ensure_one()
+        self.order_line_id.ensure_one()
+        self.order_line_id.product_id.ensure_one()
 
         return self.order_line_id.product_id.apply_pricelist
     
     #Obtener la fecha del pedido
     def _get_order_date(self):
         self.ensure_one()
-        #self.order_line_id.ensure_one()
+        self.order_line_id.ensure_one()
 
         return self.order_line_id.order_id.date_order
 
     #Calculo del precio unitario según tarifa
     def _get_display_price(self):
         self.ensure_one()
-        #self.order_line_id.ensure_one()
-        #self.material_id.ensure_one()
+        self.order_line_id.ensure_one()
+        self.material_id.ensure_one()
 
         #Guardamos los precios de la ficha de material
         product_lst_price = self.material_id.list_price
@@ -85,23 +85,59 @@ class SaleOrderLineTaskMaterial(models.Model):
             'standard_price' : self.cost_price_unit,
             })
         
+        #Obtenemos el elemento de tarifa
+        pricelist_item_id = self.order_line_id.order_id.pricelist_id._get_product_rule(
+            self.material_id,
+            quantity=self.quantity or 1.0,
+            uom=self.material_id.uom_id,
+            date=self._get_order_date(),
+        )
+        
+        pricelist_item = self.env['product.pricelist.item'].search([
+            ('id', '=', pricelist_item_id)
+        ])
+
         #Aplicamos tarifa
-        price = self.order_line_id.pricelist_item_id._compute_price(
+        price = self.order_line_id.pricelist_item._compute_price(
             product=self.material_id,
             quantity=self.quantity or 1.0,
             uom=self.material_id.uom_id,
             date=self._get_order_date(),
-            #date=self.order_line_id._get_order_date(),
             currency=self.currency_id,
         )
 
-        #Recuperamos los precios de la ficha material previamente guardado
+        discount = 0.0
+        
+        if self.order_line_id.order_id.pricelist_id.discount_policy == 'with_discount' or not pricelist_item:
+            
+            #Recuperamos los precios de la ficha de mano de obra previamente guardado
+            self.material_id.write({
+                'list_price' : product_lst_price,
+                'standard_price' : product_standard_price,
+                })
+            
+            return price, discount
+        
+        base_price = pricelist_item._compute_price_before_discount(
+            product=self.material_id,
+            quantity=self.quantity or 1.0,
+            uom=self.material_id.uom_id,
+            date=self._get_order_date(),
+            currency=self.currency_id,
+        )
+
+        if base_price != 0:
+            aux_discount = (base_price - price) / base_price * 100
+            if (aux_discount > 0 and base_price > 0) or (aux_discount < 0 and base_price < 0):
+                discount = aux_discount
+
+        #Recuperamos los precios de la ficha de mano de obra previamente guardado
         self.material_id.write({
             'list_price' : product_lst_price,
             'standard_price' : product_standard_price,
             })
         
-        return price
+        return max(base_price, price), discount
 
     #Calculo de los precios de venta y coste totales por linea de los materiales
     @api.depends('quantity','sale_price_unit','cost_price_unit','discount')
@@ -111,16 +147,9 @@ class SaleOrderLineTaskMaterial(models.Model):
         self.material_margin = 0.0
         self.material_margin_percent = 0.0
         for record in self:
-            if record._check_apply_pricelist():
-                record = record.with_company(record.company_id)
-                price = record._get_display_price()
-                record.sale_price = record.quantity * (price * (1 - (record.discount / 100)))
-                record.cost_price = (record.quantity * record.cost_price_unit)
-                record.material_margin = (record.quantity * (price * (1 - (record.discount / 100)))) - (record.quantity * record.cost_price_unit)
-            else:
-                record.sale_price = record.quantity * (record.sale_price_unit * (1 - (record.discount / 100)))
-                record.cost_price = (record.quantity * record.cost_price_unit)
-                record.material_margin = (record.quantity * (record.sale_price_unit * (1 - (record.discount / 100)))) - (record.quantity * record.cost_price_unit)
+            record.sale_price = record.quantity * (record.sale_price_unit * (1 - (record.discount / 100)))
+            record.cost_price = (record.quantity * record.cost_price_unit)
+            record.material_margin = (record.quantity * (record.sale_price_unit * (1 - (record.discount / 100)))) - (record.quantity * record.cost_price_unit)
             
             if (record.sale_price != 0) and (record.cost_price != 0):
                     record.material_margin_percent = (1-(record.cost_price/record.sale_price)) 
@@ -141,3 +170,5 @@ class SaleOrderLineTaskMaterial(models.Model):
                 continue
             record.sale_price_unit = record.material_id.list_price
             record.cost_price_unit = record.material_id.standard_price
+            if record._check_apply_pricelist():
+                record.sale_price_unit, record.discount = record._get_display_price()
