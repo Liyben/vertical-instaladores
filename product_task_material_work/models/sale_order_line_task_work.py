@@ -172,3 +172,9 @@ class SaleOrderLineTaskWork(models.Model):
             record.cost_price_unit = record.work_id.standard_price
             if record._check_apply_pricelist():
                 record.sale_price_unit, record.discount = record._get_display_price()
+
+    def _get_price_and_discount_pricelist(self):
+        for record in self:
+            if not record.work_id:
+                continue
+            record.sale_price_unit, record.discount = record._get_display_price()
