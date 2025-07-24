@@ -107,7 +107,7 @@ class SaleOrderLineTaskWork(models.Model):
 
         discount = 0.0
         
-        if self.order_line_id.order_id.pricelist_id.discount_policy == 'without_discount' or not pricelist_item:
+        if self.order_line_id.order_id.pricelist_id.discount_policy == 'with_discount' or not pricelist_item:
             
             #Recuperamos los precios de la ficha de mano de obra previamente guardado
             self.work_id.write({
