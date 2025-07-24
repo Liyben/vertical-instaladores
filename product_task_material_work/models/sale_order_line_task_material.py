@@ -86,7 +86,7 @@ class SaleOrderLineTaskMaterial(models.Model):
             })
         
         #Obtenemos el elemento de tarifa
-        pricelist_item_id = self.order_line_id.order_id.pricelist_id._get_product_rule(
+        pricelist_item_id = self.order_line_id.pricelist_id._get_product_rule(
             self.material_id,
             quantity=self.quantity or 1.0,
             uom=self.material_id.uom_id,
@@ -108,7 +108,7 @@ class SaleOrderLineTaskMaterial(models.Model):
 
         discount = 0.0
         
-        if self.order_line_id.order_id.pricelist_id.discount_policy == 'with_discount' or not pricelist_item:
+        if self.order_line_id.pricelist_id.discount_policy == 'with_discount' or not pricelist_item:
             
             #Recuperamos los precios de la ficha de mano de obra previamente guardado
             self.material_id.write({

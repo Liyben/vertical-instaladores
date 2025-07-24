@@ -88,7 +88,7 @@ class SaleOrderLineTaskWork(models.Model):
         _logger.debug("self.order_line_id.pricelist_id: %s\n",str(self.order_line_id.pricelist_id))
 
         #Obtenemos el elemento de tarifa
-        pricelist_item_id = self.order_line_id.order_id.pricelist_id._get_product_rule(
+        pricelist_item_id = self.order_line_id.pricelist_id._get_product_rule(
             self.work_id,
             quantity=self.hours or 1.0,
             uom=self.work_id.uom_id,
@@ -110,7 +110,7 @@ class SaleOrderLineTaskWork(models.Model):
         _logger.debug("price: %s\n",str(price))
         discount = 0.0
         
-        if self.order_line_id.order_id.pricelist_id.discount_policy == 'with_discount' or not pricelist_item:
+        if self.order_line_id.pricelist_id.discount_policy == 'with_discount' or not pricelist_item:
             _logger.debug("with_discount\n")
             #Recuperamos los precios de la ficha de mano de obra previamente guardado
             self.work_id.write({
