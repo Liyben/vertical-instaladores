@@ -175,6 +175,6 @@ class SaleOrderLineTaskMaterial(models.Model):
 
     def _get_price_and_discount_pricelist(self):
         for record in self:
-            if not record.work_id:
+            if not record.material_id:
                 continue
             record.sale_price_unit, record.discount = record._get_display_price()
