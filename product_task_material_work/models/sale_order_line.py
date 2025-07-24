@@ -124,6 +124,10 @@ class SaleOrderLine(models.Model):
                         'task_works_ids' : work_list,
                         'task_materials_ids' : material_list,
                         })
+                
+                if line.product_id.apply_pricelist:
+                    line.task_works_ids._onchange_price_unit()
+                    line.task_materials_ids._onchange_price_unit()
 
 
     #Calculo del precio total de venta de los trabajos	
