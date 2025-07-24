@@ -55,6 +55,10 @@ class SaleOrderLine(models.Model):
         string="Change control", default='product')
     count_change = fields.Integer(string='Contador')
 
+    pricelist_id = fields.Many2one(
+        related='order_id.pricelist_id',
+        store=True, index=True, precompute=True)
+
     #Estado de la factura de una linea de pedido
     """ def _compute_invoice_status(self):
         super(SaleOrderLine, self)._compute_invoice_status()
