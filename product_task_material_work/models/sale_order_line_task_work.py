@@ -44,7 +44,7 @@ class SaleOrderLineTaskWork(models.Model):
     #Horas empleadas en el trabajo
     hours = fields.Float(string='Hr.')
     #Descuento aplicado al precio de la mano de obra
-    discount = fields.Float(string='Des. (%)', digits='Discount', store=True, precompute=True, compute='_compute_discount')
+    discount = fields.Float(string='Des. (%)', digits='Discount', default=0.0)
     sequence = fields.Integer()
     #Margen
     work_margin = fields.Float(string='Margen', digits='Product Price', compute='_compute_price')
@@ -105,6 +105,8 @@ class SaleOrderLineTaskWork(models.Model):
             currency=self.currency_id,
         )
 
+        discount = 0.0
+        
         if self.order_line_id.order_id.pricelist_id.discount_policy == 'without_discount' or not pricelist_item:
             
             #Recuperamos los precios de la ficha de mano de obra previamente guardado
@@ -113,7 +115,7 @@ class SaleOrderLineTaskWork(models.Model):
                 'standard_price' : product_standard_price,
                 })
             
-            return price
+            return price, discount
         
         base_price = pricelist_item._compute_price_before_discount(
             product=self.work_id,
@@ -123,16 +125,21 @@ class SaleOrderLineTaskWork(models.Model):
             currency=self.currency_id,
         )
 
+        if base_price != 0:
+            aux_discount = (base_price - price) / base_price * 100
+            if (aux_discount > 0 and base_price > 0) or (aux_discount < 0 and base_price < 0):
+                discount = aux_discount
+
         #Recuperamos los precios de la ficha de mano de obra previamente guardado
         self.work_id.write({
             'list_price' : product_lst_price,
             'standard_price' : product_standard_price,
             })
         
-        return max(base_price, price)
+        return max(base_price, price), discount
     
     #Devuelve el precio base
-    def _get_pricelist_price_before_discount(self, rec, pricelist_item):
+    """ def _get_pricelist_price_before_discount(self, rec, pricelist_item):
         rec.ensure_one()
         rec.work_id.ensure_one()
 
@@ -142,10 +149,10 @@ class SaleOrderLineTaskWork(models.Model):
             uom=rec.work_id.uom_id,
             date=rec._get_order_date(),
             currency=rec.currency_id,
-        )
+        ) """
     
     #Devuelve el precio dado por la tarifa
-    def _get_pricelist_price(self, rec, pricelist_item):
+    """ def _get_pricelist_price(self, rec, pricelist_item):
         rec.ensure_one()
         rec.work_id.ensure_one()
 
@@ -157,10 +164,10 @@ class SaleOrderLineTaskWork(models.Model):
             currency=rec.currency_id,
         )
 
-        return price
+        return price """
     
     #Calculo del descuento si se aplica tarifa
-    @api.depends('work_id')
+    """ @api.depends('work_id')
     def _compute_discount(self):
         for record in self:
             if not record.work_id:
@@ -197,7 +204,7 @@ class SaleOrderLineTaskWork(models.Model):
                 discount = (base_price - pricelist_price) / base_price * 100
                 if (discount > 0 and base_price > 0) or (discount < 0 and base_price < 0):
                     record.discount = discount
-
+ """
     #Calculo de los precios de venta y coste totales por linea de los trabajos
     @api.depends('hours','sale_price_unit', 'cost_price_unit', 'discount')
     def _compute_price(self):
@@ -230,4 +237,4 @@ class SaleOrderLineTaskWork(models.Model):
             record.sale_price_unit = record.work_id.list_price
             record.cost_price_unit = record.work_id.standard_price
             if record._check_apply_pricelist():
-                record.sale_price_unit = record._get_display_price()
+                record.sale_price_unit, record.discount = record._get_display_price()
