@@ -78,7 +78,7 @@ class SaleOrderLineTaskWork(models.Model):
         #Guardamos los precios de la ficha de mano de obra
         product_lst_price = self.work_id.list_price
         product_standard_price = self.work_id.standard_price
-        
+
         #Actualizamos los precios de la ficha de mano de obra con los precios de la linea de mano de obra
         self.work_id.write({
             'list_price' : self.sale_price_unit,
@@ -92,11 +92,11 @@ class SaleOrderLineTaskWork(models.Model):
             uom=self.work_id.uom_id,
             date=self._get_order_date(),
         )
-        
+        _logger.debug("pricelist_item_id: %s\n",str(pricelist_item_id))
         pricelist_item = self.env['product.pricelist.item'].search([
             ('id', '=', pricelist_item_id)
         ])
-        
+        _logger.debug("pricelist_item: %s\n",str(pricelist_item))
         #Aplicamos tarifa
         price = pricelist_item._compute_price(
             product=self.work_id,
@@ -105,11 +105,11 @@ class SaleOrderLineTaskWork(models.Model):
             date=self._get_order_date(),
             currency=self.currency_id,
         )
-
+        _logger.debug("price: %s\n",str(price))
         discount = 0.0
         
         if self.order_line_id.order_id.pricelist_id.discount_policy == 'with_discount' or not pricelist_item:
-            
+            _logger.debug("with_discount\n")
             #Recuperamos los precios de la ficha de mano de obra previamente guardado
             self.work_id.write({
                 'list_price' : product_lst_price,
@@ -125,7 +125,7 @@ class SaleOrderLineTaskWork(models.Model):
             date=self._get_order_date(),
             currency=self.currency_id,
         )
-
+        _logger.debug("base_price: %s\n",str(base_price))
         if base_price != 0:
             aux_discount = (base_price - price) / base_price * 100
             if (aux_discount > 0 and base_price > 0) or (aux_discount < 0 and base_price < 0):
