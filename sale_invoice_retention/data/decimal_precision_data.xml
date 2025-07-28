@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!--
+             Precisions
+        -->
+        <record forcecreate="True" id="decimal_retention" model="decimal.precision">
+            <field name="name">Retention</field>
+            <field name="digits">2</field>
+        </record>
+
+    </data>
+</odoo>
