@@ -8,11 +8,19 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='partner_id']" position="after">
-                <field name="amount_untaxed" invisible="1"/>
-                <field name="amount_total" invisible="1"/>
-                <field name="percent_retention"/>
-                <field name="amount_retention"/>
-                <field name="amount_to_pay"/>
+                <field name="percent_retention" readonly="state in ['cancel', 'sale']"/>
+            </xpath>
+            <xpath expr="//field[@name='tax_totals']" position="after">
+                <label for="amount_retention" groups="base.group_user" invisible="percent_retention == 0.0"/>
+                <div class="text-nowrap" groups="base.group_user" invisible="percent_retention == 0.0">
+                    <field name="amount_untaxed" invisible="1"/>
+                    <field name="amount_retention" class="oe_inline"/>
+                </div>
+                <label for="amount_to_pay" groups="base.group_user" invisible="percent_retention == 0.0"/>
+                <div class="text-nowrap" groups="base.group_user" invisible="percent_retention == 0.0">
+                    <field name="amount_total" invisible="1"/>
+                    <field name="amount_to_pay" class="oe_inline"/>
+                </div>
             </xpath>
         </field>
     </record>
