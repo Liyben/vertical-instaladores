@@ -11,6 +11,7 @@
     'depends': ['sale', 'account' ],
     "data": [
         "data/decimal_precision_data.xml",
+        "views/report_invoice.xml",
         "views/account_move_views.xml",
         "views/sale_order_views.xml"
     ],
