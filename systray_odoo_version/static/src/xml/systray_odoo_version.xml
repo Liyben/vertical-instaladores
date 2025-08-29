@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="systray_odoo_version.SystrayVersionMenu" owl="1">
+        <Dropdown>
+            <t t-set-slot="toggler">
+                <span>Odoo 17.0 (Versión Community)</span>
+            </t>
+        </Dropdown>
+    </t>
+</templates>
