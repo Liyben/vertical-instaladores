@@ -27,7 +27,7 @@ class ProcurementGroup(models.Model):
                     source_docs.add(line["document_out"])
             if source_docs:
                 source_groups = [
-                    x.procurement_group_id if x._name != "stock.picking" else x.group_id
+                    x.group_id if x._name == "stock.picking" or x._name == "purchase.order" else x.procurement_group_id
                     for x in source_docs
                     ]
                 source_names = ", ".join([x.name for x in source_docs])
