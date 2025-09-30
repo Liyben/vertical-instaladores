@@ -10,8 +10,8 @@
             
             </xpath>
 
-            <xpath expr="//field[@name='team_id']" position="replace">
-            
+            <xpath expr="//page[@name='other_information']//field[@name='team_id']" position="attributes">
+                <attribute name="invisible">True</attribute>            
             </xpath>
 
             <xpath expr="//field[@name='payment_term_id']" position="after">

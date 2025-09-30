@@ -4,7 +4,7 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form" />
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='team_id']" position="attributes">
+            <xpath expr="//page[@name='other_information']//field[@name='team_id']" position="attributes">
                 <attribute name="required">False</attribute>
             </xpath>
         </field>

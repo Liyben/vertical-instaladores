@@ -96,7 +96,7 @@
                 </div>
             </xpath>
 
-            <xpath expr="//field[@name='team_id']" position="before">
+            <xpath expr="//page[@name='lead']//field[@name='team_id']" position="before">
                 <field name="has_tags" invisible="1"/>
             </xpath>
 
@@ -106,7 +106,7 @@
                 context="{'default_type':'delivery', 'show_address': False, 'show_vat': False}"/>
             </xpath>
             
-            <xpath expr="//field[@name='team_id']" position="attributes">
+            <xpath expr="//page[@name='lead']//field[@name='team_id']" position="attributes">
                 <attribute name="required">False</attribute>
             </xpath>
 
