@@ -110,5 +110,5 @@ class Module(models.Model):
         _logger.debug("MODULES DICT: %s\n", str(modules_dict))
         # Check for updates
         modules_to_update_dict = self.check_app_store_updates(modules_dict, fields)
-
+        
         return modules_to_update_dict
