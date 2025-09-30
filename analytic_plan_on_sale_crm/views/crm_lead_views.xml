@@ -4,8 +4,8 @@
         <field name="model">crm.team</field>
         <field name="inherit_id" ref="crm.crm_lead_view_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='team_id']" position="replace">
-                
+            <xpath expr="//field[@name='team_id']" position="attributes">
+                <attribute name="invisible">True</attribute>
             </xpath>
         </field>
     </record>
