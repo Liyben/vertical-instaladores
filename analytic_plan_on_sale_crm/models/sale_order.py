@@ -1,4 +1,4 @@
-# © 2024 Liyben
+# © 2025 Seges
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import api, fields, models, exceptions, _
@@ -16,12 +16,20 @@ class SaleOrder(models.Model):
         string='Plan analítico',
     )
 
-    @api.onchange('analytic_account_id')
+    """ @api.onchange('analytic_account_id')
     def _onchange_analytic_account_id(self):
         for record in self:
             if record.analytic_account_id.plan_id:
-                record.plan_id = record.analytic_account_id.plan_id.id
+                record.plan_id = record.analytic_account_id.plan_id.id """
 
+    @api.onchange('team_id')
+    def _onchange_team_id_to_plan_id(self):
+        for record in self:
+            if record.team_id and record.team_id.plan_id:
+                record.plan_id = record.team_id.plan_id.id
+            else:
+                record.plan_id = False
+                
     #Override función para los datos de la cuenta analitica
     def _prepare_analytic_account_data(self, prefix=None):
         """ Prepare SO analytic account creation values.

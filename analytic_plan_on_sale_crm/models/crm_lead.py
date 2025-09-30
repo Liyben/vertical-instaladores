@@ -1,4 +1,4 @@
-# © 2024 Liyben
+# © 2025 Seges
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import api, fields, models, _
@@ -11,6 +11,14 @@ class CrmLead(models.Model):
         'account.analytic.plan',
         string='Plan analítico',
     )
+
+    @api.onchange('team_id')
+    def _onchange_team_id_to_plan_id(self):
+        for record in self:
+            if record.team_id and record.team_id.plan_id:
+                record.plan_id = record.team_id.plan_id.id
+            else:
+                record.plan_id = False
 
     #Calculo del contexto cuando una oportunidad pasa a presupuesto
     def _prepare_opportunity_quotation_context(self):

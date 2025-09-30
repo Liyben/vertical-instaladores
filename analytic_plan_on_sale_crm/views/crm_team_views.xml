@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- View crm.team form -->
+    <record id="view_crm_team_form" model="ir.ui.view">
+        <field name="name">view.crm.team.form</field>
+        <field name="model">crm.team</field>
+        <field name="inherit_id" ref=""/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='right']" position="inside">
+                <field
+                    name="plan_id"
+                    groups="analytic.group_analytic_accounting"
+                />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

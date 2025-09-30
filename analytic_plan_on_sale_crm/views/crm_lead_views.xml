@@ -1,4 +1,15 @@
 <odoo>
+    <record id="crm_team_view_form_inherit" model="ir.ui.view">
+        <field name="name">crm.team.form.inherit</field>
+        <field name="model">crm.team</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='team_id']" position="replace">
+                
+            </xpath>
+        </field>
+    </record>
+
     <record id="crm_lead_view_form_analytic_plan" model="ir.ui.view">
         <field name="name">CRM - Leads with analytic plan</field>
         <field name="model">crm.lead</field>
@@ -6,9 +17,16 @@
         <field name="arch" type="xml">
             <!-- New fields -->
             <field name="project_id" position="before">
+                <field 
+                    name="team_id" 
+                    options="{'no_open': True, 'no_create': True}" 
+                    context="{'kanban_view_ref': 'sales_team.crm_team_view_kanban'}"
+                    required="1"
+                />
                 <field
                     name="plan_id"
                     groups="analytic.group_analytic_accounting"
+                    readonly="1" force_save="1"
                 />
             </field>
         </field>
