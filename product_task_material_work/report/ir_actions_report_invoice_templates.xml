@@ -34,10 +34,6 @@
             </div>
         </xpath>
         -->
-        <xpath expr="//div[@id='informations']" position="before">
-            <t t-set="print_retention" t-value="True"/>
-        </xpath>
-
         <xpath expr="//table[@name='invoice_line_table']" position="before">
             <t t-if="not display_discount">
                 <t t-foreach="o.invoice_line_ids" t-as="line">
