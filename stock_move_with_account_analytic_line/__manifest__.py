@@ -14,7 +14,6 @@
     'author': 'Liyben',
     'depends': ['stock_account','stock_picking_analytic'],
     "data": [
-        "security/ir.model.access.csv",
         "views/product_category_views.xml",
     ],
     'pre_init_hook': '_pre_init_hook_reset_valuation',
