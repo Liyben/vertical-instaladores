@@ -6,16 +6,19 @@
     'category': "Stock",
     'summary': 'Crea apuntes analiticos para poder controlar los costes / beneficiones de la cuenta analitica sin crear asientos contables.',
     'website': 'https://seges.es/',
-    'version': '17.0.1.0.0',
+    'version': '17.0.1.0.1',
     'license': 'AGPL-3',
     'description': """
         
         """,
     'author': 'Liyben',
     'depends': ['stock_account','stock_picking_analytic'],
-    'data': [
-        'views/product_category_views.xml'
+    "data": [
+        "security/ir.model.access.csv",
+        "views/product_category_views.xml",
     ],
+    'pre_init_hook': '_pre_init_hook_reset_valuation',
+    'post_init_hook': '_post_init_hook_restore_valuation',
     'qweb': [],
     'images': [
     ],
