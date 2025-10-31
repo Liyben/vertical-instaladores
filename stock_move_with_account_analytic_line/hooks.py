@@ -1,3 +1,6 @@
+# © 2025 Seges
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
+
 import logging
 from odoo import _, api, SUPERUSER_ID
 
