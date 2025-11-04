@@ -12,12 +12,10 @@
         
         """,
     'author': 'Liyben',
-    'depends': ['base','stock_account','stock_picking_analytic'],
+    'depends': ['stock_account','stock_picking_analytic'],
     "data": [
         "views/product_category_views.xml",
     ],
-    #'pre_init_hook': '_pre_init_hook_reset_valuation',
-    #'post_init_hook': '_post_init_hook_restore_valuation',
     'qweb': [],
     'images': [
     ],
