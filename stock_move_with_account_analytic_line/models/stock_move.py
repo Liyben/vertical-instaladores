@@ -27,7 +27,7 @@ class StockMove(models.Model):
         return res
     
     def _prepare_analytic_line(self, move):
-        amount = 0.0 - move.product_id.standard_price 
+        amount = 0.0 - (move.quantity_done * move.product_id.standard_price) 
         if move.location_id and move.location_id.usage == "customer":
             amount *= -1.0
         #_logger.debug("amount: %s\n", str(amount))
