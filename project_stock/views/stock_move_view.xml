@@ -8,6 +8,9 @@
         <field
             name="domain"
         >['|', ('move_id.raw_material_task_id', '=', active_id), ('move_id.task_id', '=', active_id)]</field>
+        <field
+            name="context"
+        >{'active_id': active_id}</field>
     </record>
     <record id="view_stock_move_raw_tree" model="ir.ui.view">
         <field name="name">stock.move.raw.tree</field>
