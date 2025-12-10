@@ -14,7 +14,8 @@ class StockPicking(models.Model):
     purchase_order_count = fields.Integer(
         string="Número de Pedidos de Compra",
         compute='_compute_purchase_order_count',
-        groups='stock.group_stock_user'
+        groups='stock.group_stock_user',
+        store=True
     )
 
     @api.depends('group_id')
