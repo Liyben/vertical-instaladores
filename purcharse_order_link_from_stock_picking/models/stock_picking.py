@@ -15,10 +15,10 @@ class StockPicking(models.Model):
         string="Número de Pedidos de Compra",
         compute='_compute_purchase_order_count',
         groups='stock.group_stock_user',
-        store=True
+        store=False
     )
 
-    #@api.depends('group_id','move_ids.purchase_line_id')
+    @api.depends('group_id')
     def _compute_purchase_order_count(self):
         for pick in self:
             # Verificar si hay group_id 
