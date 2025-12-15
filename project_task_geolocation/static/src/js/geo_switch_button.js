@@ -72,4 +72,5 @@ export const geoSwitchButton = {
     component: GeoSwitchButton,
 };
 
-registry.category("fields").add("geo_switch_button", geoSwitchButton);
+// Usamos "view_widgets" porque en el XML usamos la etiqueta <widget>
+registry.category("view_widgets").add("geo_switch_button", geoSwitchButton);
