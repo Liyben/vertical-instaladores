@@ -14,12 +14,23 @@ class ProjectTask(models.Model):
         """
         action = super().button_start_work()
         
-        if lat and lng and isinstance(action, dict) and 'context' in action:
-            # Inyectamos valores por defecto para el Wizard
-            action['context'].update({
-                'default_geo_lat': lat,
-                'default_geo_lng': lng,
-            })
+        if isinstance(action, dict):
+            # --- CORRECCIÓN DEL ERROR JS ---
+            # El cliente web necesita 'views' explícitamente cuando se llama desde RPC
+            if 'views' not in action:
+                # [[False, 'form']] indica que use la vista form por defecto
+                action['views'] = [[False, 'form']]
+            
+            # Inyectamos coordenadas si existen
+            if lat and lng:
+                if 'context' not in action:
+                    action['context'] = {}
+                    
+                action['context'].update({
+                    'default_geo_lat': lat,
+                    'default_geo_lng': lng,
+                })
+                
         return action
 
     def button_end_work(self, lat=False, lng=False):
