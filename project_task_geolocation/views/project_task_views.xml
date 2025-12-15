@@ -5,7 +5,7 @@
         <field name="inherit_id" ref="project_timesheet_time_control.view_task_form2_inherited"/>
         <field name="arch" type="xml">
             
-            <xpath expr="//button[@name='button_start_work']" position="replace">
+            <xpath expr="//button[@name='button_start_work']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
 

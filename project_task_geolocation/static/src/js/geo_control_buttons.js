@@ -48,6 +48,7 @@ export class GeoControlButtons extends Component {
 
                 } catch (e) {
                     console.error(e);
+                    const errorMessage = e.message && e.message.data ? e.message.data.message : (e.message || e.toString());
                     this.notification.add("Error en servidor: " + e.message.data.message, { type: "danger" });
                 }
             },
@@ -65,4 +66,4 @@ export const geoControlButtons = {
     fieldDependencies: [{ name: "show_time_control", type: "selection" }],
 };
 
-registry.category("view_widgets").add("geo_control_buttons", geoControlButtons);
+registry.category("fields").add("geo_control_buttons", geoControlButtons);
