@@ -2,7 +2,7 @@
     <record id="view_account_analytic_line_tree_inherit_geo" model="ir.ui.view">
         <field name="name">account.analytic.line.tree.geo</field>
         <field name="model">account.analytic.line</field>
-        <field name="inherit_id" ref="project_timesheet_time_control.view_hr_timesheet_line_my_tree_inherit"/>
+        <field name="inherit_id" ref="project_timesheet_time_control.account_analytic_line_tree"/>
         <field name="arch" type="xml">
             
             <xpath expr="//button[@name='button_resume_work']" position="attributes">
