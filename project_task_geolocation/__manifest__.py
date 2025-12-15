@@ -21,9 +21,10 @@
         'web',
         'project_timesheet_time_control',
     ],
-    'data': [
+    "data": [
         "views/account_analytic_line_view.xml",
-        "wizards/hr_timesheet_switch_view.xml",
+        "views/project_task_views.xml",
+        "wizards/hr_timesheet_switch_view.xml"
     ],
     'assets': {
         'web.assets_backend': [

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="project_task_geolocation.GeoControlButtons">
+        <div class="o_stat_info">
+            <button t-if="props.record.data.show_time_control === 'start'"
+                    class="btn oe_stat_button"
+                    t-on-click="() => this.onGeoAction('button_start_work')">
+                <div class="fa fa-play-circle text-success o_button_icon"/>
+                <span>Start Work</span>
+            </button>
+
+            <button t-if="props.record.data.show_time_control === 'stop'"
+                    class="btn oe_stat_button"
+                    t-on-click="() => this.onGeoAction('button_end_work')">
+                <div class="fa fa-stop-circle text-warning o_button_icon"/>
+                <span>Stop Work</span>
+            </button>
+        </div>
+    </t>
+</templates>

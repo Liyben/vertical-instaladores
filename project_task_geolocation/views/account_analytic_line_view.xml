@@ -1,21 +1,52 @@
 <odoo>
-    <record id="view_account_analytic_line_tree_inherit_geo" model="ir.ui.view">
-        <field name="name">account.analytic.line.tree.geo</field>
+    <record id="view_account_analytic_line_form_inherit_geo" model="ir.ui.view">
+        <field name="name">account.analytic.line.form.geo</field>
         <field name="model">account.analytic.line</field>
-        <field name="inherit_id" ref="project_timesheet_time_control.account_analytic_line_tree"/>
+        <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_form"/>
         <field name="arch" type="xml">
             
-            <xpath expr="//button[@name='button_resume_work']" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </xpath>
-            <xpath expr="//button[@name='button_end_work']" position="attributes">
-                <attribute name="invisible">1</attribute>
+            <xpath expr="//sheet" position="before">
+                </xpath>
+            
+            <xpath expr="//sheet" position="inside">
+                 <div class="oe_button_box" name="button_box">
+                    <button name="action_view_geo_start"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-map-marker"
+                            invisible="not geo_start_lat">
+                        <div class="o_stat_info">
+                            <span class="o_stat_text">Inicio</span>
+                            <span class="o_stat_value">Mapa</span>
+                        </div>
+                    </button>
+
+                    <button name="action_view_geo_stop"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-flag-checkered"
+                            invisible="not geo_stop_lat">
+                        <div class="o_stat_info">
+                            <span class="o_stat_text">Fin</span>
+                            <span class="o_stat_value">Mapa</span>
+                        </div>
+                    </button>
+                </div>
             </xpath>
 
-            <xpath expr="//field[@name='date']" position="before">
-                <field name="id" widget="geo_timer_button" nolabel="1" string="Acciones Geo"/>
+            <xpath expr="//group" position="after">
+                <group string="Geolocalización" groups="base.group_no_one">
+                    <group>
+                        <field name="geo_start_lat"/>
+                        <field name="geo_start_lng"/>
+                    </group>
+                    <group>
+                        <field name="geo_stop_lat"/>
+                        <field name="geo_stop_lng"/>
+                    </group>
+                </group>
             </xpath>
-
+            
         </field>
     </record>
 </odoo>

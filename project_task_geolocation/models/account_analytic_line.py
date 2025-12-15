@@ -11,27 +11,24 @@ class AccountAnalyticLine(models.Model):
     geo_stop_lat = fields.Float(string='Latitud Fin', digits=(10, 7), readonly=True)
     geo_stop_lng = fields.Float(string='Longitud Fin', digits=(10, 7), readonly=True)
 
-    def action_geo_timer_start(self, lat=False, lng=False):
-        """ Inicia el timer y guarda coordenadas """
-        # Ejecuta la lógica original de OCA
-        res = self.button_resume_work()
-        
-        # Busca la línea activa recién creada para el usuario actual
-        domain = [('user_id', '=', self.env.user.id), ('date_time_end', '=', False)]
-        running_line = self.search(domain, limit=1, order='id desc')
-        
-        if running_line and lat and lng:
-            running_line.write({
-                'geo_start_lat': lat,
-                'geo_start_lng': lng
-            })
-        return res
+    def _get_google_maps_url(self, lat, lng):
+        """ Helper para construir la URL """
+        return f"https://www.google.com/maps/search/?api=1&query={lat},{lng}"
 
-    def action_geo_timer_stop(self, lat=False, lng=False):
-        """ Detiene el timer y guarda coordenadas """
-        if lat and lng:
-            self.write({
-                'geo_stop_lat': lat,
-                'geo_stop_lng': lng
-            })
-        return self.button_end_work()
+    def action_view_geo_start(self):
+        self.ensure_one()
+        if self.geo_start_lat and self.geo_start_lng:
+            return {
+                'type': 'ir.actions.act_url',
+                'url': self._get_google_maps_url(self.geo_start_lat, self.geo_start_lng),
+                'target': 'new',
+            }
+
+    def action_view_geo_stop(self):
+        self.ensure_one()
+        if self.geo_stop_lat and self.geo_stop_lng:
+            return {
+                'type': 'ir.actions.act_url',
+                'url': self._get_google_maps_url(self.geo_stop_lat, self.geo_stop_lng),
+                'target': 'new',
+            }
