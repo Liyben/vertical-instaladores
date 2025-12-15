@@ -5,10 +5,29 @@
         <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_form"/>
         <field name="arch" type="xml">
             
-            <xpath expr="//sheet" position="before">
-                </xpath>
+            <xpath expr="//group" position="after">
+                <group string="Geolocalización" groups="base.group_no_one">
+                    <group>
+                        <field name="geo_start_lat"/>
+                        <field name="geo_start_lng"/>
+                    </group>
+                    <group>
+                        <field name="geo_stop_lat"/>
+                        <field name="geo_stop_lng"/>
+                    </group>
+                </group>
+            </xpath>
             
-            <xpath expr="//sheet" position="inside">
+        </field>
+    </record>
+
+    <record id="view_hr_timesheet_line_form_form_inherit_geo" model="ir.ui.view">
+        <field name="name">account.analytic.line.hr.timesheet.line.form.geo</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="project_timesheet_time_control.hr_timesheet_line_form"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//div[@name='button_box']" position="inside">
                  <div class="oe_button_box" name="button_box">
                     <button name="action_view_geo_start"
                             type="object"
@@ -34,19 +53,5 @@
                 </div>
             </xpath>
 
-            <xpath expr="//group" position="after">
-                <group string="Geolocalización" groups="base.group_no_one">
-                    <group>
-                        <field name="geo_start_lat"/>
-                        <field name="geo_start_lng"/>
-                    </group>
-                    <group>
-                        <field name="geo_stop_lat"/>
-                        <field name="geo_stop_lng"/>
-                    </group>
-                </group>
-            </xpath>
-            
-        </field>
     </record>
 </odoo>
