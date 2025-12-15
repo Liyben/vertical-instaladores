@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="project_task_geolocation.GeoSwitchButton">
+        <button class="btn btn-primary" t-on-click="onSwitchClick">
+            <i class="fa fa-map-marker me-1"/> Empezar trabajo
+        </button>
+    </t>
+</templates>

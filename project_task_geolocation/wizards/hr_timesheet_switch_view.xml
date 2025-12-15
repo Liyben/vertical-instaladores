@@ -1,38 +1,19 @@
-<data>
-    
-    <record model="ir.ui.view" id="hr_timesheet_switch_form_inherited">
-        <field name="name">hr.timesheet.switch.form.inherited</field>
+<odoo>
+    <record id="hr_timesheet_switch_form_geo" model="ir.ui.view">
+        <field name="name">hr.timesheet.switch.form.geo</field>
         <field name="model">hr.timesheet.switch</field>
         <field name="inherit_id" ref="project_timesheet_time_control.hr_timesheet_switch_form"/>
         <field name="arch" type="xml">
-            <!--Fields-->
-            <xpath expr="//field[@name='date_time']" position="attributes">
-                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
+            
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="geo_lat" invisible="1"/>
+                <field name="geo_lng" invisible="1"/>
             </xpath>
-            <xpath expr="//field[@name='date_time_end']" position="attributes">
-                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
-            </xpath>
-            <xpath expr="//field[@name='project_id']" position="attributes">
-                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
-            </xpath>
-            <xpath expr="//field[@name='task_id']" position="attributes">
-                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
-            </xpath>
-            <xpath expr="//field[@name='company_id']" position="before">
-                <field name="date_time" string="Fecha y hora" readonly="1" groups="project_task_geolocation.group_geolocation_worker"/>
-                <field name="date_time_end" string="Fecha final" readonly="1" groups="project_task_geolocation.group_geolocation_worker"/>
-                <field name="project_id" string="Proyecto" required="1" readonly="1" groups="project_task_geolocation.group_geolocation_worker"/>
-                <field name="task_id" string="Tarea" readonly="1" groups="project_task_geolocation.group_geolocation_worker"/>
-            </xpath>
-            <!--Footer buttons-->
-            <xpath expr="//button[@name='action_switch'][2]" position="attributes">
-                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
-            </xpath>
-            <xpath expr="//button[@name='action_switch'][3]" position="attributes">
-                <attribute name="groups">project_task_geolocation.group_geolocation_administrative</attribute>
+
+            <xpath expr="//footer/button[@name='action_switch']" position="replace">
+                <widget name="geo_switch_button" nolabel="1"/>
             </xpath>
 
         </field>
     </record>
-
-</data>
+</odoo>

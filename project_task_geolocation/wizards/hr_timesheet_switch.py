@@ -1,68 +1,40 @@
 # © 2025 Seges
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, fields, models, exceptions, _
-import logging
-_logger = logging.getLogger(__name__)
+from odoo import models, fields
 
 class HrTimesheetSwitch(models.TransientModel):
-    _inherit = "hr.timesheet.switch"
+    _inherit = 'hr.timesheet.switch'
 
-    def _get_user_attendance(self):
-        employee = self.env['hr.employee'].search([('user_id', '=', self.env.user.id), ('company_id', '=', self.env.company.id)])
-        if employee:
-            now = fields.Datetime.now()
-            attendance = self.env['hr.attendance'].search([('employee_id', '=', employee.id), ('check_in', '<=', now), ('check_out', '=', False)], order="check_in desc", limit=1)
-            if attendance:
-                aal = self.env['account.analytic.line'].search([('attendance_id', '=', attendance.id), ('employee_id', '=', employee.id)])
-                if not aal:
-                    return attendance
-        
-        return False
-
-    def _prepare_copy_worker_values(self, record):
-        """Return the values that will be overwritten in new timesheet entry."""
-        attendance = self._get_user_attendance()
-        return {
-            "name": record.name,
-            "date_time": record.date_time,
-            "date_time_end": record.date_time_end,
-            "project_id": record.project_id.id,
-            "task_id": record.task_id.id,
-            "unit_amount": 0,
-            "attendance_id": attendance.id or False,
-        }
+    geo_lat = fields.Float(digits=(10, 7))
+    geo_lng = fields.Float(digits=(10, 7))
 
     def action_switch(self):
-        """Stop old timer, start new one."""
-        self.ensure_one()
-        # Stop old timer
-        self.with_context(
-            resuming_lines=self.ids,
-            stop_dt=self.date_time,
-        ).running_timer_id.button_end_work()
-        # Start new timer
-        if self.analytic_line_id:
-            if self.env.user.has_group('project_task_geolocation.group_geolocation_worker'):
-                new = self.analytic_line_id.copy(self._prepare_copy_worker_values(self))
-            else:
-                new = self.analytic_line_id.copy(self._prepare_copy_values(self))
-        else:
-            fields = self.env["account.analytic.line"]._fields.keys()
-            vals = self.env["account.analytic.line"].default_get(fields)
-            if self.env.user.has_group('project_task_geolocation.group_geolocation_worker'):
-                vals.update(self._prepare_copy_worker_values(self))
-            else:
-                vals.update(self._prepare_copy_values(self))
-            new = self.env["account.analytic.line"].create(vals)
-        # Display created timer record if requested
-        if self.env.context.get("show_created_timer"):
-            form_view = self.env.ref("hr_timesheet.hr_timesheet_line_form")
-            return {
-                "res_id": new.id,
-                "res_model": new._name,
-                "type": "ir.actions.act_window",
-                "view_mode": "form",
-                "view_type": "form",
-                "views": [(form_view.id, "form")],
-            }
+        """ Sobrescribe el cambio de tarea para inyectar coordenadas """
+        res = super().action_switch()
+        
+        # 1. Actualizar la tarea que se acaba de cerrar (STOP)
+        closed_line = self.env['account.analytic.line'].search([
+            ('user_id', '=', self.env.user.id),
+            ('date_time_end', '!=', False)
+        ], limit=1, order='date_time_end desc')
+        
+        if closed_line and self.geo_lat and self.geo_lng:
+            closed_line.write({
+                'geo_stop_lat': self.geo_lat,
+                'geo_stop_lng': self.geo_lng
+            })
+
+        # 2. Actualizar la nueva tarea iniciada (START)
+        new_line = self.env['account.analytic.line'].search([
+            ('user_id', '=', self.env.user.id),
+            ('date_time_end', '=', False)
+        ], limit=1, order='date_time desc')
+
+        if new_line and self.geo_lat and self.geo_lng:
+            new_line.write({
+                'geo_start_lat': self.geo_lat,
+                'geo_start_lng': self.geo_lng
+            })
+            
+        return res

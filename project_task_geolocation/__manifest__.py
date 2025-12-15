@@ -15,16 +15,24 @@
     'description': """
         
     """,
-    'depends': ['project', 'project_timesheet_time_control', 'account', 'web', 'hr_timesheet'],
+    'depends': [
+        'project',
+        'hr_timesheet',
+        'web',
+        'project_timesheet_time_control',
+    ],
     'data': [
-        "security/project_task_timer_security.xml",
-        "views/project_task.xml",
-        "views/project_project_view.xml",
         "views/account_analytic_line_view.xml",
         "wizards/hr_timesheet_switch_view.xml",
     ],
-    'demo': [
-    ],
+    'assets': {
+        'web.assets_backend': [
+            'project_task_geolocation/static/src/xml/*.xml',
+            'project_task_geolocation/static/src/js/*.js',
+        ],
+    },
+
     'installable': True,
+    'license': 'AGPL-3',
     'auto_install': False,
 }
