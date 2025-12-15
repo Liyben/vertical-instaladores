@@ -28,30 +28,29 @@
         <field name="arch" type="xml">
             
             <xpath expr="//div[@name='button_box']" position="inside">
-                 <div class="oe_button_box" name="button_box">
-                    <button name="action_view_geo_start"
-                            type="object"
-                            class="oe_stat_button"
-                            icon="fa-map-marker"
-                            invisible="not geo_start_lat">
-                        <div class="o_stat_info">
-                            <span class="o_stat_text">Inicio</span>
-                            <span class="o_stat_value">Mapa</span>
-                        </div>
-                    </button>
+                <button name="action_view_geo_start"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-map-marker"
+                        invisible="not geo_start_lat">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Inicio</span>
+                        <span class="o_stat_value">Mapa</span>
+                    </div>
+                </button>
 
-                    <button name="action_view_geo_stop"
-                            type="object"
-                            class="oe_stat_button"
-                            icon="fa-flag-checkered"
-                            invisible="not geo_stop_lat">
-                        <div class="o_stat_info">
-                            <span class="o_stat_text">Fin</span>
-                            <span class="o_stat_value">Mapa</span>
-                        </div>
-                    </button>
-                </div>
+                <button name="action_view_geo_stop"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-flag-checkered"
+                        invisible="not geo_stop_lat">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Fin</span>
+                        <span class="o_stat_value">Mapa</span>
+                    </div>
+                </button>
             </xpath>
-
+            
+        </field>
     </record>
 </odoo>
