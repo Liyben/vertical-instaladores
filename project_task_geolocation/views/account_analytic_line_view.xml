@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             
             <xpath expr="//group" position="after">
-                <group string="Geolocalización" groups="base.group_no_one">
+                <group string="Geolocalización">
                     <group>
                         <field name="geo_start_lat"/>
                         <field name="geo_start_lng"/>
@@ -50,7 +50,7 @@
                     </div>
                 </button>
             </xpath>
-            
+
         </field>
     </record>
 </odoo>
