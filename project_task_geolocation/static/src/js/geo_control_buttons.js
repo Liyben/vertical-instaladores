@@ -1,7 +1,7 @@
 /** @odoo-module */
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
-import { Component } from "@odoo/owl";
+import { Component, onWillDestroy } from "@odoo/owl";
 import { standardFieldProps } from "@web/views/fields/standard_field_props";
 
 export class GeoControlButtons extends Component {
@@ -12,74 +12,84 @@ export class GeoControlButtons extends Component {
         this.orm = useService("orm");
         this.actionService = useService("action");
         this.notification = useService("notification");
+        
+        this.isAlive = true;
+        onWillDestroy(() => {
+            this.isAlive = false;
+        });
     }
 
     async onGeoAction(actionName) {
         if (!navigator.geolocation) {
-            this.notification.add("Geolocalización no disponible.", { type: "danger" });
+            alert("Tu navegador no soporta geolocalización.");
             return;
         }
 
-        // Feedback visual
-        this.notification.add("Obteniendo ubicación...", { type: "info" });
+        // Aviso visual para saber que el botón funcionó
+        this.notification.add("Buscando satélites... (Espera 20s)", { type: "info" });
+
+        const options = {
+            enableHighAccuracy: true,
+            timeout: 20000, // AUMENTADO A 20 SEGUNDOS
+            maximumAge: 0
+        };
 
         navigator.geolocation.getCurrentPosition(
+            // --- ÉXITO ---
             async (position) => {
-                const lat = position.coords.latitude;
-                const lng = position.coords.longitude;
+                if (!this.isAlive) return;
                 
+                // Alert para confirmar que obtuvo coordenadas (Borrar en producción)
+                // alert("Coords: " + position.coords.latitude); 
+
                 try {
-                    // Llamamos al método Python (button_start_work o button_end_work)
-                    // pasando lat/lng como kwargs
                     const result = await this.orm.call(
                         this.props.record.resModel,
                         actionName,
                         [this.props.record.resId],
-                        { lat: lat, lng: lng }
+                        { 
+                            lat: position.coords.latitude, 
+                            lng: position.coords.longitude 
+                        }
                     );
 
-                    // Si devuelve una acción (como el Wizard en start_work), la ejecutamos
+                    if (!this.isAlive) return;
+
                     if (result && typeof result === 'object' && result.type) {
                         this.actionService.doAction(result);
                     } else {
-                        // Si no devuelve acción (stop_work), recargamos la vista
                         await this.props.record.model.load();
                     }
 
                 } catch (e) {
-                    console.error("Geo Error:", e);
-                    
-                    let errorMessage = "Ha ocurrido un error inesperado.";
-
-                    // Caso 1: Error RPC detallado de Odoo (UserError, ValidationError desde Python)
-                    // La estructura suele ser e.message.data.message
-                    if (e.message && e.message.data && e.message.data.message) {
-                        errorMessage = e.message.data.message;
-                    }
-                    // Caso 2: Error estándar de Javascript o error simple de Odoo
-                    // Solo tiene e.message
-                    else if (e.message) {
-                        errorMessage = e.message;
-                    }
-                    // Caso 3: Si 'e' es solo un string u otro objeto
-                    else {
-                        errorMessage = e.toString();
-                    }
-
-                    this.notification.add("Error: " + errorMessage, { type: "danger" });
+                    if (!this.isAlive) return;
+                    alert("Error Servidor: " + e.toString());
                 }
             },
+            // --- ERROR DE GPS ---
             (err) => {
-                this.notification.add("Error GPS: " + err.message, { type: "warning" });
+                if (!this.isAlive) return;
+                
+                // DIAGNÓSTICO: Esto te dirá exactamente qué pasa en el iPhone
+                let errorMsg = "";
+                switch(err.code) {
+                    case 1: errorMsg = "PERMISO DENEGADO. Revisa Ajustes > Privacidad."; break;
+                    case 2: errorMsg = "POSICIÓN NO DISPONIBLE. (Mala señal GPS)."; break;
+                    case 3: errorMsg = "TIMEOUT. Se acabó el tiempo de espera."; break;
+                    default: errorMsg = "Error desconocido: " + err.message;
+                }
+                
+                // Usamos alert para que lo veas sí o sí en el móvil
+                alert("Error GPS: " + errorMsg);
+                this.notification.add(errorMsg, { type: "danger" });
             },
-            { enableHighAccuracy: true, timeout: 5000 }
+            options
         );
     }
 }
 
 export const geoControlButtons = {
     component: GeoControlButtons,
-    // Importante: necesitamos 'show_time_control' para saber qué botón pintar
     fieldDependencies: [{ name: "show_time_control", type: "selection" }],
 };
 
