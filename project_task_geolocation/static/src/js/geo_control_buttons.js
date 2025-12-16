@@ -1,7 +1,7 @@
 /** @odoo-module */
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
-import { Component, onWillDestroy } from "@odoo/owl";
+import { Component, onWillDestroy } from "@odoo/owl"; 
 import { standardFieldProps } from "@web/views/fields/standard_field_props";
 
 export class GeoControlButtons extends Component {
@@ -13,6 +13,7 @@ export class GeoControlButtons extends Component {
         this.actionService = useService("action");
         this.notification = useService("notification");
         
+        // --- PROTECCIÓN COMPONENT DESTROYED ---
         this.isAlive = true;
         onWillDestroy(() => {
             this.isAlive = false;
@@ -21,67 +22,74 @@ export class GeoControlButtons extends Component {
 
     async onGeoAction(actionName) {
         if (!navigator.geolocation) {
-            alert("Tu navegador no soporta geolocalización.");
+            this.notification.add("Geolocalización no disponible.", { type: "danger" });
             return;
         }
 
-        // Aviso visual para saber que el botón funcionó
-        this.notification.add("Buscando satélites... (Espera 20s)", { type: "info" });
+        this.notification.add("Obteniendo ubicación...", { type: "info" });
 
-        const options = {
-            enableHighAccuracy: true,
-            timeout: 20000, // AUMENTADO A 20 SEGUNDOS
-            maximumAge: 0
-        };
+        // Opciones GPS: Timeout de 20s para asegurar que el móvil tiene tiempo de triangular
+        const options = { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 };
 
         navigator.geolocation.getCurrentPosition(
-            // --- ÉXITO ---
             async (position) => {
+                // 1. Si el componente murió mientras esperábamos el GPS, paramos.
                 if (!this.isAlive) return;
-                
-                // Alert para confirmar que obtuvo coordenadas (Borrar en producción)
-                // alert("Coords: " + position.coords.latitude); 
 
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                
                 try {
+                    // Llamada al servidor (Python)
                     const result = await this.orm.call(
                         this.props.record.resModel,
                         actionName,
                         [this.props.record.resId],
-                        { 
-                            lat: position.coords.latitude, 
-                            lng: position.coords.longitude 
-                        }
+                        { lat: lat, lng: lng }
                     );
 
+                    // --- DEBUG: Muestra en la consola (F12) qué devolvió Python ---
+                    console.log("Respuesta del servidor (Geo):", result);
+                    // -----------------------------------------------------------
+
+                    // 2. Volvemos a comprobar la vida del componente tras el await
                     if (!this.isAlive) return;
 
+                    // Lógica para abrir Wizard o Recargar
                     if (result && typeof result === 'object' && result.type) {
-                        this.actionService.doAction(result);
+                        // Si Python devuelve una acción (Start -> Wizard), la ejecutamos
+                        await this.actionService.doAction(result);
                     } else {
+                        // Si no devuelve acción (Stop), simplemente recargamos los datos
                         await this.props.record.model.load();
                     }
 
                 } catch (e) {
-                    if (!this.isAlive) return;
-                    alert("Error Servidor: " + e.toString());
+                    if (!this.isAlive) return; // Protección en el catch
+                    
+                    console.error("Geo Error:", e);
+                    let errorMessage = "Ha ocurrido un error inesperado.";
+
+                    // Manejo robusto de mensajes de error
+                    if (e.message && e.message.data && e.message.data.message) {
+                        errorMessage = e.message.data.message;
+                    } else if (e.message) {
+                        errorMessage = e.message;
+                    } else {
+                        errorMessage = e.toString();
+                    }
+                    this.notification.add("Error: " + errorMessage, { type: "danger" });
                 }
             },
-            // --- ERROR DE GPS ---
             (err) => {
-                if (!this.isAlive) return;
+                if (!this.isAlive) return; // Protección en error GPS
                 
-                // DIAGNÓSTICO: Esto te dirá exactamente qué pasa en el iPhone
-                let errorMsg = "";
-                switch(err.code) {
-                    case 1: errorMsg = "PERMISO DENEGADO. Revisa Ajustes > Privacidad."; break;
-                    case 2: errorMsg = "POSICIÓN NO DISPONIBLE. (Mala señal GPS)."; break;
-                    case 3: errorMsg = "TIMEOUT. Se acabó el tiempo de espera."; break;
-                    default: errorMsg = "Error desconocido: " + err.message;
-                }
+                let msg = err.message;
+                // Mensajes más amigables para errores comunes
+                if (err.code === 1) msg = "Permiso de ubicación denegado.";
+                if (err.code === 3) msg = "Tiempo de espera agotado (Timeout).";
                 
-                // Usamos alert para que lo veas sí o sí en el móvil
-                alert("Error GPS: " + errorMsg);
-                this.notification.add(errorMsg, { type: "danger" });
+                this.notification.add("Error GPS: " + msg, { type: "warning" });
             },
             options
         );
