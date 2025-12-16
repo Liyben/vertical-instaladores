@@ -178,7 +178,7 @@
                                         <div style="text-align: right;">
                                             <strong>Conforme cliente: </strong><span t-field="o.signed_by"/>
                                         </div>
-                                        <img t-att-src="'data:image/png;base64,%s' % to_text(o.signature)" width="35%" height="35%" style="float: right;"/>
+                                        <img t-if="o.signature" t-att-src="image_data_uri(o.signature)" width="35%" height="35%" style="float: right;"/>
                                     </td>
                                 </tr>                                
                             </tbody>
