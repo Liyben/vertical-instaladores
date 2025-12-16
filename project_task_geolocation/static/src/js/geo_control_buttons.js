@@ -48,7 +48,7 @@ export class GeoControlButtons extends Component {
                         { lat: lat, lng: lng }
                     );
 
-                    // --- DEBUG: Muestra en la consola (F12) qué devolvió Python ---
+                    // --- DEBUG: Muestra en la consola qué devolvió Python ---
                     console.log("Respuesta del servidor (Geo):", result);
                     // -----------------------------------------------------------
 
