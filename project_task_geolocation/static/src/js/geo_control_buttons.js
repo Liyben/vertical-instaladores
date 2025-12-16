@@ -58,7 +58,15 @@ export class GeoControlButtons extends Component {
                     // Lógica para abrir Wizard o Recargar
                     if (result && typeof result === 'object' && result.type) {
                         // Si Python devuelve una acción (Start -> Wizard), la ejecutamos
-                        await this.actionService.doAction(result);
+                        await this.actionService.doAction(result, {
+                            onClose: async () => {
+                                // Esta función se ejecuta AUTOMÁTICAMENTE cuando el Wizard se cierra
+                                if (this.isAlive) {
+                                    // Forzamos la recarga de la Tarea para ver la nueva línea y el cambio de botón
+                                    await this.props.record.model.load();
+                                }
+                            }
+                        });
                     } else {
                         // Si no devuelve acción (Stop), simplemente recargamos los datos
                         await this.props.record.model.load();
