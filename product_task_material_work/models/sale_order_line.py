@@ -313,22 +313,33 @@ class SaleOrderLine(models.Model):
     #Calculo de los valores necesarios para crear el parte de trabajo correspondiente a la linea de pedido
     def _timesheet_create_task_prepare_values(self, project):
         self.ensure_one()
-        allocated_hours = 0.0
-        if self.product_id.service_type not in ['milestones', 'manual']:
-            allocated_hours = self._convert_qty_company_hours(self.company_id)
-        sale_line_name_parts = self.name.split('\n')
-        title = sale_line_name_parts[0] or self.product_id.name
-        description = '<br/>'.join(sale_line_name_parts[1:])
+
         work_list = []
+        # Acumulador de horas totales
+        total_work_hours = 0.0
         for work in self.task_works_ids:
+            # Calculo de las horas totales de la mano de obra
+            current_work_hours = work.hours * self.product_uom_qty
+            #Actualizar acumulador de horas totales
+            total_work_hours += current_work_hours
             work_list.append((0,0, {
                 'work_id' : work.work_id.id,
                 'name' : work.name,
-                'hours' : work.hours * self.product_uom_qty,
+                'hours' : current_work_hours,
                 }))
+            
+        allocated_hours = 0.0
+        if self.product_id.service_type not in ['milestones', 'manual']:
+            if total_work_hours != 0.0:
+                allocated_hours = total_work_hours
+            else:
+                allocated_hours = self._convert_qty_company_hours(self.company_id)
+
+        sale_line_name_parts = self.name.split('\n')
+        title = sale_line_name_parts[0] or self.product_id.name
+        description = '<br/>'.join(sale_line_name_parts[1:])
 
         material_list = []
-
         for material in self.task_materials_ids:
             material_list.append((0,0, {
                 'product_id' : material.material_id.id,
