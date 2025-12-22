@@ -10,7 +10,7 @@
                 <button class="oe_stat_button" type="object"
                         name="action_view_purchase_rfq" 
                         icon="fa-pencil">
-                    <field name="rfq_count" widget="statinfo" string="Compra(s)"/>
+                    <field name="rfq_count" widget="statinfo" string="Solicitud(es)"/>
                 </button>
                 
                 <button class="oe_stat_button" type="object"
@@ -21,7 +21,7 @@
                         <span class="o_stat_value">
                             <field name="purchase_amount_total" widget="monetary" options="{'currency_field': 'company_currency'}"/>
                         </span>
-                        <span class="o_stat_text"> Compras</span>
+                        <span class="o_stat_text"> Compra(s)</span>
                         <field name="purchase_order_count" invisible="1"/>
                     </div>
                 </button>

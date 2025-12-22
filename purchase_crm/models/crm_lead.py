@@ -6,14 +6,6 @@ from odoo import api, fields, models
 class CrmLead(models.Model):
     _inherit = 'crm.lead'
 
-    # Campo auxiliar necesario para el widget Monetary
-    company_currency = fields.Many2one(
-        "res.currency", 
-        string='Currency', 
-        related='company_id.currency_id', 
-        readonly=True
-    )
-
     purchase_amount_total = fields.Monetary(
         compute='_compute_purchase_data', 
         string="Total de compras", 
