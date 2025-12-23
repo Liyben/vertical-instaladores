@@ -8,5 +8,17 @@ class CrmLead(models.Model):
     
     #Campo para relacionar Aviso / Oportunidad con PT
     task_ids = fields.One2many(comodel_name='project.task', inverse_name='oppor_id', string="Partes de Trabajo")
+
+    task_number = fields.Integer(
+        string="Número de PT",
+        compute='_compute_task_total',
+        store=True,  
+        readonly=True
+    )
+
+    @api.depends('task_ids')
+    def _compute_task_total(self):
+        for record in self:
+            record.task_number = len(record.task_ids)
     
     

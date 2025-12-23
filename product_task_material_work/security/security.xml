@@ -29,6 +29,11 @@
         <field name="name">Modificación compuestos en linea de factura.</field>
         <field name="category_id" ref="base.module_category_hidden"/>
     </record>
+
+    <record id="group_view_pt_stats" model="res.groups">
+        <field name="name">Ver botón de PTs.</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
 <!--
     <record id="group_report_invoice_grouped_by_picking" model="res.groups">
         <field name="name">Permitir impresión de facturas agrupadas por albarán.</field>
