@@ -92,8 +92,8 @@
 
             <xpath expr="//field[@name='order_line']/form//field[@name='name']" position="after">
                <field name="auto_create_task" invisible="1"/>
-               <div name="partida" attrs="{'invisible':[('auto_create_task','!=',True)]}">
-                    <field name="see_works_and_materials"/>
+               <div name="partida" invisible="not auto_create_task or display_type">
+                    <field name="see_works_and_materials" />
                     <field name="change_control" invisible="1"/>
                     <field name="count_change" invisible="1"/>
                     <field name="pricelist_id" invisible="1"/>
