@@ -90,7 +90,7 @@
 
                         <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" />
 
-                        <tr t-att-class="'bg-200 fw-bold o_line_section' if line.display_type == 'line_section' else 'fst-italic o_line_note' if line.display_type == 'line_note' else ''">
+                        <tr t-att-class="'bg-200 fw-bold o_line_section' if line.display_type == 'line_section' else 'fst-italic o_line_note' if line.display_type == 'line_note' else 'product-row'">
                             <t t-if="not line.display_type">
                                 <td name="td_name"><span t-field="line.name">Bacon Burger</span></td>
                                 <!-- IMPRESION DE SOLO TEXTO CUANDO LA CANTIDAD ES 0 -->
@@ -162,7 +162,7 @@
                         <td t-if="not (is_without_valuing and is_delivery_note)" class="works_hours_price">                            
                         </td>
                         <td t-if="not (is_without_valuing and is_delivery_note) and display_discount" class="text-end"></td>
-                        <td t-if="not (is_without_valuing and is_delivery_note)" class="works_total_amount">
+                        <td t-if="not (is_without_valuing and is_delivery_note)" class="works_total_amount text-end o_price_total">
                             <t t-if="line.detailed_subtotal_price_time">
                                 <span t-esc="'{0:,.2f}'.format(line.total_sp_work).replace('.', ',')"/> <span t-field="doc.pricelist_id.currency_id.symbol"/>
                             </t>
@@ -191,7 +191,7 @@
                                 <span t-esc="'{0:,.2f}'.format(work.discount).replace('.', ',')"/>
                             </t>
                         </td>
-                        <td t-if="not (is_without_valuing and is_delivery_note)" class="materials_line_price">
+                        <td t-if="not (is_without_valuing and is_delivery_note)" class="materials_line_price text-end o_price_total">
                             <t t-if="line.detailed_price_time">
                                 <span t-esc="'{0:,.2f}'.format(work.sale_price_unit * work.hours * (1 - (work.discount/100))).replace('.', ',')"/> <span t-field="doc.pricelist_id.currency_id.symbol"/>
                             </t>
@@ -204,7 +204,7 @@
                         <td></td>
                         <td t-if="not (is_without_valuing and is_delivery_note)"></td>
                         <td t-if="not (is_without_valuing and is_delivery_note) and display_discount" class="text-end"></td>
-                        <td t-if="not (is_without_valuing and is_delivery_note)" class="materials_total_amount">
+                        <td t-if="not (is_without_valuing and is_delivery_note)" class="materials_total_amount text-end o_price_total">
                             <t t-if="line.detailed_subtotal_price_materials">
                                 <span t-esc="'{0:,.2f}'.format(line.total_sp_material).replace('.', ',')"/> <span t-field="doc.pricelist_id.currency_id.symbol"/>
                             </t>
@@ -229,7 +229,7 @@
                                 <span t-esc="'{0:,.2f}'.format(material.discount).replace('.', ',')"/>
                             </t>
                         </td>
-                        <td t-if="not (is_without_valuing and is_delivery_note)" class="materials_line_price">
+                        <td t-if="not (is_without_valuing and is_delivery_note)" class="materials_line_price text-end o_price_total">
                             <t t-if="line.detailed_price_materials">
                                 <span t-esc="'{0:,.2f}'.format(material.sale_price_unit * material.quantity * (1 - (material.discount/100))).replace('.', ',')"/> <span t-field="doc.pricelist_id.currency_id.symbol"/>
                             </t>
