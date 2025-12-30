@@ -12,7 +12,7 @@
 
     """,
     'author': 'Seges',
-    'depends': ['sale_crm','project_timesheet_time_control','sale_order_invoicing_finished_task','sale_margin','analytic_plan_on_sale_crm','project_task_code','project_stock','stock_picking_analytic'],
+    'depends': ['sale_crm','project_timesheet_time_control','sale_order_invoicing_finished_task','sale_margin','analytic_plan_on_sale_crm','project_task_code','project_stock','stock_picking_analytic', 'sale_order_line_layout'],
     'external_dependencies': {"python": ["openpyxl"]},
     'data': [
 
