@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- View sale.order.line.layout View Tree -->
+    <record id="view_sale_order_line_layout_tree" model="ir.ui.view">
+        <field name="name">view.sale.order.line.layout.tree</field>
+        <field name="model">sale.order.line.layout</field>
+        <field name="arch" type="xml">
+            <tree string="Secciones" editable="bottom" sample="1">
+                <field name="sequence" widget="handle" optional="show"/>
+                <field name="name" placeholder="e.g. Habitación"/>
+                <field name="pagebreak" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- View sale.order.line.layout form -->
+    <record id="view_sale_order_line_layout_form" model="ir.ui.view">
+        <field name="name">view.sale.order.line.layout.form</field>
+        <field name="model">sale.order.line.layout</field>
+        <field name="arch" type="xml">
+            <form string="Secciones">
+                <field name="active" invisible="1"/>
+                <sheet>
+                    <widget name="web_ribbon" title="Archivado" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" placeholder="Name..."/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="pagebreak" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record> 
+
+    <!-- View sale.order.line.layout search -->
+    <record id="view_sale_order_line_layout_search" model="ir.ui.view">
+        <field name="name">view.sale.order.line.layout.search</field>
+        <field name="model">sale.order.line.layout</field>
+        <field name="arch" type="xml">
+            <search>
+                <group expand="1" string="Group By">
+                    <filter string="Name" name="name" domain="[]" context="{'group_by':'name'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action sale.order.line.layout -->
+    <record id="action_sale_order_line_layout" model="ir.actions.act_window">
+        <field name="name">Sale Order Line Layout</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order.line.layout</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                There is no examples click here to add new Sale Order Line Layout.
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+            action="action_sale_order_line_layout"
+            id="report_sale_order_line_layout"
+            parent="sale.menu_sales_config"
+            sequence="2"
+            name="Secciones"
+            groups="sale_order_line_layout.group_sale_order_line_layout"
+        />
+
+    <!--Sale order line-->    
+    <record model="ir.ui.view" id="sale_order_line_layout_sale_order">
+        <field name="name">sale.order.margin.view.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="priority" eval="15"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']/tree//field[@name='product_id']" position="after">
+                <field name="layout_category_id" column_invisible="True" groups="sale_order_line_layout.group_sale_order_line_layout"/>
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']/form/group" position="after">
+                <div groups="sale_order_line_layout.group_sale_order_line_layout">
+                    <label for="layout_category_id" string="Sección (selccione una)" invisible="display_type != 'line_section'"/>
+                    <field name="layout_category_id" invisible="display_type != 'line_section'" required="True"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
