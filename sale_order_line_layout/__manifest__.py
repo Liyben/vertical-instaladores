@@ -9,7 +9,7 @@
     'depends': ['sale', 'sale_margin',],
     'data': [
         "security/ir.model.access.csv",
-        'security/sale_order_line_layout_groups_groups.xml'
+        "security/sale_order_line_layout_groups_groups.xml",
         "views/sale_order_line_layout_views.xml",
     ],
     
