@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Sale_order_line_layout',
+    'name': 'Gestión de las secciones de las lineas de pedido',
     'version': '17.0.1.0.0',
-    'summary': """ Sale_order_line_layout Summary """,
+    'summary': """ Gestión de las secciones de las lineas de pedido """,
     'author': 'Seges',
     'website': 'https://seges.es/',
     'category': 'Sale',
