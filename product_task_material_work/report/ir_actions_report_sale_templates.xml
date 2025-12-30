@@ -71,7 +71,7 @@
         
         <xpath expr="//table[@class='table table-sm o_main_table table-borderless mt-4']" position="replace">
     
-            <t t-foreach="doc.get_report_sections_grouped(lines_to_report)" t-as="group">
+            <t t-foreach="doc.get_report_pages_flat(lines_to_report)" t-as="page_lines">
                 
                 <table class="table table-sm o_main_table mb-4">
                     <thead style="display: table-row-group">
@@ -85,17 +85,15 @@
                             </th>
                         </tr>
                     </thead>
+                    
                     <tbody class="sale_tbody">
-                        
-                        <tr t-if="group['section_line']" class="bg-200 fw-bold o_line_section">
-                            <td colspan="99">
-                                <span t-field="group['section_line'].name"/>
-                            </td>
-                        </tr>
+                        <t t-set="current_subtotal" t-value="0"/>
 
-                        <t t-foreach="group['lines']" t-as="line">
-                            
-                            <tr t-att-class="'fst-italic o_line_note' if line.display_type == 'line_note' else 'product-row'">
+                        <t t-foreach="page_lines" t-as="line">
+
+                            <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" />
+
+                            <tr t-att-class="'bg-200 fw-bold o_line_section' if line.display_type == 'line_section' else 'fst-italic o_line_note' if line.display_type == 'line_note' else 'product-row'">
                                 
                                 <t t-if="not line.display_type">
                                     <td name="td_name"><span t-field="line.name"/></td>
@@ -109,43 +107,50 @@
                                             </span>
                                         </t>
                                     </td>
-                                    
                                     <td t-if="not (is_without_valuing and is_delivery_note)" name="td_priceunit" class="text-end">
                                         <t t-if="line.product_uom_qty != 0">
                                             <span t-field="line.price_unit"/>
                                         </t>
                                     </td>
-                                    
                                     <td t-if="not (is_without_valuing and is_delivery_note) and display_discount" class="text-end">
                                         <t t-if="line.product_uom_qty != 0">
                                             <span t-field="line.discount"/>
                                         </t>
                                     </td>
-                                    
                                     <td t-if="not line.is_downpayment and not (is_without_valuing and is_delivery_note)" name="td_subtotal" class="text-end o_price_total">
                                         <t t-if="line.product_uom_qty != 0">
                                             <span t-field="line.price_subtotal"/>
                                         </t>
                                     </td>
                                 </t>
-                                
+
+                                <t t-elif="line.display_type == 'line_section'">
+                                    <td name="td_section_line" colspan="99">
+                                        <span t-field="line.name"/>
+                                    </td>
+                                    <t t-set="current_section" t-value="line"/>
+                                    <t t-set="current_subtotal" t-value="0"/>
+                                </t>
+
                                 <t t-elif="line.display_type == 'line_note'">
-                                    <td name="td_note_line" colspan="99"><span t-field="line.name"/></td>
+                                    <td name="td_note_line" colspan="99">
+                                        <span t-field="line.name"/>
+                                    </td>
                                 </t>
                             </tr>
-                        </t> <tr t-if="group['section_line'] and not (is_without_valuing and is_delivery_note)" class="is-subtotal text-end fw-bold">
-                            <td colspan="99">
-                                <strong class="mr16">Subtotal</strong>
-                                <span t-esc="group['subtotal']" 
-                                    t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
-                            </td>
-                        </tr>
-                    </tbody>
+
+                            <t t-if="current_section and (line_last or page_lines[line_index+1].display_type == 'line_section') and not line.is_downpayment">
+                                <tr t-if="not (is_without_valuing and is_delivery_note)" class="is-subtotal text-end">
+                                    <td name="td_section_subtotal" colspan="99">
+                                        <strong class="mr16">Subtotal</strong>
+                                        <span t-out="current_subtotal" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </t> </tbody>
                 </table>
 
-                <t t-if="group['pagebreak'] and not group_last and doc.env.user.has_group('sale_order_line_layout.group_sale_order_line_layout')">
-                    <div style="page-break-after: always;"></div>
-                </t>
+                <div t-if="not page_lines_last" style="page-break-after: always; height:0px; overflow:hidden;"></div>
                 
             </t> 
         </xpath>

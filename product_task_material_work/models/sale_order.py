@@ -96,52 +96,28 @@ class SaleOrder(models.Model):
                     line.analytic_distribution = {analytic_account_id: 100}
         return result
     
-    def get_report_sections_grouped(self, lines_to_report):
+    def get_report_pages_flat(self, lines_to_report):
         """
-        Recibe las líneas del reporte (ya filtradas por Odoo) y las agrupa por sección.
-        Devuelve una lista de diccionarios:
-        [
-            {
-                'section_line': record(sale.order.line) o False (para líneas sin sección),
-                'lines': recordset(sale.order.line), # Los productos de esta sección
-                'pagebreak': Boolean,
-                'subtotal': Float,
-            },
-            ...
-        ]
+        Devuelve una lista de listas de líneas.
+        Ejemplo: [ [LíneaSeccion1, Prod1, Prod2], [LíneaSeccion2(Salto), Prod3] ]
         """
-        groups = []
-        current_group = {
-            'section_line': self.env['sale.order.line'], # Vacío por defecto
-            'lines': [],
-            'pagebreak': False,
-            'subtotal': 0.0,
-        }
+        pages = []
+        current_page = []
 
         for line in lines_to_report:
-            if line.display_type == 'line_section':
-                # 1. Si ya teníamos un grupo acumulado con contenido, lo guardamos
-                if current_group['lines'] or current_group['section_line']:
-                    groups.append(current_group)
-                
-                # 2. Iniciamos un nuevo grupo basado en esta sección
-                current_group = {
-                    'section_line': line,
-                    'lines': [],
-                    # Usamos el campo de tu módulo 'sale_order_line_layout'
-                    'pagebreak': line.layout_category_id.pagebreak, 
-                    'subtotal': 0.0,
-                }
-            elif line.display_type == 'line_note':
-                # Las notas se añaden al grupo actual
-                current_group['lines'].append(line)
+            # Si es una sección y tiene activado el salto de página...
+            if line.display_type == 'line_section' and line.layout_category_id.pagebreak:
+                # Si ya tenemos una página acumulada, la guardamos y empezamos una nueva
+                if current_page:
+                    pages.append(current_page)
+                # La nueva página empieza con esta línea de sección
+                current_page = [line]
             else:
-                # Productos normales
-                current_group['lines'].append(line)
-                current_group['subtotal'] += line.price_subtotal
+                # Si no, añadimos la línea a la página actual
+                current_page.append(line)
 
-        # 3. No olvidar añadir el último grupo acumulado al final del bucle
-        if current_group['lines'] or current_group['section_line']:
-            groups.append(current_group)
+        # Añadimos la última página si tiene contenido
+        if current_page:
+            pages.append(current_page)
 
-        return groups
+        return pages
