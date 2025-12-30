@@ -93,46 +93,47 @@
                             </td>
                         </tr>
 
-                        <tr t-foreach="group['lines']" t-as="line" t-att-class="'fst-italic o_line_note' if line.display_type == 'line_note' else 'product-row'">
+                        <t t-foreach="group['lines']" t-as="line">
                             
-                            <t t-if="not line.display_type">
-                                <td name="td_name"><span t-field="line.name"/></td>
+                            <tr t-att-class="'fst-italic o_line_note' if line.display_type == 'line_note' else 'product-row'">
                                 
-                                <td name="td_quantity" class="text-end">
-                                    <t t-if="line.product_uom_qty != 0">
-                                        <span t-field="line.product_uom_qty"/>
-                                        <span t-field="line.product_uom"/>
-                                        <span t-if="line.product_packaging_id">
-                                            (<span t-field="line.product_packaging_qty" t-options='{"widget": "integer"}'/> <span t-field="line.product_packaging_id"/>)
-                                        </span>
-                                    </t>
-                                </td>
+                                <t t-if="not line.display_type">
+                                    <td name="td_name"><span t-field="line.name"/></td>
+                                    
+                                    <td name="td_quantity" class="text-end">
+                                        <t t-if="line.product_uom_qty != 0">
+                                            <span t-field="line.product_uom_qty"/>
+                                            <span t-field="line.product_uom"/>
+                                            <span t-if="line.product_packaging_id">
+                                                (<span t-field="line.product_packaging_qty" t-options='{"widget": "integer"}'/> <span t-field="line.product_packaging_id"/>)
+                                            </span>
+                                        </t>
+                                    </td>
+                                    
+                                    <td t-if="not (is_without_valuing and is_delivery_note)" name="td_priceunit" class="text-end">
+                                        <t t-if="line.product_uom_qty != 0">
+                                            <span t-field="line.price_unit"/>
+                                        </t>
+                                    </td>
+                                    
+                                    <td t-if="not (is_without_valuing and is_delivery_note) and display_discount" class="text-end">
+                                        <t t-if="line.product_uom_qty != 0">
+                                            <span t-field="line.discount"/>
+                                        </t>
+                                    </td>
+                                    
+                                    <td t-if="not line.is_downpayment and not (is_without_valuing and is_delivery_note)" name="td_subtotal" class="text-end o_price_total">
+                                        <t t-if="line.product_uom_qty != 0">
+                                            <span t-field="line.price_subtotal"/>
+                                        </t>
+                                    </td>
+                                </t>
                                 
-                                <td t-if="not (is_without_valuing and is_delivery_note)" class="text-end">
-                                    <t t-if="line.product_uom_qty != 0">
-                                        <span t-field="line.price_unit"/>
-                                    </t>
-                                </td>
-                                
-                                <td t-if="not (is_without_valuing and is_delivery_note) and display_discount" class="text-end">
-                                    <t t-if="line.product_uom_qty != 0">
-                                        <span t-field="line.discount"/>
-                                    </t>
-                                </td>
-                                
-                                <td t-if="not line.is_downpayment and not (is_without_valuing and is_delivery_note)" class="text-end o_price_total">
-                                    <t t-if="line.product_uom_qty != 0">
-                                        <span t-field="line.price_subtotal"/>
-                                    </t>
-                                </td>
-                            </t>
-                            
-                            <t t-elif="line.display_type == 'line_note'">
-                                <td colspan="99"><span t-field="line.name"/></td>
-                            </t>
-                        </tr>
-
-                        <tr t-if="group['section_line'] and not (is_without_valuing and is_delivery_note)" class="is-subtotal text-end fw-bold">
+                                <t t-elif="line.display_type == 'line_note'">
+                                    <td name="td_note_line" colspan="99"><span t-field="line.name"/></td>
+                                </t>
+                            </tr>
+                        </t> <tr t-if="group['section_line'] and not (is_without_valuing and is_delivery_note)" class="is-subtotal text-end fw-bold">
                             <td colspan="99">
                                 <strong class="mr16">Subtotal</strong>
                                 <span t-esc="group['subtotal']" 
@@ -147,7 +148,6 @@
                 </t>
                 
             </t> 
-
         </xpath>
 
         <xpath expr="//span[@t-field='line.name']/../.." position="inside">
