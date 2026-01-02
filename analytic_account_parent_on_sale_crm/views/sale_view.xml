@@ -6,8 +6,8 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
 
-            <xpath expr="//field[@name='analytic_account_id']" position="replace">
-            
+            <xpath expr="//field[@name='analytic_account_id']" position="attributes">
+                <attribute name="invisible">True</attribute>
             </xpath>
 
             <xpath expr="//page[@name='other_information']//field[@name='team_id']" position="attributes">
@@ -30,8 +30,12 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale_project.view_order_form_inherit_sale_project"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='visible_project']" position="replace"/>
-            <xpath expr="//field[@name='project_id']" position="replace"/>
+            <xpath expr="//field[@name='visible_project']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//field[@name='project_id']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
         </field>
     </record>
 
