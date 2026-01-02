@@ -12,7 +12,7 @@
         
         """,
     'author': 'Seges',
-    'depends': ['sales_team','sale_crm','analytic_plan_on_sale_crm'],
+    'depends': ['sales_team','sale_crm','analytic_account_parent_on_sale_crm'],
     'data': [
             
         'report/ir_actions_report_crm_templates.xml',
