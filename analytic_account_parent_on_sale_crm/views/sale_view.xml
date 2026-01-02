@@ -16,7 +16,7 @@
 
             <xpath expr="//field[@name='payment_term_id']" position="after">
                 <field name="team_id" context="{'kanban_view_ref': 'sales_team.crm_team_view_kanban'}" options="{'no_create': True}" required="1"/>
-                <field name="analytic_account_parent_id" groups="analytic.group_analytic_accounting" readonly="1" force_save="1" required="1"/>
+                <field name="analytic_account_parent_id" groups="analytic.group_analytic_accounting" readonly="1" force_save="1" required="0"/>
                 <field name="analytic_account_id" context="{'default_partner_id':partner_invoice_id, 'default_name':name, 'default_plan_id': plan_id}" readonly= "invoice_count != 0 and state == 'sale'" groups="analytic.group_analytic_accounting" force_save="1"/>
                 <field name="visible_project" invisible="1"/>
                 <field name="project_id" options="{'no_create': True}" invisible="not visible_project"/>
