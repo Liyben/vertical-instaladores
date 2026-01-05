@@ -37,17 +37,20 @@ class SaleOrder(models.Model):
         name = self.name
         if prefix:
             name = prefix + ": " + self.name
-        plan = self.plan_id
+        
+        analytic_account_parent = self.analytic_account_parent_id
+        if not analytic_account_parent:
+            analytic_account_parent = self.team_id.analytic_account_parent_id
+
+        plan = analytic_account_parent.plan_id
         if not plan:
             plan = self.env['account.analytic.plan'].sudo().search([], limit=1)
         
-        analytic_account_parent = self.analytic_account_parent_id
-
         return {
             'name': name,
             'code': self.client_order_ref,
             'company_id': self.company_id.id,
-            'plan_id': plan.id or False,
+            'plan_id': plan.id,
             'partner_id': self.partner_id.id,
-            'parent_id': analytic_account_parent.id or False,
+            'parent_id': analytic_account_parent.id,
         }
