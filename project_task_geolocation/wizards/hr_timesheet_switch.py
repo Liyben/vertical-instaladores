@@ -42,10 +42,18 @@ class HrTimesheetSwitch(models.TransientModel):
         
         # Estrategia B: Si no devuelve acción (comportamiento por defecto), buscamos la última creada
         if not new_line:
-            new_line = self.env['account.analytic.line'].search([
-                ('user_id', '=', self.env.user.id),
-                ('date_time_end', '=', False) # Buscamos la que está CORRIENDO
-            ], limit=1, order='id desc')
+            domain = [('user_id', '=', self.env.user.id)]
+            
+            if 'project_id' in self._fields and self.project_id:
+                domain.append(('project_id', '=', self.project_id.id))
+            if 'task_id' in self._fields and self.task_id:
+                domain.append(('task_id', '=', self.task_id.id))
+
+            new_line = self.env['account.analytic.line'].search(
+                domain, 
+                limit=1, 
+                order='id desc'
+            )
 
         # Si encontramos la nueva línea y tenemos coordenadas, guardamos el START
         if new_line and self.geo_lat and self.geo_lng:
