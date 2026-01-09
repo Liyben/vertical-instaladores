@@ -1,4 +1,45 @@
 <odoo>
+    <!-- Inherit Tree Views -->
+    <record id="view_account_analytic_line_tree_inherit_geo" model="ir.ui.view">
+        <field name="name">account.analytic.line.tree.geo</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="project_timesheet_time_control.account_analytic_line_tree"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//field[@name='date']" position="attributes">
+                <attribute name="column_invisible">0</attribute>
+            </xpath>
+            <xpath expr="//field[@name='date_time']" position="attributes">
+                <attribute name="column_invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='date_time_end']" position="attributes">
+                <attribute name="column_invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="geo_start_lat" column_invisible="1"/>
+                <field name="geo_stop_lat" column_invisible="1"/>
+                <field name="date_time" required="1"/>
+                <button name="action_view_geo_start"
+                    type="object"
+                    tabindex="-1"
+                    class="oe_stat_button"
+                    icon="fa-map-marker"
+                    title="Ver ubicación inicio"
+                    invisible="not geo_start_lat"/>
+                <field name="date_time_end" optional="show"/>
+                <button name="action_view_geo_stop"
+                    type="object"
+                    tabindex="-1"
+                    class="oe_stat_button"
+                    icon="fa-flag-checkered"
+                    title="Ver ubicación fin"
+                    invisible="not geo_stop_lat"/>
+            </xpath>
+            
+        </field>
+    </record>
+
+    <!-- Inherit Form Views -->
     <record id="view_account_analytic_line_form_inherit_geo" model="ir.ui.view">
         <field name="name">account.analytic.line.form.geo</field>
         <field name="model">account.analytic.line</field>
