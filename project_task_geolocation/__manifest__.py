@@ -24,6 +24,7 @@
     "data": [
         "views/account_analytic_line_view.xml",
         "views/project_task_views.xml",
+        "views/project_project_views.xml",
     ],
     'assets': {
         'web.assets_backend': [

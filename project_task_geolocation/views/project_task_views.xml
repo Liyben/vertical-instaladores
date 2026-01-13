@@ -44,6 +44,12 @@
                         title="Ver ubicación fin"
                         invisible="not geo_stop_lat"/>
             </xpath>
+            <xpath expr="//field[@name='timesheet_ids']/tree//button[@name='button_resume_work']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='timesheet_ids']/tree//button[@name='button_end_work']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
 
             <!-- Sub-kanban view for timesheet_ids -->
             <xpath expr="//field[@name='timesheet_ids']/kanban//*[@t-esc='record.date.value']" position="attributes">
@@ -75,6 +81,12 @@
                             invisible="not geo_stop_lat"/>
                     </div>
                 </div>
+            </xpath>
+            <xpath expr="//field[@name='timesheet_ids']/kanban//templates//a[@name='button_resume_work']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='timesheet_ids']/kanban//templates//a[@name='button_end_work']" position="attributes">
+                <attribute name="invisible">1</attribute>
             </xpath>
             
             <!-- Sub-form view for timesheet_ids -->
@@ -108,7 +120,42 @@
                         invisible="not geo_stop_lat"/>
                 </div>
             </xpath>
+            <xpath expr="//field[@name='timesheet_ids']/form//button[@name='button_resume_work']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='timesheet_ids']/form//button[@name='button_end_work']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
 
         </field>
     </record>
+
+    <record id="view_task_kanban_inherit_geo" model="ir.ui.view">
+        <field name="name">project.task.kanban.geo</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project_timesheet_time_control.view_task_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='button_resume_work']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='button_end_work']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_task_tree_inherit_geo" model="ir.ui.view">
+        <field name="name">project.task.tree.geo</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project_timesheet_time_control.view_task_tree2_inherited"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='button_resume_work']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='button_end_work']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
 </odoo>

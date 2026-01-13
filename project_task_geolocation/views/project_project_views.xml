@@ -1,0 +1,50 @@
+<odoo>
+    <record id="project_invoice_form_inherit_geo" model="ir.ui.view">
+        <field name="name">project.project.form.geo</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project_timesheet_time_control.project_invoice_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//button[@name='button_resume_work']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='button_end_work']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="view_project_kanban_inherited_inherit_geo" model="ir.ui.view">
+        <field name="name">project.project.kanban.geo</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project_timesheet_time_control.view_project_kanban_inherited"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//button[@name='button_resume_work']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='button_end_work']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            
+        </field>
+    </record>
+
+    <record id="view_project_tree_inherited_inherit_geo" model="ir.ui.view">
+        <field name="name">project.project.tree.geo</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project_timesheet_time_control.view_project_tree"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//button[@name='button_resume_work']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='button_end_work']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            
+        </field>
+    </record>
+
+</odoo>

@@ -35,6 +35,12 @@
                     title="Ver ubicación fin"
                     invisible="not geo_stop_lat"/>
             </xpath>
+            <xpath expr="//button[@name='button_resume_work']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='button_end_work']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
             
         </field>
     </record>
@@ -91,7 +97,30 @@
                     </div>
                 </button>
             </xpath>
+            <xpath expr="//button[@name='button_resume_work']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='button_end_work']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
 
         </field>
     </record>
+
+    <record id="view_kanban_account_analytic_line_inherit_geo" model="ir.ui.view">
+        <field name="name">account.analytic.line.kanban.geo</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="project_timesheet_time_control.view_kanban_account_analytic_line"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//button[@name='button_resume_work']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='button_end_work']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
 </odoo>
