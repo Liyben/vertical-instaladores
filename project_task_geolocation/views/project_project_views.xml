@@ -5,7 +5,7 @@
         <field name="inherit_id" ref="project_timesheet_time_control.project_invoice_form"/>
         <field name="arch" type="xml">
 
-            <xpath expr="//button[@name='button_resume_work']" position="attributes">
+            <xpath expr="//button[@name='button_start_work']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//button[@name='button_end_work']" position="attributes">
@@ -21,7 +21,7 @@
         <field name="inherit_id" ref="project_timesheet_time_control.view_project_kanban_inherited"/>
         <field name="arch" type="xml">
 
-            <xpath expr="//a[@name='button_resume_work']" position="attributes">
+            <xpath expr="//a[@name='button_start_work']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//a[@name='button_end_work']" position="attributes">
@@ -37,7 +37,7 @@
         <field name="inherit_id" ref="project_timesheet_time_control.view_project_tree"/>
         <field name="arch" type="xml">
 
-            <xpath expr="//button[@name='button_resume_work']" position="attributes">
+            <xpath expr="//button[@name='button_start_work']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//button[@name='button_end_work']" position="attributes">

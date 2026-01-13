@@ -135,7 +135,7 @@
         <field name="model">project.task</field>
         <field name="inherit_id" ref="project_timesheet_time_control.view_task_kanban"/>
         <field name="arch" type="xml">
-            <xpath expr="//a[@name='button_resume_work']" position="attributes">
+            <xpath expr="//a[@name='button_start_work']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//a[@name='button_end_work']" position="attributes">
@@ -149,7 +149,7 @@
         <field name="model">project.task</field>
         <field name="inherit_id" ref="project_timesheet_time_control.view_task_tree2_inherited"/>
         <field name="arch" type="xml">
-            <xpath expr="//button[@name='button_resume_work']" position="attributes">
+            <xpath expr="//button[@name='button_start_work']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//button[@name='button_end_work']" position="attributes">
