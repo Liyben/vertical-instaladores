@@ -266,7 +266,9 @@ class ProjectTask(models.Model):
             else:
                 action['views'] = form_view
             action['res_id'] = pickings.id
-        
+        else:
+            action['domain'] = [('id', '=', False)]
+            
         # Preparamos los valores para el contexto
         picking_type_id = False
         group_id = False
