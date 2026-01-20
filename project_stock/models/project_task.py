@@ -256,6 +256,7 @@ class ProjectTask(models.Model):
     def action_view_delivery(self):
         action = self.env["ir.actions.actions"]._for_xml_id("stock.action_picking_tree_all")
         pickings = self.move_ids.mapped('picking_id')
+
         if len(pickings) > 1:
             action['domain'] = [('id', 'in', pickings.ids)]
         elif pickings:
@@ -265,15 +266,40 @@ class ProjectTask(models.Model):
             else:
                 action['views'] = form_view
             action['res_id'] = pickings.id
-        # Prepare the context.
-        picking_id = pickings.filtered(lambda l: l.picking_type_id.code == 'outgoing')
-        if picking_id:
-            picking_id = picking_id[0]
+        
+        # Preparamos los valores para el contexto
+        picking_type_id = False
+        group_id = False
+
+        if pickings:
+            # Si hay albaranes, priorizamos los de salida o tomamos el primero
+            picking_out = pickings.filtered(lambda l: l.picking_type_id.code == 'outgoing')
+            picking = picking_out[0] if picking_out else pickings[0]
+            
+            picking_type_id = picking.picking_type_id.id
+            group_id = picking.group_id.id
         else:
-            picking_id = pickings[0]
-        # View context from sale_renting `rental_schedule_view_form`
+            # FALLBACK: Si no hay albaranes, usamos la config de la tarea o proyecto
+            # Lógica consistente con el método _update_moves_info del archivo original
+            picking_type = self.picking_type_id or self.project_id.picking_type_id
+            if picking_type:
+                picking_type_id = picking_type.id
+            if self.group_id:
+                group_id = self.group_id.id
+
+        # Construimos el contexto final
         cleaned_context = {k: v for k, v in self._context.items() if k != 'form_view_ref'}
-        action['context'] = dict(cleaned_context, default_partner_id=self.partner_id.id, default_picking_type_id=picking_id.picking_type_id.id, default_origin=self.name, default_group_id=picking_id.group_id.id)
+        ctx_vals = {
+            'default_partner_id': self.partner_id.id,
+            'default_origin': self.name,
+        }
+        
+        if picking_type_id:
+            ctx_vals['default_picking_type_id'] = picking_type_id
+        if group_id:
+            ctx_vals['default_group_id'] = group_id
+
+        action['context'] = dict(cleaned_context, **ctx_vals)
         return action
 
     def write(self, vals):
