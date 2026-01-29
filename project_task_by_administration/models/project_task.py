@@ -68,6 +68,7 @@ class ProjectTask(models.Model):
                                 'task_materials_ids' : material_list,
                                 'name' : html2text.html2text(nameToText)
                                 })
+            self.sale_line_id._compute_price_unit()
 
             #Cambiamos el valor del campo Por Administracio del PT
             if not self.by_administration:
