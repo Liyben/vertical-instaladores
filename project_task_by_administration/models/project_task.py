@@ -50,7 +50,7 @@ class ProjectTask(models.Model):
                 work_list = False
 
             # Verificamos si el campo 'code' existe y tiene contenido
-            task_reference = f"{self.code} - " if hasattr(self, 'code') and self.code else ""
+            task_reference = f"{self.code} - " if self.code else ""
             nameToText = f"Parte de Trabajo: {task_reference}{self.name or ''}"
 
             # Concatenación de trabajos a realizar (evitando que se pegue al nombre)
