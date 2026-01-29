@@ -58,16 +58,38 @@ class ProjectTask(models.Model):
                 # Añadimos un salto de línea antes del texto adicional para mayor claridad
                 nameToText += f"\n\n{self.work_to_do}"
 
-            #Limpiamos la lista de trabajos y materiales de la linea de pedido asociada
-            self.sale_line_id.write({'task_works_ids' : [(5, 0, 0)],
-                                'task_materials_ids' : [(5, 0, 0)]
-                                })
+            # Limpiamos las líneas existentes primero
+            # Usamos (5, 0, 0) que es 'Delete all' para x2many
+            self.sale_line_id.write({
+                'task_works_ids': [(5, 0, 0)],
+                'task_materials_ids': [(5, 0, 0)]
+            })
 
-            #Actualizamos con las nuevas listas de trabajos y materiales de la linea de pedido asociada
-            self.sale_line_id.write({'task_works_ids' : work_list,
-                                'task_materials_ids' : material_list,
-                                'name' : html2text.html2text(nameToText)
-                                })
+            # ACTUALIZACIÓN CRÍTICA:
+            # 1. Pasamos change_control = 'work_material' manualmente porque el onchange no salta en write().
+            # 2. Incrementamos count_change para mantener la lógica del modelo SOL.
+            
+            vals_update = {
+                'task_works_ids': work_list if work_list else [],
+                'task_materials_ids': material_list if material_list else [],
+                'name': html2text.html2text(nameToText),
+                'change_control': 'work_material', # FORZAMOS EL MODO
+                'count_change': self.sale_line_id.count_change + 1 # Simula el onchange
+            }
+            
+            self.sale_line_id.write(vals_update)
+
+            # FORZAR RE-COMPUTO DE TOTALES:
+            # Como los campos total_sp_work, etc. son store=True, al hacer write() se marcan para re-calcular,
+            # pero si llamamos inmediatamente a _compute_price_unit(), puede que aún lean 0 de la caché.
+            # Los forzamos manualmente para asegurar que los valores están listos.
+            self.sale_line_id._compute_total_sp_work()
+            self.sale_line_id._compute_total_cp_work()
+            self.sale_line_id._compute_total_sp_material()
+            self.sale_line_id._compute_total_cp_material()
+
+            # Ahora que los totales (dependencies) están correctos y change_control es 'work_material',
+            # calculamos el precio unitario final.
             self.sale_line_id._compute_price_unit()
 
             #Cambiamos el valor del campo Por Administracio del PT
