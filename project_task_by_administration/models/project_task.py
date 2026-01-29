@@ -49,19 +49,22 @@ class ProjectTask(models.Model):
             else:
                 work_list = False
 
-            #Calculamos la nueva descripción de la linea de pedido asociada
-            nameToText = 'Parte de Trabajo: ' + self.name
+            # Verificamos si el campo 'code' existe y tiene contenido
+            task_reference = f"{self.code} - " if hasattr(self, 'code') and self.code else ""
+            nameToText = f"Parte de Trabajo: {task_reference}{self.name or ''}"
 
+            # Concatenación de trabajos a realizar (evitando que se pegue al nombre)
             if self.work_to_do:
-                nameToText += self.work_to_do
+                # Añadimos un salto de línea antes del texto adicional para mayor claridad
+                nameToText += f"\n\n{self.work_to_do}"
 
             #Limpiamos la lista de trabajos y materiales de la linea de pedido asociada
-            self.sale_line_id.update({'task_works_ids' : False,
-                                'task_materials_ids' : False
+            self.sale_line_id.write({'task_works_ids' : [(5, 0, 0)],
+                                'task_materials_ids' : [(5, 0, 0)]
                                 })
 
             #Actualizamos con las nuevas listas de trabajos y materiales de la linea de pedido asociada
-            self.sale_line_id.update({'task_works_ids' : work_list,
+            self.sale_line_id.write({'task_works_ids' : work_list,
                                 'task_materials_ids' : material_list,
                                 'name' : html2text.html2text(nameToText)
                                 })

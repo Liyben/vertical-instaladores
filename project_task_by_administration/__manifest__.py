@@ -12,7 +12,7 @@
 
     """,
     'author': 'Seges',
-    'depends': ['product_task_material_work'],
+    'depends': ['product_task_material_work', 'project_task_code'],
     'external_dependencies': {"python": ['html2text']},
     'data': [
         'views/project_task.xml',
