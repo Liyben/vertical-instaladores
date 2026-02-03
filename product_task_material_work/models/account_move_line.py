@@ -47,14 +47,14 @@ class AccountMoveLine(models.Model):
     def _compute_materials_and_works(self):
         for line in self:
             if line.product_id.type == 'service':
-                self.see_works_and_materials = line.product_id.see_works_and_materials
+                line.see_works_and_materials = line.product_id.see_works_and_materials
             else:
-                self.see_works_and_materials = False
+                line.see_works_and_materials = False
 
             line.update({'task_works_ids' : False,
                         'task_materials_ids' : False,})
             
-            if line.auto_create_task and self.see_works_and_materials != False:
+            if line.auto_create_task and line.see_works_and_materials != False:
                 
                 work_list = []
                 if line.see_works_and_materials != 'only_materials':
