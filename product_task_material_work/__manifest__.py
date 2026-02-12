@@ -37,6 +37,7 @@
         'views/crm_lead_view.xml',
         'views/hr_view.xml',
         'views/account_move_view.xml',
+        'views/stock_picking_views.xml',
             ],
     'qweb': [],
     'images': [
