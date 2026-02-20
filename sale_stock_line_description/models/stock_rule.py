@@ -11,13 +11,13 @@ _logger = logging.getLogger(__name__)
 class StockRule(models.Model):
     _inherit = 'stock.rule'
 
-    def _get_stock_move_values(self, product_id, product_qty, product_uom, location_id, name, origin, company_id, values):
+    def _get_stock_move_values(self, product_id, product_qty, product_uom, location_dest_id, name, origin, company_id, values):
         """
         Capturamos la descripción de la línea de venta inyectada en el procurement
         y la asignamos al movimiento de stock.
         """
         move_values = super()._get_stock_move_values(
-            product_id, product_qty, product_uom, location_id, name, origin, company_id, values
+            product_id, product_qty, product_uom, location_dest_id, name, origin, company_id, values
         )
         
         if values.get('sale_line_custom_description'):
