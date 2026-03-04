@@ -52,7 +52,7 @@
                 ('partner_name', 'ilike', self),
                 ('email_from', 'ilike', self),
                 ('name', 'ilike', self),
-                ('contact_name', 'ilike', self)
+                ('contact_name', 'ilike', self),
                 ('sequence_code', 'ilike', self)
                 ]
                 </attribute>
