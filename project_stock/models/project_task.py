@@ -319,11 +319,11 @@ class ProjectTask(models.Model):
                     #_logger.debug("ANALYTIC DISTRIBUTION\n")
                     self._update_analytic_distribution_info()
                 # Avoid permissions error if the user does not have access to stock.
-                #_logger.debug("ACTION ASSIGN\n")
+                _logger.debug("ACTION ASSIGN\n")
                 self.sudo().action_assign()
 
                 pickings = self.move_ids.picking_id
-                _logger.info(
+                _logger.debug(
                     "========================================================\n"
                     "Tarea: %s\n"
                     "Albaranes generados/asociados: %s\n"
