@@ -194,11 +194,51 @@ class ProjectTask(models.Model):
         return {"name": "Task-ID: %s" % self.id}
 
     def action_confirm(self):
+        # 1. Guardamos los pickings que ya existían previamente
+        old_pickings = self.mapped("move_ids.picking_id")
+        _logger.debug(
+                    "\n================ ALBARANES ANTIGUOS ================\n"
+                    "Tarea: %s\n"
+                    "Albaranes (Pickings): %s\n"
+                    "Nombres de Albaranes: %s\n"
+                    "=====================================================",
+                    self.name,
+                    old_pickings,
+                    old_pickings.mapped('name')
+                )
+        # 2. Ejecutamos la lógica original de confirmación (creará los nuevos pickings)
         self.move_ids._action_confirm()
         self.move_ids.filtered(
             lambda move: move.state not in ("draft", "cancel", "done")
         )._trigger_scheduler()
-
+        
+        # 3. Calculamos la diferencia para obtener los pickings recién generados
+        new_pickings = self.mapped("move_ids.picking_id") - old_pickings
+        _logger.debug(
+                    "\n================ ALBARANES NUEVOS ================\n"
+                    "Tarea: %s\n"
+                    "Albaranes (Pickings): %s\n"
+                    "Nombres de Albaranes: %s\n"
+                    "=====================================================",
+                    self.name,
+                    new_pickings,
+                    new_pickings.mapped('name')
+                )
+        # 4. Iteramos para dejar el mensaje con enlace en el chatter del nuevo albarán
+        for task in self:
+            task_pickings = new_pickings.filtered(lambda p: p in task.move_ids.picking_id)
+            for picking in task_pickings:
+                # Construimos el enlace seguro en HTML nativo de Odoo apuntando al id de la tarea
+                task_link = task._get_html_link()
+                # Formateamos el mensaje soportando multi-idioma (_)
+                msg = Markup(_("Este albarán ha sido generado desde la tarea: %s")) % task_link
+                # Posteamos en el hilo (chatter) del albarán generado
+                picking.sudo().message_post(
+                    body=msg,
+                    message_type='comment',
+                    subtype_xmlid='mail.mt_note'
+                )
+                
     def action_assign(self):
         self.action_confirm()
         self.mapped("move_ids")._action_assign()
@@ -319,20 +359,9 @@ class ProjectTask(models.Model):
                     #_logger.debug("ANALYTIC DISTRIBUTION\n")
                     self._update_analytic_distribution_info()
                 # Avoid permissions error if the user does not have access to stock.
-                _logger.debug("ACTION ASSIGN\n")
+                #_logger.debug("ACTION ASSIGN\n")
                 self.sudo().action_assign()
 
-                pickings = self.move_ids.picking_id
-                _logger.debug(
-                    "========================================================\n"
-                    "Tarea: %s\n"
-                    "Albaranes generados/asociados: %s\n"
-                    "Nombres de Albaranes: %s\n"
-                    "========================================================",
-                    self.name,
-                    pickings,
-                    pickings.mapped('name')
-                )
         # Update info
         field_names = ("location_id", "location_dest_id")
         if any(vals.get(field) for field in field_names):
