@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl)
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
-from markupsafe import Markup
+
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -200,31 +200,8 @@ class ProjectTask(models.Model):
         )._trigger_scheduler()
 
     def action_assign(self):
-        # 1. Guardamos los albaranes existentes ANTES de confirmar
-        old_pickings = self.mapped("move_ids.picking_id")
-        
-        # 2. Ejecutamos la lógica original de Odoo (confirma y asigna/reserva)
         self.action_confirm()
         self.mapped("move_ids")._action_assign()
-        
-        # 3. Calculamos los albaranes nuevos de forma segura
-        current_pickings = self.mapped("move_ids.picking_id")
-        new_pickings = current_pickings - old_pickings
-        
-        # 4. Insertamos la nota en el chatter
-        for task in self:
-            task_pickings = new_pickings.filtered(lambda p: p in task.move_ids.picking_id)
-            for picking in task_pickings:
-                # Obtenemos el enlace nativo
-                task_link = task._get_html_link()
-                msg = Markup(_("Este albarán ha sido generado automáticamente desde la tarea: %s")) % task_link
-                
-                # Inyectamos el mensaje como nota interna asegurando que el modelo de mail no lo oculte
-                picking.sudo().message_post(
-                    body=msg,
-                    message_type='comment',
-                    subtype_xmlid='mail.mt_note'
-                )
 
     def button_scrap(self):
         self.ensure_one()
@@ -344,6 +321,18 @@ class ProjectTask(models.Model):
                 # Avoid permissions error if the user does not have access to stock.
                 #_logger.debug("ACTION ASSIGN\n")
                 self.sudo().action_assign()
+
+                pickings = self.move_ids.picking_id
+                _logger.info(
+                    "========================================================\n"
+                    "Tarea: %s\n"
+                    "Albaranes generados/asociados: %s\n"
+                    "Nombres de Albaranes: %s\n"
+                    "========================================================",
+                    self.name,
+                    pickings,
+                    pickings.mapped('name')
+                )
         # Update info
         field_names = ("location_id", "location_dest_id")
         if any(vals.get(field) for field in field_names):
