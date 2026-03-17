@@ -196,7 +196,7 @@ class ProjectTask(models.Model):
     def action_confirm(self):
         # 1. Guardamos los pickings que ya existían previamente
         old_pickings = self.mapped("move_ids.picking_id")
-        _logger.debug(
+        """ _logger.debug(
                     "\n================ ALBARANES ANTIGUOS ================\n"
                     "Tarea: %s\n"
                     "Albaranes (Pickings): %s\n"
@@ -205,7 +205,7 @@ class ProjectTask(models.Model):
                     self.name,
                     old_pickings,
                     old_pickings.mapped('name')
-                )
+                ) """
         # 2. Ejecutamos la lógica original de confirmación (creará los nuevos pickings)
         self.move_ids._action_confirm()
         self.move_ids.filtered(
@@ -214,7 +214,7 @@ class ProjectTask(models.Model):
         
         # 3. Calculamos la diferencia para obtener los pickings recién generados
         new_pickings = self.mapped("move_ids.picking_id") - old_pickings
-        _logger.debug(
+        """ _logger.debug(
                     "\n================ ALBARANES NUEVOS ================\n"
                     "Tarea: %s\n"
                     "Albaranes (Pickings): %s\n"
@@ -223,7 +223,7 @@ class ProjectTask(models.Model):
                     self.name,
                     new_pickings,
                     new_pickings.mapped('name')
-                )
+                ) """
         # 4. Iteramos para dejar el mensaje con enlace en el chatter del nuevo albarán
         for task in self:
             task_pickings = new_pickings.filtered(lambda p: p in task.move_ids.picking_id)
