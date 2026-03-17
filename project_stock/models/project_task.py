@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl)
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
-
+from markupsafe import Markup
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -238,7 +238,7 @@ class ProjectTask(models.Model):
                     message_type='comment',
                     subtype_xmlid='mail.mt_note'
                 )
-                
+
     def action_assign(self):
         self.action_confirm()
         self.mapped("move_ids")._action_assign()
