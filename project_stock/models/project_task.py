@@ -194,33 +194,37 @@ class ProjectTask(models.Model):
         return {"name": "Task-ID: %s" % self.id}
 
     def action_confirm(self):
-        # 1. Guardamos los pickings que ya existían previamente
-        old_pickings = self.mapped("move_ids.picking_id")
-        _logger.debug("OLD PICKINGS: %s\n", str(old_pickings))
-        # 2. Ejecutamos la lógica de confirmación (creará los nuevos pickings)
         self.move_ids._action_confirm()
         self.move_ids.filtered(
             lambda move: move.state not in ("draft", "cancel", "done")
         )._trigger_scheduler()
-        created_pickings = self.mapped("move_ids.picking_id")
-        _logger.debug("CREATED PICKINGS: %s\n", str(created_pickings))
-        # 3. Calculamos la diferencia para obtener los pickings recién generados
-        new_pickings = self.mapped("move_ids.picking_id") - old_pickings
-        _logger.debug("NEW PICKINGS: %s\n", str(new_pickings))
-        # 4. Iteramos para dejar el mensaje con enlace en el chatter del nuevo albarán
+
+    def action_assign(self):
+        # 1. Guardamos los albaranes existentes ANTES de confirmar
+        old_pickings = self.mapped("move_ids.picking_id")
+        
+        # 2. Ejecutamos la lógica original de Odoo (confirma y asigna/reserva)
+        self.action_confirm()
+        self.mapped("move_ids")._action_assign()
+        
+        # 3. Calculamos los albaranes nuevos de forma segura
+        current_pickings = self.mapped("move_ids.picking_id")
+        new_pickings = current_pickings - old_pickings
+        
+        # 4. Insertamos la nota en el chatter
         for task in self:
             task_pickings = new_pickings.filtered(lambda p: p in task.move_ids.picking_id)
             for picking in task_pickings:
-                # Construimos el enlace seguro en HTML nativo de Odoo apuntando al id de la tarea
+                # Obtenemos el enlace nativo
                 task_link = task._get_html_link()
-                # Formateamos el mensaje soportando multi-idioma (_)
-                msg = Markup(_("Este albarán ha sido generado desde la tarea: %s")) % task_link
-                # Posteamos en el chatter del albarán generado
-                picking.message_post(body=msg)
-
-    def action_assign(self):
-        self.action_confirm()
-        self.mapped("move_ids")._action_assign()
+                msg = Markup(_("Este albarán ha sido generado automáticamente desde la tarea: %s")) % task_link
+                
+                # Inyectamos el mensaje como nota interna asegurando que el modelo de mail no lo oculte
+                picking.sudo().message_post(
+                    body=msg,
+                    message_type='comment',
+                    subtype_xmlid='mail.mt_note'
+                )
 
     def button_scrap(self):
         self.ensure_one()
