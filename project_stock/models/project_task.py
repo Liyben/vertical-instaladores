@@ -196,30 +196,27 @@ class ProjectTask(models.Model):
     def action_confirm(self):
         # 1. Guardamos los pickings que ya existían previamente
         old_pickings = self.mapped("move_ids.picking_id")
-        
+        _logger.debug("OLD PICKINGS: %s\n", str(old_pickings))
         # 2. Ejecutamos la lógica de confirmación (creará los nuevos pickings)
         self.move_ids._action_confirm()
         self.move_ids.filtered(
             lambda move: move.state not in ("draft", "cancel", "done")
         )._trigger_scheduler()
-        
-        # 3. Invalidamos la caché de Odoo para forzar la lectura del campo actualizado
-        self.move_ids.invalidate_recordset(["picking_id"])
-        
-        # 4. Calculamos la diferencia para obtener los pickings recién generados de forma fiable
-        current_pickings = self.mapped("move_ids.picking_id")
-        new_pickings = current_pickings - old_pickings
-        
-        # 5. Iteramos para dejar el mensaje con enlace en el chatter del nuevo albarán
+        created_pickings = self.mapped("move_ids.picking_id")
+        _logger.debug("CREATED PICKINGS: %s\n", str(created_pickings))
+        # 3. Calculamos la diferencia para obtener los pickings recién generados
+        new_pickings = self.mapped("move_ids.picking_id") - old_pickings
+        _logger.debug("NEW PICKINGS: %s\n", str(new_pickings))
+        # 4. Iteramos para dejar el mensaje con enlace en el chatter del nuevo albarán
         for task in self:
             task_pickings = new_pickings.filtered(lambda p: p in task.move_ids.picking_id)
             for picking in task_pickings:
-                # Construimos el enlace HTML apuntando a la tarea
+                # Construimos el enlace seguro en HTML nativo de Odoo apuntando al id de la tarea
                 task_link = task._get_html_link()
-                msg = Markup(_("Este albarán ha sido generado automáticamente desde la tarea: %s")) % task_link
-                
-                # Usamos sudo() en el post para asegurar que nunca falle por ACLs de mail.thread en stock
-                picking.sudo().message_post(body=msg)
+                # Formateamos el mensaje soportando multi-idioma (_)
+                msg = Markup(_("Este albarán ha sido generado desde la tarea: %s")) % task_link
+                # Posteamos en el chatter del albarán generado
+                picking.message_post(body=msg)
 
     def action_assign(self):
         self.action_confirm()
