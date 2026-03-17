@@ -203,19 +203,23 @@ class ProjectTask(models.Model):
             lambda move: move.state not in ("draft", "cancel", "done")
         )._trigger_scheduler()
         
-        # 3. Calculamos la diferencia para obtener los pickings recién generados
-        new_pickings = self.mapped("move_ids.picking_id") - old_pickings
+        # 3. Invalidamos la caché de Odoo para forzar la lectura del campo actualizado
+        self.move_ids.invalidate_recordset(["picking_id"])
         
-        # 4. Iteramos para dejar el mensaje con enlace en el chatter del nuevo albarán
+        # 4. Calculamos la diferencia para obtener los pickings recién generados de forma fiable
+        current_pickings = self.mapped("move_ids.picking_id")
+        new_pickings = current_pickings - old_pickings
+        
+        # 5. Iteramos para dejar el mensaje con enlace en el chatter del nuevo albarán
         for task in self:
             task_pickings = new_pickings.filtered(lambda p: p in task.move_ids.picking_id)
             for picking in task_pickings:
-                # Construimos el enlace seguro en HTML nativo de Odoo apuntando al id de la tarea
-                task_link = Markup('<a href="#" data-oe-model="project.task" data-oe-id="%s">%s</a>') % (task.id, task.name)
-                # Formateamos el mensaje soportando multi-idioma (_)
-                msg = Markup(_("Este albarán ha sido generado desde la tarea: %s")) % task_link
-                # Posteamos en el chatter del albarán generado
-                picking.message_post(body=msg)
+                # Construimos el enlace HTML apuntando a la tarea
+                task_link = task._get_html_link()
+                msg = Markup(_("Este albarán ha sido generado automáticamente desde la tarea: %s")) % task_link
+                
+                # Usamos sudo() en el post para asegurar que nunca falle por ACLs de mail.thread en stock
+                picking.sudo().message_post(body=msg)
 
     def action_assign(self):
         self.action_confirm()
