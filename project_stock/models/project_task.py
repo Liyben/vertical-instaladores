@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl)
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
-
+from markupsafe import Markup
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -194,10 +194,28 @@ class ProjectTask(models.Model):
         return {"name": "Task-ID: %s" % self.id}
 
     def action_confirm(self):
+        # 1. Guardamos los pickings que ya existían previamente
+        old_pickings = self.mapped("move_ids.picking_id")
+        
+        # 2. Ejecutamos la lógica de confirmación (creará los nuevos pickings)
         self.move_ids._action_confirm()
         self.move_ids.filtered(
             lambda move: move.state not in ("draft", "cancel", "done")
         )._trigger_scheduler()
+        
+        # 3. Calculamos la diferencia para obtener los pickings recién generados
+        new_pickings = self.mapped("move_ids.picking_id") - old_pickings
+        
+        # 4. Iteramos para dejar el mensaje con enlace en el chatter del nuevo albarán
+        for task in self:
+            task_pickings = new_pickings.filtered(lambda p: p in task.move_ids.picking_id)
+            for picking in task_pickings:
+                # Construimos el enlace seguro en HTML nativo de Odoo apuntando al id de la tarea
+                task_link = Markup('<a href="#" data-oe-model="project.task" data-oe-id="%s">%s</a>') % (task.id, task.name)
+                # Formateamos el mensaje soportando multi-idioma (_)
+                msg = Markup(_("Este albarán ha sido generado desde la tarea: %s")) % task_link
+                # Posteamos en el chatter del albarán generado
+                picking.message_post(body=msg)
 
     def action_assign(self):
         self.action_confirm()
