@@ -17,11 +17,49 @@ class CrmLead(models.Model):
         'sat': 'set default',
     })
 
+    # Relación Padre-Hijo para SAT
+    parent_id = fields.Many2one(
+        'crm.lead', 
+        string='SAT Padre', 
+        index=True, 
+        ondelete='cascade',
+        domain="[('type', '=', 'sat'), ('id', '!=', id)]"
+    )
+    child_ids = fields.One2many(
+        'crm.lead', 
+        'parent_id', 
+        string='Sub-Avisos (Hijos)'
+    )
+    child_sat_count = fields.Integer(
+        string='Número de Sub-Avisos',
+        compute='_compute_child_sat_count'
+    )
+
     #Etapa del crm
     stage_id = fields.Many2one(
         domain="[('team_id', 'in', [team_id, False]), "
                "('type', 'in', [type, 'both'])]")
 
+    @api.depends('child_ids')
+    def _compute_child_sat_count(self):
+        for lead in self:
+            lead.child_sat_count = len(lead.child_ids)
+
+    def action_view_child_sats(self):
+        """Devuelve la acción para abrir la vista de los sub-avisos (hijos)"""
+        self.ensure_one()
+        return {
+            'name': _('Sub-Avisos'),
+            'type': 'ir.actions.act_window',
+            'view_mode': 'tree,kanban,form,calendar',
+            'res_model': 'crm.lead',
+            'domain': [('parent_id', '=', self.id)],
+            'context': {
+                'default_type': 'sat',
+                'default_parent_id': self.id,
+            },
+        }
+    
     @api.model_create_multi
     def create(self, vals_list):
         #Asignamos la secuencia correcta 

@@ -79,6 +79,19 @@
             <field name="model">crm.lead</field>
             <field name="inherit_id" ref="crm.crm_lead_view_form" />
             <field name="arch" type="xml">
+
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="action_view_child_sats"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-wrench"
+                            invisible="child_sat_count == 0 or type != 'sat'">
+                        <div class="o_stat_info">
+                            <field name="child_sat_count" class="o_stat_value"/>
+                            <span class="o_stat_text">Sub-Avisos</span>
+                        </div>
+                    </button>
+                </xpath>
                 
                 <xpath expr="//button[@name='%(crm.action_crm_lead2opportunity_partner)d']" position="attributes">
                     <attribute name="invisible">type == 'opportunity' or type == 'sat' or not active</attribute>
@@ -100,6 +113,12 @@
                     <attribute name="invisible">type == 'opportunity' or type == 'sat'</attribute>
                 </xpath>
 
+                <xpath expr="//group[@name='lead_priority']" position="after">
+                    <group name="sat_relation" invisible="type != 'sat'">
+                        <field name="parent_id" options="{'no_create': True}"/>
+                    </group>
+                </xpath>
+
                 <xpath expr="//sheet/group/group[5]" position="attributes">
                     <attribute name="invisible">type == 'opportunity' or type == 'sat'</attribute>
                 </xpath>
@@ -110,6 +129,10 @@
 
                 <xpath expr="//field[@name='stage_id']" position="attributes">
                     <attribute name="domain">[('team_id', 'in', [team_id, False]), ('type', 'in', [type, 'both'])]</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="parent_id" invisible="type != 'sat'" options="{'no_create': True}"/>
                 </xpath>
 
             </field>
