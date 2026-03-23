@@ -131,10 +131,6 @@
                     <attribute name="domain">[('team_id', 'in', [team_id, False]), ('type', 'in', [type, 'both'])]</attribute>
                 </xpath>
 
-                <xpath expr="//field[@name='user_id']" position="after">
-                    <field name="parent_id" invisible="type != 'sat'" options="{'no_create': True}"/>
-                </xpath>
-
             </field>
         </record>
 
