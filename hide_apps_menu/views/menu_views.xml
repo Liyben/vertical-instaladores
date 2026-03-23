@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="base.menu_management" model="ir.ui.menu">
+            <field name="parent_id" ref="base.menu_custom"/>
+            <field name="sequence" eval="900"/>
+        </record>
+    </data>
+</odoo>
