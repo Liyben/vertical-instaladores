@@ -457,3 +457,20 @@ class SaleOrderLine(models.Model):
         if lines:
             lines.update({"qty_to_invoice": 0.0})
         return super(SaleOrderLine, self - lines)._compute_qty_to_invoice()
+
+    def product_action_recalculate(self):
+        """
+        Recalcula explícitamente el precio de venta unitario y el precio de coste unitario
+        basado en los materiales y trabajos asignados a la línea de pedido.
+        """
+        for line in self:
+            if line.auto_create_task and line.see_works_and_materials:
+                # 1. Recalcular el coste (purchase_price)
+                line_cost = line.total_cp_material + line.total_cp_work
+                line.purchase_price = line._convert_to_sol_currency(
+                    line_cost,
+                    line.product_id.cost_currency_id
+                )
+                
+                # 2. Recalcular el precio de venta (price_unit)
+                line.price_unit = line.total_sp_material + line.total_sp_work
