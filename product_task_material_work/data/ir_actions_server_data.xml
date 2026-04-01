@@ -11,4 +11,21 @@
         </field>
     </record>
 
+    <record id="action_product_template_recalculate" model="ir.actions.server">
+        <field name="name">Recalcular precio partida</field>
+        <field name="model_id" ref="product.model_product_template"/>
+        <field name="binding_model_id" ref="product.model_product_template"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+                # Filtramos para asegurarnos de que la acción solo se ejecuta 
+                # sobre los "productos partida" (los que tienen trabajos o materiales definidos)
+                partidas = records.filtered(lambda p: p.task_works_ids or p.task_materials_ids)
+                
+                if partidas:
+                    partidas.product_action_recalculate()
+        </field>
+    </record>
+
 </odoo>
