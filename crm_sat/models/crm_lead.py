@@ -6,6 +6,7 @@ from odoo import api, fields, models, _
 
 class CrmLead(models.Model):
     _inherit = 'crm.lead'
+    _rec_names_search = ["name", "sequence_code"]
 
     @api.depends('tag_ids')
     def _compute_has_tags(self):
@@ -111,3 +112,18 @@ class CrmLead(models.Model):
                     ).next_by_id()
 
         return res
+    
+    # ---------------------------------------------------------
+    # UX: VISUALIZACIÓN EN LOS DESPLEGABLES MANY2ONE
+    # ---------------------------------------------------------
+    @api.depends('name', 'sequence_code')
+    def _compute_display_name(self):
+        """
+        Garantiza que el usuario vea el código que acaba de buscar en el listado.
+        Ejemplo: "[AV-001] Aviso de instalación"
+        """
+        for lead in self:
+            if lead.sequence_code and lead.sequence_code != '/':
+                lead.display_name = f"[{lead.sequence_code}] {lead.name}"
+            else:
+                lead.display_name = lead.name or ''
