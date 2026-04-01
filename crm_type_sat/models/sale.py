@@ -6,6 +6,11 @@ from odoo import api, fields, models
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
+    # Sobrescribimos el campo únicamente para actualizar el dominio
+    opportunity_id = fields.Many2one(
+        domain="[('type', 'in', ('opportunity', 'sat')), '|', ('company_id', '=', False), ('company_id', '=', company_id)]"
+    )
+    
     def action_confirm(self):
         res = super().action_confirm()
         if self.opportunity_id and self.opportunity_id.type == 'sat':
