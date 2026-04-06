@@ -262,7 +262,7 @@ msgstr "Stock"
 #. module: project_stock
 #: model_terms:ir.ui.view,arch_db:project_stock.view_task_form2
 msgid "Stock Info"
-msgstr "Información de stock"
+msgstr "Materiales"
 
 #. module: project_stock
 #: model:ir.model,name:project_stock.model_stock_move
