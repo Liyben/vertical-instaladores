@@ -106,3 +106,62 @@ class CrmLead(models.Model):
 
         return res
 
+    def action_schedule_meeting(self, smart_calendar=True):
+        """
+        Sobrescribimos la acción original para asegurarnos de que, 
+        si el tipo es 'sat', se vincule correctamente al calendario.
+        """
+        self.ensure_one()
+        # Llamamos al comportamiento base traspasando el parámetro nativo
+        action = super(CrmLead, self).action_schedule_meeting(smart_calendar=smart_calendar)
+        
+        # Inyectamos el ID en el contexto de la acción si se trata de un SAT
+        if self.type == 'sat':
+            context = action.get('context', {})
+            context.update({
+                'search_default_opportunity_id': self.id,
+                'default_opportunity_id': self.id,
+            })
+            action['context'] = context
+            
+        return action
+    
+    @api.depends('calendar_event_ids', 'calendar_event_ids.start')
+    def _compute_meeting_display(self):
+        # 1. Dejamos que Odoo procese el estándar (type == 'opportunity')
+        super(CrmLead, self)._compute_meeting_display()
+        
+        # 2. Rescatamos nuestros registros SAT que el core ignora
+        sat_leads = self.filtered(lambda lead: lead.type == 'sat')
+        
+        if sat_leads:
+            # Buscamos las próximas reuniones para nuestros SATs
+            meeting_data = self.env['calendar.event'].search_read([
+                ('opportunity_id', 'in', sat_leads.ids),
+                ('start', '>=', fields.Datetime.now())
+            ], ['start', 'opportunity_id'], order='start')
+            
+            # Agrupamos quedándonos solo con la fecha más próxima (la primera que llega al estar ordenadas por 'start')
+            next_events_dict = {}
+            for meeting in meeting_data:
+                lead_id = meeting['opportunity_id'][0]
+                if lead_id not in next_events_dict:
+                    next_events_dict[lead_id] = meeting['start']
+                    
+            # Asignamos las etiquetas y fechas a cada SAT
+            for lead in sat_leads:
+                start_date = next_events_dict.get(lead.id)
+                if not start_date:
+                    lead.meeting_display_label = _('No Meeting')
+                    lead.meeting_display_date = False
+                else:
+                    date_start = start_date.date()
+                    today = fields.Date.context_today(lead)
+                    if date_start == today:
+                        lead.meeting_display_label = _('Today')
+                    elif date_start == today + timedelta(days=1):
+                        lead.meeting_display_label = _('Tomorrow')
+                    else:
+                        lead.meeting_display_label = _('Next Meeting')
+                    
+                    lead.meeting_display_date = date_start
