@@ -12,7 +12,7 @@
         
         """,
     'author': 'Seges',
-    'depends': ['crm','crm_sat','sale','sales_team'],
+    'depends': ['crm','crm_sat','sale','sales_team', 'purchase_crm'],
     'data': ['data/lead_sequence.xml',
             'views/crm_lead_views.xml',
             'views/res_partner_view.xml',
