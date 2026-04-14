@@ -83,18 +83,34 @@ class CrmLead(models.Model):
             search_domain, order=order, access_rights_uid=SUPERUSER_ID)
         return stages.browse(stage_ids)
 
-    def _stage_find(self, team_id=False, domain=None, order='sequence'):
-        # check whether we should try to add a condition on type
+    def _stage_find(self, team_id=False, domain=None, order='sequence, id', limit=1):
+        """
+        Sobrescritura adaptada a Odoo 17.
+        """
         domain = domain or []
+        
+        # Comprobar si ya existe una condición para el campo 'type'
         if not any(
-            [term for term in domain if len(term) == 3 and term[0] == "type"]
+            isinstance(term, (list, tuple)) and len(term) == 3 and term[0] == "type" 
+            for term in domain
         ):
             types = ["both"]
-            type = self._context.get('default_type')
-            if type:
-                types += [type]
+            lead_type = self._context.get('default_type')
+            if lead_type:
+                types.append(lead_type)
+            
+            # Convertimos a lista en caso de que Odoo pase una tupla inmutable
+            if isinstance(domain, tuple):
+                domain = list(domain)
+                
             domain.append(("type", "in", types))
-        return super(CrmLead, self)._stage_find(team_id, domain, order)
+            
+        return super()._stage_find(
+            team_id=team_id, 
+            domain=domain, 
+            order=order, 
+            limit=limit,
+        )
 
     def _convert_opportunity_data(self, customer, team_id=False):
         res = super(CrmLead,self)._convert_opportunity_data(customer, team_id)
