@@ -27,7 +27,6 @@
                     name="analytic_account_parent_id"
                     groups="analytic.group_analytic_accounting"
                     readonly="1" force_save="1"
-                    domain="[('parent_id', '=', False)]"
                 />
             </field>
         </field>

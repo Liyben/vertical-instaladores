@@ -13,7 +13,6 @@
                     name="analytic_account_parent_id"
                     groups="analytic.group_analytic_accounting"
                     required="1"
-                    domain="[('parent_id', '=', False)]"
                 />
             </xpath>
         </field>
