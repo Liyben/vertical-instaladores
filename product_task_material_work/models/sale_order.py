@@ -56,16 +56,7 @@ class SaleOrder(models.Model):
             default_location_dest_id = self.env['ir.default'].with_company(
                 order.company_id.id)._get_model_defaults('sale.order').get('location_dest_id')
             
-            # MÉTODO A PRUEBA DE FALLOS: Búsqueda directa en base de datos.
-            # Evita la caché de `self.env.ref()` que lanza la excepción durante la instalación.
-            xml_data = self.env['ir.model.data'].sudo().search([
-                ('module', '=', 'product_task_material_work'),
-                ('name', '=', 'stock_picking_type_task_material'),
-                ('model', '=', 'stock.picking.type')
-            ], limit=1)
-            
-            # Si existe la data, obtenemos el registro; de lo contrario, creamos un recordset vacío
-            picking_type = self.env['stock.picking.type'].browse(xml_data.res_id) if xml_data else self.env['stock.picking.type']
+            picking_type = self.env.ref('product_task_material_work.stock_picking_type_task_material')
 
             if default_picking_type_id is not None:
                 order.picking_type_id = default_picking_type_id
