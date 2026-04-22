@@ -56,7 +56,8 @@ class SaleOrder(models.Model):
             default_location_dest_id = self.env['ir.default'].with_company(
                 order.company_id.id)._get_model_defaults('sale.order').get('location_dest_id')
             
-            picking_type = self.env.ref('product_task_material_work.stock_picking_type_task_material')
+            # SOLUCIÓN: Agregado raise_if_not_found=False para evitar el crash durante la carga del registry
+            picking_type = self.env.ref('product_task_material_work.stock_picking_type_task_material', raise_if_not_found=False)
 
             if default_picking_type_id is not None:
                 order.picking_type_id = default_picking_type_id
