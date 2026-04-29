@@ -113,10 +113,8 @@
                     <attribute name="invisible">type == 'opportunity' or type == 'sat'</attribute>
                 </xpath>
 
-                <xpath expr="//group[@name='lead_priority']" position="after">
-                    <group name="sat_relation" invisible="type != 'sat'">
-                        <field name="parent_id" options="{'no_create': True}"/>
-                    </group>
+                <xpath expr="//group[@name='opportunity_partner']" position="inside">
+                    <field name="parent_id" options="{'no_create': True}" invisible="type != 'sat'"/>
                 </xpath>
 
                 <xpath expr="//sheet/group/group[5]" position="attributes">
