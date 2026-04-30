@@ -21,7 +21,7 @@
             if records:
                 # Filtramos para asegurarnos de que la acción solo se ejecuta 
                 # sobre los "productos partida" (los que tienen trabajos o materiales definidos)
-                partidas = records.filtered(lambda p: p.task_works_ids or p.task_materials_ids)
+                partidas = records.filtered(lambda p: (p.task_works_ids or p.task_materials_ids) and p.type == 'service' and p.service_tracking in ['task_global_project', 'task_in_project'])
                 
                 if partidas:
                     partidas.product_action_recalculate()
