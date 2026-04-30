@@ -108,7 +108,7 @@
                         <field name="task_works_ids" nolabel="1" context="{'default_product_id': active_id}">
                             <tree string="Trabajos" editable="bottom">
                                 <field name="sequence" widget="handle"/>
-                                <field name="work_id"/>
+                                <field name="work_id" domain="[('type', '=', 'service')]"/>
                                 <field name="name" widget="text"/>
                                 <field name="hours" sum="Horas totales" widget="float_time"/>
                                 <field name="cost_price_unit" widget="monetary" optional="show" groups="product_task_material_work.group_sales_product_cost"/>
@@ -138,7 +138,7 @@
                         <field name="task_materials_ids" nolabel="1" context="{'default_product_id':active_id}">
                             <tree string="Materiales" editable="bottom">
                                 <field name="sequence" widget="handle"/>                                
-                                <field name="material_id"/>
+                                <field name="material_id" domain="[('type', '!=', 'service')]"/>
                                 <field name="name" widget="text"/>
                                 <field name="quantity"/>
                                 <field name="cost_price_unit" widget="monetary" optional="show" groups="product_task_material_work.group_sales_product_cost"/>
