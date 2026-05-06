@@ -106,7 +106,7 @@ class SaleOrder(models.Model):
             record.margin_real_percent = 0.0
             sale = record.total_sp_real_work + record.total_sp_real_material
             cost = record.total_cp_real_material + (record.total_real_hours * record.cost_price_real_work_hour)                
-            sale = sale - (sale * (record.discount_general / 100))
+            sale = sale - (sale * record.discount_general)
             record.margin_real_monetary = sale - cost
             if (cost != 0) and (sale != 0):
                 record.margin_real_percent = (1-(cost/sale))

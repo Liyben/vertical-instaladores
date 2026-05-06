@@ -51,7 +51,7 @@
                                     <span> | </span>
                                     <field name="margin_real_percent" class="oe_inline" nolabel="1" widget="percentage"/>
                                 </div>
-                                <!--<field name="discount_general" widget="percentage"/>-->
+                                <field name="discount_general" widget="percentage"/>
                             </group>
                         </group>
                     </group>
