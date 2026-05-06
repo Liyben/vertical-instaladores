@@ -80,7 +80,7 @@
                 </group>
             </xpath>
 
-            <xpath expr="//field[@name='order_line']/form//field[@name='display_type']" position="before">
+            <!--<xpath expr="//field[@name='order_line']/form//field[@name='display_type']" position="before">
                 <header>
                     <button string="Recalcular Precios" 
                             name="product_action_recalculate" 
@@ -90,7 +90,7 @@
                             invisible="not auto_create_task"
                             help="Recalcula el precio de venta y de coste unitario sumando los importes de los materiales y trabajos."/>
                 </header>
-            </xpath>
+            </xpath>-->
 
             <xpath expr="//field[@name='order_line']/form//field[@name='price_unit']" position="after">
                 <field name="percent_waste" groups="product_task_material_work.group_percent_waste"/>

@@ -52,7 +52,7 @@ class SaleOrderLine(models.Model):
         ('product', 'Producto'),
         ('work_material', 'Compuestos'),
         ('complete', 'Completo')],
-        string="Change control", default='product')
+        string="Change control", compute='_compute_change_control', default='product')
     count_change = fields.Integer(string='Contador')
 
     pricelist_id = fields.Many2one(
@@ -73,6 +73,23 @@ class SaleOrderLine(models.Model):
             else:
                 line.invoice_status = 'no' """
     
+    #Campo para controlar la visualización de los trabajos y materiales, y el precio de coste unitario a mostrar en la linea de pedido
+    @api.depends('product_id', 'auto_create_task', 'see_works_and_materials', 'task_works_ids', 'task_materials_ids')
+    def _compute_change_control(self):
+        for line in self:
+            if not line.product_id:
+                line.change_control = 'product'
+                continue
+
+            # Determinamos dinámicamente si debe usar el precio calculado
+            # Verificamos que tenga la configuración correcta Y que existan registros asociados
+            has_breakdown = bool(line.task_works_ids or line.task_materials_ids)
+            
+            if line.auto_create_task and line.see_works_and_materials and has_breakdown:
+                 line.change_control = 'work_material'
+            else:
+                 line.change_control = 'product'
+
     #Carga del desperdicio
     @api.onchange('product_id')
     def _onchange_percent_waste(self):
@@ -207,7 +224,7 @@ class SaleOrderLine(models.Model):
                 line.purchase_price = 0.0
                 continue
             if line.task_works_ids or line.task_materials_ids and line.change_control == 'work_material':
-                if line.count_change == 0:
+                """ if line.count_change == 0:
                     #_logger.debug("IF _compute_purchase_price: %s\n",str(line.count_change))
                     line = line.with_company(line.company_id)
                     line_cost = line.purchase_price + ((line.purchase_price * line.percent_waste) / 100)
@@ -215,13 +232,13 @@ class SaleOrderLine(models.Model):
                         line_cost,
                         line.product_id.cost_currency_id)
                     continue
-                else:
-                    #_logger.debug("ELSE _compute_purchase_price: %s\n",str(line.count_change))
-                    line = line.with_company(line.company_id)
-                    line_cost = line.total_cp_material + line.total_cp_work
-                    line.purchase_price = line._convert_to_sol_currency(
-                        line_cost,
-                        line.product_id.cost_currency_id)
+                else: """
+                #_logger.debug("ELSE _compute_purchase_price: %s\n",str(line.count_change))
+                line = line.with_company(line.company_id)
+                line_cost = line.total_cp_material + line.total_cp_work
+                line.purchase_price = line._convert_to_sol_currency(
+                    line_cost,
+                    line.product_id.cost_currency_id)
         return True
 
     #Activa la función para calcular el precio unitario tambien cuando se cambia los materiales y mano de obra
@@ -291,7 +308,7 @@ class SaleOrderLine(models.Model):
             #_logger.debug("_onchange_change_control_product: %s\n",str(line.change_control))
             if line.product_id:
                 line.count_change = 0
-                line.change_control = 'product'
+                #line.change_control = 'product'
 
     @api.onchange('task_works_ids','task_materials_ids')
     def _onchange_change_control_material_work_ids(self):
@@ -299,7 +316,7 @@ class SaleOrderLine(models.Model):
             #_logger.debug("_onchange_change_control_material_work_ids: %s\n",str(line.change_control))
             if line.product_id and line.auto_create_task and line.see_works_and_materials != False:
                 line.count_change += 1
-                line.change_control = 'work_material'
+                #line.change_control = 'work_material'
     
     #Calculo de los valores necesarios para crear el proyecto correspondiente a la linea de pedido
     def _timesheet_create_project_prepare_values(self):
@@ -458,11 +475,12 @@ class SaleOrderLine(models.Model):
             lines.update({"qty_to_invoice": 0.0})
         return super(SaleOrderLine, self - lines)._compute_qty_to_invoice()
 
+    """
     def product_action_recalculate(self):
-        """
+        
         Recalcula explícitamente el precio de venta unitario y el precio de coste unitario
         basado en los materiales y trabajos asignados a la línea de pedido.
-        """
+        
         for line in self:
             if line.auto_create_task and line.see_works_and_materials:
                 # 1. Recalcular el coste (purchase_price)
@@ -474,3 +492,4 @@ class SaleOrderLine(models.Model):
                 
                 # 2. Recalcular el precio de venta (price_unit)
                 line.price_unit = line.total_sp_material + line.total_sp_work
+    """
