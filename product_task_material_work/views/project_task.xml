@@ -15,8 +15,8 @@
             <xpath expr="//notebook/page[@name='extra_info']" position="after">
                 <page string="Firma del cliente" name="customer_signature">
                     <group>
-                        <field name="signed_by" readonly="signature" force_save="1"/>
-                        <field name="signed_on" readonly="signature" force_save="1"/>
+                        <field name="signed_by"/>
+                        <field name="signed_on"/>
                         <field name="signature" widget="signature"/>
                     </group>
                 </page>
