@@ -12,7 +12,7 @@
 
     """,
     'author': 'Seges',
-    'depends': ['sale_project', 'crm_timesheet','account_analytic_parent', 'crm_sat'],
+    'depends': ['sale_project', 'crm_timesheet','account_analytic_parent'],
     "data": [
         "views/crm_lead_views.xml",
         "views/crm_team_views.xml",

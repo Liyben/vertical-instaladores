@@ -15,7 +15,7 @@
                 <field name="mobile" string="Móvil" />
                 <field name="has_tags" invisible="1"/>
                 <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}" required="0"/>
-                <field name="team_id" string="Equipo de venta" required="0"/>
+                <field name="team_id" string="Equipo de venta" required="1" options="{'no_open': True, 'no_create': True}"/>
             </xpath>
 
             <xpath expr="//field[@name='zip']" position="after">
