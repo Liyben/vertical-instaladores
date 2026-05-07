@@ -32,4 +32,17 @@
         </field>
     </record>
 
+    <record id="crm_sat_quick_create_opportunity_form_inherit_team_required" model="ir.ui.view">
+        <field name="name">crm.sat.quick.create.opportunity.form.inherit.team.required</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm_sat.crm_sat_quick_create_opportunity_form"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//field[@name='team_id']" position="attributes">
+                <attribute name="required">1</attribute>
+            </xpath>
+            
+        </field>
+    </record>
+
 </odoo>
