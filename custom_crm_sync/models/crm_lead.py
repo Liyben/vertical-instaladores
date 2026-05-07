@@ -11,6 +11,25 @@ class CrmLead(models.Model):
     _inherit = 'crm.lead'
 
     # ---------------------------------------------------------
+    # REDEFINICIÓN DE CAMPOS CONFLICTIVOS
+    # Rompemos la herencia de dependencias nativas (partner_id.email)
+    # y desconectamos los métodos inverse originales.
+    # Es obligatorio mantener readonly=False y store=True.
+    # ---------------------------------------------------------
+    
+    email_from = fields.Char(
+        compute='_compute_email_from_no_sync', 
+        readonly=False, 
+        store=True
+    )
+    
+    phone = fields.Char(
+        compute='_compute_phone_no_sync', 
+        readonly=False, 
+        store=True
+    )
+
+    # ---------------------------------------------------------
     # 1. SOBRESCRIBIR MÉTODOS COMPUTE
     # Al eliminar la condición "if lead.partner_id.email:" nativa, 
     # forzamos a que siempre se copie el valor de la ficha del cliente, 
@@ -18,15 +37,19 @@ class CrmLead(models.Model):
     # ---------------------------------------------------------
 
     @api.depends('partner_id')
-    def _compute_email_from(self):
+    def _compute_email_from_no_sync(self):
         for lead in self:
             if lead.partner_id:
+                # Si el partner tiene email vacío (False), sobreescribe la 
+                # oportunidad con False, limpiando el campo.
                 lead.email_from = lead.partner_id.email
 
     @api.depends('partner_id')
-    def _compute_phone(self):
+    def _compute_phone_no_sync(self):
         for lead in self:
             if lead.partner_id:
+                # Si el partner tiene teléfono vacío (False), sobreescribe la 
+                # oportunidad con False, limpiando el campo.
                 lead.phone = lead.partner_id.phone
 
     @api.depends('partner_id')
@@ -87,7 +110,7 @@ class CrmLead(models.Model):
                 lead.zip = partner.zip
                 lead.state_id = partner.state_id
                 lead.country_id = partner.country_id
-                
+
     # ---------------------------------------------------------
     # 2. SOBRESCRIBIR MÉTODOS INVERSE (ROMPER SINCRONIZACIÓN)
     # Reemplazando estos métodos con "pass", desactivamos el 
