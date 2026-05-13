@@ -119,10 +119,13 @@ class ImportProduct_supplierinfo(models.TransientModel):
                         product = self.env['product.template'].create({
                             'name' : row_vals[1],
                             'default_code' : row_vals[2],
-                            'barcode' : row_vals[2],
                             'list_price' : list_price,
                             'standard_price' : standard_price
                         })
+
+                        # Escribir el barcode. En este punto la variante ya existe.
+                        if product:
+                            product.barcode = row_vals[2]
                         
                         new_product_supplierinfo = self.env['product.supplierinfo'].create({
                             'partner_id' : supplier.id,
