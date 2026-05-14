@@ -122,13 +122,6 @@ class ImportProduct_supplierinfo(models.TransientModel):
                             'list_price' : list_price,
                             'standard_price' : standard_price
                         })
-
-                        # 1. Buscar la variante real directamente en base de datos
-                        variant = self.env['product.product'].search([('product_tmpl_id', '=', product.id)], limit=1)
-
-                        # 2. Escribir el barcode en la variante
-                        if variant:
-                            variant.write({'barcode': row_vals[2]})
                         
                         new_product_supplierinfo = self.env['product.supplierinfo'].create({
                             'partner_id' : supplier.id,
