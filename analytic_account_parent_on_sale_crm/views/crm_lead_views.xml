@@ -28,7 +28,24 @@
                     groups="analytic.group_analytic_accounting"
                     readonly="1" force_save="1"
                 />
+                <field
+                    name="analytic_account_parent_id"
+                    invisible="1"
+                />
             </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="analytic_account_parent_quick_create_opportunity_form">
+        <field name="name">analytic.account.parent.quick.create.opportunity.form</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.quick_create_opportunity_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="analytic_account_parent_id" invisible="1" />
+            </xpath>
+
         </field>
     </record>
 
