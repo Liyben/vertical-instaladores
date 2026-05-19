@@ -156,7 +156,7 @@ class ProductTemplate(models.Model):
 		self.ensure_one()
 
 		# 2. Obtener la acción de forma segura sin disparar errores de ACL
-		action = self.env['ir.actions.act_window'].sudo()._for_xml_id('sale.product_template_action')
+		action = self.env.ref('sale.product_template_action').sudo().read()[0]
 
 		products_compound = self.env['product.template'] # Recordset vacío por defecto
 
