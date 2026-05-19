@@ -161,7 +161,7 @@ class ProductTemplate(models.Model):
 		products_compound = self.env['product.template'] # Recordset vacío por defecto
 
 		# 3. Lógica de búsqueda de componentes
-		if self.type == 'service':
+		""" if self.type == 'service':
 			works = self.env["product.task.work"].search([("work_id.product_tmpl_id", "=", self.id)])
 			products_compound = works.mapped('product_id')
 		else:
@@ -179,7 +179,7 @@ class ProductTemplate(models.Model):
 			action['views'] = [
 				(self.env.ref('product.product_template_form_view').id, 'form')
 			]
-			action['res_id'] = products_compound.id
+			action['res_id'] = products_compound.id """
 
 		return action
 			
