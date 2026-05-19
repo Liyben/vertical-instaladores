@@ -152,22 +152,34 @@ class ProductTemplate(models.Model):
 
 	#Devuelve los valores para la acción de ventana al pulsar en Productos Compuestos
 	def action_view_product_compound(self):
+		# 1. Asegurar que operamos sobre un único registro
+		self.ensure_one()
 
-		action = self.env.ref('sale.product_template_action').read()[0]
+		# 2. Obtener la acción de forma segura sin disparar errores de ACL
+		action = self.env['ir.actions.act_window']._for_xml_id('sale.product_template_action')
 
-		products_compound = []
+		products_compound = self.env['product.template'] # Recordset vacío por defecto
+
+		# 3. Lógica de búsqueda de componentes
 		if self.type == 'service':
 			works = self.env["product.task.work"].search([("work_id.product_tmpl_id", "=", self.id)])
 			products_compound = works.mapped('product_id')
-		else: 
+		else:
 			materials = self.env["product.task.material"].search([("material_id.product_tmpl_id", "=", self.id)])
 			products_compound = materials.mapped('product_id')
 
+		# 4. Modificación dinámica del diccionario de acción
 		if len(products_compound) > 1:
-			action['views'] = [(self.env.ref('product.product_template_tree_view').id, 'tree'),(self.env.ref('product.product_template_form_view').id, 'form')]
+			action['views'] = [
+				(self.env.ref('product.product_template_tree_view').id, 'tree'),
+				(self.env.ref('product.product_template_form_view').id, 'form')
+			]
 			action['domain'] = [('id', 'in', products_compound.ids)]
 		elif products_compound:
-			action['views'] = [(self.env.ref('product.product_template_form_view').id, 'form')]
+			action['views'] = [
+				(self.env.ref('product.product_template_form_view').id, 'form')
+			]
 			action['res_id'] = products_compound.id
+
 		return action
 			
