@@ -156,12 +156,12 @@ class ProductTemplate(models.Model):
 		self.ensure_one()
 
 		# 2. Obtener la acción de forma segura sin disparar errores de ACL
-		action = self.env.ref('sale.product_template_action').sudo().read()[0]
+		action = self.env['ir.actions.act_window']._for_xml_id('sale.product_template_action')
 
 		products_compound = self.env['product.template'] # Recordset vacío por defecto
 
 		# 3. Lógica de búsqueda de componentes
-		""" if self.type == 'service':
+		if self.type == 'service':
 			works = self.env["product.task.work"].search([("work_id.product_tmpl_id", "=", self.id)])
 			products_compound = works.mapped('product_id')
 		else:
@@ -179,7 +179,7 @@ class ProductTemplate(models.Model):
 			action['views'] = [
 				(self.env.ref('product.product_template_form_view').id, 'form')
 			]
-			action['res_id'] = products_compound.id """
+			action['res_id'] = products_compound.id
 
 		return action
 			
