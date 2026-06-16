@@ -181,7 +181,7 @@
                             </t>
                         </td>
                         <td class="works_line_hours">
-                            <t t-if="line.detailed_price_time">
+                            <t t-if="(doc.company_id.print_works_hours_on_detailed_time and line.detailed_time) or (not doc.company_id.print_works_hours_on_detailed_time and line.detailed_price_time)">
                                 <span t-esc="'{0:,.2f}'.format(work.hours).replace('.', ',')"/>
                                 <span groups="uom.group_uom" t-field="uom_hour.name"/>
                             </t>
@@ -222,8 +222,10 @@
                             <t t-if="not material.name"><span t-field="material.material_id.name"/></t>
                         </td>
                         <td class="materials_line_qty">
-                            <span t-esc="'{0:,.2f}'.format(material.quantity).replace('.', ',')"/>
-                            <span groups="uom.group_uom" t-field="material.material_id.uom_id.name"/>
+                            <t t-if="(doc.company_id.print_materials_qty_on_detailed_materials and line.detailed_materials) or (not doc.company_id.print_materials_qty_on_detailed_materials and line.detailed_price_materials)">
+                                <span t-esc="'{0:,.2f}'.format(material.quantity).replace('.', ',')"/>
+                                <span groups="uom.group_uom" t-field="material.material_id.uom_id.name"/>
+                            </t>
                         </td>
                         <td t-if="not (is_without_valuing and is_delivery_note)" class="materials_line_price">
                             <t t-if="line.detailed_price_materials">

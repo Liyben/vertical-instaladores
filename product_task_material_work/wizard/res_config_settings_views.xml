@@ -13,6 +13,12 @@
                 <!--<setting id="apply_pricelist_product" title="Permite poder aplicar tarifa dentro de los productos partida." help="Permite aplicar la tarifa en las líneas de materiales y mano de obra en lugar del producto partida.">
                     <field name="active_group_sales_apply_pricelist"/>
                 </setting>-->
+                <setting id="print_works_hours_setting" title="Imprimir Horas en Reporte" help="Si está marcado, las horas se imprimen si hay tiempo detallado. Si se desmarca, se evalúa el precio del tiempo detallado.">
+                    <field name="print_works_hours_on_detailed_time"/>
+                </setting>
+                <setting id="print_materials_qty_setting" title="Imprimir Cantidades de Materiales en Reporte" help="Si está marcado, las cantidades se imprimen si hay materiales detallados. Si se desmarca, se evalúa el precio del material.">
+                    <field name="print_materials_qty_on_detailed_materials"/>
+                </setting>
             </block>
         </field>
     </record>

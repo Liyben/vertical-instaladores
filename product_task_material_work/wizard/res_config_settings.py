@@ -19,3 +19,13 @@ class ResConfigSettings(models.TransientModel):
         implied_group='product_task_material_work.group_sales_apply_pricelist',
         config_parameter='product_task_material_work.active_group_sales_apply_pricelist',
     ) """
+
+    print_works_hours_on_detailed_time = fields.Boolean(
+        related='company_id.print_works_hours_on_detailed_time',
+        readonly=False,
+    )
+    
+    print_materials_qty_on_detailed_materials = fields.Boolean(
+        related='company_id.print_materials_qty_on_detailed_materials',
+        readonly=False,
+    )
