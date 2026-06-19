@@ -52,7 +52,7 @@
                         <th name="th_description" class="text-start"><span>Descripción</span></th>
                         <th name="th_quantity" class="text-end"><span>Cantidad</span></th>
                         <th name="th_priceunit" t-attf-class="text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}"><span>P. Und</span></th>
-                        <th name="th_price_unit" t-if="display_discount" t-attf-class="text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                        <th name="th_discount" t-if="display_discount" t-attf-class="text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
                             <span>Desc.%</span>
                         </th>
                         <th name="th_subtotal" class="text-end">
