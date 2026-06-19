@@ -85,9 +85,9 @@
                                     </t>
                                 </td>
                                 <td name="td_discount" t-if="display_discount" t-attf-class="text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
-                                    <t t-if="not line.quantity == 0">
-                                        <span class="text-nowrap" t-field="line.discount">0</span>
-                                    </t>
+                                    
+                                    <span t-if="not line.quantity == 0" class="text-nowrap" t-field="line.discount">0</span>
+                                    
                                 </td>
                                 <td name="td_subtotal" class="text-end o_price_total">
                                     <t t-if="not line.quantity == 0">
