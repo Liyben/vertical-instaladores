@@ -18,7 +18,7 @@ class MailComposeMessage(models.TransientModel):
         
         # 2. Interceptamos para añadir nuestros contactos personalizados
         for composer in self:
-            if composer.model in ['sale.order', 'account.move']:
+            if composer.model in ['sale.order', 'account.move', 'purchase.order']:  # Ajustado según los modelos relevantes
                 # Usamos el método nativo expuesto en tu código para evaluar IDs de forma segura
                 res_ids = composer._evaluate_res_ids()
                 
