@@ -10,7 +10,10 @@ class ResPartner(models.Model):
 	_inherit = "res.partner"
 
 	def _get_next_ref(self, vals=None):
-		if vals.get('customer_rank'):
+		vals = vals or {}
+		customer_rank = vals.get('customer_rank', self.customer_rank)
+		supplier_rank = vals.get('supplier_rank', self.supplier_rank)
+		if customer_rank:
 			return self.env['ir.sequence'].next_by_code('res.partner.customer')
-		elif vals.get('supplier_rank'):
+		elif supplier_rank:
 			return self.env['ir.sequence'].next_by_code('res.partner.supplier')
